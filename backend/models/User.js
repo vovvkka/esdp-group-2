@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const SALT_WORK_FACTOR = 10;
 
 const validateUnique = async value => {
-    const user = await User.findOne({email: value});
+    const user = await User.findOne({username: value});
 
     if (user) return false;
 };
