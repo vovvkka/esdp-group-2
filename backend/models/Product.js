@@ -3,24 +3,18 @@ const idValidator = require('mongoose-id-validator');
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    price: {
-        type: Number,
-        required: true,
-        min: 0
-    },
     category: {
         type: Schema.Types.ObjectId,
         ref: 'Category',
         required: true,
     },
+    title: {
+        type: String,
+        required: true
+    },
     description: {
         type: String
     },
-    image: String,
     barcode: {
         type: Number,
         required: true
@@ -28,6 +22,15 @@ const ProductSchema = new Schema({
     priceType: {
         type: String,
         enum: ['Фиксированная', 'Свободная'],
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true,
+        min: 0
+    },
+    amount: {
+        type: Number,
         required: true
     },
     unit: {
@@ -44,10 +47,7 @@ const ProductSchema = new Schema({
         type: Number,
         required: true,
     },
-    amount: {
-        type: Number,
-        required: true
-    },
+    image: String,
 });
 
 ProductSchema.plugin(idValidator, {message : 'Bad ID value for {PATH}'});
