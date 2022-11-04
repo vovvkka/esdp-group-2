@@ -3,6 +3,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const exitHook = require('async-exit-hook');
 const users = require('./app/users');
+const products = require('./app/products');
+const categories = require('./app/categories');
 
 const config = require('./config');
 
@@ -14,6 +16,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/users', users);
+app.use('/products', products);
+app.use('/categories', categories);
 
 const run = async () => {
     await mongoose.connect(config.mongo.db, config.mongo.options);
