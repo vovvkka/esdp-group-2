@@ -10,7 +10,7 @@ const CategorySchema = new Schema({
     status: {
         type: String,
         required: true,
-        enum: ['Активный', 'Неактивный'],F
+        enum: ['Активный', 'Неактивный'],
     },
     nds: {
         type: Number,
