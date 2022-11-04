@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from "prop-types";
 import {FormControl, FormHelperText, Grid, InputLabel, Select} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 
-const FormSelect = ({label, name, value, onChange, options, error, required}) => {
+const FormSelect = ({label, name, value, onChange, options, error, required, width}) => {
   return (
-    <Grid item>
+    <Grid item width={width || null}>
       <FormControl fullWidth error={Boolean(error)}>
         <InputLabel id={`${name}-label`}>{label}</InputLabel>
         <Select
@@ -18,8 +17,8 @@ const FormSelect = ({label, name, value, onChange, options, error, required}) =>
           onChange={onChange}
         >
           {options.map(option => (
-            <MenuItem key={option._id} value={option._id}>
-              {option.name}
+            <MenuItem key={option} value={option}>
+              {option}
             </MenuItem>
           ))}
         </Select>
@@ -27,16 +26,6 @@ const FormSelect = ({label, name, value, onChange, options, error, required}) =>
       </FormControl>
     </Grid>
   );
-};
-
-FormSelect.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  error: PropTypes.string,
-  required: PropTypes.bool,
 };
 
 export default FormSelect;

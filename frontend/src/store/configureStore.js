@@ -4,8 +4,8 @@ import axiosApi from "../axiosApi";
 import {configureStore} from "@reduxjs/toolkit";
 import usersSlice, {initialState} from "./slices/usersSlice";
 import thunk from "redux-thunk";
+import categoriesSlice from "./slices/categoriesSlice";
 import productsSlice from "./slices/productsSlice";
-import categoriesSlice from "./slices/CategoriesSlice";
 
 const rootReducer = combineReducers({
     users: usersSlice.reducer,

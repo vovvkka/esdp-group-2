@@ -48,7 +48,7 @@ export const {
     logoutRequest,
     logoutSuccess,
     logoutFailure,
-} = usersSlice.actions
+} = usersSlice.actions;
 
 export default usersSlice;
 

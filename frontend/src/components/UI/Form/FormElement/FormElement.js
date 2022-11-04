@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Grid, TextField} from "@mui/material";
 
-const FormElement = ({name, value, onChange, label, error, type, required}) => {
+const FormElement = ({name, value, onChange, label, error, type, required, fullWidth, width, xs}) => {
   return (
-    <Grid item xs={12}>
+    <Grid item xs={xs || 12}>
       <TextField
-          sx={{marginY: "5px"}}
+          sx={{marginY: "5px", width: {width}}}
         type={type}
         required={required}
         label={label}
@@ -16,19 +15,10 @@ const FormElement = ({name, value, onChange, label, error, type, required}) => {
         error={Boolean(error)}
         helperText={error}
         autoComplete={name}
+          fullWidth={fullWidth ? fullWidth: true}
       />
     </Grid>
   );
-};
-
-FormElement.propTypes = {
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
-  error: PropTypes.string,
-  type: PropTypes.string,
-  required: PropTypes.bool,
 };
 
 export default FormElement;
