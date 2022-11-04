@@ -5,9 +5,11 @@ import {configureStore} from "@reduxjs/toolkit";
 import usersSlice, {initialState} from "./slices/usersSlice";
 import thunk from "redux-thunk";
 import productsSlice from "./slices/productsSlice";
+import categoriesSlice from "./slices/CategoriesSlice";
 
 const rootReducer = combineReducers({
     users: usersSlice.reducer,
+    categories: categoriesSlice.reducer,
     products: productsSlice.reducer,
 });
 
