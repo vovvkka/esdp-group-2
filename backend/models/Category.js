@@ -11,7 +11,6 @@ const CategorySchema = new Schema({
         type: String,
         enum: ['Активный', 'Неактивный'],
         required: true,
-
     },
     nds: {
         type: Number,
