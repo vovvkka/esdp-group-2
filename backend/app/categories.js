@@ -1,5 +1,7 @@
 const express = require('express');
 const Category = require("../models/Category");
+const auth = require("../middlewares/auth");
+const permit = require("../middlewares/permit");
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -11,7 +13,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, permit('admin'), async (req, res) => {
     const {title, status} = req.body;
     const categoryData = {title, status};
 
@@ -25,7 +27,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, permit('admin'), async (req, res) => {
     const category = await Category.findById(req.params.id);
 
     if (!category) {
