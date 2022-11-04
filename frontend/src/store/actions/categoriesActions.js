@@ -63,7 +63,7 @@ export const createCategory = categoryData => {
 
             dispatch(createCategorySuccess());
             dispatch(fetchCategories());
-            dispatch(historyPush('/categories'));
+            dispatch(historyPush('/admin/categories'));
         } catch (e) {
             if (e.response && e.response.data) {
                 dispatch(createCategoryFailure(e.response.data));
@@ -74,16 +74,17 @@ export const createCategory = categoryData => {
     };
 };
 
-export const editCategory = categoryData => {
+export const editCategory = (categoryData,id) => {
     return async dispatch => {
         try {
             dispatch(editCategoryRequest());
 
-            await axiosApi.put('/categories',categoryData);
+
+            await axiosApi.put('/categories/'+id,categoryData);
 
             dispatch(editCategorySuccess());
             dispatch(fetchCategories());
-            dispatch(historyPush('/categories'));
+            dispatch(historyPush('/admin/categories'));
         } catch (e) {
             if (e.response && e.response.data) {
                 dispatch(editCategoryFailure(e.response.data));
@@ -103,7 +104,7 @@ export const deleteCategory = id => {
 
             dispatch(deleteCategorySuccess());
             dispatch(fetchCategories());
-            dispatch(historyPush('/categories'));
+            dispatch(historyPush('/admin/categories'));
         } catch (e) {
             if (e.response && e.response.data) {
                 dispatch(deleteCategoryFailure(e.response.data));

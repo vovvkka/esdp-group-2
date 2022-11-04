@@ -25,8 +25,9 @@ const categoriesSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
-        fetchCategoryRequest(state) {
+        fetchCategoryRequest(state,action) {
             state.loading = true;
+            state.category = action.payload;
             state.error = null;
         },
         fetchCategorySuccess(state,action) {
