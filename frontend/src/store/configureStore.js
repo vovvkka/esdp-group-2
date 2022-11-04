@@ -1,19 +1,20 @@
 import {combineReducers} from "redux";
-import thunk from "redux-thunk";
 import {loadFromLocalStorage, saveToLocalStorage} from "./localStorage";
 import axiosApi from "../axiosApi";
 import {configureStore} from "@reduxjs/toolkit";
+import usersSlice, {initialState} from "./slices/usersSlice";
+import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
-
+    users: usersSlice.reducer,
 });
 
 const persistedState = loadFromLocalStorage();
-
+const middleware = [thunk];
 
 const store = configureStore({
     reducer: rootReducer,
-    middleware: thunk,
+    middleware,
     devTools: true,
     preloadedState: persistedState,
 });
