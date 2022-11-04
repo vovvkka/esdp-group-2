@@ -1,10 +1,13 @@
 import React from 'react';
+import Layout from "./components/UI/Layout/Layout";
 
 const App = () => {
     return (
-        <div>
-          
-        </div>
+        <>
+            <Layout>
+
+            </Layout>
+        </>
     );
 };
 

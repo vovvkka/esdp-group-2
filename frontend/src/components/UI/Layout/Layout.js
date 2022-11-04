@@ -1,15 +1,26 @@
 import React from 'react';
-import {Container, CssBaseline} from "@mui/material";
+import {AppBar, Container, Grid, Toolbar} from "@mui/material";
 
 const Layout = ({children}) => {
     return (
         <>
-            <CssBaseline/>
-            <main>
-                <Container maxWidth="xl">
-                    {children}
+            <AppBar sx={{padding: '10px 15px'}}>
+                <Container>
+                    <Grid
+                        container
+                        justifyContent='space-between'
+                        alignItems='center'
+                    >
+                        <Grid item>
+                            Tai-Tai
+                        </Grid>
+                    </Grid>
                 </Container>
-            </main>
+            </AppBar>
+            <Toolbar sx={{marginBottom: '50px'}}/>
+            <Container maxWidth="xl">
+                {children}
+            </Container>
         </>
     );
 };
