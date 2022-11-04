@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
 });
 
 const persistedState = loadFromLocalStorage();
-
+const middleware = [thunk];
 
 const store = configureStore({
     reducer: rootReducer,
