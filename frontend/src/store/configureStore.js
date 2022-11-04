@@ -3,6 +3,7 @@ import {loadFromLocalStorage, saveToLocalStorage} from "./localStorage";
 import axiosApi from "../axiosApi";
 import {configureStore} from "@reduxjs/toolkit";
 import usersSlice, {initialState} from "./slices/usersSlice";
+import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
     users: usersSlice.reducer,
@@ -13,7 +14,7 @@ const middleware = [thunk];
 
 const store = configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: true }),
+    middleware,
     devTools: true,
     preloadedState: persistedState,
 });
