@@ -53,7 +53,6 @@ const AppToolbar = () => {
                                     Выйти
                                 </Button>
                             </Grid>
-
                         </Grid>
                     </Toolbar>
                 </Container>

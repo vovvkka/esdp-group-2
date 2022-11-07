@@ -3,15 +3,15 @@ import {Button, Grid, Paper, Typography} from "@mui/material";
 import FormElement from "../../components/UI/Form/FormElement/FormElement";
 import FormSelect from "../../components/UI/Form/FormSelect/FormSelect";
 import {useDispatch, useSelector} from "react-redux";
-import {editCategory, fetchCategory} from "../../store/actions/categoriesActions";
+import {fetchCategory} from "../../store/actions/categoriesActions";
 
-const EditCategory = ({match}) => {
+const AdminEditCategory = ({match}) => {
     const category = useSelector(state => state.categories.category);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchCategory(match.params.id));
-    }, [match.params.id]);
+    }, [match.params.id, dispatch]);
 
     const [state, setState] = useState({
         title: "",
@@ -120,4 +120,4 @@ const EditCategory = ({match}) => {
     );
 };
 
-export default EditCategory;
+export default AdminEditCategory;
