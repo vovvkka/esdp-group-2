@@ -20,7 +20,10 @@ const CategorySchema = new Schema({
     },
     nspNotCash: {
         type: Number,
-    }
+    },
+
+},{
+    timestamps: true
 });
 
 
