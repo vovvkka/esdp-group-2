@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {Button, Grid} from "@mui/material";
+import {Button, Grid, Paper, Typography} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
+import FormSelect from "../UI/Form/FormSelect/FormSelect";
 
 
 const CategoryForm = () => {
@@ -24,35 +25,40 @@ const CategoryForm = () => {
         <form
             autoComplete="off"
         >
-            <Grid
-                container
-                maxWidth="md"
-                textAlign="center"
-                marginX="auto"
-                direction="column"
-                rowSpacing={2}
-            >
+           <Paper display="flex">
+               <Grid container
+                     textAlign="center"
+                     marginX="auto"
+                     spacing={3}>
+                   <Grid item xs={3}>
+                       <Typography textAlign="left">
+                       Наименование:
+                       </Typography>
                 <FormElement
-                    label="Наименование"
+                    label="Категория"
                     onChange={inputChangeHandler}
                     value={state.title}
                     name="title"
                 />
-                <FormElement
-                    label="Статус"
-                    onChange={inputChangeHandler}
-                    value={state.status}
-                    name="status"
-                />
+                   </Grid>
 
+                   <Grid item xs={2}>
+                       <Typography textAlign="left">
+                           НДС
+                       </Typography>
                 <FormElement
                     type="number"
-                    label="НДС"
+                    label="0"
                     onChange={inputChangeHandler}
                     value={state.nsp}
                     name="nsp"
 
                 />
+                   </Grid>
+                   <Grid item xs={2}>
+                       <Typography textAlign="left">
+                           НСП наличные
+                       </Typography>
                 <FormElement
                     type="number"
                     label="НСП наличные"
@@ -60,6 +66,11 @@ const CategoryForm = () => {
                     value={state.nspCash}
                     name="nspCash"
                 />
+                   </Grid>
+                   <Grid item xs={2}>
+                       <Typography textAlign="left">
+                           НСП безналичные
+                       </Typography>
                 <FormElement
                     type="number"
                     label="НСП безналичные"
@@ -67,10 +78,26 @@ const CategoryForm = () => {
                     value={state.nspNotCash}
                     name="nspNotCash"
                 />
-                <Grid item>
-                    <Button type="submit" color="primary" variant="contained">Create</Button>
-                </Grid>
-            </Grid>
+                   </Grid>
+                   <Grid item xs={2}>
+                       <Typography textAlign="left">
+                           Статус
+                       </Typography>
+                       <FormSelect
+                           options={["Активный", "Неактивный"]}
+                           label="Активный"
+                           onChange={inputChangeHandler}
+                           value={state.status}
+                           name="status"
+                       />
+                   </Grid>
+
+
+               </Grid>
+               <Grid sx={{margin: "15px 0 0 20px", paddingBottom: "20px"}}>
+                   <Button type="submit" color="primary" variant="contained">Добавить</Button>
+               </Grid>
+           </Paper>
         </form>
     );
 };

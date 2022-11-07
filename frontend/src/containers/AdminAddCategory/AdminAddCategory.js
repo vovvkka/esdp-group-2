@@ -7,11 +7,11 @@ const AdminAddCategory = () => {
     return (
         <>
             <Typography
-                textAlign="center"
-                marginBottom="20px"
+                textAlign="left"
+                marginBottom="30px"
                 variant="h4"
             >
-                Add Category
+                Добавить категорию
             </Typography>
             <CategoryForm
             />
