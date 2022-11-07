@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Box, Button, Container, Grid, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {fetchCategories} from "../../store/actions/categoriesActions";
 import TableAdmin from "../../components/UI/Table/Table";
 import Spinner from "../../components/UI/Spinner/Spinner";
@@ -10,14 +10,17 @@ const AdminCategory = () => {
     const dispatch = useDispatch();
     const categories = useSelector(state => state.categories.categories);
     const loading = useSelector(state => state.categories.loading);
+    const user = useSelector(state => state.users.user);
 
     const rowsHead = ['Наименование', 'Плательщик', 'НДС,%', 'НСП нал,%', 'НСП безнал,%', 'Статус', 'Создан', 'Обновлен', 'Действие'];
-
 
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
 
+    if (user.role !== 'admin') {
+        return <Redirect to="/"/>
+    }
 
     return (
         <Container>
