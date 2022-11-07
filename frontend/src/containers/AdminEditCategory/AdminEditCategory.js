@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
-import {Button, Grid, Paper, Typography} from "@mui/material";
+import {Button, Grid, Paper} from "@mui/material";
 import FormElement from "../../components/UI/Form/FormElement/FormElement";
 import FormSelect from "../../components/UI/Form/FormSelect/FormSelect";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchCategory} from "../../store/actions/categoriesActions";
+import {editCategory, fetchCategory} from "../../store/actions/categoriesActions";
 
 const AdminEditCategory = ({match}) => {
     const category = useSelector(state => state.categories.category);
@@ -16,7 +16,7 @@ const AdminEditCategory = ({match}) => {
     const [state, setState] = useState({
         title: "",
         status: "",
-        nsp: "",
+        nds: "",
         nspCash: "",
         nspNotCash: "",
     });
@@ -37,7 +37,7 @@ const AdminEditCategory = ({match}) => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        // dispatch(editCategory(match.params.id, state));
+        dispatch(editCategory(match.params.id, state));
     };
 
     return (
@@ -46,14 +46,8 @@ const AdminEditCategory = ({match}) => {
             onSubmit={(e) => submitHandler(e)}
         >
             <Paper display="flex">
-                <Grid container
-                      textAlign="center"
-                      marginX="auto"
-                      spacing={3}>
+                <Grid container textAlign="center" marginX="auto" spacing={3}>
                     <Grid item xs={3}>
-                        <Typography textAlign="left">
-                            Наименование:
-                        </Typography>
                         <FormElement
                             label="Категория"
                             onChange={inputChangeHandler}
@@ -63,49 +57,37 @@ const AdminEditCategory = ({match}) => {
                     </Grid>
 
                     <Grid item xs={2}>
-                        <Typography textAlign="left">
-                            НДС
-                        </Typography>
                         <FormElement
                             type="number"
-                            label="0"
+                            label="НДС,%"
                             onChange={inputChangeHandler}
-                            value={state.nsp}
-                            name="nsp"
+                            value={state.nds}
+                            name="nds"
 
                         />
                     </Grid>
                     <Grid item xs={2}>
-                        <Typography textAlign="left">
-                            НСП наличные
-                        </Typography>
                         <FormElement
                             type="number"
-                            label="НСП наличные"
+                            label="НСП нал,%"
                             onChange={inputChangeHandler}
                             value={state.nspCash}
                             name="nspCash"
                         />
                     </Grid>
                     <Grid item xs={2}>
-                        <Typography textAlign="left">
-                            НСП безналичные
-                        </Typography>
                         <FormElement
                             type="number"
-                            label="НСП безналичные"
+                            label="НСП безнал,%"
                             onChange={inputChangeHandler}
                             value={state.nspNotCash}
                             name="nspNotCash"
                         />
                     </Grid>
                     <Grid item xs={2}>
-                        <Typography textAlign="left">
-                            Статус
-                        </Typography>
                         <FormSelect
                             options={["Активный", "Неактивный"]}
-                            label="Активный"
+                            label="Статус"
                             onChange={inputChangeHandler}
                             value={state.status}
                             name="status"
@@ -113,7 +95,7 @@ const AdminEditCategory = ({match}) => {
                     </Grid>
                 </Grid>
                 <Grid sx={{margin: "15px 0 0 20px", paddingBottom: "20px"}}>
-                    <Button type="submit" color="primary" variant="contained">Редактировать</Button>
+                    <Button type="submit" color="primary" variant="contained">Сохранить</Button>
                 </Grid>
             </Paper>
         </form>

@@ -79,11 +79,9 @@ export const editCategory = (id, categoryData) => {
         try {
             dispatch(editCategoryRequest());
 
-
             await axiosApi.put('/categories/'+id,categoryData);
 
             dispatch(editCategorySuccess());
-            dispatch(fetchCategories());
             dispatch(historyPush('/admin/categories'));
         } catch (e) {
             if (e.response && e.response.data) {
