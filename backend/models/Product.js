@@ -49,7 +49,8 @@ const ProductSchema = new Schema({
         required: true,
     },
     image: String,
-    timestamps: true,
+},{
+    timestamps: true
 });
 
 ProductSchema.plugin(idValidator, {message : 'Bad ID value for {PATH}'});
