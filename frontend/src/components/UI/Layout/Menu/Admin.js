@@ -5,6 +5,7 @@ import Menu from '@mui/material/Menu';
 import {Grid, MenuItem} from "@mui/material";
 import {useDispatch} from "react-redux";
 import {logoutUser} from "../../../../store/actions/usersActions";
+import {Link} from "react-router-dom";
 
 const Admin = ({user}) => {
     const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const Admin = ({user}) => {
                     size='large'
                     sx={{textTransform: 'capitalize'}}
                 >
-                    user
+                    {user ? user.username : user}
                 </Button>
             </Grid>
             <Menu
@@ -53,6 +54,11 @@ const Admin = ({user}) => {
                     'aria-labelledby': 'basic-button',
                 }}
             >
+                {user.role === 'admin' ? <>
+                    <MenuItem component={Link} to='/'>Администрирование</MenuItem>
+                    <MenuItem component={Link} to='/'>Журнал</MenuItem>
+                    <MenuItem component={Link} to='/'>Заказы</MenuItem>
+                </>: null}
                 <MenuItem onClick={() => dispatch(logoutUser())}>Выйти</MenuItem>
             </Menu>
         </div>

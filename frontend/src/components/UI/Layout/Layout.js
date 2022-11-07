@@ -27,7 +27,7 @@ const Layout = ({children}) => {
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <Admin/>
+                            {user ? <Admin user={user}/> : null}
                         </Grid>
                     </Grid>
                 </Container>
