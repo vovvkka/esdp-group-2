@@ -2,7 +2,7 @@ import React from 'react';
 import {FormControl, FormHelperText, Grid, InputLabel, Select} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 
-const FormSelect = ({label, name, value, onChange, options, error, required, width}) => {
+const FormSelect = ({label, name, value, onChange, options, error, required, width, selectFromServer}) => {
   return (
     <Grid item width={width || null}>
       <FormControl fullWidth error={Boolean(error)}>
@@ -17,9 +17,13 @@ const FormSelect = ({label, name, value, onChange, options, error, required, wid
           onChange={onChange}
         >
           {options.map(option => (
+              !selectFromServer ?
             <MenuItem key={option} value={option}>
               {option}
-            </MenuItem>
+            </MenuItem> :
+                  <MenuItem key={option._id} value={option._id}>
+                      {option.title}
+                  </MenuItem>
           ))}
         </Select>
         <FormHelperText>{ error }</FormHelperText>
