@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Typography} from "@mui/material";
 import ProductForm from "../../components/ProductForm/ProductForm";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchCategoriesRequest} from "../../store/slices/CategoriesSlice";
+import {fetchCategoriesRequest} from "../../store/slices/categoriesSlice";
 
 const AdminAddProduct = () => {
     const dispatch = useDispatch();
