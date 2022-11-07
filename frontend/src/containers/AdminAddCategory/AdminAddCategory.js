@@ -1,11 +1,11 @@
 import React from 'react';
-import {Typography} from "@mui/material";
+import {Container, Typography} from "@mui/material";
 import CategoryForm from "../../components/CategoryForm/CategoryForm";
 
 const AdminAddCategory = () => {
 
     return (
-        <>
+        <Container>
             <Typography
                 textAlign="left"
                 marginBottom="30px"
@@ -15,7 +15,7 @@ const AdminAddCategory = () => {
             </Typography>
             <CategoryForm
             />
-        </>
+        </Container>
     );
 };
 
