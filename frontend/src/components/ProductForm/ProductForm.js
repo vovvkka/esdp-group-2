@@ -1,11 +1,18 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Grid, TextareaAutosize} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
 import FileInput from "../UI/Form/FileInput/FileInput";
 import FormSelect from "../UI/Form/FormSelect/FormSelect";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCategories} from "../../store/actions/categoriesActions";
 
 
-const ProductForm = () => {
+const ProductForm = ({product, onSubmit}) => {
+    const dispatch = useDispatch();
+    const categories = useSelector(state => state.categories.categories);
+
+    const [options, setOptions] = useState([]);
+
     const [state, setState] = useState({
         title: "",
         description: "",
@@ -20,6 +27,20 @@ const ProductForm = () => {
         image: "",
     });
 
+    useEffect(() => {
+        dispatch(fetchCategories());
+    }, []);
+
+    useEffect(() => {
+        setOptions(categories);
+    }, [categories]);
+
+    useEffect(() => {
+        if (product) {
+            setState({...product});
+        }
+    }, [product]);
+
     const submitFormHandler = e => {
         e.preventDefault();
         const formData = new FormData();
@@ -28,7 +49,7 @@ const ProductForm = () => {
             formData.append(key, state[key]);
         });
 
-        // onSubmit(formData);
+        onSubmit(formData);
     };
 
     const inputChangeHandler = e => {
@@ -69,10 +90,11 @@ const ProductForm = () => {
                 <FormSelect
                     onChange={inputChangeHandler}
                     name='category'
-                    options={[]}
+                    options={options}
                     label='Категория'
                     value={state.category}
                     error={getFieldError('category')}
+                    selectFromServer
                 />
 
                 <Grid display='flex' justifyContent='space-between' alignItems='center'>
@@ -86,13 +108,15 @@ const ProductForm = () => {
                         xs={6}
                     />
 
-                        <TextareaAutosize
-                            maxRows={3}
-                            aria-label="maximum height"
-                            placeholder="Maximum 4 rows"
-                            defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                            ut labore et dolore magna aliqua."
-                            style={{ width: "48%", resize: 'none' }}
+                        <FormElement
+                            rows={3}
+                            label="Описание"
+                            onChange={inputChangeHandler}
+                            value={state.description}
+                            name="description"
+                            required={true}
+                            fullWidth={false}
+                            xs={6}
                         />
                 </Grid>
 
@@ -181,7 +205,8 @@ const ProductForm = () => {
                 </Grid>
 
                 <Grid item>
-                    <Button type="submit" color="primary" variant="contained">Добавить</Button>
+                    {}
+                    <Button type="submit" color="primary" variant="contained" onClick={submitFormHandler}>Добавить</Button>
                 </Grid>
             </Grid>
         </form>

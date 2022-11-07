@@ -74,7 +74,7 @@ export const createCategory = categoryData => {
     };
 };
 
-export const editCategory = (categoryData,id) => {
+export const editCategory = (id, categoryData) => {
     return async dispatch => {
         try {
             dispatch(editCategoryRequest());

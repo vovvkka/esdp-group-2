@@ -99,7 +99,7 @@ router.put('/:id', async (req, res) => {
             res.status(404).send({message: 'Product not found!'});
         }
         const updateProduct = await Product
-            .findByIdAndUpdate(req.params.id, productData, {new: true});
+            .updateOne(req.params.id, productData);
 
         res.send(updateProduct);
     } catch {
