@@ -77,9 +77,6 @@ router.post('/', auth, permit('admin'), upload.single('image'), async (req, res)
 router.put('/:id', async (req, res) => {
     const {category, title, barcode, priceType, price, amount, unit, status, purchasePrice} = req.body;
     const description = req.body.description;
-    if (!category || !title || !barcode || !priceType || !price || !amount || !unit || !status || !purchasePrice) {
-        return res.status(400).send({message: 'Data not valid!'});
-    }
     const productData = {
         category,
         title,
