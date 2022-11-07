@@ -4,6 +4,7 @@ import Login from "./containers/Login/Login";
 import Layout from "./components/UI/Layout/Layout";
 import AdminAddProduct from "./containers/AdminAddProduct/AdminAddProduct";
 import {Route, Switch} from "react-router-dom";
+import AdminCategory from "./containers/AmdinCategory/AdminCategory";
 
 const App = () => {
     return (
@@ -11,6 +12,7 @@ const App = () => {
             <Switch>
                 <Route path='/admin/add-new-category' exact component={AdminAddCategory}/>
                 <Route path='/admin/add-new-product' exact component={AdminAddProduct}/>
+                <Route path='/admin/categories' exact component={AdminCategory}/>
                 <Route path="/login" component={Login}/>
             </Switch>
         </Layout>
