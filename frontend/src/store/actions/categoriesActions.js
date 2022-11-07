@@ -16,7 +16,7 @@ import {
     fetchCategoryFailure,
     fetchCategoryRequest,
     fetchCategorySuccess
-} from "../slices/CategoriesSlice";
+} from "../slices/categoriesSlice";
 
 export const fetchCategories = () => {
     return async dispatch => {
