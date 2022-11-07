@@ -4,7 +4,7 @@ const name = 'categories';
 
 export const initialState = {
     categories: [],
-    category:null,
+    category: null,
     loading: false,
     error: null,
 };
@@ -25,9 +25,8 @@ const categoriesSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
-        fetchCategoryRequest(state,action) {
+        fetchCategoryRequest(state, action) {
             state.loading = true;
-            state.category = action.payload;
             state.error = null;
         },
         fetchCategorySuccess(state,action) {
