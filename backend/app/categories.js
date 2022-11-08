@@ -2,6 +2,7 @@ const express = require('express');
 const Category = require("../models/Category");
 const auth = require("../middlewares/auth");
 const permit = require("../middlewares/permit");
+const Product = require("../models/Product");
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -62,9 +63,16 @@ router.delete('/:id', auth, permit('admin'), async (req, res) => {
     }
 
     try {
+
+        const categoryProducts = await Product.find({category});
+
+        for (const product of categoryProducts) {
+            await Product.updateOne(product, {category: null});
+        }
+
         await Category.deleteOne({_id: req.params.id});
 
-        res.send('Delete successful!');
+        res.send(category);
     } catch (e) {
         res.status(500);
     }

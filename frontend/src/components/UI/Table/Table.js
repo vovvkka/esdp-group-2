@@ -29,6 +29,7 @@ const TableAdmin = ({rows, rowsHead, categories, products}) => {
                 <TableCell component="th" scope="row">
                     {row.title}
                 </TableCell>
+                <TableCell align="center">Нет</TableCell>
                 <TableCell align="center">{row.nds}</TableCell>
                 <TableCell align="center">{row.nspCash}</TableCell>
                 <TableCell align="center">{row.nspNotCash}</TableCell>
@@ -53,7 +54,7 @@ const TableAdmin = ({rows, rowsHead, categories, products}) => {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
                 <TableCell align='center'>
-                    {row.category.title}
+                    {row.category ? row.category.title : 'Нет категории'}
                 </TableCell>
                 <TableCell align="center">{row.title}</TableCell>
                 <TableCell align="center">
@@ -78,7 +79,7 @@ const TableAdmin = ({rows, rowsHead, categories, products}) => {
                 <TableCell align="center">{new Date(row.updatedAt).toLocaleString()}</TableCell>
                 <TableCell align="center">
                     <Box display='flex'>
-                        <Button component={Link} to={"/admin/categories/edit-category/" + row._id}><EditSharpIcon/></Button>
+                        <Button component={Link} to={"/admin/products/edit-product/" + row._id}><EditSharpIcon/></Button>
                         <Button onClick={() => dispatch(deleteProduct(row._id))}><DeleteForeverSharpIcon/></Button>
                     </Box>
                 </TableCell>

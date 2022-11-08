@@ -25,7 +25,7 @@ const categoriesSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
-        fetchCategoryRequest(state, action) {
+        fetchCategoryRequest(state) {
             state.loading = true;
             state.error = null;
         },
@@ -52,8 +52,9 @@ const categoriesSlice = createSlice({
             state.loading = true;
             state.error = null;
         },
-        deleteCategorySuccess(state) {
+        deleteCategorySuccess(state, {payload: deletedCategory}) {
             state.loading = false;
+            state.categories = state.categories.filter(category => category._id !== deletedCategory._id);
         },
         deleteCategoryFailure(state, action) {
             state.loading = false;
