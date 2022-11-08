@@ -74,9 +74,8 @@ export const deleteProduct = id => {
     return async dispatch => {
         try{
             dispatch(deleteProductRequest());
-            await axiosApi.delete('/products/' + id);
-            dispatch(deleteProductSuccess());
-            dispatch(fetchProducts());
+            const response = await axiosApi.delete('/products/' + id);
+            dispatch(deleteProductSuccess(response.data));
         }catch (e) {
             dispatch(deleteProductFailure(e.response.data));
         }
