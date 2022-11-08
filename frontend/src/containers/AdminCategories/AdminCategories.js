@@ -26,7 +26,7 @@ const AdminCategories = () => {
         <Container>
             <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
                 <Typography variant='h5'>Категории</Typography>
-                <Button variant='contained' component={Link} to='/admin/add-new-category'>Добавить</Button>
+                <Button variant='contained' component={Link} to='/admin/categories/add-new-category'>Добавить</Button>
             </Grid>
             {loading ? <Spinner/>:
                 <Box>

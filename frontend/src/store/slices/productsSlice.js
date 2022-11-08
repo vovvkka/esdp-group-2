@@ -4,26 +4,20 @@ const name = 'products';
 
 export const initialState = {
     products: [],
+    product: null,
     fetchLoading: false,
     fetchError: null,
-
-    product: null,
-    singleLoading: false,
-    singleError: null,
-
     createProductLoading: false,
     createProductError: null,
-
-    deleteLoading: false,
-    deleteError: null,
 };
+
 const productsSlice = createSlice({
     name,
     initialState,
     reducers: {
         fetchProductsRequest(state) {
             state.fetchLoading = true;
-            state.loginError = null;
+            state.fetchError = null;
         },
         fetchProductsSuccess(state, {payload: products}) {
             state.fetchLoading = false;
@@ -46,29 +40,28 @@ const productsSlice = createSlice({
             state.createProductError = error;
         },
         fetchOneProductRequest(state) {
-            state.singleLoading = true;
-            state.singleError = null;
+            state.fetchLoading = true;
+            state.fetchError = null;
         },
-        fetchOneProductSuccess(state,{payload: product}) {
-            state.singleLoading = false;
+        fetchOneProductSuccess(state, {payload: product}) {
+            state.fetchLoading = false;
             state.product = product;
         },
         fetchOneProductFailure(state, {payload: error}) {
-            state.singleLoading = false;
-            state.singleError = error;
+            state.fetchLoading = false;
+            state.fetchError = error;
         },
         deleteProductRequest(state) {
-            state.deleteLoading = true;
-            state.deleteError = null;
+            state.fetchLoading = true;
+            state.fetchError = null;
         },
         deleteProductSuccess(state) {
-            state.deleteLoading = false;
+            state.fetchLoading = false;
         },
         deleteProductFailure(state, {payload: error}) {
-            state.deleteLoading = false;
-            state.deleteError = error;
+            state.fetchLoading = true;
+            state.fetchError = error;
         },
-
     }
 });
 export const {
