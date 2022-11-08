@@ -7,6 +7,7 @@ import AdminAddProduct from "./containers/AdminAddProduct/AdminAddProduct";
 import AdminEditProduct from "./containers/AdminEditProduct/AdminEditProduct";
 import AdminCategories from "./containers/AdminCategories/AdminCategories";
 import AdminEditCategory from "./containers/AdminEditCategory/AdminEditCategory";
+import AdminPanel from "./containers/AdminPanel/AdminPanel";
 import AdminProducts from "./containers/AdminProducts/AdminProducts";
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
                 <Route path='/admin/products/add-new-product' exact component={AdminAddProduct}/>
                 <Route path='/admin/products/edit-product/:id' exact component={AdminEditProduct}/>
                 <Route path="/login" component={Login}/>
+                <Route path="/admin/panel" exact component={AdminPanel}/>
             </Switch>
         </Layout>
     );
