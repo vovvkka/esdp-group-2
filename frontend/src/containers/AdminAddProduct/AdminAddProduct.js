@@ -2,20 +2,21 @@ import React, {useEffect} from 'react';
 import {Typography} from "@mui/material";
 import ProductForm from "../../components/ProductForm/ProductForm";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchCategoriesRequest} from "../../store/slices/categoriesSlice";
+import {fetchCategories} from "../../store/actions/categoriesActions";
+import {createProduct} from "../../store/actions/productsActions";
 
 const AdminAddProduct = () => {
     const dispatch = useDispatch();
     const categories = useSelector(state => state.categories.categories);
-    // const error = useSelector(state => state.products.createProductsError);
+    const error = useSelector(state => state.products.createProductError);
 
     useEffect(() => {
-        dispatch(fetchCategoriesRequest());
+        dispatch(fetchCategories());
     }, [dispatch]);
 
-    // const onProductFormSubmit = productData => {
-    //     dispatch(createProduct(productData));
-    // };
+    const onProductFormSubmit = productData => {
+        dispatch(createProduct(productData));
+    };
 
     return (
         <>
@@ -27,9 +28,9 @@ const AdminAddProduct = () => {
                 Добавить товар
             </Typography>
             <ProductForm
-                // categories={categories}
-                // error={error}
-                // onSubmit={onProductFormSubmit}
+                categories={categories}
+                error={error}
+                onSubmit={onProductFormSubmit}
             />
         </>
     );

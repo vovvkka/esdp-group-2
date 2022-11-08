@@ -27,22 +27,9 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', auth, permit('admin'), async (req, res) => {
-    const {title, status} = req.body;
-    const categoryData = {title, status};
-
-    try {
-        const category = await Category.findByIdAndUpdate(req.params.id,categoryData);
-        res.send(category);
-
-    } catch (e) {
-        res.status(400).send({error: e.errors});
-    }
-});
-
 router.post('/', auth, permit('admin'), async (req, res) => {
-    const {title, status} = req.body;
-    const categoryData = {title, status};
+    const {title, status, nds, nspCash, nspNotCash} = req.body;
+    const categoryData = {title, status, nds, nspCash, nspNotCash};
 
     try {
         const category = new Category(categoryData);
@@ -50,6 +37,19 @@ router.post('/', auth, permit('admin'), async (req, res) => {
 
         res.send(category);
     } catch (e) {
+        res.status(400).send({error: e.errors});
+    }
+});
+
+router.put('/:id', auth, permit('admin'), async (req, res) => {
+    const {title, status, nds, nspCash, nspNotCash} = req.body;
+    const categoryData = {title, status, nds, nspCash, nspNotCash};
+
+    try {
+        const category = await Category.findByIdAndUpdate(req.params.id, categoryData);
+        res.send(category);
+    } catch (e) {
+        console.log(e)
         res.status(400).send({error: e.errors});
     }
 });

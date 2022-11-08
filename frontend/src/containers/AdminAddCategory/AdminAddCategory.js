@@ -1,8 +1,15 @@
 import React from 'react';
 import {Container, Typography} from "@mui/material";
 import CategoryForm from "../../components/CategoryForm/CategoryForm";
+import {useDispatch} from "react-redux";
+import {createCategory} from "../../store/actions/categoriesActions";
 
 const AdminAddCategory = () => {
+    const dispatch = useDispatch();
+
+    const onSubmitForm = data => {
+        dispatch(createCategory(data));
+    };
 
     return (
         <Container>
@@ -13,8 +20,7 @@ const AdminAddCategory = () => {
             >
                 Добавить категорию
             </Typography>
-            <CategoryForm
-            />
+            <CategoryForm onSubmit={data => onSubmitForm(data)}/>
         </Container>
     );
 };

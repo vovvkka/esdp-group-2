@@ -8,7 +8,7 @@ const Layout = ({children}) => {
             <CssBaseline/>
             <AdminAppToolbar/>
             <main>
-                <Container maxWidth="xl">
+                <Container maxWidth="xl" sx={{marginTop: '70px'}}>
                     {children}
                 </Container>
             </main>

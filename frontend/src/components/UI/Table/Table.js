@@ -11,6 +11,7 @@ import EditSharpIcon from '@mui/icons-material/EditSharp';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import {deleteCategory} from "../../../store/actions/categoriesActions";
 import {useDispatch} from "react-redux";
+import {Link} from "react-router-dom";
 
 const TableAdmin = ({rows, rowsHead}) => {
     const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const TableAdmin = ({rows, rowsHead}) => {
                             <TableCell align="center">{new Date(row.updatedAt).toLocaleString()}</TableCell>
                             <TableCell align="center">
                                 <Box display='flex'>
-                                    <Button><EditSharpIcon/></Button>
+                                    <Button component={Link} to={"/admin/categories/edit-category/" + row._id}><EditSharpIcon/></Button>
                                     <Button onClick={() => dispatch(deleteCategory(row._id))}><DeleteForeverSharpIcon/></Button>
                                 </Box>
                             </TableCell>

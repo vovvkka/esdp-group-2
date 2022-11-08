@@ -6,6 +6,14 @@ const CategorySchema = new Schema({
         type: String,
         required: true,
         unique: true,
+        validate: {
+            validator: async value => {
+                const category = await Category.findOne({title: value});
+
+                if (category) return false;
+            },
+            message: 'Категория с таким названием уже существует.',
+        }
     },
     status: {
         type: String,

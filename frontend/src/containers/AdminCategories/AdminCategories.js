@@ -6,7 +6,7 @@ import {fetchCategories} from "../../store/actions/categoriesActions";
 import TableAdmin from "../../components/UI/Table/Table";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
-const AdminCategory = () => {
+const AdminCategories = () => {
     const dispatch = useDispatch();
     const categories = useSelector(state => state.categories.categories);
     const loading = useSelector(state => state.categories.loading);
@@ -26,7 +26,7 @@ const AdminCategory = () => {
         <Container>
             <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
                 <Typography variant='h5'>Категории</Typography>
-                <Button variant='contained' component={Link} to='/admin/add-new-category'>Добавить</Button>
+                <Button variant='contained' component={Link} to='/admin/categories/add-new-category'>Добавить</Button>
             </Grid>
             {loading ? <Spinner/>:
                 <Box>
@@ -37,4 +37,4 @@ const AdminCategory = () => {
     );
 };
 
-export default AdminCategory;
+export default AdminCategories;

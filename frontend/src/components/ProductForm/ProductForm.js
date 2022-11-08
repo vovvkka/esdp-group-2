@@ -1,16 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Grid, TextareaAutosize} from "@mui/material";
+import {Button, Grid} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
 import FileInput from "../UI/Form/FileInput/FileInput";
 import FormSelect from "../UI/Form/FormSelect/FormSelect";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchCategories} from "../../store/actions/categoriesActions";
 
-
-const ProductForm = ({product, onSubmit}) => {
-    const dispatch = useDispatch();
-    const categories = useSelector(state => state.categories.categories);
-
+const ProductForm = ({product, categories, error, onSubmit}) => {
     const [options, setOptions] = useState([]);
 
     const [state, setState] = useState({
@@ -26,10 +20,6 @@ const ProductForm = ({product, onSubmit}) => {
         purchasePrice: "",
         image: "",
     });
-
-    useEffect(() => {
-        dispatch(fetchCategories());
-    }, []);
 
     useEffect(() => {
         setOptions(categories);
@@ -48,6 +38,8 @@ const ProductForm = ({product, onSubmit}) => {
         Object.keys(state).forEach(key => {
             formData.append(key, state[key]);
         });
+
+        console.log(formData)
 
         onSubmit(formData);
     };
@@ -69,7 +61,7 @@ const ProductForm = ({product, onSubmit}) => {
 
     const getFieldError = fieldName => {
         try {
-            // return error.errors[fieldName].message;
+            return error.errors[fieldName].message;
         } catch {
             return undefined;
         }
@@ -108,16 +100,14 @@ const ProductForm = ({product, onSubmit}) => {
                         xs={6}
                     />
 
-                        <FormElement
-                            rows={3}
-                            label="Описание"
-                            onChange={inputChangeHandler}
-                            value={state.description}
-                            name="description"
-                            required={true}
-                            fullWidth={false}
-                            xs={6}
-                        />
+                    <FormElement
+                        label="Описание"
+                        onChange={inputChangeHandler}
+                        value={state.description}
+                        name="description"
+                        fullWidth={false}
+                        xs={6}
+                    />
                 </Grid>
 
                 <Grid display='flex' justifyContent='space-between' alignItems='center'>
@@ -206,7 +196,8 @@ const ProductForm = ({product, onSubmit}) => {
 
                 <Grid item>
                     {}
-                    <Button type="submit" color="primary" variant="contained" onClick={submitFormHandler}>Добавить</Button>
+                    <Button type="submit" color="primary" variant="contained"
+                            onClick={submitFormHandler}>Добавить</Button>
                 </Grid>
             </Grid>
         </form>
