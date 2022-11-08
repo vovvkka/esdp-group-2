@@ -1,12 +1,12 @@
 import React from 'react';
 import {Container, CssBaseline} from "@mui/material";
-import AdminAppToolbar from "../AdminAppToolBar/AdminAppToolBar";
+import AppToolbar from "../AppToolBar/AppToolBar";
 
 const Layout = ({children}) => {
     return (
         <>
             <CssBaseline/>
-            <AdminAppToolbar/>
+            <AppToolbar/>
             <main>
                 <Container maxWidth="xl" sx={{marginTop: '70px'}}>
                     {children}

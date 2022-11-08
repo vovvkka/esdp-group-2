@@ -1,10 +1,9 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {makeStyles} from "tss-react/mui";
-import {AppBar, Button, Container, Grid, Toolbar, Typography} from "@mui/material";
-import {useDispatch} from "react-redux";
-import AdminMenu from "./Menu/AdminMenu";
-import {logoutUser} from "../../../store/actions/usersActions";
+import {AppBar, Container, Grid, Toolbar, Typography} from "@mui/material";
+import {useSelector} from "react-redux";
+import UserMenu from "./Menu/UserMenu";
 
 const useStyles = makeStyles()(theme => ({
     mainLink: {
@@ -26,8 +25,9 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 const AppToolbar = () => {
-    const dispatch = useDispatch();
+    const user = useSelector(state => state.users.user);
     const {classes} = useStyles();
+
 
     return (
         <>
@@ -41,18 +41,7 @@ const AppToolbar = () => {
                                 </Link>
                             </Typography>
 
-                            <Grid item display="flex" alignItems="center">
-                                <AdminMenu/>
-                                <Button color="inherit" sx={{marginRight: '5px'}}>Журнал</Button>
-                                <Button color="inherit">Заказы</Button>
-                            </Grid>
-
-                            <Grid item display="flex" flexDirection="column">
-                                <Typography sx={{textTransform: 'UpperCase'}}>Администратор</Typography>
-                                <Button onClick={() => dispatch(logoutUser())} color="primary" variant="contained" sx={{marginTop: '5px'}}>
-                                    Выйти
-                                </Button>
-                            </Grid>
+                            {user ? <UserMenu user={user} />: null}
                         </Grid>
                     </Toolbar>
                 </Container>
