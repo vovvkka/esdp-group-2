@@ -6,9 +6,9 @@ import {apiUrl} from "../../config";
 import {fetchProducts} from "../../store/actions/productsActions";
 
 const Catalog = () => {
-    const categories = useSelector(state=>state.categories.categories);
-    const products = useSelector(state=>state.products.products);
-    const dispatch =  useDispatch();
+    const categories = useSelector(state => state.categories.categories);
+    const products = useSelector(state => state.products.products);
+    const dispatch = useDispatch();
 
     const [value, setValue] = useState(0);
 
@@ -17,13 +17,13 @@ const Catalog = () => {
     };
 
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(fetchCategories());
         dispatch(fetchProducts());
-    },[dispatch])
+    }, [dispatch])
 
     return (
-        <Grid item xs={6} sx={{backgroundColor:'#e0e0e0',padding:'15px'}}>
+        <Grid item xs={6} sx={{backgroundColor: '#e0e0e0', padding: '15px'}}>
             <Tabs
                 value={value}
                 onChange={handleChange}
@@ -31,20 +31,39 @@ const Catalog = () => {
                 scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
             >
-                {categories && categories.map(i=>
-                    <Tab key={i._id} label={i.title} />
+                {categories && categories.map(i =>
+                    <Tab key={i._id} label={i.title}/>
                 )}
             </Tabs>
-            <div style={{display:'flex',justifyContent:'space-between',flexWrap:'wrap',marginTop:'15px',paddingRight:'10px',overflowY:'scroll'}}>
-                {products && products.map(i=>
-                    <div key={i._id} style={{cursor:'pointer',display:'flex',alignItems:'center',width:'48%',marginBottom:'15px',backgroundColor:'white',borderRadius:'5px',padding:'10px'}}>
-                        <Avatar src={apiUrl+'/'+i.image}
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    marginTop: '15px',
+                    paddingRight: '10px',
+                    overflowY: 'scroll'
+                }}
+            >
+                {products && products.map(item =>
+                    <div key={item._id} style={{
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        width: '48%',
+                        marginBottom: '15px',
+                        backgroundColor: 'white',
+                        borderRadius: '5px',
+                        padding: '10px'
+                    }}>
+                        <Avatar src={apiUrl + '/' + item.image}
                                 alt='image'
-                                sx={{ width: 70, height: 70 }}
+                                sx={{width: 70, height: 70}}
                         />
-                        <div style={{marginLeft:'15px'}}>
-                            <b>{i.title}</b>
-                            <div>{i.barcode}</div>
+
+                        <div style={{marginLeft: '15px'}}>
+                            <b>{item.title}</b>
+                            <div>{item.barcode}</div>
                         </div>
                     </div>
                 )}
