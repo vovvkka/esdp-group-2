@@ -76,7 +76,7 @@ export const deleteProduct = id => {
             dispatch(deleteProductRequest());
             await axiosApi.delete('/products/' + id);
             dispatch(deleteProductSuccess());
-            dispatch(historyPush('/'))
+            dispatch(fetchProducts());
         }catch (e) {
             dispatch(deleteProductFailure(e.response.data));
         }

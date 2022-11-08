@@ -7,12 +7,14 @@ import AdminAddProduct from "./containers/AdminAddProduct/AdminAddProduct";
 import AdminEditProduct from "./containers/AdminEditProduct/AdminEditProduct";
 import AdminCategories from "./containers/AdminCategories/AdminCategories";
 import AdminEditCategory from "./containers/AdminEditCategory/AdminEditCategory";
+import AdminProducts from "./containers/AdminProducts/AdminProducts";
 
 const App = () => {
     return (
         <Layout>
             <Switch>
                 <Route path='/admin/categories' exact component={AdminCategories}/>
+                <Route path='/admin/products' exact component={AdminProducts}/>
                 <Route path='/admin/categories/edit-category/:id' exact component={AdminEditCategory}/>
                 <Route path='/admin/categories/add-new-category' exact component={AdminAddCategory}/>
                 <Route path='/admin/products/add-new-product' exact component={AdminAddProduct}/>
