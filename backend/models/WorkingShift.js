@@ -23,6 +23,6 @@ const WorkingShiftSchema = new Schema({
 });
 
 WorkingShiftSchema.plugin(idValidator, {message : 'Bad ID value for {PATH}'});
-const WorkingShift = mongoose.model('Product', WorkingShiftSchema);
+const WorkingShift = mongoose.model('WorkingShift', WorkingShiftSchema);
 
 module.exports = WorkingShift;
