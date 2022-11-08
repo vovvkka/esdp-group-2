@@ -4,7 +4,7 @@ const auth = require('../middlewares/auth');
 const permit = require('../middlewares/permit');
 const path = require("path");
 const multer = require("multer");
-const config = require("nodemon/lib/config");
+const config = require("../config");
 const {nanoid} = require("nanoid");
 
 const router = express.Router();
@@ -74,13 +74,13 @@ router.post('/', auth, permit('admin'), upload.single('image'), async (req, res)
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, permit('admin'), upload.single('image'), async (req, res) => {
     const {category, title, barcode, priceType, price, amount, unit, status, purchasePrice} = req.body;
     const description = req.body.description;
+
     const productData = {
         category,
         title,
-        description: description || null,
         barcode,
         priceType,
         price,
@@ -88,18 +88,22 @@ router.put('/:id', async (req, res) => {
         unit,
         status,
         purchasePrice,
+        description: description || null,
     };
+
     if (req.file) {
-        productData.image = req.file.filename;
+        productData.image = 'uploads/' + req.file.filename;
     }
+
     try {
         const product = await Product.findById(req.params.id);
 
         if (!product) {
             res.status(404).send({message: 'Product not found!'});
         }
+
         const updateProduct = await Product
-            .updateOne(req.params.id, productData);
+            .findByIdAndUpdate(req.params.id, productData);
 
         res.send(updateProduct);
     } catch {

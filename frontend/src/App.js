@@ -17,7 +17,6 @@ const App = () => {
                 <Route path='/admin/categories/add-new-category' exact component={AdminAddCategory}/>
                 <Route path='/admin/products/add-new-product' exact component={AdminAddProduct}/>
                 <Route path='/admin/products/edit-product/:id' exact component={AdminEditProduct}/>
-
                 <Route path="/login" component={Login}/>
             </Switch>
         </Layout>

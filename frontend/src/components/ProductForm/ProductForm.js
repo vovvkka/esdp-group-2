@@ -4,7 +4,6 @@ import FormElement from "../UI/Form/FormElement/FormElement";
 import FileInput from "../UI/Form/FileInput/FileInput";
 import FormSelect from "../UI/Form/FormSelect/FormSelect";
 
-
 const ProductForm = ({product, categories, error, onSubmit}) => {
     const [options, setOptions] = useState([]);
 
@@ -39,6 +38,8 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
         Object.keys(state).forEach(key => {
             formData.append(key, state[key]);
         });
+
+        console.log(formData)
 
         onSubmit(formData);
     };
@@ -100,12 +101,10 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                     />
 
                     <FormElement
-                        rows={3}
                         label="Описание"
                         onChange={inputChangeHandler}
                         value={state.description}
                         name="description"
-                        required={true}
                         fullWidth={false}
                         xs={6}
                     />

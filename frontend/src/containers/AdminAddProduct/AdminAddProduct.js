@@ -3,6 +3,7 @@ import {Typography} from "@mui/material";
 import ProductForm from "../../components/ProductForm/ProductForm";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCategories} from "../../store/actions/categoriesActions";
+import {createProduct} from "../../store/actions/productsActions";
 
 const AdminAddProduct = () => {
     const dispatch = useDispatch();
@@ -13,9 +14,9 @@ const AdminAddProduct = () => {
         dispatch(fetchCategories());
     }, [dispatch]);
 
-    // const onProductFormSubmit = productData => {
-    //     dispatch(createProduct(productData));
-    // };
+    const onProductFormSubmit = productData => {
+        dispatch(createProduct(productData));
+    };
 
     return (
         <>
@@ -29,7 +30,7 @@ const AdminAddProduct = () => {
             <ProductForm
                 categories={categories}
                 error={error}
-                // onSubmit={onProductFormSubmit}
+                onSubmit={onProductFormSubmit}
             />
         </>
     );
