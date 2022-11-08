@@ -10,7 +10,12 @@ export const loginUser = userData => {
             const response = await axiosApi.post('/users/sessions', userData);
 
             dispatch(loginSuccess(response.data.user));
-            dispatch(historyPush('/'));
+
+            if (response.data.user?.role === 'admin') {
+                return dispatch(historyPush('/admin'));
+            } else if (response.data.user?.role === 'cashier') {
+                return dispatch(historyPush('/cashier/open-shift'));
+            }
         } catch (e) {
             if (e.response && e.response.data) {
                 dispatch(loginFailure(e.response.data));
