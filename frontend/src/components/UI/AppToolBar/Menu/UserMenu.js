@@ -68,7 +68,31 @@ const UserMenu = ({user}) => {
             <>
                 <Grid item display="flex" alignItems="center">
                     <Button color="inherit" sx={{marginRight: '5px'}}>Операции</Button>
-                    <Button color="inherit">Журнал</Button>
+                    <Button
+                        id="basic-button"
+                        color="inherit"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                        sx={{marginRight: '5px'}}
+                    >
+                        Журнал
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                    >
+                        <MenuItem>Все записи</MenuItem>
+                        <MenuItem>Продажи</MenuItem>
+                        <MenuItem>z-отчет</MenuItem>
+                        <MenuItem>отчет</MenuItem>
+                    </Menu>
                 </Grid>
 
                 <Grid item display="flex" flexDirection="column">
