@@ -97,11 +97,9 @@ export const deleteCategory = id => {
         try {
             dispatch(deleteCategoryRequest());
 
-            await axiosApi.delete('/categories/' + id);
+            const response = await axiosApi.delete('/categories/' + id);
 
-            dispatch(deleteCategorySuccess());
-            dispatch(fetchCategories());
-            dispatch(historyPush('/admin/categories'));
+            dispatch(deleteCategorySuccess(response.data));
         } catch (e) {
             if (e.response && e.response.data) {
                 dispatch(deleteCategoryFailure(e.response.data));
