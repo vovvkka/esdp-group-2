@@ -67,7 +67,23 @@ const UserMenu = ({user}) => {
         return (
             <>
                 <Grid item display="flex" alignItems="center">
-                    <Button color="inherit" sx={{marginRight: '5px'}}>Операции</Button>
+                    <Button color="inherit" sx={{marginRight: '5px'}} onClick={handleClick}>Операции</Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                    >
+                        <MenuItem onClick={handleClose} component={Link} to={"/admin/categories"}>Продажа</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Внесение наличных</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Изъятие наличных</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Возврат продажи</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>X-отчет</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Закрытие смены</MenuItem>
+                    </Menu>
                     <Button color="inherit">Журнал</Button>
                 </Grid>
 
