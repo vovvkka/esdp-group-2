@@ -30,7 +30,7 @@ const AdminCategories = () => {
             </Grid>
             {loading ? <Spinner/>:
                 <Box>
-                    {categories?.length > 0 ? <TableAdmin rowsHead={rowsHead} rows={categories} categories={true} />: <Typography variant='h6'>Categories not found</Typography>}
+                    {categories?.length > 0 ? <TableAdmin rowsHead={rowsHead} rows={categories} categories='Категории товаров' />: <Typography variant='h6'>Categories not found</Typography>}
                 </Box>
             }
         </Container>

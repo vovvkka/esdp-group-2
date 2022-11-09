@@ -31,7 +31,7 @@ const AdminProducts = () => {
             </Grid>
             {loading ? <Spinner/>:
                 <Box>
-                    {products?.length > 0 ? <TableAdmin rowsHead={rowsHead} rows={products} products={true} />: <Typography variant='h6'>Products not found</Typography>}
+                    {products?.length > 0 ? <TableAdmin rowsHead={rowsHead} rows={products} products='Товары' />: <Typography variant='h6'>Products not found</Typography>}
                 </Box>
             }
         </Box>
