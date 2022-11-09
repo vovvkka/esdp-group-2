@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,9 +14,19 @@ import {useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 import {apiUrl} from "../../../config";
 import {deleteProduct} from "../../../store/actions/productsActions";
+import {useDownloadExcel} from "react-export-table-to-excel";
+
 
 const TableAdmin = ({rows, rowsHead, categories, products}) => {
     const dispatch = useDispatch();
+    const tableRef = useRef(null);
+
+
+    const { onDownload } = useDownloadExcel({
+        currentTableRef: tableRef.current,
+        filename: categories || products,
+        sheet: categories || products
+    })
 
     let render;
 
@@ -88,20 +98,26 @@ const TableAdmin = ({rows, rowsHead, categories, products}) => {
     }
 
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        {rowsHead.map((row, index) => (
-                            <TableCell align='center' key={index}>{row}</TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {render}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <Box display='flex' flexDirection='column'>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table" ref={tableRef}>
+                    <TableHead>
+                        <TableRow>
+                            {rowsHead.map((row, index) => (
+                                <TableCell align='center' key={index}>{row}</TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {render}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <Box display='flex' justifyContent='flex-end' marginY='20px'>
+                <Button variant='outlined' onClick={onDownload}> Экспорт </Button>
+            </Box>
+        </Box>
     );
 };
 
