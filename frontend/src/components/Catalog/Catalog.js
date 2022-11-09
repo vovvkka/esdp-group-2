@@ -16,11 +16,12 @@ const Catalog = () => {
         setValue(newValue);
     };
 
-
     useEffect(() => {
         dispatch(fetchCategories());
-        dispatch(fetchProducts());
-    }, [dispatch])
+        if (categories.length) {
+            dispatch(fetchProducts(categories[value]._id));
+        }
+    }, [dispatch,categories,value])
 
     return (
         <Grid item xs={6} sx={{backgroundColor: '#e0e0e0', padding: '15px'}}>
@@ -39,22 +40,24 @@ const Catalog = () => {
                 style={{
                     display: 'flex',
                     justifyContent: 'space-between',
+                    alignContent: 'flex-start',
                     flexWrap: 'wrap',
                     marginTop: '15px',
                     paddingRight: '10px',
-                    overflowY: 'scroll'
+                    overflowY: 'scroll',
+                    height:'500px',
                 }}
             >
                 {products && products.map(item =>
                     <div key={item._id} style={{
                         cursor: 'pointer',
                         display: 'flex',
-                        alignItems: 'center',
                         width: '48%',
                         marginBottom: '15px',
                         backgroundColor: 'white',
                         borderRadius: '5px',
-                        padding: '10px'
+                        padding: '10px',
+                        alignSelf: 'start',
                     }}>
                         <Avatar src={apiUrl + '/' + item.image}
                                 alt='image'
