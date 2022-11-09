@@ -10,15 +10,16 @@ const UserMenu = ({user}) => {
     const dispatch = useDispatch();
 
     const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorEl2, setAnchorEl2] = useState(null);
+
     const open = Boolean(anchorEl);
+    const open2 = Boolean(anchorEl2);
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+    const handleClick = (event) => setAnchorEl(event.currentTarget);
+    const handleClose = () => setAnchorEl(null);
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const handleClick2 = (event) => setAnchorEl2(event.currentTarget);
+    const handleClose2 = () => setAnchorEl2(null);
 
     if (user?.role === 'admin') {
         return (
@@ -41,7 +42,8 @@ const UserMenu = ({user}) => {
 
                 <Grid item display="flex" flexDirection="column">
                     <Typography sx={{textTransform: 'UpperCase'}}>Администратор</Typography>
-                    <Button onClick={() => dispatch(logoutUser())} color="primary" variant="contained" sx={{marginTop: '5px'}}>
+                    <Button onClick={() => dispatch(logoutUser())} color="primary" variant="contained"
+                            sx={{marginTop: '5px'}}>
                         Выйти
                     </Button>
                 </Grid>
@@ -78,13 +80,42 @@ const UserMenu = ({user}) => {
                         }}
                     >
                         <MenuItem onClick={handleClose} component={Link} to={"/admin/categories"}>Продажа</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Внесение наличных</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Изъятие наличных</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Возврат продажи</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Внесение
+                            наличных</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Изъятие
+                            наличных</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Возврат
+                            продажи</MenuItem>
                         <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>X-отчет</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Закрытие смены</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Закрытие
+                            смены</MenuItem>
                     </Menu>
-                    <Button color="inherit">Журнал</Button>
+
+                    <Button
+                        id="basic-button"
+                        color="inherit"
+                        aria-controls={open2 ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open2 ? 'true' : undefined}
+                        onClick={handleClick2}
+                        sx={{marginRight: '5px'}}
+                    >
+                        Журнал
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl2}
+                        open={open2}
+                        onClose={handleClose2}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                    >
+                        <MenuItem onClick={handleClose}>Все записи</MenuItem>
+                        <MenuItem onClick={handleClose}>Продажи</MenuItem>
+                        <MenuItem onClick={handleClose}>Z-отчет</MenuItem>
+                        <MenuItem onClick={handleClose}>Отчет</MenuItem>
+                    </Menu>
                 </Grid>
 
                 <Grid item display="flex" flexDirection="column">
@@ -92,7 +123,8 @@ const UserMenu = ({user}) => {
                     <Typography sx={{textTransform: 'UpperCase'}}>Номер смены: 6</Typography>
                     <Typography sx={{textTransform: 'UpperCase'}}>Количество чеков: 3</Typography>
                     <Typography sx={{textTransform: 'UpperCase'}}>Наличка в кассе: 3684 сом</Typography>
-                    <Button onClick={() => dispatch(logoutUser())} color="primary" variant="contained" sx={{marginTop: '5px'}}>
+                    <Button onClick={() => dispatch(logoutUser())} color="primary" variant="contained"
+                            sx={{marginTop: '5px'}}>
                         Выйти
                     </Button>
                 </Grid>
