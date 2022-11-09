@@ -2,9 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {Button, Grid, Paper} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
 import FormSelect from "../UI/Form/FormSelect/FormSelect";
+import {useSelector} from "react-redux";
 
 
 const CategoryForm = ({onSubmit, data}) => {
+    const error = useSelector(state => state.categories.error);
+
     const [state, setState] = useState({
         title: "",
         status: "",
@@ -12,6 +15,14 @@ const CategoryForm = ({onSubmit, data}) => {
         nspCash: 0,
         nspNotCash: 0,
     });
+
+    const getFieldError = fieldName => {
+        try {
+            return error.error[fieldName].message;
+        } catch {
+            return undefined;
+        }
+    };
 
     useEffect(() => {
         if (data) {
@@ -49,6 +60,7 @@ const CategoryForm = ({onSubmit, data}) => {
                             onChange={inputChangeHandler}
                             value={state.title}
                             name="title"
+                            error={getFieldError('title')}
                         />
                     </Grid>
 
@@ -59,7 +71,7 @@ const CategoryForm = ({onSubmit, data}) => {
                             onChange={inputChangeHandler}
                             value={state.nds}
                             name="nds"
-
+                            error={getFieldError('nds')}
                         />
                     </Grid>
                     <Grid item xs={2}>
@@ -69,6 +81,7 @@ const CategoryForm = ({onSubmit, data}) => {
                             onChange={inputChangeHandler}
                             value={state.nspCash}
                             name="nspCash"
+                            error={getFieldError('nspCash')}
                         />
                     </Grid>
                     <Grid item xs={2}>
@@ -78,6 +91,7 @@ const CategoryForm = ({onSubmit, data}) => {
                             onChange={inputChangeHandler}
                             value={state.nspNotCash}
                             name="nspNotCash"
+                            error={getFieldError('nspNotCash')}
                         />
                     </Grid>
                     <Grid item xs={2}>
@@ -87,6 +101,7 @@ const CategoryForm = ({onSubmit, data}) => {
                             onChange={inputChangeHandler}
                             value={state.status}
                             name="status"
+                            error={getFieldError('status')}
                         />
                     </Grid>
                 </Grid>
