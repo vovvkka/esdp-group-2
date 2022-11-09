@@ -12,11 +12,16 @@ import {historyPush} from "./historyActions";
 import {editCategoryFailure, editCategoryRequest, editCategorySuccess} from "../slices/categoriesSlice";
 
 
-export const fetchProducts = () => {
+export const fetchProducts = (id) => {
     return async dispatch => {
         try {
             dispatch(fetchProductsRequest());
-            const response = await axiosApi('/products');
+            let response;
+            if(id){
+                response = await axiosApi('/products?category='+id);
+            }else {
+                response = await axiosApi('/products');
+            }
             dispatch(fetchProductsSuccess(response.data));
         } catch (e) {
             dispatch(fetchProductsFailure(e.response.data));

@@ -22,7 +22,11 @@ const upload = multer({storage});
 
 router.get('/', async (req, res) => {
     try {
-        const products = await Product.find().populate('category', 'title');
+        const query = {};
+        if (req.query.category) {
+            query.category = req.query.category;
+        }
+        const products = await Product.find(query).populate('category', 'title');
         res.send(products);
     } catch (e) {
         res.status(400).send(e);
