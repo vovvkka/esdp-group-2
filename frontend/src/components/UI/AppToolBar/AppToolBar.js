@@ -1,9 +1,10 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {makeStyles} from "tss-react/mui";
-import {AppBar, Container, Grid, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, Container, Grid, Toolbar, Typography} from "@mui/material";
 import {useSelector} from "react-redux";
 import UserMenu from "./Menu/UserMenu";
+import logo from '../../../assets/logo.png';
 
 const useStyles = makeStyles()(theme => ({
     mainLink: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles()(theme => ({
     },
     toolbar: {
         backgroundColor: `${theme.palette.grey["700"]} !important`,
-        padding: '20px 0'
+        padding: '10px 0'
     }
 }));
 
@@ -37,7 +38,15 @@ const AppToolbar = () => {
                         <Grid container justifyContent="space-between" alignItems="center">
                             <Typography variant="h6">
                                 <Link to="/" className={classes.mainLink}>
-                                    Tai-Tai
+                                    <Box
+                                        component="img"
+                                        sx={{
+                                            height: 'auto',
+                                            width: 130,
+                                        }}
+                                        alt="Tay Tay logo"
+                                        src={logo}
+                                    />
                                 </Link>
                             </Typography>
 
