@@ -18,12 +18,17 @@ const UserSchema = new Schema({
         unique: true,
         validate: {
             validator: validateUnique,
-            message: 'This user is already registered',
+            message: 'Этот пользователь уже зарегистрирован',
         }
     },
     password: {
         type: String,
         required: true,
+    },
+    pin: {
+      type: String,
+      required:true,
+      length:4,
     },
     token: {
         type: String,
