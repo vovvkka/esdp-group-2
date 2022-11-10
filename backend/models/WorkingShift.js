@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const idValidator = require('mongoose-id-validator');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 const Schema = mongoose.Schema;
 
 const WorkingShiftSchema = new Schema({
@@ -8,21 +9,16 @@ const WorkingShiftSchema = new Schema({
         required: true,
         ref: 'User',
     },
-    openingDate: {
-        type: String,
-        required: true,
-    },
-    closingDate: {
-        type: String,
-        required: true,
-    },
-    checks: {
-        type: String,
-        required: true,
+    isActive: {
+        type: Boolean,
+        required:true,
+        default:true,
     },
 });
 
 WorkingShiftSchema.plugin(idValidator, {message : 'Bad ID value for {PATH}'});
+WorkingShiftSchema.plugin(AutoIncrement, {inc_field: 'number'});
 const WorkingShift = mongoose.model('WorkingShift', WorkingShiftSchema);
+
 
 module.exports = WorkingShift;

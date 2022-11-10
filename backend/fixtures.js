@@ -5,6 +5,7 @@ const config = require('./config');
 const User = require('./models/User');
 const Category = require('./models/Category');
 const Product = require('./models/Product');
+const Shift = require('./models/WorkingShift');
 
 const run = async () => {
     await mongoose.connect(config.mongo.db);
@@ -87,7 +88,7 @@ const run = async () => {
         category: toys._id,
         image: 'fixtures/bear.jpg',
         description:'Медведь плюшевый коричневый',
-        barcode:10101012,
+        barcode:10101013,
         priceType:'Свободная',
         amount:15,
         unit:'шт.',
@@ -99,7 +100,7 @@ const run = async () => {
         category: clothes._id,
         image: 'fixtures/onesie.jpg',
         description:'Боди 3шт. в упаковке',
-        barcode:10101013,
+        barcode:10101014,
         priceType:'Фиксированная',
         amount:5,
         unit:'уп.',
@@ -111,7 +112,7 @@ const run = async () => {
         category: clothes._id,
         image: 'fixtures/beanie.jpg',
         description:'Белая шапочка с ушками 2шт. в упаковке',
-        barcode:10101013,
+        barcode:10101015,
         priceType:'Фиксированная',
         amount:20,
         unit:'уп.',
@@ -123,7 +124,7 @@ const run = async () => {
         category: formula._id,
         image: 'fixtures/nutrilak.jpg',
         description:'Nutrilak probrain 1',
-        barcode:10101014,
+        barcode:10101016,
         priceType:'Фиксированная',
         amount:30,
         unit:'шт.',
@@ -135,7 +136,7 @@ const run = async () => {
         category: formula._id,
         image: 'fixtures/similac.jpg',
         description:'Similac 1 от 0 до 6 мес. 700гр.',
-        barcode:10101015,
+        barcode:10101017,
         priceType:'Фиксированная',
         amount:25,
         unit:'шт.',
@@ -147,31 +148,43 @@ const run = async () => {
         category: formula._id,
         image: 'fixtures/nan.jpg',
         description:'Nestle Nan Optipro 2',
-        barcode:10101016,
+        barcode:10101018,
         priceType:'Фиксированная',
         amount:40,
         unit:'шт.',
         status:'Активный',
         purchasePrice:430
     });
-    await User.create({
-        username: 'admin',
-        password: 'admin',
-        token: nanoid(),
-        role: 'admin',
-    }, {
+    const[cashier1,cashier2] = await User.create( {
         username: 'cashier 1',
         password: 'cashier1',
+        pin: 1111,
         token: nanoid(),
         role: 'cashier',
     }, {
         username: 'cashier 2',
         password: 'cashier2',
+        pin: 2222,
         token: nanoid(),
         role: 'cashier',
+    },{
+        username: 'admin',
+        password: 'admin',
+        pin: 1234,
+        token: nanoid(),
+        role: 'admin',
     });
 
-
+    await Shift.create({
+        cashier: cashier1._id,
+        isActive: false,
+    },{
+        cashier: cashier2._id,
+        isActive: false,
+    },{
+        cashier: cashier1._id,
+        isActive: true,
+    });
     await mongoose.connection.close();
 };
 

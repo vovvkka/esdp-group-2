@@ -17,7 +17,16 @@ const ProductSchema = new Schema({
     },
     barcode: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        validate: {
+            validator: async value => {
+                const category = await Product.findOne({barcode: value});
+
+                if (category) return false;
+            },
+            message: 'Продукт с таким баркодом уже существует.',
+        }
     },
     priceType: {
         type: String,

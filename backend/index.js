@@ -5,6 +5,7 @@ const exitHook = require('async-exit-hook');
 const users = require('./app/users');
 const products = require('./app/products');
 const categories = require('./app/categories');
+const shifts = require('./app/shifts');
 
 const config = require('./config');
 
@@ -18,6 +19,7 @@ app.use(cors());
 app.use('/users', users);
 app.use('/products', products);
 app.use('/categories', categories);
+app.use('/shifts', shifts);
 
 const run = async () => {
     await mongoose.connect(config.mongo.db, config.mongo.options);
