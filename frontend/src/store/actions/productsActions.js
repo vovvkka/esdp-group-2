@@ -12,13 +12,13 @@ import {historyPush} from "./historyActions";
 import {editCategoryFailure, editCategoryRequest, editCategorySuccess} from "../slices/categoriesSlice";
 
 
-export const fetchProducts = (id) => {
+export const fetchProducts = (search) => {
     return async dispatch => {
         try {
             dispatch(fetchProductsRequest());
             let response;
-            if(id){
-                response = await axiosApi('/products?category='+id);
+            if(search){
+                response = await axiosApi('/products'+search);
             }else {
                 response = await axiosApi('/products');
             }
@@ -49,7 +49,7 @@ export const createProduct = (productData) => {
             dispatch(createProductRequest());
             await axiosApi.post('/products', productData);
             dispatch(createProductSuccess());
-            dispatch(historyPush('/'));
+            dispatch(historyPush('/admin/products'));
         } catch (e) {
             dispatch(createProductFailure(e.response.data));
         }

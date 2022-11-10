@@ -16,7 +16,7 @@ const ProductSchema = new Schema({
         type: String
     },
     barcode: {
-        type: Number,
+        type: String,
         required: true
     },
     priceType: {
