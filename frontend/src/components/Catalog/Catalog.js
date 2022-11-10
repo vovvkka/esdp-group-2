@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Avatar, Grid, Tab, Tabs} from "@mui/material";
+import {Avatar, Grid, Tab, Tabs, TextField} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCategories} from "../../store/actions/categoriesActions";
 import {apiUrl} from "../../config";
@@ -18,10 +18,23 @@ const Catalog = () => {
 
     useEffect(() => {
         dispatch(fetchCategories());
+
+    }, [dispatch])
+    useEffect(()=>{
         if (categories.length) {
-            dispatch(fetchProducts(categories[value]._id));
+            dispatch(fetchProducts('?category='+categories[value]._id));
         }
-    }, [dispatch,categories,value])
+    },[dispatch,categories,value])
+
+    const onSearch=e=>{
+        if(e.target.value) {
+            if(e.target.value.replace(/\s/g, '')) {
+                dispatch(fetchProducts('?key=' + e.target.value));
+            }
+        }else{
+            dispatch(fetchProducts('?category='+categories[value]._id));
+        }
+    };
 
     return (
         <Grid item xs={6} sx={{backgroundColor: '#e0e0e0', padding: '15px'}}>
@@ -48,6 +61,7 @@ const Catalog = () => {
                     height:'500px',
                 }}
             >
+                <TextField onChange={onSearch} id="outlined-basic" label="Поиск" variant="outlined" margin="normal"/>
                 {products && products.map(item =>
                     <div key={item._id} style={{
                         cursor: 'pointer',
