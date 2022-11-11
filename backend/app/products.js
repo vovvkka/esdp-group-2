@@ -23,13 +23,19 @@ const upload = multer({storage});
 router.get('/', async (req, res) => {
     try {
         const query = {};
+        if(req.query.category&&req.query.key){
+            isNaN(+req.query.key)?query.title = { $regex: req.query.key, $options: 'i' } : query.barcode = { $regex: +req.query.key, $options: 'i' };
+            query.category = req.query.category;
+        }
         if (req.query.category) {
             query.category = req.query.category;
         }
         if(req.query.key){
-            isNaN(+req.query.key)?query.title = { $regex: req.query.key, $options: 'i' } : query.barcode = { $regex: +req.query.key, $options: 'i' }
+            isNaN(+req.query.key)?query.title = { $regex: req.query.key, $options: 'i' } : query.barcode = { $regex: +req.query.key, $options: 'i' };
         }
-        const products = await Product.find(query).populate('category', 'title');
+        const products = await Product.find(query)
+            // .sort({updatedAt:-1}).limit(5) для ограничения вывода товаров в панели (область 4)
+            .populate('category', 'title');
         res.send(products);
     } catch (e) {
         res.status(400).send(e);

@@ -22,17 +22,29 @@ const Catalog = () => {
     }, [dispatch])
     useEffect(()=>{
         if (categories.length) {
-            dispatch(fetchProducts('?category='+categories[value]._id));
+            if (!value){
+                dispatch(fetchProducts());
+            }else {
+                dispatch(fetchProducts('?category=' + categories[value-1]._id));
+            }
         }
     },[dispatch,categories,value])
 
     const onSearch=e=>{
         if(e.target.value) {
             if(e.target.value.replace(/\s/g, '')) {
-                dispatch(fetchProducts('?key=' + e.target.value));
+                if(!value) {
+                    dispatch(fetchProducts('?key=' + e.target.value));
+                }else{
+                    dispatch(fetchProducts('?key=' + e.target.value+'&category='+categories[value-1]._id));
+                }
             }
         }else{
-            dispatch(fetchProducts('?category='+categories[value]._id));
+            if (value) {
+                dispatch(fetchProducts('?category=' + categories[value - 1]._id));
+            }else{
+                dispatch(fetchProducts());
+            }
         }
     };
 
@@ -45,6 +57,7 @@ const Catalog = () => {
                 scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
             >
+                <Tab label="Все"/>
                 {categories && categories.map(i =>
                     <Tab key={i._id} label={i.title}/>
                 )}
