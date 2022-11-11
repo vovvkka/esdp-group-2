@@ -14,6 +14,13 @@ const WorkingShiftSchema = new Schema({
         required:true,
         default:true,
     },
+    isBlocked: {
+        type: Boolean,
+        required:true,
+        default:false,
+    },
+},{
+   timestamps:true,
 });
 
 WorkingShiftSchema.plugin(idValidator, {message : 'Bad ID value for {PATH}'});
