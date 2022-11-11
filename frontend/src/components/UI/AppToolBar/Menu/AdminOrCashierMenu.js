@@ -58,6 +58,7 @@ const AdminOrCashierMenu = ({user}) => {
                         'aria-labelledby': 'basic-button',
                     }}
                 >
+                    <MenuItem onClick={handleClose} component={Link} to={"/admin"}>Категории</MenuItem>
                     <MenuItem onClick={handleClose} component={Link} to={"/admin/categories"}>Категории</MenuItem>
                     <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Номенклатура</MenuItem>
                 </Menu>
