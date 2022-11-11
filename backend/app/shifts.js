@@ -13,18 +13,63 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-router.put('/:id', auth, permit('cashier'), async (req, res) => {
+router.put('/:id/unblock', auth, permit('cashier'), async (req, res) => {
     const {pin} = req.body;
     const user = req.user;
     try {
+        const shift = await Shift.findById(req.params.id);
+
+        if (!shift) {
+            return res.status(404).send({message: 'Working Shift not found!'})
+        }
         if(user.pin === pin){
-            const shift = await Shift.findByIdAndUpdate(req.params.id, {isActive:false});
+            shift.isBlocked = false;
             res.send(shift);
         }else{
             res.status(403).send({error: 'Wrong PIN'});
         }
     } catch (e) {
         console.log(e)
+        res.status(400).send({error: e.errors});
+    }
+});
+
+router.put('/:id/block', auth, permit('cashier'), async (req, res) => {
+    const user = req.user;
+    try {
+        const shift = await Shift.findById(req.params.id);
+
+        if (!shift) {
+            return res.status(404).send({message: 'Working Shift not found!'})
+        }
+        if(user._id.equals(shift.cashier)){
+            shift.isBlocked = true;
+            await shift.save();
+            res.send(shift);
+        }else{
+            res.status(403).send({error: 'Shift can not be blocked'});
+        }
+    } catch (e) {
+        res.status(400).send({error: e.errors});
+    }
+});
+
+router.put('/:id', auth, permit('cashier'), async (req, res) => {
+    const user = req.user;
+    try {
+        const shift = await Shift.findById(req.params.id);
+
+        if (!shift) {
+            return res.status(404).send({message: 'Working Shift not found!'})
+        }
+        if(user._id.equals(shift.cashier)){
+            shift.isActive = false;
+            await shift.save();
+            res.send(shift);
+        }else{
+            res.status(403).send({error: 'Shift can not be closed'});
+        }
+    } catch (e) {
         res.status(400).send({error: e.errors});
     }
 });
