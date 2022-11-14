@@ -6,7 +6,7 @@ const users = require('./app/users');
 const products = require('./app/products');
 const categories = require('./app/categories');
 const shifts = require('./app/shifts');
-
+const cashiers = require('./app/cashiers');
 const config = require('./config');
 
 const app = express();
@@ -16,10 +16,12 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(cors());
 
+
 app.use('/users', users);
 app.use('/products', products);
 app.use('/categories', categories);
 app.use('/shifts', shifts);
+app.use('/cashiers', cashiers);
 
 const run = async () => {
     await mongoose.connect(config.mongo.db, config.mongo.options);
