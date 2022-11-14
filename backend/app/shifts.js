@@ -24,6 +24,7 @@ router.put('/:id/unblock', auth, permit('cashier'), async (req, res) => {
         }
         if(user.pin === pin){
             shift.isBlocked = false;
+            await shift.save();
             res.send(shift);
         }else{
             res.status(403).send({error: 'Wrong PIN'});

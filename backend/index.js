@@ -6,6 +6,7 @@ const users = require('./app/users');
 const products = require('./app/products');
 const categories = require('./app/categories');
 const shifts = require('./app/shifts');
+const orders = require('./app/orders');
 
 const config = require('./config');
 
@@ -20,6 +21,7 @@ app.use('/users', users);
 app.use('/products', products);
 app.use('/categories', categories);
 app.use('/shifts', shifts);
+app.use('/orders', orders);
 
 const run = async () => {
     await mongoose.connect(config.mongo.db, config.mongo.options);
