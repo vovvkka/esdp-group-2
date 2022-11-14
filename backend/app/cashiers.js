@@ -6,8 +6,12 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const cashiers = await User.find({role: {$eq: 'cashier'}});
-        const user = cashiers.findById(req.params.id);
-        res.send(user);
+
+        if (!cashiers) {
+            return res.status(404).send({message: 'Cashier not found!'});
+        }
+
+        res.send(cashiers);
     } catch (e) {
         res.status(400).send(e);
     }

@@ -61,6 +61,7 @@ const AdminOrCashierMenu = ({user}) => {
                     <MenuItem onClick={handleClose} component={Link} to={"/admin"}>Главная</MenuItem>
                     <MenuItem onClick={handleClose} component={Link} to={"/admin/categories"}>Категории</MenuItem>
                     <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Номенклатура</MenuItem>
+                    <MenuItem onClick={handleClose} component={Link} to={"/admin/cashiers"}>Кассиры</MenuItem>
                 </Menu>
             </>
         );
