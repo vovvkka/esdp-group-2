@@ -6,6 +6,7 @@ const User = require('./models/User');
 const Category = require('./models/Category');
 const Product = require('./models/Product');
 const Shift = require('./models/WorkingShift');
+const Order = require('./models/Order');
 
 const run = async () => {
     await mongoose.connect(config.mongo.db);
@@ -46,7 +47,8 @@ const run = async () => {
         nspCash:0,
         nspNotCash:0,
     });
-    await Product.create({
+
+    const [product1,product2,product3,product4] = await Product.create({
         title: "Детский крем Кря-кря",
         price: 300,
         category: cosmetics._id,
@@ -184,6 +186,31 @@ const run = async () => {
     },{
         cashier: cashier1._id,
         isActive: true,
+    });
+
+    await Order.create({
+        customer: 'Лера',
+        phone: '+(996) 555 555 555',
+        order: [{product: product1._id, amount:1}],
+        status: 'закрыт'
+    },{
+        customer: 'Вова',
+        phone: '+(996) 555 555 551',
+        order: [{product: product2._id, amount:1},{product: product4._id, amount:2}],
+    },{
+        customer: 'Акбар',
+        phone: '+(996) 555 515 555',
+        order: [{product: product1._id, amount:3}],
+        status: 'собран'
+    },{
+        customer: 'Даниил',
+        phone: '+(996) 555 155 555',
+        order: [{product: product3._id, amount:1},{product: product2._id, amount:1}],
+    },{
+        customer: 'Жалын',
+        phone: '+(996) 551 555 555',
+        order: [{product: product4._id, amount:2},{product: product3._id, amount:1}],
+        status: 'закрыт'
     });
     await mongoose.connection.close();
 };
