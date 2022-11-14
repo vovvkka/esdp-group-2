@@ -5,7 +5,6 @@ import {AppBar, Box, Container, Grid, Toolbar, Typography} from "@mui/material";
 import {useSelector} from "react-redux";
 import AdminOrCashierMenu from "./Menu/AdminOrCashierMenu";
 import logo from '../../../assets/logo.png';
-import UserMenu from "./Menu/UserMenu";
 
 const useStyles = makeStyles()(theme => ({
     mainLink: {
@@ -42,36 +41,44 @@ const AppToolbar = () => {
         }
     }, [location.pathname]);
 
-    return (
-        <>
-            <AppBar position="fixed" className={classes.toolbar}>
-                <Container>
-                    <Toolbar>
-                        <Grid container justifyContent="space-between" alignItems="center">
-                            <Typography variant="h6">
-                                <Link to="/" className={classes.mainLink}>
-                                    <Box
-                                        component="img"
-                                        sx={{
-                                            height: 'auto',
-                                            width: 130,
-                                        }}
-                                        alt="Tay Tay logo"
-                                        src={logo}
-                                    />
-                                </Link>
-                            </Typography>
+    if (!isUser) {
+        return (
+            <>
+                <AppBar position="fixed" className={classes.toolbar}>
+                    <Container>
+                        <Toolbar>
+                            <Grid container justifyContent="space-between" alignItems="center">
+                                <Typography variant="h6">
+                                    <Link to="/" className={classes.mainLink}>
+                                        <Box
+                                            component="img"
+                                            sx={{
+                                                height: 'auto',
+                                                width: 130,
+                                            }}
+                                            alt="Tay Tay logo"
+                                            src={logo}
+                                        />
+                                    </Link>
+                                </Typography>
 
-                            {
-                                isUser ? <UserMenu user={user}/> : <AdminOrCashierMenu user={user}/>
-                            }
-                        </Grid>
-                    </Toolbar>
-                </Container>
-            </AppBar>
-            <Toolbar className={classes.staticToolbar}/>
-        </>
-    )
+                                <AdminOrCashierMenu user={user}/>
+                            </Grid>
+                        </Toolbar>
+                    </Container>
+                </AppBar>
+                <Toolbar className={classes.staticToolbar}/>
+            </>
+        );
+    }
+
+    if (isUser) {
+        return (
+            <>
+                {/*Шапка покупателя*/}
+            </>
+        );
+    }
 };
 
 export default AppToolbar;
