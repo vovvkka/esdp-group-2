@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 const Schema = mongoose.Schema;
 
 
 const validatePhone = value => {
-    const pattern = /^(\+[(]\d{2,3}[)]) (\d{3}){3}$/;
+    const pattern = /^(\+[(]\d{2,3}[)])( \d{3}){3}$/;
 
     if (!pattern.test(value)) return false;
 };
@@ -29,9 +30,9 @@ const OrderSchema  = new Schema({
         type: String,
         required: true,
         validate: {
-            validator: validatePhone(),
+            validator: validatePhone,
             message: 'Неправильный формат номера!',
-        }
+        },
     },
     order: [ProductsSchema],
     status: {
@@ -40,8 +41,11 @@ const OrderSchema  = new Schema({
         default: 'новый',
         enum: ['новый', 'собран','закрыт'],
     },
+},{
+    timestamps:true,
 });
 
+OrderSchema.plugin(AutoIncrement, {inc_field: 'orderNumber'});
 const Order = mongoose.model('Order', OrderSchema);
 
 module.exports = Order;
