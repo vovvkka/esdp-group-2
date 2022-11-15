@@ -5,6 +5,7 @@ import {AppBar, Box, Container, Grid, Toolbar, Typography} from "@mui/material";
 import {useSelector} from "react-redux";
 import AdminOrCashierMenu from "./Menu/AdminOrCashierMenu";
 import logo from '../../../assets/logo.png';
+import Appbar from "../../appbar";
 
 const useStyles = makeStyles()(theme => ({
     mainLink: {
@@ -75,7 +76,7 @@ const AppToolbar = () => {
     if (isUser) {
         return (
             <>
-                {/*Шапка покупателя*/}
+                <Appbar/>
             </>
         );
     }

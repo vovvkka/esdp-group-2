@@ -12,6 +12,7 @@ import AdminProducts from "./containers/AdminProducts/AdminProducts";
 import {useSelector} from "react-redux";
 import CashierOpenShift from "./containers/CashierOpenShift/CashierOpenShift";
 import Cashiers from "./containers/Cashiers/Cashiers";
+import MainPage from "./containers/MainPage/MainPage";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ?
@@ -24,6 +25,7 @@ const App = () => {
     return (
         <Layout>
             <Switch>
+                <Route path="/" exact component={MainPage}/>
                 <ProtectedRoute
                     isAllowed={user?.role === 'admin'}
                     redirectTo="/"
