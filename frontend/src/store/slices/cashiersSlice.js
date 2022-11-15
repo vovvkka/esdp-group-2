@@ -18,13 +18,23 @@ const cashiersSlice = createSlice({
         },
         getCashiersSuccess(state, action) {
             state.loading = false;
-            state.error = null;
             state.cashiers = action.payload;
         },
         getCashiersFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
         },
+        addCashierRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        addCashierSuccess(state) {
+            state.loading = false;
+        },
+        addCashierFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        }
     }
 });
 
@@ -32,6 +42,9 @@ export const {
     getCashiersRequest,
     getCashiersSuccess,
     getCashiersFailure,
+    addCashierRequest,
+    addCashierSuccess,
+    addCashierFailure
 } = cashiersSlice.actions;
 
 export default cashiersSlice;
