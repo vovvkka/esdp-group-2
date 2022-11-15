@@ -14,7 +14,7 @@ const AdminAddCategory = () => {
     return (
         <Container>
             <Typography
-                textAlign="left"
+                textAlign="center"
                 marginBottom="30px"
                 variant="h4"
             >

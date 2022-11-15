@@ -112,7 +112,7 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers}) => {
                     </Box>
                 </TableCell>
             </TableRow>
-        ))
+        ));
     }
 
     return (

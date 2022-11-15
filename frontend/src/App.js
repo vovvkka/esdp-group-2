@@ -11,8 +11,9 @@ import AdminPanel from "./containers/AdminPanel/AdminPanel";
 import AdminProducts from "./containers/AdminProducts/AdminProducts";
 import {useSelector} from "react-redux";
 import CashierOpenShift from "./containers/CashierOpenShift/CashierOpenShift";
-import Cashiers from "./containers/Cashiers/Cashiers";
+import AdminCashiers from "./containers/AdminCashiers/AdminCashiers";
 import MainPage from "./containers/MainPage/MainPage";
+import AdminAddCashier from "./containers/AdminAddCashier/AdminAddCashier";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
   return isAllowed ?
@@ -73,14 +74,21 @@ const App = () => {
 
                 <ProtectedRoute
                     isAllowed={user}
-                    path="/cashier/open-shift"
-                    component={CashierOpenShift}
+                    exact
+                    path="/admin/cashiers"
+                    component={AdminCashiers}
                 />
 
                 <ProtectedRoute
                     isAllowed={user}
-                    path="/admin/cashiers"
-                    component={Cashiers}
+                    path="/admin/cashiers/add-new-cashier"
+                    component={AdminAddCashier}
+                />
+
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/cashier/open-shift"
+                    component={CashierOpenShift}
                 />
 
                 <Route path="/login" component={Login}/>
