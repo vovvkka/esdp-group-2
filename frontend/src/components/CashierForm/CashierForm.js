@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import React, {useState} from 'react';
+import {useSelector} from "react-redux";
 import {makeStyles} from "tss-react/mui";
 import {Avatar, Container, Grid, Typography} from "@mui/material";
 import {LockOutlined} from "@mui/icons-material";
@@ -33,11 +33,9 @@ const useStyles = makeStyles()(theme => ({
     }
 }));
 
-const CashierForm = () => {
+const CashierForm = ({onSubmit, error}) => {
     const {classes} = useStyles();
-    const dispatch = useDispatch();
-    const error = useSelector(state => state.users.registerError);
-    const loading = useSelector(state => state.users.registerLoading);
+    const loading = useSelector(state => state.cashiers.loading);
 
     const [cashierData, setCashierData] = useState({
         username: '',
@@ -46,12 +44,6 @@ const CashierForm = () => {
         pin: '',
     });
 
-    useEffect(() => {
-        // return () => {
-        //     dispatch(clearRegisterErrors());
-        // }
-    }, [dispatch]);
-
     const inputChangeHandler = (name, value) => {
         setCashierData(prev => ({...prev, [name]: value}));
     };
@@ -59,7 +51,7 @@ const CashierForm = () => {
     const submitFormHandler = e => {
         e.preventDefault();
 
-        // dispatch(registerUser(formData));
+        onSubmit(cashierData);
     };
 
     const getFieldError = fieldName => {

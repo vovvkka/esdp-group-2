@@ -12,8 +12,8 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const {username, password, displayName, pin} = req.body;
-    const userData = {username, password, displayName, pin};
+    const {username, password, displayName, pin, role} = req.body;
+    const userData = {username, password, displayName, pin, role};
 
     try {
         const user = new User(userData);

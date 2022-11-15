@@ -39,8 +39,6 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
             formData.append(key, state[key]);
         });
 
-        console.log(formData)
-
         onSubmit(formData);
     };
 
