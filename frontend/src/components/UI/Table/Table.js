@@ -17,7 +17,7 @@ import {deleteProduct} from "../../../store/actions/productsActions";
 import {useDownloadExcel} from "react-export-table-to-excel";
 
 
-const TableAdmin = ({rows, rowsHead, categories, products}) => {
+const TableAdmin = ({rows, rowsHead, categories, products, cashiers}) => {
     const dispatch = useDispatch();
     const tableRef = useRef(null);
 
@@ -97,6 +97,24 @@ const TableAdmin = ({rows, rowsHead, categories, products}) => {
         ))
     }
 
+    if (cashiers) {
+        render = rows.map((row) => (
+            <TableRow
+                key={row._id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+                <TableCell>
+                    {row.username}
+                </TableCell>
+                <TableCell align="center">
+                    <Box display='flex' justifyContent='center'>
+                        <Button component={Link} to={"/admin/cashiers/edit-cashiers/" + row._id}><EditSharpIcon/></Button>
+                    </Box>
+                </TableCell>
+            </TableRow>
+        ))
+    }
+
     return (
         <Box display='flex' flexDirection='column'>
             <TableContainer component={Paper}>
@@ -114,9 +132,11 @@ const TableAdmin = ({rows, rowsHead, categories, products}) => {
                 </Table>
             </TableContainer>
 
-            <Box display='flex' justifyContent='flex-end' marginY='20px'>
-                <Button variant='outlined' onClick={onDownload}> Экспорт </Button>
-            </Box>
+            {categories || products ?
+                <Box display='flex' justifyContent='flex-end' marginY='20px'>
+                    <Button variant='outlined' onClick={onDownload}> Экспорт </Button>
+                </Box>
+            : null}
         </Box>
     );
 };

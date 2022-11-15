@@ -6,11 +6,13 @@ import usersSlice, {initialState} from "./slices/usersSlice";
 import thunk from "redux-thunk";
 import categoriesSlice from "./slices/categoriesSlice";
 import productsSlice from "./slices/productsSlice";
+import cashiersSlice from "./slices/cashiersSlice";
 
 const rootReducer = combineReducers({
     users: usersSlice.reducer,
     categories: categoriesSlice.reducer,
     products: productsSlice.reducer,
+    cashiers: cashiersSlice.reducer,
 });
 
 const persistedState = loadFromLocalStorage();
