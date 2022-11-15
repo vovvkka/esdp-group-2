@@ -14,9 +14,9 @@ import CashierOpenShift from "./containers/CashierOpenShift/CashierOpenShift";
 import Cashiers from "./containers/Cashiers/Cashiers";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
-    return isAllowed ?
+  return isAllowed ?
         <Route {...props}/> :
-        <Redirect to={redirectTo}/>
+        <Redirect to="/"/>
 };
 
 const App = () => {
@@ -25,67 +25,58 @@ const App = () => {
         <Layout>
             <Switch>
                 <ProtectedRoute
-                    isAllowed={user?.role === 'admin'}
-                    redirectTo="/"
+                    isAllowed={user}
                     path="/admin"
                     exact
                     component={AdminPanel}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user?.role === 'admin'}
-                    redirectTo="/"
+                    isAllowed={user}
                     path="/admin/categories"
                     exact
                     component={AdminCategories}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user?.role === 'admin'}
-                    redirectTo="/"
+                    isAllowed={user}
                     path="/admin/categories/edit-category/:id"
                     component={AdminEditCategory}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user?.role === 'admin'}
-                    redirectTo="/"
+                    isAllowed={user}
                     path="/admin/categories/add-new-category"
                     component={AdminAddCategory}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user?.role === 'admin'}
-                    redirectTo="/"
+                    isAllowed={user}
                     path="/admin/products"
                     exact
                     component={AdminProducts}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user?.role === 'admin'}
-                    redirectTo="/"
+                    isAllowed={user}
                     path="/admin/products/add-new-product"
                     component={AdminAddProduct}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user?.role === 'admin'}
-                    redirectTo="/"
+                    isAllowed={user}
                     path="/admin/products/edit-product/:id"
                     component={AdminEditProduct}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user?.role === 'cashier'}
-                    redirectTo="/"
+                    isAllowed={user}
                     path="/cashier/open-shift"
                     component={CashierOpenShift}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user?.role === 'admin'}
-                    redirectTo="/"
+                    isAllowed={user}
                     path="/admin/cashiers"
                     component={Cashiers}
                 />
