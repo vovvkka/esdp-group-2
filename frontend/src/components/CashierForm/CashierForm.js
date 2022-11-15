@@ -8,7 +8,7 @@ import ButtonWithProgress from "../UI/ButtonWithProgress/ButtonWithProgress";
 
 const useStyles = makeStyles()(theme => ({
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: '100px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -26,6 +26,10 @@ const useStyles = makeStyles()(theme => ({
     },
     link: {
         marginTop: '5px'
+    },
+    submit: {
+        margin: `${theme.spacing(1, 0)} !important`,
+        backgroundColor: `${theme.palette.grey["800"]} !important`,
     }
 }));
 
@@ -69,12 +73,18 @@ const CashierForm = () => {
     return (
         <Container maxWidth="xs">
             <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlined/>
-                </Avatar>
-                <Typography component="h1" variant="h6" sx={{marginBottom: '20px'}}>
-                    Sign up
-                </Typography>
+                <Grid item display="flex" alignItems="center">
+                    <Avatar className={classes.avatar} color="primary">
+                        <LockOutlined/>
+                    </Avatar>
+
+                    <Typography
+                        textAlign="center"
+                        variant="h6"
+                    >
+                        Добавить Кассира
+                    </Typography>
+                </Grid>
 
                 <Grid
                     component="form"
@@ -129,6 +139,7 @@ const CashierForm = () => {
                             fullWidth
                             variant="contained"
                             color="primary"
+                            className={classes.submit}
                         >
                             Создать
                         </ButtonWithProgress>
