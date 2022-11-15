@@ -1,0 +1,39 @@
+import React from 'react';
+import theme from "../../styles/theme";
+import {Container, Stack, Typography, Box} from "@mui/material";
+import {UIProvider} from "../../context/ui";
+import Banner from "../../components/banner";
+import Promotions from "../../components/promotions";
+import {ThemeProvider} from "@mui/system";
+import Products from "../../components/products";
+import Footer from "../../components/footer";
+import AppDrawer from "../../components/drawer";
+
+const MainPage = () => {
+    return (
+        <ThemeProvider theme={theme}>
+            <Container
+                disableGutters
+                maxWidth="xl"
+                sx={{
+                    background: "#fff",
+                }}
+            >
+                <Stack>
+                    <UIProvider>
+                        <Banner/>
+                        <Promotions/>
+                        <Box display="flex" justifyContent="center" sx={{p: 4}}>
+                            <Typography variant="h4">Our Products</Typography>
+                        </Box>
+                        <Products/>
+                        <Footer/>
+                        <AppDrawer/>
+                    </UIProvider>
+                </Stack>
+            </Container>
+        </ThemeProvider>
+    );
+};
+
+export default MainPage;
