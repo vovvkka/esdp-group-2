@@ -83,7 +83,12 @@ const App = () => {
                     component={Cashiers}
                 />
 
-                <Route path="/login" component={Login}/>
+                <ProtectedRoute
+                    isAllowed={!user}
+                    path="/login"
+                    component={Login}
+                />
+
             </Switch>
         </Layout>
     );

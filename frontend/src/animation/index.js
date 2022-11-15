@@ -32,8 +32,8 @@ export const textPopUpTop = keyframes`
     text-shadow: none;
   }
   100% {
-    -webkit-transform: translateY(-10px);
-            transform: translateY(-10px);
+    -webkit-transform: translateY(-5px);
+            transform: translateY(-5px);
     -webkit-transform-origin: 50% 50%;
             transform-origin: 50% 50%;
     text-shadow: 0 1px 0 #000, 0 2px 0 #000, 0 3px 0 #000, 0 4px 0 #000, 

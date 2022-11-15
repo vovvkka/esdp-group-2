@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import {useUIContext} from "../../context/ui";
 import CloseIcon from "@mui/icons-material/Close";
-import {DrawerCloseButton} from "../../styles/appbar";
+import {DrawerCloseButton} from "../../styles/appbar/styledAppbar";
 import {Colors} from "../../styles/theme";
 
 const MiddleDivider = styled((props) => (
