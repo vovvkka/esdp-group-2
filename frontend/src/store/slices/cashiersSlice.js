@@ -4,6 +4,7 @@ const name = 'cashiers';
 
 export const initialState = {
     cashiers: [],
+    cashier: null,
     loading: false,
     error: null,
 };
@@ -24,6 +25,18 @@ const cashiersSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        getCashierRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        getCashierSuccess(state, action) {
+            state.loading = false;
+            state.cashier = action.payload;
+        },
+        getCashierFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
         addCashierRequest(state) {
             state.loading = true;
             state.error = null;
@@ -34,7 +47,18 @@ const cashiersSlice = createSlice({
         addCashierFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
-        }
+        },
+        editCashierRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        editCashierSuccess(state) {
+            state.loading = false;
+        },
+        editCashierFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
     }
 });
 
@@ -42,9 +66,15 @@ export const {
     getCashiersRequest,
     getCashiersSuccess,
     getCashiersFailure,
+    getCashierRequest,
+    getCashierSuccess,
+    getCashierFailure,
     addCashierRequest,
     addCashierSuccess,
-    addCashierFailure
+    addCashierFailure,
+    editCashierRequest,
+    editCashierSuccess,
+    editCashierFailure
 } = cashiersSlice.actions;
 
 export default cashiersSlice;

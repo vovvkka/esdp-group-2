@@ -50,7 +50,6 @@ router.put('/:id', auth, permit('admin'), async (req, res) => {
         const category = await Category.findByIdAndUpdate(req.params.id, categoryData);
         res.send(category);
     } catch (e) {
-        console.log(e)
         res.status(400).send({error: e.errors});
     }
 });

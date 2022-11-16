@@ -11,6 +11,8 @@ export const loginUser = userData => {
 
             dispatch(loginSuccess(response.data.user));
 
+            console.log(response.data.user)
+
             if (response.data.user?.role === 'admin') {
                 return dispatch(historyPush('/admin'));
             } else if (response.data.user?.role === 'cashier') {

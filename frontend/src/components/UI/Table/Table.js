@@ -108,7 +108,7 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers}) => {
                 </TableCell>
                 <TableCell align="center">
                     <Box display='flex' justifyContent='center'>
-                        <Button component={Link} to={"/admin/cashiers/edit-cashiers/" + row._id}><EditSharpIcon/></Button>
+                        <Button component={Link} to={"/admin/cashiers/edit-cashier/" + row._id}><EditSharpIcon/></Button>
                     </Box>
                 </TableCell>
             </TableRow>
