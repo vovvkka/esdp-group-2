@@ -9,7 +9,7 @@ import {
     Container,
 } from "@mui/material";
 import {Box} from "@mui/system";
-import {Colors} from "../../styles/theme";
+import {Colors} from "../../theme";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";

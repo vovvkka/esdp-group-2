@@ -1,5 +1,5 @@
 import React from 'react';
-import theme from "../../styles/theme";
+import theme from "../../theme";
 import {Container, Stack, Typography, Box} from "@mui/material";
 import {UIProvider} from "../../context/ui";
 import Banner from "../../components/banner";
@@ -7,7 +7,7 @@ import Promotions from "../../components/promotions";
 import {ThemeProvider} from "@mui/system";
 import Products from "../../components/Products/Products";
 import Footer from "../../components/footer";
-import AppDrawer from "../../components/drawer";
+import AppDrawer from "../../components/Drawer/Drawer";
 
 const MainPage = () => {
     return (

@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from "@mui/icons-material/Remove";
 import {useState} from "react";
 import {clamp} from "./clamp";
-import {Colors} from "../../../styles/theme";
+import {Colors} from "../../../theme";
 
 const IncDec = () =>{
     const clampV = clamp(1, 10);

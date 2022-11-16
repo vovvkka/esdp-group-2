@@ -10,7 +10,7 @@ import {
     useMediaQuery,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import {Colors} from "../../styles/theme";
+import {Colors} from "../../theme";
 import styled from "@emotion/styled";
 import {Product, ProductImage} from "../../styles/styledProduct/styledProduct";
 import {useTheme} from "@mui/material/styles";
