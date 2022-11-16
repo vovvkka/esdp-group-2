@@ -13,7 +13,6 @@ const UserMenu = ({user}) => {
                         to={'/' + user?.role}
                         variant="contained"
                         display="flex"
-                        alignItems="center"
                     >
                         <LockIcon sx={{marginRight: '5px'}}/> Личный кабинет
                     </Button> : null

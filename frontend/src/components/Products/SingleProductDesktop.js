@@ -34,7 +34,7 @@ const SingleProductDesktop = ({product, matches}) => {
                         Добавить в корзину
                     </ProductAddToCart>
                 )}
-                <ProductActionsWrapper show={showOptions || matches}>
+                <ProductActionsWrapper show={showOptions || matches ? "true" : undefined}>
                     <Stack direction={matches ? "row" : "column"}>
                         <ProductActionButton>
                             <Tooltip placement="left" title="Поделиться">
