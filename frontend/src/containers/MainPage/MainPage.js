@@ -5,7 +5,7 @@ import {UIProvider} from "../../context/ui";
 import Banner from "../../components/Banner/Banner";
 import {ThemeProvider} from "@mui/system";
 import Products from "../../components/Products/Products";
-import Footer from "../../components/footer";
+import Footer from "../../components/Footer/Footer";
 import AppDrawer from "../../components/Drawer/Drawer";
 
 const MainPage = () => {

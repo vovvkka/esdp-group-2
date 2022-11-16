@@ -5,7 +5,7 @@ import {
     ProductActionsWrapper,
     ProductAddToCart,
     ProductImage,
-} from "../../styles/styledProduct/styledProduct";
+} from "../../styles/Product/styledProduct";
 import {Stack, Tooltip} from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import FitScreenIcon from "@mui/icons-material/FitScreen";

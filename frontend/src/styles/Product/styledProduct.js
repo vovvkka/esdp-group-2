@@ -49,7 +49,7 @@ export const ProductAddToCart = styled(Button, {
     opacity: 0.9,
 }));
 
-export const ProductMetaWrapper = styled(Box)(({theme}) => ({
+export const ProductMetaWrapper = styled(Box)(() => ({
     padding: 4,
     display: "flex",
     flexDirection: "column",

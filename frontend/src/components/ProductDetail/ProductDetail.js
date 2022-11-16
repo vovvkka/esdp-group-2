@@ -12,7 +12,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import {Colors} from "../../theme";
 import styled from "@emotion/styled";
-import {Product, ProductImage} from "../../styles/styledProduct/styledProduct";
+import {Product, ProductImage} from "../../styles/Product/styledProduct";
 import {useTheme} from "@mui/material/styles";
 import IncDec from "../UI/IncDec/IncDec";
 
