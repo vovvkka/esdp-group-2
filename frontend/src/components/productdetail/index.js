@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import {useRef} from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import {Colors} from "../../styles/theme";
+import {Colors} from "../../theme";
 import styled from "@emotion/styled";
 import {ProductAddToCart, Product, ProductImage} from "../../styles/product";
 import {BannerShopButton} from "../../styles/banner";

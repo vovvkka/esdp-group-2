@@ -91,7 +91,12 @@ const App = () => {
                     component={CashierOpenShift}
                 />
 
-                <Route path="/login" component={Login}/>
+                <ProtectedRoute
+                    isAllowed={!user}
+                    path="/login"
+                    component={Login}
+                />
+
             </Switch>
         </Layout>
     );

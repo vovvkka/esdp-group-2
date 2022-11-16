@@ -1,6 +1,6 @@
 import {Typography} from "@mui/material";
 import {Box, styled} from "@mui/system";
-import {Colors} from "../theme";
+import {Colors} from "../../theme";
 
 export const PromotionsContainer = styled(Box)(({theme}) => ({
     [theme.breakpoints.up("md")]: {
