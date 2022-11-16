@@ -1,10 +1,10 @@
 import {
     addCashierFailure,
     addCashierRequest,
-    addCashierSuccess,
+    addCashierSuccess, editCashierFailure, editCashierRequest, editCashierSuccess, getCashierFailure, getCashierRequest,
     getCashiersFailure,
     getCashiersRequest,
-    getCashiersSuccess
+    getCashiersSuccess, getCashierSuccess
 } from "../slices/cashiersSlice";
 import axiosApi from "../../axiosApi";
 import {historyPush} from "./historyActions";
@@ -13,7 +13,7 @@ export const addCashier = cashierData => {
     return async dispatch => {
         try {
             dispatch(addCashierRequest());
-            await axiosApi.post('/users', {...cashierData, role: 'cashier'});
+            await axiosApi.post('/users', cashierData);
 
             dispatch(addCashierSuccess());
             dispatch(historyPush('/admin/cashiers'));
@@ -27,6 +27,24 @@ export const addCashier = cashierData => {
     };
 };
 
+export const editCashier = (id, cashierData) => {
+    return async dispatch => {
+        try {
+            dispatch(editCashierRequest());
+            await axiosApi.put('/cashiers/' + id, cashierData);
+
+            dispatch(editCashierSuccess());
+            dispatch(historyPush('/admin/cashiers'));
+        } catch (e) {
+            if (e.response && e.response.data) {
+                dispatch(editCashierFailure(e.response.data));
+            } else {
+                dispatch(editCashierFailure({global: 'No internet'}));
+            }
+        }
+    };
+};
+
 export const getCashiers = () => {
     return async dispatch => {
         try {
@@ -35,6 +53,18 @@ export const getCashiers = () => {
             dispatch(getCashiersSuccess(response.data));
         } catch (e) {
             dispatch(getCashiersFailure(e));
+        }
+    };
+};
+
+export const getCashier = id => {
+    return async dispatch => {
+        try {
+            dispatch(getCashierRequest());
+            const response = await axiosApi('/cashiers/' + id);
+            dispatch(getCashierSuccess(response.data));
+        } catch (e) {
+            dispatch(getCashierFailure(e));
         }
     };
 };
