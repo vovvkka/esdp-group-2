@@ -1,15 +1,18 @@
+import React from 'react';
+import {ProductMetaWrapper} from "../../styles/styledProduct/styledProduct";
 import {Typography} from "@mui/material";
-import {ProductMetaWrapper} from "../../styles/product";
 
-export default function ProductMeta({product, matches}) {
+const ProductMeta = ({product, matches}) => {
     return (
         <ProductMetaWrapper>
             <Typography variant={matches ? "h6" : "h5"} lineHeight={2}>
-                {product.name}
+                {product.title}
             </Typography>
             <Typography variant={matches ? "caption" : "body1"}>
-                ${product.price}
+                {product.price} сом
             </Typography>
         </ProductMetaWrapper>
     );
-}
+};
+
+export default ProductMeta;

@@ -5,7 +5,7 @@ import {UIProvider} from "../../context/ui";
 import Banner from "../../components/banner";
 import Promotions from "../../components/promotions";
 import {ThemeProvider} from "@mui/system";
-import Products from "../../components/products";
+import Products from "../../components/Products/Products";
 import Footer from "../../components/footer";
 import AppDrawer from "../../components/Drawer/Drawer";
 
@@ -24,7 +24,7 @@ const MainPage = () => {
                         <Banner/>
                         <Promotions/>
                         <Box display="flex" justifyContent="center" sx={{p: 4}}>
-                            <Typography variant="h4">Our Products</Typography>
+                            <Typography variant="h4">Наши товары</Typography>
                         </Box>
                         <Products/>
                         <Footer/>
