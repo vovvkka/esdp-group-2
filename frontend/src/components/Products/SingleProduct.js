@@ -14,16 +14,16 @@ import ProductDetail from "../ProductDetail/ProductDetail";
 import ProductMeta from "./ProductMeta";
 
 const SingleProduct = ({product, matches}) => {
-    const [ProductDetailDialog, showProductDetailDialog, closeProductDialog] =
+    const [ProductDetailDialog, showProductDetailDialog] =
         useDialogModal(ProductDetail);
 
     const [showOptions, setShowOptions] = useState(false);
 
     const handleMouseEnter = () => {
-        setShowOptions(true);
+        setShowOptions(!showOptions);
     };
     const handleMouseLeave = () => {
-        setShowOptions(false);
+        setShowOptions(!showOptions);
     };
     return (
         <>

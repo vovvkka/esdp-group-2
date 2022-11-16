@@ -14,7 +14,7 @@ import ProductDetail from "../ProductDetail/ProductDetail";
 import ProductMeta from "./ProductMeta";
 
 const SingleProductDesktop = ({product, matches}) => {
-    const [ProductDetailDialog, showProductDetailDialog, closeProductDialog] =
+    const [ProductDetailDialog, showProductDetailDialog] =
         useDialogModal(ProductDetail);
 
     const [showOptions, setShowOptions] = useState(false);
