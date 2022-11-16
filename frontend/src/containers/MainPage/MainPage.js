@@ -2,8 +2,7 @@ import React from 'react';
 import theme from "../../theme";
 import {Container, Stack, Typography, Box} from "@mui/material";
 import {UIProvider} from "../../context/ui";
-import Banner from "../../components/banner";
-import Promotions from "../../components/promotions";
+import Banner from "../../components/Banner/Banner";
 import {ThemeProvider} from "@mui/system";
 import Products from "../../components/Products/Products";
 import Footer from "../../components/footer";
@@ -22,7 +21,6 @@ const MainPage = () => {
                 <Stack>
                     <UIProvider>
                         <Banner/>
-                        <Promotions/>
                         <Box display="flex" justifyContent="center" sx={{p: 4}}>
                             <Typography variant="h4">Наши товары</Typography>
                         </Box>
