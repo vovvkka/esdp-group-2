@@ -1,8 +1,7 @@
 import {Box, ListItemButton, ListItemIcon, ListItemText,} from "@mui/material";
-import {AppbarContainer, AppbarHeader, MyList,} from "../../../styles/appbar/styledAppbar";
+import {AppbarContainer, AppbarHeader, MyList,} from "../../../styles/Appbar/styledAppbar";
 import SearchIcon from "@mui/icons-material/Search";
 import Actions from "./Actions";
-import {useUIContext} from "../../../context/ui";
 import logo from "../../../assets/logo.png";
 import {Link} from "react-router-dom";
 import React from "react";
@@ -24,10 +23,16 @@ const AppbarDesktop = ({matches}) => {
               </Link>
           </AppbarHeader>
         <MyList type="row">
-          <ListItemText primary="Главная"/>
-          <ListItemText primary="Новости"/>
-          <ListItemText primary="Контакты"/>
-          <ListItemButton onClick={() => setShowSearchBox(true)}>
+          <ListItemButton component={Link} to='/'>
+              <ListItemText primary="Главная"/>
+          </ListItemButton>
+            <ListItemButton component={Link} to='/news'>
+                <ListItemText primary="Новости"/>
+            </ListItemButton>
+            <ListItemButton component={Link} to='/contacts'>
+                <ListItemText primary="Контакты"/>
+            </ListItemButton>
+          <ListItemButton>
             <ListItemIcon>
               <SearchIcon/>
             </ListItemIcon>

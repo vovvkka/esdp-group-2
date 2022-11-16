@@ -1,19 +1,20 @@
-import {AppbarContainer, AppbarHeader} from "../../../styles/appbar/styledAppbar";
+import {AppbarContainer, AppbarHeader} from "../../../styles/Appbar/styledAppbar";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Actions from "./Actions";
 import {Box, IconButton} from "@mui/material";
-import {useUIContext} from "../../../context/ui";
 import logo from "../../../assets/logo.png";
 import {Link} from "react-router-dom";
 import React from "react";
+import {useDispatch} from "react-redux";
+import {setDrawerOpen} from "../../../store/slices/appSLice";
 
 const AppbarMobile = ({matches}) => {
-    const {setDrawerOpen, setShowSearchBox} = useUIContext();
+    const dispatch = useDispatch();
 
     return (
         <AppbarContainer>
-            <IconButton onClick={() => setDrawerOpen(true)}>
+            <IconButton onClick={() => dispatch(setDrawerOpen())}>
                 <MenuIcon/>
             </IconButton>
             <AppbarHeader textAlign={"center"} variant="h4">
@@ -29,7 +30,7 @@ const AppbarMobile = ({matches}) => {
                     />
                 </Link>
             </AppbarHeader>
-            <IconButton onClick={() => setShowSearchBox(true)}>
+            <IconButton>
                 <SearchIcon/>
             </IconButton>
             <Actions matches={matches}/>

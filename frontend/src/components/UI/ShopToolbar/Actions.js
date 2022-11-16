@@ -1,7 +1,7 @@
 import {Divider, ListItemButton, ListItemIcon} from "@mui/material";
-import {ActionIconsContainerDesktop, ActionIconsContainerMobile, MyList} from "../../../styles/appbar/styledAppbar";
+import {ActionIconsContainerDesktop, ActionIconsContainerMobile, MyList} from "../../../styles/Appbar/styledAppbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import {Colors} from "../../../styles/theme";
+import {Colors} from "../../../theme";
 import UserMenu from "../AppToolBar/Menu/UserMenu";
 import {useSelector} from "react-redux";
 

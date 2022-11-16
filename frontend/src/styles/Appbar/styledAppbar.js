@@ -1,7 +1,7 @@
 import {IconButton, List, Typography} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/system";
-import {Colors, DrawerWidth} from "../theme";
+import {Colors, DrawerWidth} from "../../theme";
 import {textPopUpTop} from "../../animation";
 
 export const AppbarContainer = styled(Box)(() => ({
@@ -9,7 +9,7 @@ export const AppbarContainer = styled(Box)(() => ({
     marginTop: 4,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '2px 8px'
+    padding: '2px 8px',
 }));
 
 export const AppbarHeader = styled(Typography)(() => ({
@@ -43,12 +43,4 @@ export const MyList = styled(List)(({type}) => ({
     flexGrow: 3,
     justifyContent: "center",
     alignItems: "center",
-}));
-
-
-export const DrawerCloseButton = styled(IconButton)(() => ({
-    position: 'absolute',
-    top: 10,
-    left: DrawerWidth,
-    zIndex: 1999,
 }));
