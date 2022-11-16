@@ -60,7 +60,7 @@ const ProductDetail = ({open, onClose, product}) =>{
             </DialogTitle>
             <DialogContent>
                 <ProductDetailWrapper display={"flex"} flexDirection={matches ? "column" : "row"}>
-                    <Product sx={{mr: 4, mb: 4, flexBasis:'35%'}}>
+                    <Product sx={!matches? {flexBasis: '35%', mr: 4}: {flexBasis: '50%', mb: 4}} >
                         <ProductImage src={'http://localhost:8000/' + product.image}/>
                     </Product>
                     <ProductDetailInfoWrapper>
@@ -76,11 +76,11 @@ const ProductDetail = ({open, onClose, product}) =>{
                             display="flex"
                             alignItems="center"
                             justifyContent="space-between"
-                            flexDirection={!matches ? "column" : "row"}
+                            flexDirection={matches ? "column" : "row"}
 
                         >
                             <IncDec/>
-                            <Button sx={!matches?{marginTop:'10px'}:null} variant="contained">Добавить в корзину</Button>
+                            <Button sx={matches?{marginTop:'10px'}:{marginLeft:'10px'}} variant="contained">Добавить в корзину</Button>
                         </Box>
                         {/*<Box*/}
                         {/*    sx={{*/}
