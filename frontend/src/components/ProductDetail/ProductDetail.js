@@ -1,27 +1,20 @@
 import {
-    Dialog,
-    DialogTitle,
-    Slide,
     Box,
-    IconButton,
-    DialogContent,
-    Typography,
     Button,
-    Stack,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    IconButton,
+    Slide,
+    Typography,
+    useMediaQuery,
 } from "@mui/material";
-import {useRef} from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import {Colors} from "../../styles/theme";
 import styled from "@emotion/styled";
-import {ProductAddToCart, Product, ProductImage} from "../../styles/product";
-import {BannerShopButton} from "../../styles/banner";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import {Product, ProductImage} from "../../styles/styledProduct/styledProduct";
 import {useTheme} from "@mui/material/styles";
-import {useMediaQuery} from "@mui/material";
-import IncDec from "../UI/incdec";
+import IncDec from "../UI/IncDec/IncDec";
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -39,7 +32,7 @@ const ProductDetailInfoWrapper = styled(Box)(() => ({
     lineHeight: 1.5,
 }));
 
-export default function ProductDetail({open, onClose, product}) {
+const ProductDetail = ({open, onClose, product}) =>{
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
     return (
@@ -59,7 +52,7 @@ export default function ProductDetail({open, onClose, product}) {
                     alignItems="center"
                     justifyContent={"space-between"}
                 >
-                    Product title
+                    {product.title}
                     <IconButton onClick={onClose}>
                         <CloseIcon/>
                     </IconButton>
@@ -67,18 +60,15 @@ export default function ProductDetail({open, onClose, product}) {
             </DialogTitle>
             <DialogContent>
                 <ProductDetailWrapper display={"flex"} flexDirection={matches ? "column" : "row"}>
-                    <Product sx={{mr: 4}}>
-                        <ProductImage src={product.image}/>
+                    <Product sx={{mr: 4, mb: 4, flexBasis:'35%'}}>
+                        <ProductImage src={'http://localhost:8000/' + product.image}/>
                     </Product>
                     <ProductDetailInfoWrapper>
-                        <Typography variant="subtitle">SKU: 123</Typography>
-                        <Typography variant="subtitle">Availability: 5 in stock</Typography>
+                        <Typography variant="subtitle">{product.amount} {product.unit} в наличии</Typography>
                         <Typography sx={{lineHeight: 2}} variant="h4">
-                            {product.name}
+                            {product.title}
                         </Typography>
                         <Typography variant="body">
-                            {product.description}
-                            {product.description}
                             {product.description}
                         </Typography>
                         <Box
@@ -86,31 +76,27 @@ export default function ProductDetail({open, onClose, product}) {
                             display="flex"
                             alignItems="center"
                             justifyContent="space-between"
+                            flexDirection={!matches ? "column" : "row"}
+
                         >
                             <IncDec/>
-                            <Button variant="contained">Add to Cart</Button>
+                            <Button sx={!matches?{marginTop:'10px'}:null} variant="contained">Добавить в корзину</Button>
                         </Box>
-                        <Box
-                            display="flex"
-                            alignItems="center"
-                            sx={{mt: 4, color: Colors.light}}
-                        >
-                            <FavoriteIcon sx={{mr: 2}}/>
-                            Add to wishlist
-                        </Box>
-                        <Box
-                            sx={{
-                                mt: 4,
-                                color: Colors.dove_gray,
-                            }}
-                        >
-                            <FacebookIcon/>
-                            <TwitterIcon sx={{pl: 2}}/>
-                            <InstagramIcon sx={{pl: 2}}/>
-                        </Box>
+                        {/*<Box*/}
+                        {/*    sx={{*/}
+                        {/*        mt: 4,*/}
+                        {/*        color: Colors.dove_gray,*/}
+                        {/*    }}*/}
+                        {/*>*/}
+                        {/*    <FacebookIcon/>*/}
+                        {/*    <TwitterIcon sx={{pl: 2}}/>*/}
+                        {/*    <InstagramIcon sx={{pl: 2}}/>*/}
+                        {/*</Box>*/}
                     </ProductDetailInfoWrapper>
                 </ProductDetailWrapper>
             </DialogContent>
         </Dialog>
     );
 }
+
+export default ProductDetail;

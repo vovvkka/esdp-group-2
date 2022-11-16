@@ -6,7 +6,7 @@ import {useState} from "react";
 import {clamp} from "./clamp";
 import {Colors} from "../../../styles/theme";
 
-export default function IncDec() {
+const IncDec = () =>{
     const clampV = clamp(1, 10);
     const [value, setValue] = useState(1);
 
@@ -42,3 +42,5 @@ export default function IncDec() {
         </Box>
     );
 }
+
+export default IncDec;

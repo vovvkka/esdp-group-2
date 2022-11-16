@@ -1,23 +1,19 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {
-    ExtraActionsWrapper,
     Product,
     ProductActionButton,
     ProductActionsWrapper,
     ProductAddToCart,
-    ProductFavButton,
     ProductImage,
-    ProductMetaWrapper,
-} from "../../styles/product";
-import {Stack, Tooltip, Typography} from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+} from "../../styles/styledProduct/styledProduct";
+import {Stack, Tooltip} from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import FitScreenIcon from "@mui/icons-material/FitScreen";
 import useDialogModal from "../../hooks/useDialogModal";
-import ProductDetail from "../productdetail";
+import ProductDetail from "../ProductDetail/ProductDetail";
 import ProductMeta from "./ProductMeta";
 
-export default function SingleProduct({product, matches}) {
+const SingleProductDesktop = ({product, matches}) => {
     const [ProductDetailDialog, showProductDetailDialog, closeProductDialog] =
         useDialogModal(ProductDetail);
 
@@ -32,28 +28,31 @@ export default function SingleProduct({product, matches}) {
     return (
         <>
             <Product onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                <ProductImage src={product.image}/>
-                <ProductMeta product={product} matches={matches}/>
-                <ProductActionsWrapper>
+                <ProductImage src={'http://localhost:8000/' + product.image}/>
+                {(showOptions || matches) && (
+                    <ProductAddToCart show={showOptions} variant="contained">
+                        Добавить в корзину
+                    </ProductAddToCart>
+                )}
+                <ProductActionsWrapper show={showOptions || matches}>
                     <Stack direction={matches ? "row" : "column"}>
-                        <ProductFavButton isfav={0}>
-                            <FavoriteIcon/>
-                        </ProductFavButton>
                         <ProductActionButton>
-                            <Tooltip placement="left" title="share this product">
+                            <Tooltip placement="left" title="Поделиться">
                                 <ShareIcon color="primary"/>
                             </Tooltip>
                         </ProductActionButton>
                         <ProductActionButton onClick={() => showProductDetailDialog()}>
-                            <Tooltip placement="left" title="Full view">
+                            <Tooltip placement="left" title="Перейти">
                                 <FitScreenIcon color="primary"/>
                             </Tooltip>
                         </ProductActionButton>
                     </Stack>
                 </ProductActionsWrapper>
             </Product>
-            <ProductAddToCart variant="contained">Add to cart</ProductAddToCart>
+            <ProductMeta product={product}/>
             <ProductDetailDialog product={product}/>
         </>
     );
 }
+
+export default SingleProductDesktop;

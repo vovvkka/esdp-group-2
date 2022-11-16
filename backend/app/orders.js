@@ -19,7 +19,7 @@ router.get('/', auth, permit('admin'), async (req, res) => {
 
 router.get('/:id', auth, permit('admin'), async (req, res) => {
     try {
-        const order = await Order.findById(req.params.id).populate('order.product', 'title price');
+        const order = await Order.findById(req.params.id).populate('order.styledProduct', 'title price');
 
         if (!order) {
             return res.status(404).send({message: 'Order not found!'})
