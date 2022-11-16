@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {makeStyles} from "tss-react/mui";
 import {Avatar, Container, Grid, Typography} from "@mui/material";
@@ -33,7 +33,7 @@ const useStyles = makeStyles()(theme => ({
     }
 }));
 
-const CashierForm = ({onSubmit, error}) => {
+const CashierForm = ({onSubmit, cashier, isParams, error}) => {
     const {classes} = useStyles();
     const loading = useSelector(state => state.cashiers.loading);
 
@@ -42,7 +42,15 @@ const CashierForm = ({onSubmit, error}) => {
         password: '',
         displayName: '',
         pin: '',
+        role: 'cashier'
     });
+
+    useEffect(() => {
+        if (cashier) {
+            setCashierData(cashier);
+            console.log(cashier)
+        }
+    }, [cashier]);
 
     const inputChangeHandler = (name, value) => {
         setCashierData(prev => ({...prev, [name]: value}));
@@ -74,7 +82,7 @@ const CashierForm = ({onSubmit, error}) => {
                         textAlign="center"
                         variant="h6"
                     >
-                        Добавить Кассира
+                        {isParams? 'Редактировать' : 'Добавить'} Кассира
                     </Typography>
                 </Grid>
 
@@ -94,15 +102,18 @@ const CashierForm = ({onSubmit, error}) => {
                         error={getFieldError('username')}
                     />
 
-                    <FormElement
-                        required={true}
-                        type="password"
-                        label="Пароль"
-                        name="password"
-                        value={cashierData.password}
-                        onChange={(e) => inputChangeHandler(e.target.name, e.target.value)}
-                        error={getFieldError('password')}
-                    />
+                    {
+                        isParams ? null :
+                            <FormElement
+                                required={true}
+                                type="password"
+                                label="Пароль"
+                                name="password"
+                                value={cashierData.password}
+                                onChange={(e) => inputChangeHandler(e.target.name, e.target.value)}
+                                error={getFieldError('password')}
+                            />
+                    }
 
                     <FormElement
                         required={true}
@@ -133,7 +144,7 @@ const CashierForm = ({onSubmit, error}) => {
                             color="primary"
                             className={classes.submit}
                         >
-                            Создать
+                            {isParams ? 'Сохранить' : 'Создать'}
                         </ButtonWithProgress>
                     </Grid>
                 </Grid>

@@ -14,9 +14,10 @@ import CashierOpenShift from "./containers/CashierOpenShift/CashierOpenShift";
 import AdminCashiers from "./containers/AdminCashiers/AdminCashiers";
 import MainPage from "./containers/MainPage/MainPage";
 import AdminAddCashier from "./containers/AdminAddCashier/AdminAddCashier";
+import AdminEditCashier from "./containers/AdminEditCashier/AdminEditCashier";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
-  return isAllowed ?
+    return isAllowed ?
         <Route {...props}/> :
         <Redirect to="/"/>
 };
@@ -87,15 +88,17 @@ const App = () => {
 
                 <ProtectedRoute
                     isAllowed={user}
+                    path="/admin/cashiers/edit-cashier/:id"
+                    component={AdminEditCashier}
+                />
+
+                <ProtectedRoute
+                    isAllowed={user}
                     path="/cashier/open-shift"
                     component={CashierOpenShift}
                 />
 
-                <ProtectedRoute
-                    isAllowed={!user}
-                    path="/login"
-                    component={Login}
-                />
+                <Route path="/login" component={Login}/>
 
             </Switch>
         </Layout>

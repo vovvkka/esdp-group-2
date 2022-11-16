@@ -38,6 +38,7 @@ const UserSchema = new Schema({
         required: true,
         enum: ['cashier', 'admin'],
     },
+    displayName: String
 });
 
 UserSchema.pre('save', async function(next) {
