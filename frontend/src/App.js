@@ -18,6 +18,7 @@ import AdminAddNews from "./containers/AdminAddNews/AdminAddNews";
 import AdminEditNews from "./containers/AdminEditNews/AdminEditNews";
 import AdminEditCashier from "./containers/AdminEditCashier/AdminEditCashier";
 import NewsPage from "./containers/NewsPage/NewsPage";
+import CustomerCart from "./containers/CustomerCart/CustomerCart";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ?
@@ -46,6 +47,7 @@ const App = () => {
             <Switch>
                 <Route path="/" exact component={MainPage}/>
                 <Route path="/news" exact component={NewsPage}/>
+                <Route path="/cart" exact component={CustomerCart}/>
                 <ProtectedRoute
                     isAllowed={user}
                     path="/admin"
