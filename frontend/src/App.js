@@ -45,7 +45,7 @@ const App = () => {
         <Layout>
             <Switch>
                 <Route path="/" exact component={MainPage}/>
-                <Route path="/news" e   xact component={NewsPage}/>
+                <Route path="/news" exact component={NewsPage}/>
                 <ProtectedRoute
                     isAllowed={user}
                     path="/admin"
