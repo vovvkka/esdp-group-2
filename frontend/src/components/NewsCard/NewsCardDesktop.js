@@ -5,11 +5,11 @@ import {Link} from "react-router-dom";
 
 const NewsCardDesktop = ({_id, title, image, description, createdAt}) => {
     return (
-        <Card sx={{ display: 'flex',  margin: '10px'}}>
+        <Card sx={{ display: 'flex',  margin: '10px 10px 20px 10px'}}>
                 <Box sx={{minWidth: '500px', margin: '0 20px 0 0'}}>
                     <CardMedia
                         component="img"
-                        height='200'
+                        height='auto'
                         width='400'
                         image={apiUrl + '/' + image}
                     />

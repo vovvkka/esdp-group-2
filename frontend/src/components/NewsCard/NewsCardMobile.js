@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 const NewsCardMobile = ({_id, title, image, description, createdAt}) => {
     return (
         <Card sx={{margin: '10px 0'}}>
-            <Box sx={{minWidth: '300px', margin: '0 20px 0 0'}}>
+            <Box sx={{minWidth: '300px', margin: '0 20px 20px 0'}}>
                 <CardMedia
                     component="img"
                     height='auto'
