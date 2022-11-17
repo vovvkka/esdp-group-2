@@ -1,5 +1,5 @@
 import React from 'react';
-import {ProductMetaWrapper} from "../../styles/styledProduct/styledProduct";
+import {ProductMetaWrapper} from "../../styles/Product/styledProduct";
 import {Typography} from "@mui/material";
 
 const ProductMeta = ({product, matches}) => {
