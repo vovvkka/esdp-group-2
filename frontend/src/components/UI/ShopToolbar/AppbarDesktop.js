@@ -67,6 +67,7 @@ const useStyles = makeStyles()(theme => ({
     toolbar: {
         backgroundColor: `#fff !important`,
         padding: '10px 0',
+        boxShadow: "0px 5px 15px -5px gray !important",
     },
     buttonLink: {
         color: '#000 !important',
