@@ -13,21 +13,20 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addProduct(state,action) {
-            state.products = state.products.map(product => {
-                if(product._id === action.payload){
-                    product.quantity? product.quantity++ : product.quantity=1
-                }
-            })
+            const itemInCart = state.products.find((item) => item._id === action.payload._id);
+            if (itemInCart) {
+                itemInCart.quantity++;
+            } else {
+                state.products.push({ ...action.payload, quantity: 1 });
+            }
         },
         reduceProduct(state,action) {
-            state.products = state.products.filter(product => {
-                if(product.quantity===1){
-                    return state.products = state.products.filter(product => product._id !== action.payload);
-                }
-                if(product._id === action.payload){
-                    product.quantity--;
-                }
-            })
+            const itemInCart = state.products.find((item) => item._id === action.payload);
+            if(itemInCart.quantity===1){
+                state.products = state.products.filter(product => product._id !== action.payload);
+            }else{
+                itemInCart.quantity--;
+            }
         },
         deleteProduct(state, action) {
             state.products = state.products.filter(product => product._id !== action.payload);
