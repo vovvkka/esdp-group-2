@@ -12,10 +12,12 @@ import FitScreenIcon from "@mui/icons-material/FitScreen";
 import useDialogModal from "../../hooks/useDialogModal";
 import ProductDetail from "../ProductDetail/ProductDetail";
 import ProductMeta from "./ProductMeta";
+import {useDispatch} from "react-redux";
+import {addProduct} from "../../store/slices/cartSlice";
 
 const SingleProduct = ({product, matches}) => {
-    const [ProductDetailDialog, showProductDetailDialog] =
-        useDialogModal(ProductDetail);
+    const dispatch = useDispatch();
+    const [ProductDetailDialog, showProductDetailDialog] = useDialogModal(ProductDetail);
 
     const [showOptions, setShowOptions] = useState(false);
 
@@ -37,7 +39,7 @@ const SingleProduct = ({product, matches}) => {
                                 <ShareIcon color="primary"/>
                             </Tooltip>
                         </ProductActionButton>
-                        <ProductActionButton onClick={() => showProductDetailDialog()}>
+                        <ProductActionButton onClick={() => showProductDetailDialog}>
                             <Tooltip placement="left" title="Перейти">
                                 <FitScreenIcon color="primary"/>
                             </Tooltip>
@@ -45,7 +47,7 @@ const SingleProduct = ({product, matches}) => {
                     </Stack>
                 </ProductActionsWrapper>
             </Product>
-            <ProductAddToCart variant="contained">Добавить в корзину</ProductAddToCart>
+            <ProductAddToCart variant="contained" onClick={()=>dispatch(addProduct(product))}>Добавить в корзину</ProductAddToCart>
             <ProductDetailDialog product={product}/>
         </>
     );
