@@ -1,8 +1,7 @@
-import {Box, Button, Typography} from "@mui/material";
+import {Box} from "@mui/material";
 import {styled} from "@mui/material/styles";
-import {Colors} from "../../theme";
 
-export const BannerContainer = styled(Box)(({matches, theme}) => ({
+export const BannerContainer = styled(Box)(({theme}) => ({
     display: "flex",
     justifyContent: "center",
     width: "100%",
