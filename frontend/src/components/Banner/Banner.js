@@ -1,13 +1,5 @@
-import {Button, CardMedia, Container, Typography, useMediaQuery} from "@mui/material";
-import {useTheme} from "@mui/system";
-import {
-    BannerContainer,
-    BannerContent,
-    BannerDescription,
-    BannerImage,
-    BannerShopButton,
-    BannerTitle,
-} from "../../styles/Banner/styledBanner";
+import {Typography} from "@mui/material";
+import {BannerContainer, BannerContent, BannerImage,} from "../../styles/Banner/styledBanner";
 import Carousel from 'react-material-ui-carousel'
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
@@ -16,12 +8,11 @@ import {apiUrl} from "../../config";
 
 const Banner = () => {
     const dispatch = useDispatch();
-    const theme = useTheme();
     const news = useSelector(state => state.news.news);
 
     useEffect(() => {
         dispatch(getNews());
-    }, []);
+    }, [dispatch]);
 
     return (
         <>

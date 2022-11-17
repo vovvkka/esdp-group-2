@@ -18,7 +18,7 @@ const upload = multer({storage});
 
 router.get('/', async (req, res) => {
     try {
-        const news = await News.find();
+        const news = await News.find().sort({createdAt: -1});
         res.send(news);
     } catch (e) {
         res.status(400).send(e);
