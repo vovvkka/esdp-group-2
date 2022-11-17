@@ -21,7 +21,7 @@ const useStyles = makeStyles()(theme => ({
         marginBottom: theme.spacing(6),
     },
     toolbar: {
-        backgroundColor: `${theme.palette.grey["700"]} !important`,
+        backgroundColor: `${theme.palette.grey["600"]} !important`,
         padding: '10px 0'
     }
 }));
@@ -68,7 +68,7 @@ const AppToolbar = () => {
                         </Toolbar>
                     </Container>
                 </AppBar>
-                <Toolbar className={classes.staticToolbar}/>
+                <Toolbar className={classes.staticToolbar} sx={{marginBottom: '90px'}}/>
             </>
         );
     }

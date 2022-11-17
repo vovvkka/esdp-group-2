@@ -16,6 +16,7 @@ const MainPage = () => {
                 maxWidth="xl"
                 sx={{
                     background: "#fff",
+                    marginTop: '130px'
                 }}
             >
                 <Stack>

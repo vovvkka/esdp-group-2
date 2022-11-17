@@ -24,6 +24,20 @@ const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
         <Redirect to="/"/>
 };
 
+const LoginRedirectRoute = ({user, redirectTo, ...props}) => {
+    if (!user) {
+        return <Route {...props}/>;
+    }
+
+    if (user.role === 'admin') {
+        return <Redirect to="/admin"/>;
+    }
+
+    if (user.role === 'cashier') {
+        return <Redirect to="/cashier"/>;
+    }
+};
+
 const App = () => {
     const user = useSelector(state => state.users.user);
     return (
@@ -112,8 +126,11 @@ const App = () => {
                     component={CashierOpenShift}
                 />
 
-                <Route path="/login" component={Login}/>
-
+                <LoginRedirectRoute
+                    user={user}
+                    path="/login"
+                    component={Login}
+                />
             </Switch>
         </Layout>
     );

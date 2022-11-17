@@ -1,25 +1,26 @@
-import {IconButton, List, Typography} from "@mui/material";
+import {List, Typography} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import {Box} from "@mui/system";
-import {Colors, DrawerWidth} from "../../theme";
-import {textPopUpTop} from "../../animation";
+import {Colors} from "../../theme";
 
 export const AppbarContainer = styled(Box)(() => ({
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    background: '#fff',
+    zIndex: 1000,
+    width: '100%',
     display: 'flex',
-    marginTop: 4,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '2px 8px',
+    padding: '0 8px',
+    borderBottom: '1px solid #B0B0B0FF',
 }));
 
 export const AppbarHeader = styled(Typography)(() => ({
-    padding: "4px",
     flexGrow: 1,
     fontSize: "4em",
     color: Colors.secondary,
-    "&:hover": {
-        animation: `${textPopUpTop} 0.5s cubic-bezier(0.455, 0.030, 0.515, 0.955) both`,
-    },
 }));
 
 export const ActionIconsContainerMobile = styled(Box)(() => ({
