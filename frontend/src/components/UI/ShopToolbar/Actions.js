@@ -1,4 +1,4 @@
-import {Divider, ListItemButton, ListItemIcon} from "@mui/material";
+import {Badge, Divider, ListItemButton, ListItemIcon} from "@mui/material";
 import {ActionIconsContainerDesktop, ActionIconsContainerMobile, MyList} from "../../../styles/Appbar/styledAppbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {Colors} from "../../../theme";
@@ -8,6 +8,10 @@ import {Link} from "react-router-dom";
 
 const Actions = ({matches}) => {
     const user = useSelector(state => state.users.user);
+    const cartProducts = useSelector(state => state.cart.products);
+    const amount = cartProducts.reduce((acc,value)=>{
+        return acc + value.quantity;
+    },0)
     const Component = matches ? ActionIconsContainerMobile : ActionIconsContainerDesktop;
 
     return (
@@ -27,7 +31,9 @@ const Actions = ({matches}) => {
                             color: matches && Colors.secondary,
                         }}
                     >
-                        <ShoppingCartIcon/>
+                        <Badge badgeContent={amount} color="secondary">
+                            <ShoppingCartIcon/>
+                        </Badge>
                     </ListItemIcon>
                 </ListItemButton>
                 {user?.role === 'admin' || user?.role === 'cashier' ?
