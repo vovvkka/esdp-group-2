@@ -12,8 +12,11 @@ import FitScreenIcon from "@mui/icons-material/FitScreen";
 import useDialogModal from "../../hooks/useDialogModal";
 import ProductDetail from "../ProductDetail/ProductDetail";
 import ProductMeta from "./ProductMeta";
+import {addProduct} from "../../store/slices/cartSlice";
+import {useDispatch} from "react-redux";
 
 const SingleProductDesktop = ({product, matches}) => {
+    const dispatch = useDispatch();
     const [ProductDetailDialog, showProductDetailDialog] =
         useDialogModal(ProductDetail);
 
@@ -30,7 +33,7 @@ const SingleProductDesktop = ({product, matches}) => {
             <Product onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <ProductImage src={'http://localhost:8000/' + product.image}/>
                 {(showOptions || matches) && (
-                    <ProductAddToCart show={showOptions} variant="contained">
+                    <ProductAddToCart show={showOptions} variant="contained" onClick={()=>dispatch(addProduct(product))}>
                         Добавить в корзину
                     </ProductAddToCart>
                 )}

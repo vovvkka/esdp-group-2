@@ -15,6 +15,8 @@ import styled from "@emotion/styled";
 import {Product, ProductImage} from "../../styles/Product/styledProduct";
 import {useTheme} from "@mui/material/styles";
 import IncDec from "../UI/IncDec/IncDec";
+import {addProduct} from "../../store/slices/cartSlice";
+import {useDispatch} from "react-redux";
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -35,6 +37,7 @@ const ProductDetailInfoWrapper = styled(Box)(() => ({
 const ProductDetail = ({open, onClose, product}) =>{
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
+    const dispatch = useDispatch();
     return (
         <Dialog
             TransitionComponent={SlideTransition}
@@ -80,7 +83,7 @@ const ProductDetail = ({open, onClose, product}) =>{
 
                         >
                             <IncDec/>
-                            <Button sx={matches?{marginTop:'10px'}:{marginLeft:'10px'}} variant="contained">Добавить в корзину</Button>
+                            <Button  onClick={()=>dispatch(addProduct(product))} sx={matches?{marginTop:'10px'}:{marginLeft:'10px'}} variant="contained">Добавить в корзину</Button>
                         </Box>
                         {/*<Box*/}
                         {/*    sx={{*/}

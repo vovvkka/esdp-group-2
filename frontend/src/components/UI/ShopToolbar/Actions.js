@@ -4,6 +4,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {Colors} from "../../../theme";
 import UserMenu from "../AppToolBar/Menu/UserMenu";
 import {useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 
 const Actions = ({matches}) => {
     const user = useSelector(state => state.users.user);
@@ -13,6 +14,8 @@ const Actions = ({matches}) => {
         <Component>
             <MyList type="row">
                 <ListItemButton
+                    component={Link}
+                    to={'/cart'}
                     sx={{
                         justifyContent: "center",
                     }}
