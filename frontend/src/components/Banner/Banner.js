@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getNews} from "../../store/actions/newsActions";
 import {apiUrl} from "../../config";
+import {Link} from "react-router-dom";
 
 const Banner = () => {
     const dispatch = useDispatch();
@@ -18,10 +19,10 @@ const Banner = () => {
         <>
             <Carousel>
                 {news.map(post => (
-                    <BannerContainer key={post._id}>
+                    <BannerContainer key={post._id} component={Link} to={'/news/' + post._id} sx={{textDecoration: 'none'}}>
                         <BannerImage src={`${apiUrl}/${post.image}`}/>
-                        <BannerContent>
-                            <Typography variant='h4' sx={{fontWeight: 'bold'}}>
+                        <BannerContent sx={{color: "black"}}>
+                            <Typography variant='h4' sx={{fontWeight: 'bold'}} >
                                 {post.title}
                             </Typography>
 
