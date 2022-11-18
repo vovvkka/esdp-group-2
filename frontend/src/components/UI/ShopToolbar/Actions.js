@@ -1,4 +1,4 @@
-import {Badge, Divider, ListItemButton, ListItemIcon} from "@mui/material";
+import {Badge, ListItemButton, ListItemIcon} from "@mui/material";
 import {ActionIconsContainerDesktop, ActionIconsContainerMobile, MyList} from "../../../styles/Appbar/styledAppbar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {Colors} from "../../../theme";
@@ -38,7 +38,6 @@ const Actions = ({matches}) => {
                 </ListItemButton>
                 {user?.role === 'admin' || user?.role === 'cashier' ?
                     <>
-                        <Divider orientation="vertical" flexItem/>
                         <ListItemButton
                             sx={{
                                 justifyContent: "center",
@@ -54,7 +53,6 @@ const Actions = ({matches}) => {
                                 <UserMenu user={user}/>
                             </ListItemIcon>
                         </ListItemButton>
-                        <Divider orientation="vertical" flexItem/>
                     </>
                     : null
                 }
