@@ -15,7 +15,7 @@ const ProductsSchema = new Schema({
         ref: 'Product',
         required: true,
     },
-    amount: {
+    quantity: {
         type: Number,
         min: 1,
     },
@@ -29,10 +29,6 @@ const OrderSchema  = new Schema({
     phone: {
         type: String,
         required: true,
-        validate: {
-            validator: validatePhone,
-            message: 'Неправильный формат номера!',
-        },
     },
     address: {
         type: String,

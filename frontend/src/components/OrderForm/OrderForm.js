@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import FormElement from "../UI/Form/FormElement/FormElement";
-import {Button, Grid, TextField} from "@mui/material";
+import {Button, Grid} from "@mui/material";
 
 const OrderForm = ({onSubmit, error}) => {
     const [state, setState] = useState({
@@ -8,9 +8,7 @@ const OrderForm = ({onSubmit, error}) => {
         phone: "",
         address: "",
     });
-    const [productState, setProductState] = useState([
-        { product: '', amount: ''},
-    ]);
+
     const getFieldError = fieldName => {
         try {
             return error.error[fieldName].message;
@@ -20,7 +18,9 @@ const OrderForm = ({onSubmit, error}) => {
     };
     const onSubmitHandler = e => {
         e.preventDefault();
-        onSubmit({...state});
+        if (state.customer && state.phone && state.address) {
+            onSubmit({...state});
+        }
     };
 
     const inputChangeHandler = e => {
@@ -31,21 +31,7 @@ const OrderForm = ({onSubmit, error}) => {
         });
     };
 
-    const inputChangeProductHandler = (e, index) => {
-        const {name, value} = e.target;
-        setProductState(prev => {
-            const productCopy = {
-                ...prev[index],
-                [name]: value
-            };
-            return prev.map((product, i) => {
-                if (index === i) {
-                    return productCopy;
-                }
-                return product;
-            });
-        });
-    };
+
     return (
         <form
             autoComplete="off"
@@ -61,54 +47,30 @@ const OrderForm = ({onSubmit, error}) => {
             >
 
                 <FormElement
-                    label="Ваше Имя"
+                    label="Ваше имя"
                     onChange={inputChangeHandler}
                     value={state.customer}
                     name="customer"
                     error={getFieldError('customer')}
+                    required
                 />
-                <Grid item>
-                    {productState.map((ing, index) => (
-                        <div key={index}>
-                            <TextField
-                                label='Product Name'
-                                onChange={e => inputChangeProductHandler(e, index)}
-                                value={productState.product}
-                                name="product"
-                                error={getFieldError('product')}
-                                fullWidth={false}
-                                sx={{margin: '10px'}}
-                            />
-
-                            <TextField
-                                type="number"
-                                label='Amount'
-                                onChange={e => inputChangeProductHandler(e, index)}
-                                value={productState.amount}
-                                name="amount"
-                                error={getFieldError('amount')}
-                                fullWidth={false}
-                                sx={{margin: '10px'}}
-                            />
-
-                        </div>
-                    ))}
-                </Grid>
 
                 <FormElement
-                    type="number"
-                    label="Ваш Телефон"
+                    type="phone"
+                    label="Ваш телефон"
                     onChange={inputChangeHandler}
                     value={state.phone}
                     name="phone"
                     error={getFieldError('phone')}
+                    required
                 />
                 <FormElement
-                    label="Ваш Адрес"
+                    label="Ваш адрес"
                     onChange={inputChangeHandler}
                     value={state.address}
                     name="address"
                     error={getFieldError('address')}
+                    required
                 />
 
                 <Grid item>
