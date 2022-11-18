@@ -31,7 +31,7 @@ const SingleProductDesktop = ({product, matches}) => {
     return (
         <>
             <Product onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                <ProductImage src={'http://localhost:8000/' + product.image}/>
+                <ProductImage desktop={true} src={'http://localhost:8000/' + product.image}/>
                 {(showOptions || matches) && (
                     <ProductAddToCart show={showOptions} variant="contained" onClick={()=>dispatch(addProduct(product))}>
                         Добавить в корзину

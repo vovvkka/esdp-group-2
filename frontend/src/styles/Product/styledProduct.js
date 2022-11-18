@@ -15,10 +15,10 @@ export const Product = styled(Box)(({theme}) => ({
 
 }));
 
-export const ProductImage = styled("img")(({src, theme}) => ({
+export const ProductImage = styled("img")(({src, desktop, theme}) => ({
     src: `url(${src})`,
     width: "250px",
-    height: "295px",
+    height: desktop? '295px' : 'auto',
     background: Colors.light_gray,
     padding: '10px',
     [theme.breakpoints.down("md")]: {
