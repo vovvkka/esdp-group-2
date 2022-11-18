@@ -17,6 +17,7 @@ import {useTheme} from "@mui/material/styles";
 import IncDec from "../UI/IncDec/IncDec";
 import {addProduct} from "../../store/slices/cartSlice";
 import {useDispatch} from "react-redux";
+import {addNotification} from "../../store/actions/notifierActions";
 
 function SlideTransition(props) {
     return <Slide direction="down" {...props} />;
@@ -34,10 +35,16 @@ const ProductDetailInfoWrapper = styled(Box)(() => ({
     lineHeight: 1.5,
 }));
 
-const ProductDetail = ({open, onClose, product}) =>{
+const ProductDetail = ({open, onClose, product}) => {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
     const dispatch = useDispatch();
+
+    const onAddToCart = product => {
+        dispatch(addNotification(`Добавлено.`, 'success', {autoClose: 1000}));
+        dispatch(addProduct(product));
+    };
+
     return (
         <Dialog
             TransitionComponent={SlideTransition}
@@ -63,7 +70,7 @@ const ProductDetail = ({open, onClose, product}) =>{
             </DialogTitle>
             <DialogContent>
                 <ProductDetailWrapper display={"flex"} flexDirection={matches ? "column" : "row"}>
-                    <Product sx={!matches? {flexBasis: '35%', mr: 4}: {flexBasis: '50%', mb: 4}} >
+                    <Product sx={!matches ? {flexBasis: '35%', mr: 4} : {flexBasis: '50%', mb: 4}}>
                         <ProductImage src={'http://localhost:8000/' + product.image}/>
                     </Product>
                     <ProductDetailInfoWrapper>
@@ -83,18 +90,14 @@ const ProductDetail = ({open, onClose, product}) =>{
 
                         >
                             <IncDec/>
-                            <Button  onClick={()=>dispatch(addProduct(product))} sx={matches?{marginTop:'10px'}:{marginLeft:'10px'}} variant="contained">Добавить в корзину</Button>
+                            <Button
+                                onClick={() => onAddToCart(product)}
+                                sx={matches ? {marginTop: '10px'} : {marginLeft: '10px'}}
+                                variant="contained"
+                            >
+                                Добавить в корзину
+                            </Button>
                         </Box>
-                        {/*<Box*/}
-                        {/*    sx={{*/}
-                        {/*        mt: 4,*/}
-                        {/*        color: Colors.dove_gray,*/}
-                        {/*    }}*/}
-                        {/*>*/}
-                        {/*    <FacebookIcon/>*/}
-                        {/*    <TwitterIcon sx={{pl: 2}}/>*/}
-                        {/*    <InstagramIcon sx={{pl: 2}}/>*/}
-                        {/*</Box>*/}
                     </ProductDetailInfoWrapper>
                 </ProductDetailWrapper>
             </DialogContent>
