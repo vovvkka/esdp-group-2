@@ -34,6 +34,10 @@ const OrderSchema  = new Schema({
             message: 'Неправильный формат номера!',
         },
     },
+    address: {
+        type: String,
+        required: true,
+    },
     order: [ProductsSchema],
     status: {
         type: String,

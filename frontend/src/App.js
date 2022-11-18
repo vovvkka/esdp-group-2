@@ -18,6 +18,7 @@ import AdminAddNews from "./containers/AdminAddNews/AdminAddNews";
 import AdminEditNews from "./containers/AdminEditNews/AdminEditNews";
 import AdminEditCashier from "./containers/AdminEditCashier/AdminEditCashier";
 import NewsPage from "./containers/NewsPage/NewsPage";
+import AddOrderProduct from "./containers/AddOrderProduct/AddOrderProduct";
 import CustomerCart from "./containers/CustomerCart/CustomerCart";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
@@ -129,6 +130,7 @@ const App = () => {
                     path="/cashier/open-shift"
                     component={CashierOpenShift}
                 />
+                <Route path="/order-place" component={AddOrderProduct}/>
 
                 <LoginRedirectRoute
                     user={user}
