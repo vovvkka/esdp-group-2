@@ -32,8 +32,8 @@ router.get('/:id', auth, permit('admin'), async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const {customer, phone, products, address} = req.body;
-    if (!req.body.customer || !req.phone || !req.body.address || !req.products.length) res
+    const {customer, phone, order, address} = req.body;
+    if (!customer || !phone || !address || !order.length) res
         .status(400)
         .send({error: 'Data not valid'});
 
@@ -41,8 +41,10 @@ router.post('/', async (req, res) => {
         customer,
         phone,
         address,
-        products: products,
+        order
     };
+
+    console.log('here')
     try {
         const order = new Order(orderData);
         await order.save();

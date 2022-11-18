@@ -42,6 +42,9 @@ const cartSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        clearCart(state) {
+            state.products = [];
+        }
     }
 });
 
@@ -52,6 +55,7 @@ export const {
     createOrderRequest,
     createOrderSuccess,
     createOrderFailure,
+    clearCart,
 } = cartSlice.actions;
 
 export default cartSlice;

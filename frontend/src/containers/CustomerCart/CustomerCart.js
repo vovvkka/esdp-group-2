@@ -1,12 +1,13 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Avatar, Grid, IconButton, Typography, useMediaQuery} from "@mui/material";
+import {Avatar, Button, Grid, IconButton, Typography, useMediaQuery} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import {Box} from "@mui/system";
 import theme from "../../theme";
 import {addProduct, deleteProduct, reduceProduct} from "../../store/slices/cartSlice";
+import {Link} from "react-router-dom";
 
 const CustomerCart = () => {
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const CustomerCart = () => {
     const total = products.reduce((acc,value)=>{
         return acc + value.price*value.quantity;
     },0)
+
     return (
         <Grid>
             <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">
@@ -69,6 +71,10 @@ const CustomerCart = () => {
                         </IconButton>
                     </Box>
                 </Grid>)}
+
+            {products.length ? <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                <Button variant='contained' size='large' component={Link} to='/order-place'>Оформить заказ</Button>
+            </Box> : null}
             <Box sx={{display:'flex'}}>
                 {products.length? <Typography sx={{mt: 2, mb: 2, ml:'auto'}} variant="h6" component="div">
                     Общая сумма {total} с.

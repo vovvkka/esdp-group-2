@@ -6,9 +6,13 @@ import {addOrder} from "../../store/actions/orderActions";
 
 const AddOrderProduct = () => {
     const errors = useSelector(state => state.orders.createError);
+    const products = useSelector(state => state.cart.products);
     const dispatch = useDispatch();
-    const addOrderData = async albumData => {
-        await dispatch(addOrder(albumData));
+
+    const addOrderData = async customerData => {
+        const order = products.map(product => ({product: product._id, quantity: product.quantity}));
+        const orderObj = {...customerData, order};
+        await dispatch(addOrder(orderObj));
     };
     return (
         <>
