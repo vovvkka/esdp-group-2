@@ -4,8 +4,11 @@ const name = 'news';
 
 export const initialState = {
     news: [],
+    oneNews: null,
     loading: false,
     error: null,
+    singleError: null,
+    singleLoading: false,
 };
 
 const newsSlice = createSlice({
@@ -24,6 +27,18 @@ const newsSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        getOneNewsRequest(state) {
+            state.loading = true;
+            state.singleError = null;
+        },
+        getOneNewsSuccess(state, action) {
+            state.sinleLoading = false;
+            state.oneNews = action.payload;
+        },
+        getOneNewsFailure(state, action) {
+            state.sinleLoading = false;
+            state.singleError = action.payload;
+        },
     }
 });
 
@@ -31,6 +46,9 @@ export const {
     getNewsRequest,
     getNewsSuccess,
     getNewsFailure,
+    getOneNewsRequest,
+    getOneNewsSuccess,
+    getOneNewsFailure,
 } = newsSlice.actions;
 
 export default newsSlice;
