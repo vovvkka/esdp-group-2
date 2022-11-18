@@ -13,6 +13,9 @@ const CustomerCart = () => {
     const dispatch = useDispatch();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
     const products = useSelector(state => state.cart.products);
+    const total = products.reduce((acc,value)=>{
+        return acc + value.price*value.quantity;
+    },0)
 
     return (
         <Grid>
@@ -27,14 +30,16 @@ const CustomerCart = () => {
                       direction={matches ? 'column' : 'row'}
                       sx={{marginBottom: '10px', padding: '10px', backgroundColor: '#afeee23d', borderRadius: '5px'}}
                       key={product._id}>
-                    <Box sx={{display: 'flex', alignItems: 'center', flexBasis: '50%', flexGrow: 1}}><Avatar
+                    <Box sx={{display: 'flex', alignItems: 'center', flexBasis: '50%', flexGrow: 1}}>
+                        <Avatar
                         alt={product.title}
                         src={'http://localhost:8000/' + product.image}
-                        sx={{width: 56, height: 56, marginRight: '10px'}}
+                        sx={{width: 56, height: 56, marginRight:'10px'}}
                     />
-                        <Typography variant="body1" component="div">
-                            {product.title}
-                        </Typography>
+                    <Typography variant="body1" component="div">
+                                {product.title}
+                            </Typography>
+
                     </Box>
                     <Box sx={matches ? {
                             display: 'flex',
@@ -44,6 +49,9 @@ const CustomerCart = () => {
                             marginTop: '10px'
                         }
                         : {display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexGrow: 1}}>
+                        <Typography variant="body1" component="div">
+                            {product.price} с.
+                        </Typography>
                         <Box sx={{display: 'flex', alignItems: 'center'}}>
                             <IconButton onClick={()=>dispatch(reduceProduct(product._id))}>
                                 <RemoveIcon/>
@@ -55,14 +63,23 @@ const CustomerCart = () => {
                                 <AddIcon/>
                             </IconButton>
                         </Box>
+                        <Typography variant="body1" component="div">
+                            {product.price*product.quantity} с.
+                        </Typography>
                         <IconButton onClick={()=>dispatch(deleteProduct(product._id))}>
                             <DeleteIcon/>
                         </IconButton>
                     </Box>
                 </Grid>)}
+
             {products.length ? <Box sx={{display: 'flex', justifyContent: 'center'}}>
                 <Button variant='contained' size='large' component={Link} to='/order-place'>Оформить заказ</Button>
             </Box> : null}
+            <Box sx={{display:'flex'}}>
+                {products.length? <Typography sx={{mt: 2, mb: 2, ml:'auto'}} variant="h6" component="div">
+                    Общая сумма {total} с.
+                </Typography>:null}
+            </Box>
         </Grid>
     );
 };

@@ -20,6 +20,7 @@ import AdminEditCashier from "./containers/AdminEditCashier/AdminEditCashier";
 import NewsPage from "./containers/NewsPage/NewsPage";
 import AddOrderProduct from "./containers/AddOrderProduct/AddOrderProduct";
 import CustomerCart from "./containers/CustomerCart/CustomerCart";
+import NewsInfo from "./containers/NewsInfo/NewsInfo";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ?
@@ -131,6 +132,8 @@ const App = () => {
                     component={CashierOpenShift}
                 />
                 <Route path="/order-place" component={AddOrderProduct}/>
+                <Route path="/news/:id" component={NewsInfo}/>
+
 
                 <LoginRedirectRoute
                     user={user}
