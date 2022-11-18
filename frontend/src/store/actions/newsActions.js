@@ -8,7 +8,7 @@ export const getNews = () => {
             const response = await axiosApi('/news');
             dispatch(getNewsSuccess(response.data));
         } catch (e) {
-            dispatch(getNews(getNewsFailure(e)));
+            dispatch(getNewsFailure(e));
         }
     }
 };
