@@ -1,6 +1,7 @@
 import axiosApi from "../../axiosApi";
 import {loginFailure, loginRequest, loginSuccess, logoutRequest, logoutSuccess} from "../slices/usersSlice";
 import {historyPush} from "./historyActions";
+import {addNotification} from "./notifierActions";
 
 export const loginUser = userData => {
     return async dispatch => {
@@ -11,7 +12,7 @@ export const loginUser = userData => {
 
             dispatch(loginSuccess(response.data.user));
 
-            console.log(response.data.user)
+            dispatch(addNotification('Login successful!', 'success'));
 
             if (response.data.user?.role === 'admin') {
                 return dispatch(historyPush('/admin'));

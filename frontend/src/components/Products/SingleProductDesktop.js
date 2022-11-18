@@ -14,6 +14,7 @@ import ProductDetail from "../ProductDetail/ProductDetail";
 import ProductMeta from "./ProductMeta";
 import {addProduct} from "../../store/slices/cartSlice";
 import {useDispatch} from "react-redux";
+import {addNotification} from "../../store/actions/notifierActions";
 
 const SingleProductDesktop = ({product, matches}) => {
     const dispatch = useDispatch();
@@ -28,12 +29,18 @@ const SingleProductDesktop = ({product, matches}) => {
     const handleMouseLeave = () => {
         setShowOptions(false);
     };
+
+    const onAddToCart = product => {
+        dispatch(addNotification(`Добавлено.`,'success', {autoClose: 1000}));
+        dispatch(addProduct(product));
+    };
+
     return (
         <>
             <Product onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <ProductImage desktop={true} src={'http://localhost:8000/' + product.image}/>
                 {(showOptions || matches) && (
-                    <ProductAddToCart show={showOptions} variant="contained" onClick={()=>dispatch(addProduct(product))}>
+                    <ProductAddToCart show={showOptions} variant="contained" onClick={() => onAddToCart(product)}>
                         Добавить в корзину
                     </ProductAddToCart>
                 )}
