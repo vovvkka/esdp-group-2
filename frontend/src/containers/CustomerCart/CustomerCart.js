@@ -12,15 +12,16 @@ import {Link} from "react-router-dom";
 const CustomerCart = () => {
     const dispatch = useDispatch();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
+    const matchesMd = useMediaQuery(theme.breakpoints.down('md'));
     const products = useSelector(state => state.cart.products);
     const total = products.reduce((acc,value)=>{
         return acc + value.price*value.quantity;
     },0)
 
     return (
-        <Grid>
+        <Grid marginTop={matchesMd ? "180px" : 0} marginBottom={matchesMd ? "50px" : 0}>
             <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">
-                {products.length?'Моя корзина':'Корзина пуста'}
+                {products.length ? 'Моя корзина' : 'Корзина пуста'}
             </Typography>
 
             {products.map(product =>
@@ -59,27 +60,28 @@ const CustomerCart = () => {
                             <Typography variant="body1" component="div">
                                 {product.quantity}
                             </Typography>
-                            <IconButton onClick={()=>dispatch(addProduct(product))}>
+                            <IconButton onClick={() => dispatch(addProduct(product))}>
                                 <AddIcon/>
                             </IconButton>
                         </Box>
                         <Typography variant="body1" component="div">
-                            {product.price*product.quantity} с.
+                            {product.price * product.quantity} с.
                         </Typography>
-                        <IconButton onClick={()=>dispatch(deleteProduct(product._id))}>
+                        <IconButton onClick={() => dispatch(deleteProduct(product._id))}>
                             <DeleteIcon/>
                         </IconButton>
                     </Box>
                 </Grid>)}
 
+            <Box sx={{display: 'flex'}}>
+                {products.length ? <Typography sx={{mt: 2, mb: 2, ml: 'auto'}} variant="h6" component="div">
+                    Общая сумма {total} с.
+                </Typography> : null}
+            </Box>
+
             {products.length ? <Box sx={{display: 'flex', justifyContent: 'center'}}>
                 <Button variant='contained' size='large' component={Link} to='/order-place'>Оформить заказ</Button>
             </Box> : null}
-            <Box sx={{display:'flex'}}>
-                {products.length? <Typography sx={{mt: 2, mb: 2, ml:'auto'}} variant="h6" component="div">
-                    Общая сумма {total} с.
-                </Typography>:null}
-            </Box>
         </Grid>
     );
 };

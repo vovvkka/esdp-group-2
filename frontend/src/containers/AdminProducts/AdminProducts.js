@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {Link, Redirect} from "react-router-dom";
 import MUIDataTable from "mui-datatables";
 import {deleteProduct, fetchProductsTable} from "../../store/actions/productsActions";
-import Spinner from "../../components/UI/Spinner/Spinner";
 import EditSharpIcon from "@mui/icons-material/EditSharp";
 import DeleteForeverSharpIcon from "@mui/icons-material/DeleteForeverSharp";
 import {fetchCategories} from "../../store/actions/categoriesActions";
@@ -15,9 +14,7 @@ const AdminProducts = () => {
     const products = useSelector(state => state.products.products);
     const productsTable = useSelector(state => state.products.productsTable);
     const categories = useSelector(state => state.categories.categories);
-    const loading = useSelector(state => state.products.fetchLoading);
     const user = useSelector(state => state.users.user);
-
     const asd = categories.map(category => category.title);
 
     const columns = [
@@ -159,7 +156,11 @@ const AdminProducts = () => {
     };
 
     const onSearch = value => {
-        dispatch(fetchProductsTable('?key=' + value));
+        if (value) {
+            dispatch(fetchProductsTable('?key=' + value));
+        } else {
+            dispatch(fetchProductsTable());
+        }
     };
 
 
@@ -186,12 +187,6 @@ const AdminProducts = () => {
             changedColumn.filterList = filterList
         },
 
-        onFilterDialogOpen: () => {
-            console.log('filter dialog opened');
-        },
-        onFilterDialogClose: () => {
-            console.log('filter dialog closed');
-        },
         onFilterChange: (changedColumn, filterList) => {
             changedColumn.filterList = filterList
         },
@@ -207,6 +202,7 @@ const AdminProducts = () => {
                     dispatch(fetchProductsTable(`?page=${tableState.page + 1}`));
                     break;
                 case 'search':
+                    console.log(tableState.searchText);
                     onSearch(tableState.searchText);
                     break;
                 default:
@@ -222,16 +218,14 @@ const AdminProducts = () => {
                 <Button variant='contained' component={Link} to='/admin/products/add-new-product'>Добавить</Button>
             </Grid>
 
-            {loading ? <Spinner/>:
                 <Box>
                     <MUIDataTable
                         title={"Список товаров"}
-                        data={productsTable.docs || []}
                         columns={columns}
                         options={options}
+                        data={productsTable.docs}
                     />
                 </Box>
-            }
 
         </Box>
     );

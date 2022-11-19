@@ -23,7 +23,7 @@ const NewsPage = () => {
                 maxWidth="lg"
                 sx={{
                     background: "#fff",
-                    marginTop: '130px'
+                    marginTop: matches ? "150px" : 0
                 }}
             >
                 <Stack>

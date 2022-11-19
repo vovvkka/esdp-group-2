@@ -1,14 +1,14 @@
 import React from 'react';
 import theme from "../../theme";
-import {Container, Stack, Typography, Box} from "@mui/material";
+import {Container, Stack, Typography, Box, useMediaQuery} from "@mui/material";
 import {UIProvider} from "../../context/ui";
 import Banner from "../../components/Banner/Banner";
 import {ThemeProvider} from "@mui/system";
 import Products from "../../components/Products/Products";
-import Footer from "../../components/Footer/Footer";
-import AppDrawer from "../../components/Drawer/Drawer";
 
 const MainPage = () => {
+    const matches = useMediaQuery(theme.breakpoints.down('md'));
+
     return (
         <ThemeProvider theme={theme}>
             <Container
@@ -16,7 +16,7 @@ const MainPage = () => {
                 maxWidth="xl"
                 sx={{
                     background: "#fff",
-                    marginTop: '130px'
+                    marginTop: matches ? '200px' : 0
                 }}
             >
                 <Stack>
@@ -26,8 +26,6 @@ const MainPage = () => {
                             <Typography variant="h4">Наши товары</Typography>
                         </Box>
                         <Products/>
-                        <Footer/>
-                        <AppDrawer/>
                     </UIProvider>
                 </Stack>
             </Container>
