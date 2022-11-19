@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {makeStyles} from "tss-react/mui";
-import {Alert, Container, Grid, Typography} from "@mui/material";
+import {Alert, Container, Grid, Typography, useMediaQuery} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {loginUser} from "../../store/actions/usersActions";
 import FormElement from "../../components/UI/Form/FormElement/FormElement";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
+import theme from "../../theme";
 
 const useStyles = makeStyles()(theme => ({
     paper: {
@@ -30,7 +31,8 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 const Login = () => {
-    const { classes } = useStyles();
+    const {classes} = useStyles();
+    const matches = useMediaQuery(theme.breakpoints.down('md'));
 
     const dispatch = useDispatch();
     const error = useSelector(state => state.users.loginError);
@@ -53,7 +55,7 @@ const Login = () => {
     };
 
     return (
-        <Container maxWidth="xs" sx={{marginTop: '300px'}}>
+        <Container maxWidth="xs" sx={{marginTop: matches ? '200px' : '0'}}>
             <div className={classes.paper}>
                 <Typography component="h1" variant="h6">
                     Войти
