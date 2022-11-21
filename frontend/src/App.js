@@ -1,5 +1,6 @@
 import React from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
+import {useSelector} from "react-redux";
 import Layout from "./components/UI/Layout/Layout";
 import Login from "./containers/Login/Login";
 import AdminAddCategory from "./containers/AdminAddCategory/AdminAddCategory";
@@ -9,7 +10,6 @@ import AdminCategories from "./containers/AdminCategories/AdminCategories";
 import AdminEditCategory from "./containers/AdminEditCategory/AdminEditCategory";
 import AdminPanel from "./containers/AdminPanel/AdminPanel";
 import AdminProducts from "./containers/AdminProducts/AdminProducts";
-import {useSelector} from "react-redux";
 import CashierOpenShift from "./containers/CashierOpenShift/CashierOpenShift";
 import AdminCashiers from "./containers/AdminCashiers/AdminCashiers";
 import MainPage from "./containers/MainPage/MainPage";

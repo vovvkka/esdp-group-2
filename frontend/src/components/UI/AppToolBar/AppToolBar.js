@@ -55,7 +55,7 @@ const AppToolbar = () => {
                                             component="img"
                                             sx={{
                                                 height: 'auto',
-                                                width: 130,
+                                                width: 100,
                                             }}
                                             alt="Tay Tay logo"
                                             src={logo}

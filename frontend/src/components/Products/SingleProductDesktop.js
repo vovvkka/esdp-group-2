@@ -8,18 +8,14 @@ import {
 } from "../../styles/Product/styledProduct";
 import {Stack, Tooltip} from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
-import FitScreenIcon from "@mui/icons-material/FitScreen";
-import useDialogModal from "../../hooks/useDialogModal";
-import ProductDetail from "../ProductDetail/ProductDetail";
 import ProductMeta from "./ProductMeta";
 import {addProduct} from "../../store/slices/cartSlice";
 import {useDispatch} from "react-redux";
 import {addNotification} from "../../store/actions/notifierActions";
+import {apiUrl} from "../../config";
 
 const SingleProductDesktop = ({product, matches}) => {
     const dispatch = useDispatch();
-    const [ProductDetailDialog, showProductDetailDialog] =
-        useDialogModal(ProductDetail);
 
     const [showOptions, setShowOptions] = useState(false);
 
@@ -38,7 +34,7 @@ const SingleProductDesktop = ({product, matches}) => {
     return (
         <>
             <Product onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                <ProductImage desktop={true} src={'http://localhost:8000/' + product.image}/>
+                <ProductImage desktop={true} src={apiUrl + '/' + product.image}/>
                 {(showOptions || matches) && (
                     <ProductAddToCart show={showOptions} variant="contained" onClick={() => onAddToCart(product)}>
                         Добавить в корзину
@@ -51,16 +47,10 @@ const SingleProductDesktop = ({product, matches}) => {
                                 <ShareIcon color="primary"/>
                             </Tooltip>
                         </ProductActionButton>
-                        <ProductActionButton onClick={() => showProductDetailDialog()}>
-                            <Tooltip placement="left" title="Перейти">
-                                <FitScreenIcon color="primary"/>
-                            </Tooltip>
-                        </ProductActionButton>
                     </Stack>
                 </ProductActionsWrapper>
             </Product>
             <ProductMeta product={product}/>
-            <ProductDetailDialog product={product}/>
         </>
     );
 }
