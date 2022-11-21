@@ -4,13 +4,26 @@ import theme, {Colors} from "../../theme";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import {FooterTitle} from "../../styles/Footer/styledFooter";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
+import {useEffect, useState} from "react";
 
 const Footer = () => {
+    const location = useLocation();
     const matches = useMediaQuery(theme.breakpoints.down('md'));
 
+    const [isUser, setIsUser] = useState(true);
+
+
+    useEffect(() => {
+        if (location.pathname.includes('admin') || location.pathname.includes('cashier') || location.pathname.includes('login')) {
+            setIsUser(false);
+        } else {
+            setIsUser(true);
+        }
+    }, [location.pathname]);
+
     return (
-        <Box
+        isUser?<Box
             sx={{
                 background: Colors.shaft,
                 color: Colors.white,
@@ -62,7 +75,7 @@ const Footer = () => {
                     </List>
                 </Grid>
             </Grid>
-        </Box>
+        </Box>:null
     );
 };
 
