@@ -1,4 +1,4 @@
-import {Container, Grid} from "@mui/material";
+import {Container, Grid, Typography} from "@mui/material";
 import SingleProduct from "./SingleProduct";
 import {useTheme} from "@mui/material/styles";
 import {useMediaQuery} from "@mui/material";
@@ -16,7 +16,7 @@ const Products = () => {
         dispatch(fetchProducts());
     },[dispatch]);
 
-    const renderProducts = products.map((product) => (
+    const renderProducts = products.length > 0 ? products.map((product) => (
         <Grid item key={product._id} xs={2} sm={4} md={4} display="flex" flexDirection={'column'} alignItems="center">
             {matches ? (
                 <SingleProduct product={product} matches={matches}/>
@@ -24,7 +24,7 @@ const Products = () => {
                 <SingleProductDesktop product={product} matches={matches}/>
             )}
         </Grid>
-    ));
+    )) : <Typography>Товар не найден</Typography>
     return (
         <Container>
             <Grid

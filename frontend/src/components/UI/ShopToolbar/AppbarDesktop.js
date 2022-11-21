@@ -17,6 +17,8 @@ import logo from "../../../assets/logo.png";
 import {Link} from "react-router-dom";
 import React from "react";
 import {makeStyles} from "tss-react/mui";
+import {fetchProducts} from "../../../store/actions/productsActions";
+import {useDispatch} from "react-redux";
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -86,6 +88,16 @@ const useStyles = makeStyles()(theme => ({
 
 const AppbarDesktop = ({matches}) => {
     const {classes} = useStyles();
+    const dispatch = useDispatch();
+
+    const onSearch = (e) => {
+        console.log(e.target.value);
+        if (e.target.value) {
+            dispatch(fetchProducts('?search=' + e.target.value));
+        } else {
+            dispatch(fetchProducts());
+        }
+    };
 
     return (
         <>
@@ -120,7 +132,7 @@ const AppbarDesktop = ({matches}) => {
                             </Grid>
 
                             <Grid item display="flex" alignItems="center" sx={{width: '300px !important'}}>
-                                <Search sx={{border: '1px solid black'}}>
+                                <Search sx={{border: '1px solid black'}} onChange={(e) => onSearch(e)}>
                                     <SearchIconWrapper>
                                         <SearchIcon/>
                                     </SearchIconWrapper>
