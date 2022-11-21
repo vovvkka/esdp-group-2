@@ -1,22 +1,29 @@
-import {Container, Grid} from "@mui/material";
-import SingleProduct from "./SingleProduct";
-import {useTheme} from "@mui/material/styles";
-import {useMediaQuery} from "@mui/material";
-import SingleProductDesktop from "./SingleProductDesktop";
+import {Box, Container, Grid} from "@mui/material";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
-import {fetchProducts} from "../../store/actions/productsActions";
+import {useMediaQuery} from "@mui/material";
+import {useTheme} from "@mui/material/styles";
+import Pagination from '@mui/material/Pagination';
+import SingleProduct from "./SingleProduct";
+import SingleProductDesktop from "./SingleProductDesktop";
+import {fetchProductsTable} from "../../store/actions/productsActions";
 
 const Products = () => {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
-    const products = useSelector(state=>state.products.products);
+    const products = useSelector(state => state.products.productsTable);
+    const [currentPage, setCurrentPage] = useState(1);
     const dispatch = useDispatch();
-    useEffect(()=>{
-        dispatch(fetchProducts());
-    },[dispatch]);
 
-    const renderProducts = products.map((product) => (
+    useEffect(() => {
+        dispatch(fetchProductsTable(`?page=${currentPage}`));
+    }, [dispatch, currentPage]);
+
+    const handleChange = (event, value) => {
+        setCurrentPage(value);
+    };
+
+    const renderProducts = products?.docs?.map((product) => (
         <Grid item key={product._id} xs={2} sm={4} md={4} display="flex" flexDirection={'column'} alignItems="center">
             {matches ? (
                 <SingleProduct product={product} matches={matches}/>
@@ -25,6 +32,7 @@ const Products = () => {
             )}
         </Grid>
     ));
+
     return (
         <Container>
             <Grid
@@ -36,6 +44,9 @@ const Products = () => {
             >
                 {renderProducts}
             </Grid>
+            <Box display='flex' justifyContent='center' paddingY='10px'>
+                <Pagination count={products.pages} page={currentPage} onChange={handleChange} color="secondary"/>
+            </Box>
         </Container>
     );
 }
