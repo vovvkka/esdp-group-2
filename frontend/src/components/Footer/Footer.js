@@ -35,10 +35,10 @@ const Footer = () => {
                             mt: 4,
                         }}
                     >
-                        <a href={'https://wa.me/996555911343'}>
+                        <a href={'https://wa.me/996555911343'} rel="noreferrer" target="_blank">
                             <WhatsAppIcon sx={{mr: 1, color: Colors.dove_gray}}/>
                         </a>
-                        <a href={'https://instagram.com/tay_tay_karakol?igshid=YmMyMTA2M2Y='}>
+                        <a href={'https://instagram.com/tay_tay_karakol?igshid=YmMyMTA2M2Y='} rel="noreferrer" target="_blank">
                             <InstagramIcon sx={{color: Colors.dove_gray}}/>
                         </a>
 
