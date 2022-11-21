@@ -60,7 +60,7 @@ const CustomerCart = () => {
                             <Typography variant="body1" component="div">
                                 {product.quantity}
                             </Typography>
-                            <IconButton onClick={() => dispatch(addProduct(product))}>
+                            <IconButton disabled={product.amount<=product.quantity} onClick={() => dispatch(addProduct(product))}>
                                 <AddIcon/>
                             </IconButton>
                         </Box>
