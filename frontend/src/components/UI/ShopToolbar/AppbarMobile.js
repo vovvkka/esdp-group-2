@@ -13,28 +13,30 @@ const AppbarMobile = ({matches}) => {
     const dispatch = useDispatch();
 
     return (
-        <AppbarContainer>
-            <IconButton onClick={() => dispatch(setDrawerOpen())}>
-                <MenuIcon/>
-            </IconButton>
-            <AppbarHeader textAlign={"center"} variant="h4">
-                <Link to="/">
-                    <Box
-                        component="img"
-                        sx={{
-                            height: 'auto',
-                            width: 200,
-                        }}
-                        alt="Tay Tay logo"
-                        src={logo}
-                    />
-                </Link>
-            </AppbarHeader>
-            <IconButton>
-                <SearchIcon/>
-            </IconButton>
-            <Actions matches={matches}/>
-        </AppbarContainer>
+        <>
+            <AppbarContainer>
+                <IconButton onClick={() => dispatch(setDrawerOpen())}>
+                    <MenuIcon/>
+                </IconButton>
+                <AppbarHeader textAlign={"center"} variant="h4">
+                    <Link to="/">
+                        <Box
+                            component="img"
+                            sx={{
+                                height: 'auto',
+                                width: 200,
+                            }}
+                            alt="Tay Tay logo"
+                            src={logo}
+                        />
+                    </Link>
+                </AppbarHeader>
+                <IconButton>
+                    <SearchIcon/>
+                </IconButton>
+                <Actions matches={matches}/>
+            </AppbarContainer>
+        </>
     );
 };
 

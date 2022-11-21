@@ -17,21 +17,23 @@ const Banner = () => {
 
     return (
         <>
-            <Carousel>
-                {news.map(post => (
-                    <BannerContainer key={post._id} component={Link} to={'/news/' + post._id} sx={{textDecoration: 'none'}}>
+            <Carousel indicators={false} swipe={true} sx={{marginBottom: '10px'}}>
+                {news.map(post => {
+                    const desc = post.description.length >= 20 ? post.description.split(' ').slice(0, 20).join(' ') : post.description;
+                    return <BannerContainer key={post._id} component={Link} to={'/news/' + post._id}
+                                     sx={{textDecoration: 'none'}}>
                         <BannerImage src={`${apiUrl}/${post.image}`}/>
                         <BannerContent sx={{color: "black"}}>
-                            <Typography variant='h4' sx={{fontWeight: 'bold'}} >
+                            <Typography variant='h4' sx={{fontWeight: 'bold'}}>
                                 {post.title}
                             </Typography>
 
                             <Typography variant='body1'>
-                                {post.description}
+                                {desc}...
                             </Typography>
                         </BannerContent>
                     </BannerContainer>
-                ))}
+                })}
             </Carousel>
         </>
     );
