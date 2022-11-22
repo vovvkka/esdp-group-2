@@ -20,6 +20,9 @@ const useStyles = makeStyles()(theme => ({
     staticToolbar: {
         marginBottom: theme.spacing(6),
     },
+    staticToolbarCashier: {
+        marginBottom: theme.spacing(13),
+    },
     toolbar: {
         backgroundColor: `${theme.palette.grey["600"]} !important`,
         padding: '10px 0'
@@ -68,7 +71,7 @@ const AppToolbar = () => {
                         </Toolbar>
                     </Container>
                 </AppBar>
-                <Toolbar className={classes.staticToolbar}/>
+                <Toolbar className={location.pathname.includes('cashier') ? classes.staticToolbarCashier : classes.staticToolbar}/>
             </>
         );
     }
