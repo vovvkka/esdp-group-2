@@ -4,7 +4,6 @@ import {Box} from "@mui/system";
 import {Colors} from "../../theme";
 
 export const AppbarContainer = styled(Box)(() => ({
-    position: 'fixed',
     top: 0,
     left: 0,
     background: '#fff',

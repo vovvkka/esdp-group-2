@@ -148,7 +148,7 @@ const AppbarDesktop = ({matches}) => {
                     </Toolbar>
                 </Container>
             </AppBar>
-            <Toolbar className={classes.staticToolbar} sx={{marginBottom: '90px'}}/>
+            <Toolbar className={classes.staticToolbar}/>
         </>
     );
 };
