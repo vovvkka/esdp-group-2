@@ -1,8 +1,6 @@
 import {Box, Container, Grid} from "@mui/material";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Container, Grid, Typography} from "@mui/material";
-import SingleProduct from "./SingleProduct";
 import {useTheme} from "@mui/material/styles";
 import {useMediaQuery} from "@mui/material";
 import Pagination from '@mui/material/Pagination';
