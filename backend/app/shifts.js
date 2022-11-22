@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
     try {
-        const shifts = await Shift.find().populate('cashier','username');
+        const shifts = await Shift.find().populate('cashier','displayName');
         res.send(shifts);
     } catch (e) {
         res.status(400).send(e);

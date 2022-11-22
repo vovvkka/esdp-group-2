@@ -17,7 +17,7 @@ import {deleteProduct} from "../../../store/actions/productsActions";
 import {useDownloadExcel} from "react-export-table-to-excel";
 
 
-const TableAdmin = ({rows, rowsHead, categories, products, cashiers}) => {
+const TableAdmin = ({rows, rowsHead, categories, products, cashiers, shifts}) => {
     const dispatch = useDispatch();
     const tableRef = useRef(null);
 
@@ -53,7 +53,7 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers}) => {
                     </Box>
                 </TableCell>
             </TableRow>
-        ))
+        ));
     }
 
 
@@ -94,7 +94,7 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers}) => {
                     </Box>
                 </TableCell>
             </TableRow>
-        ))
+        ));
     }
 
     if (cashiers) {
@@ -113,6 +113,22 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers}) => {
                 </TableCell>
             </TableRow>
         ));
+    }
+
+    if (shifts) {
+        render = rows.map((row) => (
+            <TableRow
+                key={row.title}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+                <TableCell component="th" scope="row">
+                    {row.shiftNumber}
+                </TableCell>
+                <TableCell align="center">{row.cashier.displayName}</TableCell>
+                <TableCell align="center">{new Date(row.createdAt).toLocaleString()}</TableCell>
+                <TableCell align="center">{row.isActive ? 'Онлайн' : new Date(row.updatedAt).toLocaleString()}</TableCell>
+            </TableRow>
+        ))
     }
 
     return (
