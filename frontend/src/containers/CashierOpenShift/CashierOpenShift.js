@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import {Container, Grid, TextField, Typography} from "@mui/material";
+import {Alert, Container, Grid, TextField, Typography} from "@mui/material";
 import {makeStyles} from "tss-react/mui";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
+import {useDispatch, useSelector} from "react-redux";
+import {openShift} from "../../store/actions/shiftActions";
 
 
 const useStyles = makeStyles()(theme => ({
@@ -14,8 +16,11 @@ const useStyles = makeStyles()(theme => ({
 }));
 
 const CashierOpenShift = () => {
+    const dispatch = useDispatch();
+    const error = useSelector(state=>state.shifts.error);
+    const loading = useSelector(state=>state.shifts.loading);
     const [state, setState] = useState({
-        pinKod: "",
+        pin: "",
     });
     const {classes} = useStyles();
     const inputChangeHandler = e => {
@@ -25,9 +30,11 @@ const CashierOpenShift = () => {
 
     const submitHandler = e => {
         e.preventDefault();
+        dispatch(openShift(state));
     };
     return (
         <Container maxWidth="xs" sx={{marginTop: '150px'}}>
+            <form>
             <Grid sx={{backgroundColor: "#d4d4bc", borderRadius: "5px", textAlign: 'center'}}>
                 <div className={classes.paper}>
                     <Grid item sx={{marginY: "10px"}}>
@@ -43,10 +50,15 @@ const CashierOpenShift = () => {
                     </Grid>
                     <Grid item sx={{marginY: "10px", backgroundColor: "#32a3ff", padding: "20px"}}>
                         <Typography component="h1" variant="h6">ПИН КОД</Typography>
+                        {error && (
+                            <Alert severity="error" className={classes.alert}>
+                                Error! {error.error}
+                            </Alert>
+                        )}
                         <TextField
                             type="password"
-                            name="pinKod"
-                            value={state.pinKod}
+                            name="pin"
+                            value={state.pin}
                             onChange={inputChangeHandler}
                             bg="white"
                             inputProps={{maxLength: 4}}
@@ -61,12 +73,14 @@ const CashierOpenShift = () => {
                         }}
                                             variant="contained"
                                             color="inherit"
-                                            onSubmit={submitHandler}>
+                                            loading={loading}
+                                            onClick={submitHandler}>
                             Открыть смену
                         </ButtonWithProgress>
                     </Grid>
                 </div>
             </Grid>
+            </form>
         </Container>
     );
 };

@@ -1,20 +1,36 @@
 import React, {useState} from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import MenuItem from "@mui/material/MenuItem";
-import {Button, Grid, Menu, Typography} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogTitle, Grid, Menu, Typography, useMediaQuery} from "@mui/material";
 import {logoutUser} from "../../../../store/actions/usersActions";
+import {useTheme} from "@mui/material/styles";
+import {closeShift} from "../../../../store/actions/shiftActions";
 
 
 const AdminOrCashierMenu = ({user}) => {
     const dispatch = useDispatch();
+    const shift = useSelector(state => state.shifts.shift);
+
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorEl2, setAnchorEl2] = useState(null);
+    const [openDialog, setOpen] = useState(false);
 
     const open = Boolean(anchorEl);
     const open2 = Boolean(anchorEl2);
 
+    const handleClickOpenDialog = () => {
+        setOpen(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpen(false);
+    };
     const handleClick = (event) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
 
@@ -89,7 +105,10 @@ const AdminOrCashierMenu = ({user}) => {
                         <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Возврат
                             продажи</MenuItem>
                         <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>X-отчет</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Закрытие
+                        <MenuItem onClick={() => {
+                            handleClose();
+                            handleClickOpenDialog();
+                        }}>Закрытие
                             смены</MenuItem>
                     </Menu>
 
@@ -122,14 +141,43 @@ const AdminOrCashierMenu = ({user}) => {
 
                 <Grid item display="flex" flexDirection="column">
                     <Typography sx={{textTransform: 'UpperCase'}}>Кассир: {user.username}</Typography>
-                    <Typography sx={{textTransform: 'UpperCase'}}>Номер смены: 6</Typography>
-                    <Typography sx={{textTransform: 'UpperCase'}}>Количество чеков: 3</Typography>
-                    <Typography sx={{textTransform: 'UpperCase'}}>Наличка в кассе: 3684 сом</Typography>
-                    <Button onClick={() => dispatch(logoutUser())} color="primary" variant="contained"
+                    {shift ? <>
+                        <Typography sx={{textTransform: 'UpperCase'}}>Номер смены: {shift.shiftNumber}</Typography>
+                        <Typography sx={{textTransform: 'UpperCase'}}>Количество чеков: 3</Typography>
+                        <Typography sx={{textTransform: 'UpperCase'}}>Наличка в кассе: 3684 сом</Typography></> : null}
+
+                    <Button onClick={() => {
+                        if(user.role==='cashier'&&shift){
+                            handleClickOpenDialog();
+                        }
+                        dispatch(logoutUser());
+                    }} color="primary" variant="contained"
                             sx={{marginTop: '5px'}}>
                         Выйти
                     </Button>
                 </Grid>
+                <Dialog
+                    fullScreen={fullScreen}
+                    open={openDialog}
+                    onClose={handleCloseDialog}
+                    aria-labelledby="responsive-dialog-title"
+                >
+                    <DialogTitle id="responsive-dialog-title">
+                        {"Вы уверены что хотите закрыть смену?"}
+                    </DialogTitle>
+
+                    <DialogActions>
+                        <Button autoFocus onClick={handleCloseDialog}>
+                            НЕТ
+                        </Button>
+                        <Button onClick={()=> {
+                            handleCloseDialog();
+                            dispatch(closeShift(shift._id));
+                        }} autoFocus>
+                            ДА
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </>
         );
     }
