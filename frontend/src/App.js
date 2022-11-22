@@ -8,7 +8,7 @@ import AdminAddProduct from "./containers/AdminAddProduct/AdminAddProduct";
 import AdminEditProduct from "./containers/AdminEditProduct/AdminEditProduct";
 import AdminCategories from "./containers/AdminCategories/AdminCategories";
 import AdminEditCategory from "./containers/AdminEditCategory/AdminEditCategory";
-import AdminPanel from "./containers/AdminPanel/AdminPanel";
+import AdminMainPage from "./containers/AdminMainPage/AdminMainPage";
 import AdminProducts from "./containers/AdminProducts/AdminProducts";
 import CashierOpenShift from "./containers/CashierOpenShift/CashierOpenShift";
 import AdminCashiers from "./containers/AdminCashiers/AdminCashiers";
@@ -38,7 +38,7 @@ const LoginRedirectRoute = ({user, redirectTo, ...props}) => {
     }
 
     if (user.role === 'cashier') {
-        return <Redirect to="/cashier"/>;
+        return <Redirect to="/cashier/open-shift"/>;
     }
 };
 
@@ -50,11 +50,14 @@ const App = () => {
                 <Route path="/" exact component={MainPage}/>
                 <Route path="/news" exact component={NewsPage}/>
                 <Route path="/cart" exact component={CustomerCart}/>
+                <Route path="/order-place" component={AddOrderProduct}/>
+                <Route path="/news/:id" component={NewsInfo}/>
+
                 <ProtectedRoute
                     isAllowed={user}
                     path="/admin"
                     exact
-                    component={AdminPanel}
+                    component={AdminMainPage}
                 />
 
                 <ProtectedRoute
@@ -128,11 +131,10 @@ const App = () => {
 
                 <ProtectedRoute
                     isAllowed={user}
+                    exact
                     path="/cashier/open-shift"
                     component={CashierOpenShift}
                 />
-                <Route path="/order-place" component={AddOrderProduct}/>
-                <Route path="/news/:id" component={NewsInfo}/>
 
 
                 <LoginRedirectRoute
