@@ -28,6 +28,10 @@ const productsSlice = createSlice({
             state.fetchLoading = false;
             state.fetchError = error;
         },
+        fetchProductsFailure(state, {payload: error}) {
+            state.fetchLoading = false;
+            state.fetchError = error;
+        },
         fetchProductsTableRequest(state) {
             state.fetchLoading = true;
             state.fetchError = null;
@@ -35,10 +39,6 @@ const productsSlice = createSlice({
         fetchProductsTableSuccess(state, {payload: products}) {
             state.fetchLoading = false;
             state.productsTable = products;
-        },
-        fetchProductsFailure(state, {payload: error}) {
-            state.fetchLoading = false;
-            state.fetchError = error;
         },
         createProductRequest(state) {
             state.createProductLoading = true;

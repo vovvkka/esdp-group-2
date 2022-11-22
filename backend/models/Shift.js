@@ -25,7 +25,7 @@ const WorkingShiftSchema = new Schema({
 
 WorkingShiftSchema.plugin(idValidator, {message : 'Bad ID value for {PATH}'});
 WorkingShiftSchema.plugin(AutoIncrement, {inc_field: 'shiftNumber'});
-const WorkingShift = mongoose.model('WorkingShift', WorkingShiftSchema);
+const Shift = mongoose.model('Shift', WorkingShiftSchema);
 
 
-module.exports = WorkingShift;
+module.exports = Shift;

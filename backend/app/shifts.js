@@ -1,12 +1,12 @@
 const express = require('express');
 const auth = require("../middlewares/auth");
 const permit = require("../middlewares/permit");
-const Shift = require("../models/WorkingShift");
+const Shift = require("../models/Shift");
 const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
     try {
-        const shifts = await Shift.find().populate('cashier','username');
+        const shifts = await Shift.find().populate('cashier','displayName');
         res.send(shifts);
     } catch (e) {
         res.status(400).send(e);
