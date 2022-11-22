@@ -37,6 +37,12 @@ router.post('/', async (req, res) => {
         .status(400)
         .send({error: 'Data not valid'});
 
+    // order.map(i=> {
+    //     i = Order.findById(i._id);
+    //     if(i.quantity>i.amount) res.status(400)
+    //             .send({error: 'Data not valid'});
+    // }); Заглушка на кол-во заказываемого товара
+
     const orderData = {
         customer,
         phone,
@@ -44,7 +50,6 @@ router.post('/', async (req, res) => {
         order
     };
 
-    console.log('here')
     try {
         const order = new Order(orderData);
         await order.save();

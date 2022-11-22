@@ -24,16 +24,29 @@ const upload = multer({storage});
 router.get('/', async (req, res) => {
     try {
         const query = {};
-        if(req.query.category&&req.query.key){
-            isNaN(+req.query.key)?query.title = { $regex: req.query.key, $options: 'i' } : query.barcode = { $regex: +req.query.key, $options: 'i' };
+        if (req.query.search) {
+            query.title = {$regex: req.query.search, $options: 'i'}
+            const products = await Product.find(query);
+
+            return res.send(products);
+        }
+        if (req.query.category && req.query.key) {
+            isNaN(+req.query.key) ? query.title = {
+                $regex: req.query.key,
+                $options: 'i'
+            } : query.barcode = {$regex: +req.query.key, $options: 'i'};
             query.category = req.query.category;
         }
         if (req.query.category) {
             query.category = req.query.category;
         }
-        if(req.query.key){
-            isNaN(+req.query.key)?query.title = { $regex: req.query.key, $options: 'i' } : query.barcode = { $regex: +req.query.key, $options: 'i' };
+        if (req.query.key) {
+            isNaN(+req.query.key) ? query.title = {
+                $regex: req.query.key,
+                $options: 'i'
+            } : query.barcode = {$regex: +req.query.key, $options: 'i'};
         }
+
         const products = await Product.find(query)
             // .sort({updatedAt:-1}).limit(5) для ограничения вывода товаров в панели (область 4)
             .populate('category', 'title');
