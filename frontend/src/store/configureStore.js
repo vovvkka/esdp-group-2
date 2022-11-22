@@ -11,6 +11,7 @@ import appSlice from "./slices/appSLice";
 import newsSlice from "./slices/newsSlice";
 import orderSlice from "./slices/orderSlice";
 import cartSlice from "./slices/cartSlice";
+import shiftsSlice from "./slices/shiftsSlice";
 
 const rootReducer = combineReducers({
     users: usersSlice.reducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     news: newsSlice.reducer,
     orders: orderSlice.reducer,
     cart: cartSlice.reducer,
+    shifts: shiftsSlice.reducer,
 });
 
 const persistedState = loadFromLocalStorage();

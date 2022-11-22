@@ -5,7 +5,7 @@ const config = require('./config');
 const User = require('./models/User');
 const Category = require('./models/Category');
 const Product = require('./models/Product');
-const Shift = require('./models/WorkingShift');
+const Shift = require('./models/Shift');
 const Order = require('./models/Order');
 const News = require("./models/News");
 
