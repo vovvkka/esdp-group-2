@@ -1,7 +1,9 @@
 const { I } = inject();
 
 Given('я захожу на страницу {string}', (page) => {
+    console.log(page);
     I.amOnPage('/' + page);
+
 });
 
 Given('я введу данные', table => {
@@ -16,9 +18,5 @@ Given('я введу данные', table => {
 When('нажимаю на кнопку {string}', buttonText => {
     I.click(`//form//button[contains(text(), "${buttonText}")]`);
 
-    I.wait(10);
-});
-
-Then('я виже страницу {string}', text => {
-    I.see(text)
+    I.wait(2);
 });
