@@ -12,6 +12,7 @@ import ProductMeta from "./ProductMeta";
 import {useDispatch, useSelector} from "react-redux";
 import {addProduct} from "../../store/slices/cartSlice";
 import {apiUrl} from "../../config";
+import {addNotification} from "../../store/actions/notifierActions";
 
 const SingleProduct = ({product, matches}) => {
     const dispatch = useDispatch();
@@ -25,6 +26,10 @@ const SingleProduct = ({product, matches}) => {
     };
     const handleMouseLeave = () => {
         setShowOptions(!showOptions);
+    };
+    const onAddToCart = product => {
+        dispatch(addNotification(`Добавлено.`,'success', {autoClose: 1000}));
+        dispatch(addProduct(product));
     };
     return (
         <>
@@ -41,7 +46,7 @@ const SingleProduct = ({product, matches}) => {
                     </Stack>
                 </ProductActionsWrapper>
             </Product>
-            <ProductAddToCart disabled={product.amount<=itemInCart?.quantity} variant="contained" onClick={()=>dispatch(addProduct(product))}>Добавить в корзину</ProductAddToCart>
+            <ProductAddToCart disabled={product.amount<=itemInCart?.quantity} variant="contained" onClick={onAddToCart}>Добавить в корзину</ProductAddToCart>
         </>
     );
 }

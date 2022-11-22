@@ -54,9 +54,6 @@ export const {
     addProduct,
     reduceProduct,
     deleteProduct,
-    createOrderRequest,
-    createOrderSuccess,
-    createOrderFailure,
     clearCart,
 } = cartSlice.actions;
 
