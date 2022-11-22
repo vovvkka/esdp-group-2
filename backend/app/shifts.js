@@ -1,7 +1,7 @@
 const express = require('express');
 const auth = require("../middlewares/auth");
 const permit = require("../middlewares/permit");
-const Shift = require("../models/WorkingShift");
+const Shift = require("../models/Shift");
 const router = express.Router();
 
 router.get('/', auth, async (req, res) => {

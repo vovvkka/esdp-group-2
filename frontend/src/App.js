@@ -8,7 +8,7 @@ import AdminAddProduct from "./containers/AdminAddProduct/AdminAddProduct";
 import AdminEditProduct from "./containers/AdminEditProduct/AdminEditProduct";
 import AdminCategories from "./containers/AdminCategories/AdminCategories";
 import AdminEditCategory from "./containers/AdminEditCategory/AdminEditCategory";
-import AdminPanel from "./containers/AdminPanel/AdminPanel";
+import AdminMainPage from "./containers/AdminMainPage/AdminMainPage";
 import AdminProducts from "./containers/AdminProducts/AdminProducts";
 import CashierOpenShift from "./containers/CashierOpenShift/CashierOpenShift";
 import AdminCashiers from "./containers/AdminCashiers/AdminCashiers";
@@ -54,7 +54,7 @@ const App = () => {
                     isAllowed={user}
                     path="/admin"
                     exact
-                    component={AdminPanel}
+                    component={AdminMainPage}
                 />
 
                 <ProtectedRoute
