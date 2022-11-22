@@ -9,14 +9,16 @@ import {
 import {Stack, Tooltip} from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import ProductMeta from "./ProductMeta";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addProduct} from "../../store/slices/cartSlice";
 import {apiUrl} from "../../config";
 
 const SingleProduct = ({product, matches}) => {
     const dispatch = useDispatch();
+    const products = useSelector(state => state.cart.products);
 
     const [showOptions, setShowOptions] = useState(false);
+    const itemInCart = products.find((item) => item._id === product._id);
 
     const handleMouseEnter = () => {
         setShowOptions(!showOptions);
@@ -39,7 +41,7 @@ const SingleProduct = ({product, matches}) => {
                     </Stack>
                 </ProductActionsWrapper>
             </Product>
-            <ProductAddToCart variant="contained" onClick={()=>dispatch(addProduct(product))}>Добавить в корзину</ProductAddToCart>
+            <ProductAddToCart disabled={product.amount<=itemInCart?.quantity} variant="contained" onClick={()=>dispatch(addProduct(product))}>Добавить в корзину</ProductAddToCart>
         </>
     );
 }

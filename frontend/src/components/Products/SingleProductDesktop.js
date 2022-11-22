@@ -10,12 +10,16 @@ import {Stack, Tooltip} from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import ProductMeta from "./ProductMeta";
 import {addProduct} from "../../store/slices/cartSlice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addNotification} from "../../store/actions/notifierActions";
 import {apiUrl} from "../../config";
 
 const SingleProductDesktop = ({product, matches}) => {
     const dispatch = useDispatch();
+    const products = useSelector(state => state.cart.products);
+
+    const itemInCart = products.find((item) => item._id === product._id);
+
 
     const [showOptions, setShowOptions] = useState(false);
 
@@ -36,7 +40,7 @@ const SingleProductDesktop = ({product, matches}) => {
             <Product onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 <ProductImage desktop={true} src={apiUrl + '/' + product.image}/>
                 {(showOptions || matches) && (
-                    <ProductAddToCart show={showOptions} variant="contained" onClick={() => onAddToCart(product)}>
+                    <ProductAddToCart show={showOptions} variant="contained" disabled={product.amount<=itemInCart?.quantity} onClick={() => onAddToCart(product)}>
                         Добавить в корзину
                     </ProductAddToCart>
                 )}
