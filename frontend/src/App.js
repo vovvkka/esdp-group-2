@@ -21,6 +21,7 @@ import NewsPage from "./containers/NewsPage/NewsPage";
 import AddOrderProduct from "./containers/AddOrderProduct/AddOrderProduct";
 import CustomerCart from "./containers/CustomerCart/CustomerCart";
 import NewsInfo from "./containers/NewsInfo/NewsInfo";
+import CashierPanel from "./containers/CashierPanel/CashierPanel";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ?
@@ -136,6 +137,12 @@ const App = () => {
                     component={CashierOpenShift}
                 />
 
+
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/cashier"
+                    component={CashierPanel}
+                />
 
                 <LoginRedirectRoute
                     user={user}

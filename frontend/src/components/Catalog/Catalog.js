@@ -4,10 +4,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchCategories} from "../../store/actions/categoriesActions";
 import {apiUrl} from "../../config";
 import {fetchProducts} from "../../store/actions/productsActions";
+import {addProductToCashbox} from "../../store/slices/cashboxSlice";
 
 const Catalog = () => {
     const categories = useSelector(state => state.categories.categories);
     const products = useSelector(state => state.products.products);
+    const user = useSelector(state => state.users.user);
     const dispatch = useDispatch();
 
     const [value, setValue] = useState(0);
@@ -18,35 +20,41 @@ const Catalog = () => {
 
     useEffect(() => {
         dispatch(fetchCategories());
+    }, [dispatch]);
 
-    }, [dispatch])
     useEffect(()=>{
         if (categories.length) {
-            if (!value){
+            if (!value) {
                 dispatch(fetchProducts());
-            }else {
+            } else {
                 dispatch(fetchProducts('?category=' + categories[value-1]._id));
             }
         }
     },[dispatch,categories,value])
 
-    const onSearch=e=>{
-        if(e.target.value) {
-            if(e.target.value.replace(/\s/g, '')) {
-                if(!value) {
+    const onSearch = e => {
+        if (e.target.value) {
+            if (e.target.value.replace(/\s/g, '')) {
+                if (!value) {
                     dispatch(fetchProducts('?key=' + e.target.value));
-                }else{
+                } else {
                     dispatch(fetchProducts('?key=' + e.target.value+'&category='+categories[value-1]._id));
                 }
             }
-        }else{
+        } else {
             if (value) {
                 dispatch(fetchProducts('?category=' + categories[value - 1]._id));
-            }else{
+            } else {
                 dispatch(fetchProducts());
             }
         }
     };
+
+    const handleClick = (item) => {
+        if (user.role === 'cashier') {
+            dispatch(addProductToCashbox(item));
+        }
+    }
 
     return (
         <Grid item xs={6} sx={{backgroundColor: '#e0e0e0', padding: '15px'}}>
@@ -71,12 +79,12 @@ const Catalog = () => {
                     marginTop: '15px',
                     paddingRight: '10px',
                     overflowY: 'scroll',
-                    height:'500px',
+                    height: '680px',
                 }}
             >
                 <TextField onChange={onSearch} id="outlined-basic" label="Поиск" variant="outlined" margin="normal"/>
                 {products && products.map(item =>
-                    <div key={item._id} style={{
+                    <div onClick={() => handleClick(item)} key={item._id} style={{
                         cursor: 'pointer',
                         display: 'flex',
                         width: '48%',

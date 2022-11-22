@@ -2,9 +2,9 @@ import React from 'react';
 import {FormControl, FormHelperText, Grid, InputLabel, Select} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 
-const FormSelect = ({label, name, value, onChange, options, error, required, width, selectFromServer}) => {
+const FormSelect = ({label, name, value, onChange, options, error, required, selectFromServer, xs}) => {
   return (
-    <Grid item width={width || null}>
+    <Grid item xs={xs || 12}>
       <FormControl fullWidth error={Boolean(error)}>
         <InputLabel id={`${name}-label`}>{label}</InputLabel>
         <Select
