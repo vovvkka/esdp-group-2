@@ -24,28 +24,28 @@ const Catalog = () => {
 
     useEffect(()=>{
         if (categories.length) {
-            if (!value) {
-                dispatch(fetchProducts());
-            } else {
-                dispatch(fetchProducts('?category=' + categories[value-1]._id));
+            if (!value){
+                dispatch(fetchProducts('?perPage=8'));
+            }else {
+                dispatch(fetchProducts('?perPage=8&category=' + categories[value - 1]._id));
             }
         }
     },[dispatch,categories,value])
 
-    const onSearch = e => {
-        if (e.target.value) {
-            if (e.target.value.replace(/\s/g, '')) {
-                if (!value) {
-                    dispatch(fetchProducts('?key=' + e.target.value));
-                } else {
-                    dispatch(fetchProducts('?key=' + e.target.value+'&category='+categories[value-1]._id));
+    const onSearch=e=>{
+        if(e.target.value) {
+            if(e.target.value.replace(/\s/g, '')) {
+                if(!value) {
+                    dispatch(fetchProducts('?perPage=8&key=' + e.target.value));
+                }else{
+                    dispatch(fetchProducts('?perPage=8&key=' + e.target.value + '&category=' + categories[value - 1]._id));
                 }
             }
-        } else {
+        }else{
             if (value) {
-                dispatch(fetchProducts('?category=' + categories[value - 1]._id));
-            } else {
-                dispatch(fetchProducts());
+                dispatch(fetchProducts('?perPage=8&category=' + categories[value - 1]._id));
+            }else{
+                dispatch(fetchProducts('?perPage=8'));
             }
         }
     };
@@ -83,7 +83,7 @@ const Catalog = () => {
                 }}
             >
                 <TextField onChange={onSearch} id="outlined-basic" label="Поиск" variant="outlined" margin="normal"/>
-                {products && products.map(item =>
+                {products && products.docs?.map(item =>
                     <div onClick={() => handleClick(item)} key={item._id} style={{
                         cursor: 'pointer',
                         display: 'flex',

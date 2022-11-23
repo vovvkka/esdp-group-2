@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import {Button, Dialog, DialogActions, DialogTitle, Grid, Menu, Typography, useMediaQuery} from "@mui/material";
 import {logoutUser} from "../../../../store/actions/usersActions";
 import {useTheme} from "@mui/material/styles";
-import {closeShift} from "../../../../store/actions/shiftActions";
+import {closeShift} from "../../../../store/actions/shiftsActions";
 
 
 const AdminOrCashierMenu = ({user}) => {
@@ -14,7 +14,6 @@ const AdminOrCashierMenu = ({user}) => {
 
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
 
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -97,19 +96,19 @@ const AdminOrCashierMenu = ({user}) => {
                             'aria-labelledby': 'basic-button',
                         }}
                     >
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/categories"}>Продажа</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Внесение
-                            наличных</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Изъятие
-                            наличных</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Возврат
-                            продажи</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>X-отчет</MenuItem>
-                        <MenuItem onClick={() => {
-                            handleClose();
-                            handleClickOpenDialog();
-                        }}>Закрытие
-                            смены</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Продажа</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Внесение наличных</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Изъятие наличных</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Возврат продажи</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>X-отчет</MenuItem>
+                        <MenuItem
+                            onClick={() => {
+                                handleClose();
+                                handleClickOpenDialog()
+                            }}
+                        >
+                            Закрытие смены
+                        </MenuItem>
                     </Menu>
 
                     <Button
@@ -147,7 +146,7 @@ const AdminOrCashierMenu = ({user}) => {
                         <Typography sx={{textTransform: 'UpperCase'}}>Наличка в кассе: 3684 сом</Typography></> : null}
 
                     <Button onClick={() => {
-                        if(user.role==='cashier'&&shift){
+                        if (user.role === 'cashier' && shift) {
                             handleClickOpenDialog();
                         }
                         dispatch(logoutUser());
@@ -170,7 +169,7 @@ const AdminOrCashierMenu = ({user}) => {
                         <Button autoFocus onClick={handleCloseDialog}>
                             НЕТ
                         </Button>
-                        <Button onClick={()=> {
+                        <Button onClick={() => {
                             handleCloseDialog();
                             dispatch(closeShift(shift._id));
                         }} autoFocus>
