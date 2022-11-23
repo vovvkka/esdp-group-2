@@ -24,6 +24,7 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: true,
+        minLength:6,
     },
     pin: {
       type: String,
@@ -46,6 +47,13 @@ UserSchema.pre('save', async function(next) {
 
     const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
     this.password = await bcrypt.hash(this.password, salt);
+
+    next();
+});
+
+UserSchema.pre('findOneAndUpdate', async function(next) {
+    const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+    this._update.password = await bcrypt.hash(this._update.password, salt);
 
     next();
 });
