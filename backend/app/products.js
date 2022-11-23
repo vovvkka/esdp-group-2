@@ -6,7 +6,6 @@ const path = require("path");
 const multer = require("multer");
 const config = require("../config");
 const {nanoid} = require("nanoid");
-const Category = require("../models/Category");
 
 const router = express.Router();
 
@@ -23,7 +22,14 @@ const upload = multer({storage});
 
 router.get('/', async (req, res) => {
     try {
+        const {page, perPage} = req.query;
         const query = {};
+        const options = {
+            populate: {path: 'category', select: 'title'},
+            page: parseInt(page) || 1,
+            limit: parseInt(perPage) || 30
+        };
+
         if (req.query.search) {
             query.title = {$regex: req.query.search, $options: 'i'}
             const products = await Product.find(query);
@@ -47,56 +53,16 @@ router.get('/', async (req, res) => {
             } : query.barcode = {$regex: +req.query.key, $options: 'i'};
         }
 
-        const products = await Product.find(query)
-            // .sort({updatedAt:-1}).limit(5) для ограничения вывода товаров в панели (область 4)
-            .populate('category', 'title');
+        console.log(req.query.category);
+
+        const products = await Product.paginate(query, options);
+        console.log(products);
         res.send(products);
     } catch (e) {
         res.status(400).send(e);
     }
 });
 
-router.get('/table', async (req, res) => {
-    try {
-        const {page, perPage} = req.query;
-        const query = {};
-        const options = {
-            populate: {path: 'category', select: 'title'},
-            page: parseInt(page) || 1,
-            limit: parseInt(perPage) || 30
-        };
-
-        if (req.query.category && req.query.key) {
-            isNaN(+req.query.key) ? query.title = {
-                $regex: req.query.key,
-                $options: 'i'
-            } : query.barcode = {$regex: +req.query.key, $options: 'i'};
-            query.category = req.query.category;
-        }
-        if (req.query.category) {
-            query.category = req.query.category;
-        }
-        if (req.query.key) {
-            isNaN(+req.query.key) ? query.title = {
-                $regex: req.query.key,
-                $options: 'i'
-            } : query.barcode = {$regex: +req.query.key, $options: 'i'};
-        }
-
-        if(req.query.category) {
-            const category = await Category.findOne({title: req.query.category});
-            if (!category) return res.status(404).send({message: 'Category is not found!'});
-
-            const products = await Product.paginate({category: category._id}, options);
-            res.send(products);
-        } else {
-            const products = await Product.paginate(query, options);
-            res.send(products);
-        }
-    } catch (e) {
-        res.status(400).send(e);
-    }
-});
 
 router.get('/:id', async (req, res) => {
     try {
