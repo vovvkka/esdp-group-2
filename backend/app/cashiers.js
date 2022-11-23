@@ -49,7 +49,6 @@ router.put('/:id',auth,permit('admin'), async (req, res) => {
 
         res.send({message: 'Edit successful!'});
     } catch (e) {
-        console.log(e);
         res.status(400).send({error: e.errors});
     }
 });
