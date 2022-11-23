@@ -7,9 +7,11 @@ const router = express.Router();
 router.get('/', auth, permit('admin'), async (req, res) => {
     try {
         const query = {};
+
         if (req.query.status) {
-            query.category = req.query.status;
+            query.status = req.query.status;
         }
+
         const orders = await Order.find(query);
         res.send(orders);
     } catch (e) {
@@ -54,6 +56,21 @@ router.post('/', async (req, res) => {
         const order = new Order(orderData);
         await order.save();
 
+        res.send(order);
+    } catch (e) {
+        res.status(400).send({error: e.errors});
+    }
+});
+
+router.delete('/:id', auth, permit('admin'), async (req, res) => {
+    try {
+        let order = await Order.findById(req.params.id);
+
+        if (order.status === 'закрыт') {
+            return res.status(403).send({message: 'This order cannot be deleted!'});
+        }
+
+        order = await Order.findByIdAndDelete(req.params.id);
         res.send(order);
     } catch (e) {
         res.status(400).send({error: e.errors});

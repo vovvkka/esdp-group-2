@@ -52,7 +52,7 @@ const AdminOrCashierMenu = ({user}) => {
                         Администрирование
                     </Button>
                     <Button color="inherit" sx={{marginRight: '5px'}}>Журнал</Button>
-                    <Button color="inherit">Заказы</Button>
+                    <Button color="inherit" component={Link} to={`/admin/orders`}>Заказы</Button>
                 </Grid>
 
                 <Grid item display="flex" flexDirection="column">

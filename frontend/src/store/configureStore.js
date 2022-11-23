@@ -13,6 +13,7 @@ import orderSlice from "./slices/orderSlice";
 import cartSlice from "./slices/cartSlice";
 import shiftsSlice from "./slices/shiftsSlice";
 import cashboxSlice from "./slices/cashboxSlice";
+import modalSlice from "./slices/modalSlice";
 
 const rootReducer = combineReducers({
     users: usersSlice.reducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
     cart: cartSlice.reducer,
     shifts: shiftsSlice.reducer,
     cashbox: cashboxSlice.reducer,
+    modal: modalSlice.reducer,
 });
 
 const persistedState = loadFromLocalStorage();
