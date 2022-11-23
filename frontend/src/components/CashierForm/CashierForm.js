@@ -47,8 +47,7 @@ const CashierForm = ({onSubmit, cashier, isParams, error}) => {
 
     useEffect(() => {
         if (cashier) {
-            setCashierData(cashier);
-            console.log(cashier)
+            setCashierData({...cashier,password: ''});
         }
     }, [cashier]);
 
@@ -122,6 +121,17 @@ const CashierForm = ({onSubmit, cashier, isParams, error}) => {
                         value={cashierData.displayName}
                         onChange={(e) => inputChangeHandler(e.target.name, e.target.value)}
                         error={getFieldError('displayName')}
+                    />
+
+                    <FormElement
+                        required={false}
+                        type="password"
+                        label="Пароль"
+                        name="password"
+                        inputProps={{minLength: 6}}
+                        value={cashierData.password}
+                        onChange={(e) => inputChangeHandler(e.target.name, e.target.value)}
+                        error={getFieldError('password')}
                     />
 
                     <FormElement

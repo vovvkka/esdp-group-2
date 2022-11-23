@@ -6,7 +6,7 @@ import {
     fetchOneProductRequest, fetchOneProductSuccess,
     fetchProductsFailure,
     fetchProductsRequest,
-    fetchProductsSuccess, fetchProductsTableFailure, fetchProductsTableRequest, fetchProductsTableSuccess
+    fetchProductsSuccess,
 } from "../slices/productsSlice";
 import {historyPush} from "./historyActions";
 import {editCategoryFailure, editCategoryRequest, editCategorySuccess} from "../slices/categoriesSlice";
@@ -25,23 +25,6 @@ export const fetchProducts = (search) => {
             dispatch(fetchProductsSuccess(response.data));
         } catch (e) {
             dispatch(fetchProductsFailure(e.response.data));
-        }
-    }
-};
-
-export const fetchProductsTable = (search) => {
-    return async dispatch => {
-        try {
-            dispatch(fetchProductsTableRequest());
-            let response;
-            if(search){
-                response = await axiosApi('/products/table' + search);
-            }else {
-                response = await axiosApi('/products/table');
-            }
-            dispatch(fetchProductsTableSuccess(response.data));
-        } catch (e) {
-            dispatch(fetchProductsTableFailure(e.response.data));
         }
     }
 };

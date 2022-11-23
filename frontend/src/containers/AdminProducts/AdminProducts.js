@@ -3,7 +3,7 @@ import {Box, Button, Grid, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {Link, Redirect} from "react-router-dom";
 import MUIDataTable from "mui-datatables";
-import {deleteProduct, fetchProductsTable} from "../../store/actions/productsActions";
+import {deleteProduct, fetchProducts} from "../../store/actions/productsActions";
 import EditSharpIcon from "@mui/icons-material/EditSharp";
 import DeleteForeverSharpIcon from "@mui/icons-material/DeleteForeverSharp";
 import {fetchCategories} from "../../store/actions/categoriesActions";
@@ -12,7 +12,6 @@ import {fetchCategories} from "../../store/actions/categoriesActions";
 const AdminProducts = () => {
     const dispatch = useDispatch();
     const products = useSelector(state => state.products.products);
-    const productsTable = useSelector(state => state.products.productsTable);
     const categories = useSelector(state => state.categories.categories);
     const user = useSelector(state => state.users.user);
     const asd = categories.map(category => category.title);
@@ -131,14 +130,9 @@ const AdminProducts = () => {
 
 
     useEffect(() => {
-        dispatch(fetchProductsTable());
+        dispatch(fetchProducts());
         dispatch(fetchCategories());
     }, [dispatch]);
-
-
-    useEffect(() => {
-        dispatch(fetchProductsTable());
-    }, [dispatch, products]);
 
 
     if (user?.role !== 'admin') {
@@ -148,18 +142,22 @@ const AdminProducts = () => {
     const handleFilterSubmit = async (applyFilters) => {
         let filterList = applyFilters();
 
+        const categoryName = filterList[0][0];
+
+        const category = categories.find(el => el.title === categoryName);
+
         if (filterList[0][0]) {
-            await dispatch(fetchProductsTable(`?category=${filterList[0][0]}`));
+            await dispatch(fetchProducts(`?category=${category._id}`));
         } else {
-            await dispatch(fetchProductsTable());
+            await dispatch(fetchProducts());
         }
     };
 
     const onSearch = value => {
         if (value) {
-            dispatch(fetchProductsTable('?key=' + value));
+            dispatch(fetchProducts('?key=' + value));
         } else {
-            dispatch(fetchProductsTable());
+            dispatch(fetchProducts());
         }
     };
 
@@ -192,14 +190,14 @@ const AdminProducts = () => {
         },
 
 
-        rowsPerPage: productsTable && productsTable.limit,
-        page: productsTable && productsTable.page - 1,
+        rowsPerPage: products && products.limit,
+        page: products.page && products.page - 1,
         rowsPerPageOptions: [],
-        count: productsTable && productsTable.total,
+        count: products && products.total,
         onTableChange: (action, tableState) => {
             switch (action) {
                 case 'changePage':
-                    dispatch(fetchProductsTable(`?page=${tableState.page + 1}`));
+                    dispatch(fetchProducts(`?page=${tableState.page + 1}`));
                     break;
                 case 'search':
                     console.log(tableState.searchText);
@@ -223,7 +221,7 @@ const AdminProducts = () => {
                         title={"Список товаров"}
                         columns={columns}
                         options={options}
-                        data={productsTable.docs}
+                        data={products.docs}
                     />
                 </Box>
 
