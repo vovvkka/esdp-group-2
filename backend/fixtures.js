@@ -174,7 +174,7 @@ const run = async () => {
         role: 'cashier',
     }, {
         username: 'admin',
-        password: 'admin',
+        password: 'admin0',
         pin: 1234,
         token: nanoid(),
         role: 'admin',
