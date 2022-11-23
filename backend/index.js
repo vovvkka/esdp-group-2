@@ -13,7 +13,7 @@ const news = require('./app/news');
 const config = require('./config');
 
 const app = express();
-const PORT = 8001;
+const PORT = 8000;
 
 app.use(express.static('public'));
 app.use(express.json());
