@@ -35,7 +35,7 @@ export const openShift = (pin) => {
             const response = await axiosApi.post('/shifts', pin);
             dispatch(openShiftSuccess(response.data));
             dispatch(addNotification(`Смена открыта.`, 'success', {autoClose: 1000}));
-            dispatch(historyPush('/cashierPanel'));
+            dispatch(historyPush('/cashier'));
 
         } catch (e) {
             dispatch(openShiftFailure(e.response.data));

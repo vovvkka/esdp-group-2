@@ -11,7 +11,7 @@ const useStyles = makeStyles()(() => ({
     boxScrolling: {
         margin: '50px 100px 0 0',
         height: '680px',
-        overflowY: 'scroll'
+        overflowY: 'auto'
     },
 }));
 

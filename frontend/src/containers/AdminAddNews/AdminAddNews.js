@@ -1,12 +1,11 @@
 import React from 'react';
 import {Typography} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {createProduct} from "../../store/actions/productsActions";
 import NewsForm from "../../components/NewsForm/NewsForm";
 
 const AdminAddNews = () => {
     const dispatch = useDispatch();
-    // const error = useSelector(state => state.news.createNewsError);
 
     const onNewsFormSubmit = newsData => {
         dispatch(createProduct(newsData));
@@ -22,7 +21,6 @@ const AdminAddNews = () => {
                 Добавить новость
             </Typography>
             <NewsForm
-                // error={error}
                 onSubmit={onNewsFormSubmit}
             />
         </>

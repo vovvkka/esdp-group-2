@@ -118,7 +118,7 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, shifts}) =>
     if (shifts) {
         render = rows.map((row) => (
             <TableRow
-                key={row.title}
+                key={row._id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
                 <TableCell component="th" scope="row">

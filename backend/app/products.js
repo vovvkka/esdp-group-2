@@ -36,6 +36,7 @@ router.get('/', async (req, res) => {
 
             return res.send(products);
         }
+
         if (req.query.category && req.query.key) {
             isNaN(+req.query.key) ? query.title = {
                 $regex: req.query.key,
@@ -43,9 +44,11 @@ router.get('/', async (req, res) => {
             } : query.barcode = {$regex: +req.query.key, $options: 'i'};
             query.category = req.query.category;
         }
+
         if (req.query.category) {
             query.category = req.query.category;
         }
+
         if (req.query.key) {
             isNaN(+req.query.key) ? query.title = {
                 $regex: req.query.key,
@@ -53,10 +56,7 @@ router.get('/', async (req, res) => {
             } : query.barcode = {$regex: +req.query.key, $options: 'i'};
         }
 
-        console.log(req.query.category);
-
         const products = await Product.paginate(query, options);
-        console.log(products);
         res.send(products);
     } catch (e) {
         res.status(400).send(e);
