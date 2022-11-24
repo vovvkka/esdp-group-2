@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import {Button, Dialog, DialogActions, DialogTitle, Grid, Menu, Typography, useMediaQuery} from "@mui/material";
 import {logoutUser} from "../../../../store/actions/usersActions";
 import {useTheme} from "@mui/material/styles";
-import {closeShift} from "../../../../store/actions/shiftActions";
+import {closeShift} from "../../../../store/actions/shiftsActions";
 
 
 const AdminOrCashierMenu = ({user}) => {
@@ -16,10 +16,10 @@ const AdminOrCashierMenu = ({user}) => {
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
 
-
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorEl2, setAnchorEl2] = useState(null);
     const [openDialog, setOpen] = useState(false);
+    const [wantToLogout, setWantToLogout] = useState(false);
 
     const open = Boolean(anchorEl);
     const open2 = Boolean(anchorEl2);
@@ -37,6 +37,16 @@ const AdminOrCashierMenu = ({user}) => {
     const handleClick2 = (event) => setAnchorEl2(event.currentTarget);
     const handleClose2 = () => setAnchorEl2(null);
 
+    const closeShiftHandler = async (id) =>{
+        if(wantToLogout) {
+            await dispatch(closeShift(id));
+            await dispatch(logoutUser());
+            setWantToLogout(false);
+        }else{
+            dispatch(closeShift(id));
+        }
+    }
+
     if (user?.role === 'admin') {
         return (
             <>
@@ -53,7 +63,7 @@ const AdminOrCashierMenu = ({user}) => {
                         Администрирование
                     </Button>
                     <Button color="inherit" sx={{marginRight: '5px'}}>Журнал</Button>
-                    <Button color="inherit">Заказы</Button>
+                    <Button color="inherit" component={Link} to={`/admin/orders`}>Заказы</Button>
                 </Grid>
 
                 <Grid item display="flex" flexDirection="column">
@@ -97,19 +107,19 @@ const AdminOrCashierMenu = ({user}) => {
                             'aria-labelledby': 'basic-button',
                         }}
                     >
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/categories"}>Продажа</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Внесение
-                            наличных</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Изъятие
-                            наличных</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Возврат
-                            продажи</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>X-отчет</MenuItem>
-                        <MenuItem onClick={() => {
-                            handleClose();
-                            handleClickOpenDialog();
-                        }}>Закрытие
-                            смены</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Продажа</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Внесение наличных</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Изъятие наличных</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Возврат продажи</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>X-отчет</MenuItem>
+                        <MenuItem
+                            onClick={() => {
+                                handleClose();
+                                handleClickOpenDialog();
+                            }}
+                        >
+                            Закрытие смены
+                        </MenuItem>
                     </Menu>
 
                     <Button
@@ -147,10 +157,12 @@ const AdminOrCashierMenu = ({user}) => {
                         <Typography sx={{textTransform: 'UpperCase'}}>Наличка в кассе: 3684 сом</Typography></> : null}
 
                     <Button onClick={() => {
-                        if(user.role==='cashier'&&shift){
+                        if (user.role === 'cashier' && shift) {
+                            setWantToLogout(true);
                             handleClickOpenDialog();
+                        }else {
+                            dispatch(logoutUser());
                         }
-                        dispatch(logoutUser());
                     }} color="primary" variant="contained"
                             sx={{marginTop: '5px'}}>
                         Выйти
@@ -170,9 +182,9 @@ const AdminOrCashierMenu = ({user}) => {
                         <Button autoFocus onClick={handleCloseDialog}>
                             НЕТ
                         </Button>
-                        <Button onClick={()=> {
+                        <Button onClick={() => {
                             handleCloseDialog();
-                            dispatch(closeShift(shift._id));
+                            closeShiftHandler(shift._id);
                         }} autoFocus>
                             ДА
                         </Button>
