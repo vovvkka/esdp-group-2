@@ -14,16 +14,16 @@ import {addProductToCashbox, cancelAllCashbox, deleteProductFromCashbox} from ".
 const CashierAddProduct = () => {
     const [state, setState] = useState({customer: '', barcode: ''});
     const addedProducts = useSelector(state => state.cashbox.products);
-    const products = useSelector(state => state.products.products);
+    const products = useSelector(state => state.products.products.docs);
     const total = useSelector(state => state.cashbox.total);
     const user = useSelector(state => state.users.user);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (products.length) {
+        if (products && products.length) {
             const product = products.find(product => product.barcode === state.barcode);
 
-            if (product && user.role === 'cashier') {
+            if (product) {
                 dispatch(addProductToCashbox(product));
                 setState(prev => ({
                     ...prev,
@@ -31,7 +31,6 @@ const CashierAddProduct = () => {
                 }));
             }
         }
-
     }, [state.barcode]);
 
     const stateChange = (name, value) => {
