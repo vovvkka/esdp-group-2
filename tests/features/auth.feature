@@ -8,6 +8,6 @@
   Сценарий:
     Допустим я захожу на страницу "login"
     Если я введу данные
-      | username       | cashier 1 |
-      | password    | cashier1           |
+      | username       | admin |
+      | password    | admin           |
     И нажимаю на кнопку "Войти"
