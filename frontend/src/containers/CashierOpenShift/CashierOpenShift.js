@@ -69,6 +69,7 @@ const CashierOpenShift = () => {
 
                         <Grid item sx={{marginY: "20px"}}>
                             <ButtonWithProgress
+                                type='submit'
                                 sx={{backgroundColor: '#4fbeff', width: "200px"}}
                                 variant="contained"
                                 color="inherit"
