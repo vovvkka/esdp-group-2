@@ -27,12 +27,16 @@ const cashboxSlice = createSlice({
             state.products = state.products.filter(product => product._id !== action.payload);
             state.total = state.products.reduce((acc, item) => acc + (item.price * item.quantity), 0);
         },
+        cancelAllCashbox(state) {
+            state.products = [];
+        }
     }
 });
 
 export const {
     addProductToCashbox,
-    deleteProductFromCashbox
+    deleteProductFromCashbox,
+    cancelAllCashbox
 } = cashboxSlice.actions;
 
 export default cashboxSlice;

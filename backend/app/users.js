@@ -1,8 +1,10 @@
 const express = require('express');
 const User = require("../models/User");
+const auth = require("../middlewares/auth");
+const permit = require("../middlewares/permit");
 const router = express.Router();
 
-router.get('/:id', async (req, res) => {
+router.get('/:id',auth,permit('admin'), async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         res.send(user);
@@ -11,7 +13,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, permit('admin'), async (req, res) => {
     const {username, password, displayName, pin, role} = req.body;
     const userData = {username, password, displayName, pin, role};
 

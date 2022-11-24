@@ -22,6 +22,7 @@ import AddOrderProduct from "./containers/AddOrderProduct/AddOrderProduct";
 import CustomerCart from "./containers/CustomerCart/CustomerCart";
 import NewsInfo from "./containers/NewsInfo/NewsInfo";
 import CashierPanel from "./containers/CashierPanel/CashierPanel";
+import AdminOrders from "./containers/AdminOrders/AdminOrders";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ?
@@ -122,6 +123,12 @@ const App = () => {
                     isAllowed={user}
                     path="/admin/cashiers/add-new-cashier"
                     component={AdminAddCashier}
+                />
+
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/orders"
+                    component={AdminOrders}
                 />
 
                 <ProtectedRoute

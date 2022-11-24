@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Grid, Paper, Typography} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
 import FormSelect from "../UI/Form/FormSelect/FormSelect";
@@ -9,25 +9,46 @@ import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteProductFromCashbox} from "../../store/slices/cashboxSlice";
+import {addProductToCashbox, cancelAllCashbox, deleteProductFromCashbox} from "../../store/slices/cashboxSlice";
 
 const CashierAddProduct = () => {
     const [state, setState] = useState({customer: '', barcode: ''});
     const addedProducts = useSelector(state => state.cashbox.products);
+    const products = useSelector(state => state.products.products.docs);
     const total = useSelector(state => state.cashbox.total);
     const user = useSelector(state => state.users.user);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (products && products.length) {
+            const product = products.find(product => product.barcode === state.barcode);
+
+            if (product) {
+                dispatch(addProductToCashbox(product));
+                setState(prev => ({
+                    ...prev,
+                    barcode: '',
+                }));
+            }
+        }
+    }, [state.barcode]);
 
     const stateChange = (name, value) => {
         setState(prev => ({
             ...prev,
             [name]: value,
-        }))
+        }));
     };
 
     const deleteHandler = (id) => {
         if (user.role === 'cashier') {
             dispatch(deleteProductFromCashbox(id));
+        }
+    };
+
+    const cancelHandler = () => {
+        if (user.role === 'cashier') {
+            dispatch(cancelAllCashbox());
         }
     };
 
@@ -51,7 +72,7 @@ const CashierAddProduct = () => {
                 />
             </Grid>
             <Grid>
-                <TableContainer component={Paper} sx={{height: '600px', overflowY: 'scroll'}}>
+                <TableContainer component={Paper} sx={{height: '55vh', overflow: 'auto'}}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow>
@@ -87,11 +108,25 @@ const CashierAddProduct = () => {
                     </Table>
                 </TableContainer>
                 {addedProducts.length ?
-                    <Grid container justifyContent='space-around' sx={{margin: '20px 0'}}>
-                        <Typography variant='h5'>Сумма: <b>{total}</b> сом</Typography>
-                        <Typography variant='h5'>Скидка: <b>{state.customer === 'Постоянный клиент' ? Math.round(total / 100 * 5) : '0'}</b> сом</Typography>
-                        <Typography variant='h5'>Итого: <b>{state.customer === 'Постоянный клиент' ? Math.round(total - total / 100 * 5) : total} </b> сом</Typography>
-                    </Grid> : null
+                    <Grid>
+                        <Grid container justifyContent='space-around' sx={{margin: '20px 0'}}>
+                            <Typography variant='h5'>Сумма: <b>{total}</b> сом</Typography>
+                            <Typography variant='h5'>Скидка: <b>{state.customer === 'Постоянный клиент' ? Math.round(total / 100 * 5) : '0'}</b> сом</Typography>
+                            <Typography variant='h5'>Итого: <b>{state.customer === 'Постоянный клиент' ? Math.round(total - total / 100 * 5) : total} </b> сом</Typography>
+                        </Grid>
+                        <Grid container spacing={2} justifyContent='center'>
+                            <Grid item>
+                                <Button variant='contained'>Дублировать</Button>
+                            </Grid>
+                            <Grid item>
+                                <Button variant='contained' onClick={cancelHandler}>Отмена</Button>
+                            </Grid>
+                            <Grid item>
+                                <Button variant='contained'>Получить</Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                   : null
                 }
 
             </Grid>

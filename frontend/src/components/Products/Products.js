@@ -6,17 +6,17 @@ import {useMediaQuery} from "@mui/material";
 import Pagination from '@mui/material/Pagination';
 import SingleProduct from "./SingleProduct";
 import SingleProductDesktop from "./SingleProductDesktop";
-import {fetchProductsTable} from "../../store/actions/productsActions";
+import {fetchProducts} from "../../store/actions/productsActions";
 
 const Products = () => {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
-    const products = useSelector(state => state.products.productsTable);
+    const products = useSelector(state => state.products.products);
     const [currentPage, setCurrentPage] = useState(1);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchProductsTable(`?page=${currentPage}`));
+        dispatch(fetchProducts(`?page=${currentPage}`));
     }, [dispatch, currentPage]);
 
     const handleChange = (event, value) => {

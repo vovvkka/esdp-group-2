@@ -90,10 +90,12 @@ const AppbarDesktop = ({matches}) => {
     const {classes} = useStyles();
     const dispatch = useDispatch();
 
-    const onSearch = (e) => {
-        console.log(e.target.value);
+
+    const onSearch = e => {
         if (e.target.value) {
-            dispatch(fetchProducts('?search=' + e.target.value));
+            if (e.target.value.replace(/\s/g, '')) {
+                dispatch(fetchProducts('?key=' + e.target.value));
+            }
         } else {
             dispatch(fetchProducts());
         }

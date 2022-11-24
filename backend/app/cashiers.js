@@ -1,8 +1,10 @@
 const express = require('express');
 const User = require("../models/User");
+const auth = require("../middlewares/auth");
+const permit = require("../middlewares/permit");
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/',auth,permit('admin'), async (req, res) => {
     try {
         const cashiers = await User.find({role: {$eq: 'cashier'}});
 
@@ -16,7 +18,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id',auth,permit('admin'), async (req, res) => {
     try {
         const cashier = await User.findById(req.params.id);
 
@@ -30,9 +32,9 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
-    const {username, password, displayName, pin, role} = req.body;
-    const userData = {username, password, displayName, pin, role};
+router.put('/:id',auth,permit('admin'), async (req, res) => {
+    const {username, password, displayName, pin} = req.body;
+    const userData = {username, password, displayName, pin};
 
     try {
         const cashier = await User.findById(req.params.id);
@@ -40,8 +42,10 @@ router.put('/:id', async (req, res) => {
         if (!cashier) {
             return res.status(404).send({message: 'Кассир не найден.'});
         }
-
-        await User.findByIdAndUpdate(req.params.id, userData);
+        if (!password){
+            delete userData.password;
+        }
+        await User.findByIdAndUpdate(req.params.id,userData);
 
         res.send({message: 'Edit successful!'});
     } catch (e) {

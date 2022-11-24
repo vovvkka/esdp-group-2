@@ -19,7 +19,6 @@ const AdminOrCashierMenu = ({user}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorEl2, setAnchorEl2] = useState(null);
     const [openDialog, setOpen] = useState(false);
-    const [wantToLogout, setWantToLogout] = useState(false);
 
     const open = Boolean(anchorEl);
     const open2 = Boolean(anchorEl2);
@@ -36,16 +35,6 @@ const AdminOrCashierMenu = ({user}) => {
 
     const handleClick2 = (event) => setAnchorEl2(event.currentTarget);
     const handleClose2 = () => setAnchorEl2(null);
-
-    const closeShiftHandler = async (id) =>{
-        if(wantToLogout) {
-            await dispatch(closeShift(id));
-            await dispatch(logoutUser());
-            setWantToLogout(false);
-        }else{
-            dispatch(closeShift(id));
-        }
-    }
 
     if (user?.role === 'admin') {
         return (
@@ -115,7 +104,7 @@ const AdminOrCashierMenu = ({user}) => {
                         <MenuItem
                             onClick={() => {
                                 handleClose();
-                                handleClickOpenDialog();
+                                handleClickOpenDialog()
                             }}
                         >
                             Закрытие смены
@@ -158,11 +147,9 @@ const AdminOrCashierMenu = ({user}) => {
 
                     <Button onClick={() => {
                         if (user.role === 'cashier' && shift) {
-                            setWantToLogout(true);
                             handleClickOpenDialog();
-                        }else {
-                            dispatch(logoutUser());
                         }
+                        dispatch(logoutUser());
                     }} color="primary" variant="contained"
                             sx={{marginTop: '5px'}}>
                         Выйти
@@ -184,7 +171,7 @@ const AdminOrCashierMenu = ({user}) => {
                         </Button>
                         <Button onClick={() => {
                             handleCloseDialog();
-                            closeShiftHandler(shift._id);
+                            dispatch(closeShift(shift._id));
                         }} autoFocus>
                             ДА
                         </Button>
