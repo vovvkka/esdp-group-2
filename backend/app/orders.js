@@ -12,7 +12,8 @@ router.get('/', auth, permit('admin'), async (req, res) => {
             query.status = req.query.status;
         }
 
-        const orders = await Order.find(query);
+        const orders = await Order.find(query).populate('order.product', 'title price');
+
         res.send(orders);
     } catch (e) {
         res.status(500).send(e);
@@ -62,54 +63,26 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.delete('/:id', auth, permit('admin'), async (req, res) => {
+router.put('/:id/changeStatus', auth, permit('admin'), async (req, res) => {
     try {
-        let order = await Order.findById(req.params.id);
+        const {status} = req.body;
 
-        if (order.status === 'закрыт') {
-            return res.status(403).send({message: 'This order cannot be deleted!'});
-        }
-
-        order = await Order.findByIdAndDelete(req.params.id);
-        res.send(order);
-    } catch (e) {
-        res.status(400).send({error: e.errors});
-    }
-});
-
-router.put('/:id/collect', auth, permit('admin'), async (req, res) => {
-    try {
         const order = await Order.findById(req.params.id);
-        if(!order){
-            return res.status(404).send({message: 'Order not found!'})
-        }
-        if(order.status === 'новый'){
-            order.status = 'собран';
-            await order.save();
-        }
+
+        if (!order) return res.status(404).send({message: 'Заказ не найден!'});
+
+        if (!req.body.status) return res.status(400).send({message: 'Выберите статус.'});
+
+        if (order.status === status) return res.status(400).send({message: 'Статус не изменился.'});
+
+        order.status = status;
+        await order.save();
+
         res.send(order);
     } catch (e) {
         console.log(e)
         res.status(400).send({error: e.errors});
     }
 });
-
-router.put('/:id/close', auth, permit('admin'), async (req, res) => {
-    try {
-        const order = await Order.findById(req.params.id);
-        if(!order){
-            return res.status(404).send({message: 'Order not found!'})
-        }
-        if(order.status === 'собран'){
-            order.status = 'закрыт';
-            await order.save();
-        }
-        res.send(order);
-    } catch (e) {
-        console.log(e)
-        res.status(400).send({error: e.errors});
-    }
-});
-
 
 module.exports = router;

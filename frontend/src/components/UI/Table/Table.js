@@ -17,12 +17,12 @@ import {deleteProduct} from "../../../store/actions/productsActions";
 import {useDownloadExcel} from "react-export-table-to-excel";
 
 
-const TableAdmin = ({rows, rowsHead, categories, products, cashiers, shifts}) => {
+const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shifts, onOpenOrderModal}) => {
     const dispatch = useDispatch();
     const tableRef = useRef(null);
 
 
-    const { onDownload } = useDownloadExcel({
+    const {onDownload} = useDownloadExcel({
         currentTableRef: tableRef.current,
         filename: categories || products,
         sheet: categories || products
@@ -34,7 +34,7 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, shifts}) =>
         render = rows.map((row) => (
             <TableRow
                 key={row.title}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{'&:last-child td, &:last-child th': {border: 0}}}
             >
                 <TableCell component="th" scope="row">
                     {row.title}
@@ -48,7 +48,8 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, shifts}) =>
                 <TableCell align="center">{new Date(row.updatedAt).toLocaleString()}</TableCell>
                 <TableCell align="center">
                     <Box display='flex'>
-                        <Button component={Link} to={"/admin/categories/edit-category/" + row._id}><EditSharpIcon/></Button>
+                        <Button component={Link}
+                                to={"/admin/categories/edit-category/" + row._id}><EditSharpIcon/></Button>
                         <Button onClick={() => dispatch(deleteCategory(row._id))}><DeleteForeverSharpIcon/></Button>
                     </Box>
                 </TableCell>
@@ -61,7 +62,7 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, shifts}) =>
         render = rows.map((row) => (
             <TableRow
                 key={row._id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{'&:last-child td, &:last-child th': {border: 0}}}
             >
                 <TableCell align='center'>
                     {row.category ? row.category.title : 'Нет категории'}
@@ -89,7 +90,8 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, shifts}) =>
                 <TableCell align="center">{new Date(row.updatedAt).toLocaleString()}</TableCell>
                 <TableCell align="center">
                     <Box display='flex'>
-                        <Button component={Link} to={"/admin/products/edit-product/" + row._id}><EditSharpIcon/></Button>
+                        <Button component={Link}
+                                to={"/admin/products/edit-product/" + row._id}><EditSharpIcon/></Button>
                         <Button onClick={() => dispatch(deleteProduct(row._id))}><DeleteForeverSharpIcon/></Button>
                     </Box>
                 </TableCell>
@@ -101,14 +103,15 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, shifts}) =>
         render = rows.map((row) => (
             <TableRow
                 key={row._id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{'&:last-child td, &:last-child th': {border: 0}}}
             >
                 <TableCell>
                     {row.username}
                 </TableCell>
                 <TableCell align="center">
                     <Box display='flex' justifyContent='center'>
-                        <Button component={Link} to={"/admin/cashiers/edit-cashier/" + row._id}><EditSharpIcon/></Button>
+                        <Button component={Link}
+                                to={"/admin/cashiers/edit-cashier/" + row._id}><EditSharpIcon/></Button>
                     </Box>
                 </TableCell>
             </TableRow>
@@ -119,22 +122,52 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, shifts}) =>
         render = rows.map((row) => (
             <TableRow
                 key={row._id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{'&:last-child td, &:last-child th': {border: 0}}}
             >
                 <TableCell component="th" scope="row">
                     {row.shiftNumber}
                 </TableCell>
                 <TableCell align="center">{row.cashier.displayName}</TableCell>
                 <TableCell align="center">{new Date(row.createdAt).toLocaleString()}</TableCell>
-                <TableCell align="center">{row.isActive ? 'Онлайн' : new Date(row.updatedAt).toLocaleString()}</TableCell>
+                <TableCell
+                    align="center">{row.isActive ? 'Онлайн' : new Date(row.updatedAt).toLocaleString()}</TableCell>
             </TableRow>
-        ))
+        ));
+    }
+
+    if (orders) {
+        render = rows.map((row) => {
+
+            let background = '#ffafaf;';
+
+            if (row.status === 'Закрыт') {
+                background = '#c3ffc3;';
+            } else if (row.status === 'Собран') {
+                background = '#ffdda0;';
+            }
+
+            return (
+                <TableRow
+                    key={row._id}
+                    sx={{'&:last-child td, &:last-child th': {border: 0}, background}}
+                    onClick={() => onOpenOrderModal(row)}
+                >
+                    <TableCell component="th" scope="row">
+                        {row.orderNumber}
+                    </TableCell>
+                    <TableCell align="center">{row.customer}</TableCell>
+                    <TableCell align="center">{row.phone}</TableCell>
+                    <TableCell align="center">{row.status}</TableCell>
+                    <TableCell align="center">{new Date(row.createdAt).toLocaleString()}</TableCell>
+                </TableRow>
+            );
+        });
     }
 
     return (
         <Box display='flex' flexDirection='column'>
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table" ref={tableRef}>
+                <Table sx={{minWidth: 650}} aria-label="simple table" ref={tableRef}>
                     <TableHead>
                         <TableRow>
                             {rowsHead.map((row, index) => (
@@ -152,7 +185,7 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, shifts}) =>
                 <Box display='flex' justifyContent='flex-end' marginY='20px'>
                     <Button variant='outlined' onClick={onDownload}> Экспорт </Button>
                 </Box>
-            : null}
+                : null}
         </Box>
     );
 };
