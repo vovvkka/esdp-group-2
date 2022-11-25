@@ -7,7 +7,7 @@ import {makeStyles} from "tss-react/mui";
 import Footer from "../../Footer/Footer";
 import AppDrawer from "../../Drawer/Drawer";
 
-const useStyles = makeStyles()(theme => ({
+const useStyles = makeStyles()(() => ({
     main: {
         minHeight: "56.2vh",
         display: "flex",
@@ -20,7 +20,7 @@ const Layout = ({children}) => {
 
     return (
         <>
-            <ToastContainer toastStyle={{backgroundColor: "#dde6ff"}}/>
+            <ToastContainer toastStyle={{backgroundColor: "#dde6ff", color: '#000'}}/>
             <CssBaseline/>
             <AppToolbar/>
             <main className={classes.main}>

@@ -14,8 +14,6 @@ router.get('/', auth, permit('admin'), async (req, res) => {
 
         const orders = await Order.find(query).populate('order.product', 'title price');
 
-        console.log(orders);
-
         res.send(orders);
     } catch (e) {
         res.status(500).send(e);
@@ -67,23 +65,17 @@ router.post('/', async (req, res) => {
 
 router.put('/:id/changeStatus', auth, permit('admin'), async (req, res) => {
     try {
+        const {status} = req.body;
+
         const order = await Order.findById(req.params.id);
 
-        console.log(req.body.status)
+        if (!order) return res.status(404).send({message: 'Заказ не найден!'});
 
-        if (!order) {
-            return res.status(404).send({message: 'Order not found!'})
-        }
+        if (!req.body.status) return res.status(400).send({message: 'Выберите статус.'});
 
-        if (!req.body.status) {
-            return res.status(400).send({message: 'Выберите статус.'});
-        }
+        if (order.status === status) return res.status(400).send({message: 'Статус не изменился.'});
 
-        if (order.status === req.body.status) {
-            return res.status(400).send({message: 'Статус заказа не изменился.'});
-        }
-
-        order.status = req.body.status;
+        order.status = status;
         await order.save();
 
         res.send(order);
@@ -92,23 +84,5 @@ router.put('/:id/changeStatus', auth, permit('admin'), async (req, res) => {
         res.status(400).send({error: e.errors});
     }
 });
-
-router.put('/:id/close', auth, permit('admin'), async (req, res) => {
-    try {
-        const order = await Order.findById(req.params.id);
-        if (!order) {
-            return res.status(404).send({message: 'Order not found!'})
-        }
-        if (order.status === 'собран') {
-            order.status = 'закрыт';
-            await order.save();
-        }
-        res.send(order);
-    } catch (e) {
-        console.log(e)
-        res.status(400).send({error: e.errors});
-    }
-});
-
 
 module.exports = router;

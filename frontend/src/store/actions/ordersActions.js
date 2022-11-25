@@ -9,6 +9,7 @@ import {
     getOrdersSuccess
 } from "../slices/ordersSlice";
 import {clearCart} from "../slices/cartSlice";
+import {addNotification} from "./notifierActions";
 
 
 export const addOrder = orderData => {
@@ -51,11 +52,14 @@ export const changeStatus = (id, status) => {
             dispatch(changeStatusRequest());
             const response = await axiosApi.put(`/orders/${id}/changeStatus`, {status});
             dispatch(changeStatusSuccess(response.data));
+            dispatch(addNotification('Статус успешно изменен.', 'success'));
         } catch (e) {
             if (e.response && e.response.data) {
                 dispatch(changeStatusFailure(e.response.data));
+                dispatch(addNotification(e.response.data.message, 'error'));
             } else {
                 dispatch(changeStatusFailure({global: 'No internet'}));
+                dispatch(addNotification('Что то пошло не так.', 'error'));
             }
         }
     };

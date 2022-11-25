@@ -24,7 +24,7 @@ const AdminOrders = () => {
     const rowsHead = ['№', 'Имя', 'Телефон', 'Статус', 'Дата'];
 
     const orders = useSelector(state => state.orders.orders);
-    const loading = useSelector(state => state.orders.error);
+    const loading = useSelector(state => state.orders.loading);
     const dispatch = useDispatch();
 
     const [openModal, setOpenModal] = useState(false);
