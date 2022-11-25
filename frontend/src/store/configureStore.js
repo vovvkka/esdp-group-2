@@ -2,7 +2,7 @@ import {combineReducers} from "redux";
 import {loadFromLocalStorage, saveToLocalStorage} from "./localStorage";
 import axiosApi from "../axiosApi";
 import {configureStore} from "@reduxjs/toolkit";
-import usersSlice, {initialState} from "./slices/usersSlice";
+import usersSlice from "./slices/usersSlice";
 import thunk from "redux-thunk";
 import categoriesSlice from "./slices/categoriesSlice";
 import productsSlice from "./slices/productsSlice";
@@ -43,8 +43,10 @@ const store = configureStore({
 store.subscribe(() => {
     saveToLocalStorage({
         users: {
-            ...initialState,
             user: store.getState().users.user,
+        },
+        cart: {
+            products: store.getState().cart.products,
         }
     })
 });

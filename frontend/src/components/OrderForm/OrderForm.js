@@ -1,13 +1,22 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import FormElement from "../UI/Form/FormElement/FormElement";
 import {Button, Grid} from "@mui/material";
+import {useDispatch} from "react-redux";
+import {clearOrderError} from "../../store/slices/ordersSlice";
 
 const OrderForm = ({onSubmit, error}) => {
+    const dispatch = useDispatch();
     const [state, setState] = useState({
         customer: "",
         phone: "",
         address: "",
     });
+
+    useEffect(()=>{
+        return () =>{
+          dispatch(clearOrderError());
+        };
+    },[dispatch]);
 
     const getFieldError = fieldName => {
         try {
@@ -56,7 +65,7 @@ const OrderForm = ({onSubmit, error}) => {
                 />
 
                 <FormElement
-                    type="phone"
+                    type="tel"
                     label="Ваш телефон"
                     onChange={inputChangeHandler}
                     value={state.phone}
