@@ -63,7 +63,7 @@ const Login = () => {
 
                 {error && (
                     <Alert severity="error" className={classes.alert}>
-                        Error! {error.error}
+                        Ошибка! {error.error}
                     </Alert>
                 )}
 

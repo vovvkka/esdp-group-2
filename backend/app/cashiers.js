@@ -9,7 +9,7 @@ router.get('/',auth,permit('admin'), async (req, res) => {
         const cashiers = await User.find({role: {$eq: 'cashier'}});
 
         if (!cashiers) {
-            return res.status(404).send({message: 'Кассир не найден.'});
+            return res.status(404).send({message: 'Cashier not found!'});
         }
 
         res.send(cashiers);
@@ -23,7 +23,7 @@ router.get('/:id',auth,permit('admin'), async (req, res) => {
         const cashier = await User.findById(req.params.id);
 
         if (!cashier) {
-            return res.status(404).send({message: 'Кассир не найден.'});
+            return res.status(404).send({message: 'Cashier not found!'});
         }
 
         res.send(cashier);
@@ -40,7 +40,7 @@ router.put('/:id',auth,permit('admin'), async (req, res) => {
         const cashier = await User.findById(req.params.id);
 
         if (!cashier) {
-            return res.status(404).send({message: 'Кассир не найден.'});
+            return res.status(404).send({message: 'Cashier not found!'});
         }
         if (!password){
             delete userData.password;

@@ -12,9 +12,8 @@ const UserMenu = ({user}) => {
                         component={Link}
                         to={'/' + user?.role}
                         variant="contained"
-                        display="flex"
                     >
-                        <LockIcon sx={{marginRight: '5px'}}/> Личный кабинет
+                        <LockIcon/>
                     </Button> : null
             }
         </>

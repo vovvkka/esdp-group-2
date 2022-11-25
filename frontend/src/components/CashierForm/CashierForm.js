@@ -101,19 +101,6 @@ const CashierForm = ({onSubmit, cashier, isParams, error}) => {
                         error={getFieldError('username')}
                     />
 
-                    {
-                        isParams ? null :
-                            <FormElement
-                                required={true}
-                                type="password"
-                                label="Пароль"
-                                name="password"
-                                value={cashierData.password}
-                                onChange={(e) => inputChangeHandler(e.target.name, e.target.value)}
-                                error={getFieldError('password')}
-                            />
-                    }
-
                     <FormElement
                         required={true}
                         label="ФИО"

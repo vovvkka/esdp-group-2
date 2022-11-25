@@ -24,7 +24,7 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: true,
-        minLength:6,
+        minLength:[6, 'Пароль должен содержать минимум 6 символов']
     },
     pin: {
       type: String,
