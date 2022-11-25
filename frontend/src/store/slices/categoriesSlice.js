@@ -48,6 +48,17 @@ const categoriesSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        createSubCategoryRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        createSubCategorySuccess(state) {
+            state.loading = false;
+        },
+        createSubCategoryFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
         deleteCategoryRequest(state) {
             state.loading = true;
             state.error = null;
@@ -84,6 +95,9 @@ export const {
     createCategoryRequest,
     createCategorySuccess,
     createCategoryFailure,
+    createSubCategoryRequest,
+    createSubCategorySuccess,
+    createSubCategoryFailure,
     deleteCategoryRequest,
     deleteCategorySuccess,
     deleteCategoryFailure,
