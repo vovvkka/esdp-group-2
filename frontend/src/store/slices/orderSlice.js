@@ -24,6 +24,10 @@ const orderSlice = createSlice({
             state.createError = action.payload;
         },
 
+        clearOrderError(state) {
+            state.createError = null;
+        },
+
         getOrdersRequest(state) {
             state.loading = true;
             state.error = null;
@@ -97,6 +101,9 @@ export const {
     addOrderRequest,
     addOrderSuccess,
     addOrderFailure,
+
+    clearOrderError,
+
     getOrdersRequest,
     getOrdersSuccess,
     getOrdersFailure,

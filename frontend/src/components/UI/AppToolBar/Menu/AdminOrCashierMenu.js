@@ -39,12 +39,12 @@ const AdminOrCashierMenu = ({user}) => {
     const handleClick2 = (event) => setAnchorEl2(event.currentTarget);
     const handleClose2 = () => setAnchorEl2(null);
 
-    const shiftCloseHandler = async (id) =>{
-        if(wantToLogout){
+    const shiftCloseHandler = async (id) => {
+        if (wantToLogout) {
             await dispatch(closeShift(id));
-            await  dispatch(logoutUser());
+            await dispatch(logoutUser());
             setWantToLogout(false);
-        }else{
+        } else {
             dispatch(closeShift(shift._id));
         }
     }
@@ -98,30 +98,36 @@ const AdminOrCashierMenu = ({user}) => {
         return (
             <>
                 <Grid item display="flex" alignItems="center">
-                    <Button color="inherit" sx={{marginRight: '5px'}} onClick={handleClick}>Операции</Button>
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                        }}
-                    >
-                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Продажа</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Внесение наличных</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Изъятие наличных</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Возврат продажи</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>X-отчет</MenuItem>
-                        <MenuItem
-                            onClick={() => {
-                                handleClose();
-                                handleClickOpenDialog()
-                            }}
-                        >
-                            Закрытие смены
-                        </MenuItem>
-                    </Menu>
+                    {shift ?
+                        <>
+                            <Button color="inherit" sx={{marginRight: '5px'}} onClick={handleClick}>Операции</Button>
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                MenuListProps={{
+                                    'aria-labelledby': 'basic-button',
+                                }}
+                            >
+                                <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Продажа</MenuItem>
+                                <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Внесение
+                                    наличных</MenuItem>
+                                <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Изъятие
+                                    наличных</MenuItem>
+                                <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Возврат
+                                    продажи</MenuItem>
+                                <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>X-отчет</MenuItem>
+                                <MenuItem
+                                    onClick={() => {
+                                        handleClose();
+                                        handleClickOpenDialog()
+                                    }}
+                                >
+                                    Закрытие смены
+                                </MenuItem>
+                            </Menu>
+                        </> : null}
 
                     <Button
                         id="basic-button"
@@ -145,8 +151,12 @@ const AdminOrCashierMenu = ({user}) => {
                     >
                         <MenuItem onClick={handleClose}>Все записи</MenuItem>
                         <MenuItem onClick={handleClose}>Продажи</MenuItem>
-                        <MenuItem onClick={handleClose}>Z-отчет</MenuItem>
-                        <MenuItem onClick={handleClose}>Отчет</MenuItem>
+                        {!shift ?
+                            <>
+                                <MenuItem onClick={handleClose}>Z-отчет</MenuItem>
+                                <MenuItem onClick={handleClose}>Отчет</MenuItem>
+                            </>
+                            : null}
                     </Menu>
                 </Grid>
 
@@ -161,7 +171,7 @@ const AdminOrCashierMenu = ({user}) => {
                         if (user.role === 'cashier' && shift) {
                             setWantToLogout(true);
                             handleClickOpenDialog();
-                        }else {
+                        } else {
                             dispatch(logoutUser());
                         }
                     }} color="primary" variant="contained"
