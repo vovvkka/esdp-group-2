@@ -9,7 +9,7 @@ import productsSlice from "./slices/productsSlice";
 import cashiersSlice from "./slices/cashiersSlice";
 import appSlice from "./slices/appSLice";
 import newsSlice from "./slices/newsSlice";
-import orderSlice from "./slices/orderSlice";
+import ordersSlice from "./slices/ordersSlice";
 import cartSlice from "./slices/cartSlice";
 import shiftsSlice from "./slices/shiftsSlice";
 import cashboxSlice from "./slices/cashboxSlice";
@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
     cashiers: cashiersSlice.reducer,
     app: appSlice.reducer,
     news: newsSlice.reducer,
-    orders: orderSlice.reducer,
+    orders: ordersSlice.reducer,
     cart: cartSlice.reducer,
     shifts: shiftsSlice.reducer,
     cashbox: cashboxSlice.reducer,

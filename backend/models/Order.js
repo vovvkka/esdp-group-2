@@ -42,8 +42,8 @@ const OrderSchema  = new Schema({
     status: {
         type: String,
         required: true,
-        default: 'новый',
-        enum: ['новый', 'собран','закрыт'],
+        default: 'Новый',
+        enum: ['Новый', 'Собран','Закрыт'],
     },
 },{
     timestamps:true,

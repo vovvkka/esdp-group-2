@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, Typography, useMediaQuery} from "@mui/material";
 import OrderForm from "../../components/OrderForm/OrderForm";
 import {useDispatch, useSelector} from "react-redux";
-import {addOrder} from "../../store/actions/orderActions";
+import {addOrder} from "../../store/actions/ordersActions";
 import theme from "../../theme";
 
 const AddOrderProduct = () => {

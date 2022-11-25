@@ -3,7 +3,7 @@ import {historyPush} from "./historyActions";
 import {
     createCategoryFailure,
     createCategoryRequest,
-    createCategorySuccess,
+    createCategorySuccess, createSubCategoryFailure, createSubCategoryRequest, createSubCategorySuccess,
     deleteCategoryFailure,
     deleteCategoryRequest,
     deleteCategorySuccess,
@@ -72,6 +72,26 @@ export const createCategory = categoryData => {
         }
     };
 };
+
+export const createSubCategory = subcategoryData => {
+    return async dispatch => {
+        try {
+            dispatch(createSubCategoryRequest());
+
+            await axiosApi.post('/categories/subcategory', subcategoryData);
+
+            dispatch(createSubCategorySuccess());
+            dispatch(historyPush('/admin/categories'));
+        } catch (e) {
+            if (e.response && e.response.data) {
+                dispatch(createSubCategoryFailure(e.response.data));
+            } else {
+                dispatch(createSubCategoryFailure({global: 'No internet'}));
+            }
+        }
+    };
+};
+
 
 export const editCategory = (id, categoryData) => {
     return async dispatch => {

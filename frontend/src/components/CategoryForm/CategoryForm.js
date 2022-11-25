@@ -5,16 +5,22 @@ import FormSelect from "../UI/Form/FormSelect/FormSelect";
 import {useSelector} from "react-redux";
 
 
-const CategoryForm = ({onSubmit, data}) => {
+const CategoryForm = ({onSubmit, data, sub, categories}) => {
     const error = useSelector(state => state.categories.error);
+    const [options, setOptions] = useState([]);
 
     const [state, setState] = useState({
+        category: "",
         title: "",
         status: "",
         nds: 0,
         nspCash: 0,
         nspNotCash: 0,
     });
+
+    useEffect(() => {
+        setOptions(categories);
+    }, [categories]);
 
     const getFieldError = fieldName => {
         try {
@@ -43,7 +49,6 @@ const CategoryForm = ({onSubmit, data}) => {
 
     const onSubmitHandler = e => {
         e.preventDefault();
-
         onSubmit({...state});
     };
 
@@ -52,11 +57,28 @@ const CategoryForm = ({onSubmit, data}) => {
             autoComplete="off"
             onSubmit={(e) => onSubmitHandler(e)}
         >
-            <Paper display="flex">
-                <Grid container textAlign="center" marginX="auto" spacing={3}>
-                    <Grid item xs={3}>
+            <Paper display="flex" >
+                {sub ?
+                    <Grid container justifyContent='center' sx={{margin: '20px'}}>
+                        <Grid xs={6} item>
+                            <FormSelect
+                                selectFromServer
+                                options={options}
+                                label="Категория"
+                                onChange={inputChangeHandler}
+                                value={state.category}
+                                name="category"
+                                error={getFieldError('category')}
+                                required={true}
+                            />
+                        </Grid>
+                    </Grid>
+                    : null
+                }
+                <Grid container textAlign="center" marginX="auto" spacing={3} justifyContent='center'>
+                    <Grid item xs={2}>
                         <FormElement
-                            label="Категория"
+                            label="Название"
                             onChange={inputChangeHandler}
                             value={state.title}
                             name="title"
@@ -105,7 +127,7 @@ const CategoryForm = ({onSubmit, data}) => {
                         />
                     </Grid>
                 </Grid>
-                <Grid sx={{margin: "15px 0 0 20px", paddingBottom: "20px"}}>
+                <Grid sx={{margin: "15px 0 0 20px", paddingBottom: "20px"}} container justifyContent='center'>
                     <Button type="submit" color="primary" variant="contained">Сохранить</Button>
                 </Grid>
             </Paper>
