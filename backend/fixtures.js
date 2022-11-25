@@ -195,7 +195,7 @@ const run = async () => {
         customer: 'Лера',
         phone: '+(996) 555 555 555',
         order: [{product: product1._id, quantity: 1}],
-        status: 'закрыт',
+        status: 'Закрыт',
         address: 'г.Бишкек, микрорайон-10 1/10'
     }, {
         customer: 'Вова',
@@ -206,7 +206,7 @@ const run = async () => {
         customer: 'Акбар',
         phone: '+(996) 555 515 555',
         order: [{product: product1._id, quantity: 3}],
-        status: 'собран',
+        status: 'Собран',
         address: 'г.Бишкек, микрорайон-8 21/13'
     }, {
         customer: 'Даниил',
@@ -217,7 +217,7 @@ const run = async () => {
         customer: 'Жалын',
         phone: '+(996) 551 555 555',
         order: [{product: product4._id, quantity: 2}, {product: product3._id, quantity: 1}],
-        status: 'закрыт',
+        status: 'Закрыт',
         address: 'г.Бишкек, микрорайон-5 2/50'
     });
 

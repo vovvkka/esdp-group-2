@@ -23,7 +23,7 @@ const AdminOrders = () => {
             </Grid>
             {loading ? <Spinner/> :
                 <Box>
-                    {orders?.length > 0 ? <TableAdmin rowsHead={rowsHead} rows={orders} cashiers='Заказы'/> :
+                    {orders?.length > 0 ? <TableAdmin rowsHead={rowsHead} rows={orders} orders='Заказы'/> :
                         <Typography variant='h6'>Cashiers not found</Typography>}
                 </Box>
             }
