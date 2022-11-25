@@ -29,6 +29,10 @@ const OrderSchema  = new Schema({
     phone: {
         type: String,
         required: true,
+        validate: {
+            validator: validatePhone,
+            message: 'Неправильный формат номера!',
+        }
     },
     address: {
         type: String,

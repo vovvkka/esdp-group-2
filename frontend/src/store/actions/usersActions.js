@@ -12,7 +12,7 @@ export const loginUser = userData => {
 
             dispatch(loginSuccess(response.data.user));
 
-            dispatch(addNotification('Login successful!', 'success'));
+            dispatch(addNotification('Вы успешно вошли в систему!', 'success'));
 
             if (response.data.user?.role === 'admin') {
                 return dispatch(historyPush('/admin'));

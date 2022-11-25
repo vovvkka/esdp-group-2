@@ -33,13 +33,13 @@ router.post('/sessions', async (req, res) => {
     const user = await User.findOne({username: req.body.username});
 
     if (!user) {
-        return res.status(401).send({error: 'Wrong username or password!'});
+        return res.status(401).send({error: 'Неправильный логин или пароль!'});
     }
 
     const isMatch = await user.checkPassword(req.body.password);
 
     if (!isMatch) {
-        return res.status(401).send({error: 'Wrong username or password!'});
+        return res.status(401).send({error: 'Неправильный логин или пароль!'});
     }
 
     user.generateToken();
