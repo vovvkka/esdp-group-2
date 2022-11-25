@@ -39,7 +39,7 @@ const OrderSchema  = new Schema({
         type: String,
         required: true,
         default: 'новый',
-        enum: ['новый', 'собран','закрыт'],
+        enum: ['Новый', 'Собран','Закрыт'],
     },
 },{
     timestamps:true,

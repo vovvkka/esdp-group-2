@@ -4,7 +4,6 @@ const name = 'orders';
 
 export const initialState = {
     orders: [],
-    order: null,
     loading: false,
     error: null,
     createError: null,
@@ -38,6 +37,20 @@ const ordersSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+
+        changeStatusRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        changeStatusSuccess(state, action) {
+            state.loading = false;
+            const idx = state.orders.findIndex(order => order._id === action.payload._id);
+            state.orders[idx].status = action.payload.status;
+        },
+        changeStatusFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
     }
 });
 
@@ -48,6 +61,9 @@ export const {
     getOrdersRequest,
     getOrdersSuccess,
     getOrdersFailure,
+    changeStatusRequest,
+    changeStatusSuccess,
+    changeStatusFailure
 } = ordersSlice.actions;
 
 export default ordersSlice;

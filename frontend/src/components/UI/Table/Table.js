@@ -17,7 +17,7 @@ import {deleteProduct} from "../../../store/actions/productsActions";
 import {useDownloadExcel} from "react-export-table-to-excel";
 
 
-const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shifts}) => {
+const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shifts, onOpenOrderModal}) => {
     const dispatch = useDispatch();
     const tableRef = useRef(null);
 
@@ -140,9 +140,9 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shi
 
             let background = '#ffafaf;';
 
-            if (row.status === 'закрыт') {
+            if (row.status === 'Закрыт') {
                 background = '#c3ffc3;';
-            } else if (row.status === 'собран') {
+            } else if (row.status === 'Собран') {
                 background = '#ffdda0;';
             }
 
@@ -150,6 +150,7 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shi
                 <TableRow
                     key={row._id}
                     sx={{'&:last-child td, &:last-child th': {border: 0}, background}}
+                    onClick={() => onOpenOrderModal(row)}
                 >
                     <TableCell component="th" scope="row">
                         {row.orderNumber}

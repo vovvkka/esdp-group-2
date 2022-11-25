@@ -3,7 +3,7 @@ import {historyPush} from "./historyActions";
 import {
     addOrderFailure,
     addOrderRequest,
-    addOrderSuccess,
+    addOrderSuccess, changeStatusFailure, changeStatusRequest, changeStatusSuccess,
     getOrdersFailure,
     getOrdersRequest,
     getOrdersSuccess
@@ -45,18 +45,18 @@ export const getOrders = () => {
     };
 };
 
-// export const collectOrder = (id) => {
-//     return async dispatch => {
-//         try {
-//             dispatch(collectOrderRequest());
-//             await axiosApi.put(`/orders/${id}/collect`);
-//             dispatch(collectOrderSuccess());
-//         } catch (e) {
-//             if (e.response && e.response.data) {
-//                 dispatch(collectOrderFailure(e.response.data));
-//             } else {
-//                 dispatch(collectOrderFailure({global: 'No internet'}));
-//             }
-//         }
-//     };
-// };
+export const changeStatus = (id, status) => {
+    return async dispatch => {
+        try {
+            dispatch(changeStatusRequest());
+            const response = await axiosApi.put(`/orders/${id}/changeStatus`, {status});
+            dispatch(changeStatusSuccess(response.data));
+        } catch (e) {
+            if (e.response && e.response.data) {
+                dispatch(changeStatusFailure(e.response.data));
+            } else {
+                dispatch(changeStatusFailure({global: 'No internet'}));
+            }
+        }
+    };
+};
