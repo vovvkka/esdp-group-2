@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import FormElement from "../UI/Form/FormElement/FormElement";
 import {Button, Grid} from "@mui/material";
-import {clearOrderError} from "../../store/slices/orderSlice";
 import {useDispatch} from "react-redux";
+import {clearOrderError} from "../../store/slices/ordersSlice";
 
 const OrderForm = ({onSubmit, error}) => {
     const dispatch = useDispatch();
