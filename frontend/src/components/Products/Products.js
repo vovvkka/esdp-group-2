@@ -1,4 +1,4 @@
-import {Box, Container, Grid} from "@mui/material";
+import {Box, Container, Grid, Typography} from "@mui/material";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useTheme} from "@mui/material/styles";
@@ -7,11 +7,13 @@ import Pagination from '@mui/material/Pagination';
 import SingleProduct from "./SingleProduct";
 import SingleProductDesktop from "./SingleProductDesktop";
 import {fetchProducts} from "../../store/actions/productsActions";
+import Spinner from "../UI/Spinner/Spinner";
 
 const Products = () => {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("md"));
     const products = useSelector(state => state.products.products);
+    const loading = useSelector(state => state.products.fetchLoading);
     const [currentPage, setCurrentPage] = useState(1);
     const dispatch = useDispatch();
 
@@ -23,7 +25,7 @@ const Products = () => {
         setCurrentPage(value);
     };
 
-    const renderProducts = products?.docs?.map((product) => (
+    const renderProducts = products?.docs?.length > 0 ? products.docs.map((product) => (
         <Grid item key={product._id} xs={2} sm={4} md={4} display="flex" flexDirection={'column'} alignItems="center">
             {matches ? (
                 <SingleProduct product={product} matches={matches}/>
@@ -31,9 +33,9 @@ const Products = () => {
                 <SingleProductDesktop product={product} matches={matches}/>
             )}
         </Grid>
-    ));
+    )) : <Typography>Нет в наличии</Typography>;
 
-    return (
+    return loading ? <Spinner/> : (
         <Container>
             <Grid
                 container

@@ -1,131 +1,33 @@
-import React, {useEffect, useState} from 'react';
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Grid,
-    Typography
-} from "@mui/material";
-import FormSelect from "../Form/FormSelect/FormSelect";
-import {useSelector} from "react-redux";
+import React from 'react';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 
-const Modal = ({show, order, closed, onSubmit, deleteOrder}) => {
-    const [state, setState] = useState({
-        order: "",
-        status: "",
-    });
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    background: '#fff',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 
-    const error = useSelector(state => state.orders.error);
-
-    useEffect(() => {
-        if (order) {
-            setState(prevState => {
-                return {...prevState, order: order._id};
-            });
-        }
-    }, [order]);
-
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-
-        setState(prevState => {
-            return {...prevState, [name]: value};
-        });
-    };
-
-    const getFieldError = fieldName => {
-        try {
-            return error.error[fieldName].message;
-        } catch {
-            return undefined;
-        }
-    };
-
-    const onSubmitHandler = e => {
-        e.preventDefault();
-
-        onSubmit({...state});
-    };
-
-    const onDeleteHandler = () => {
-        deleteOrder(state.order);
-    };
-
+const CustomModal = ({isOpen, handleClose, children}) => {
     return (
-        <>
-            <Dialog
-                open={show}
-                onClose={closed}
-
+        <div>
+            <Modal
+                open={isOpen}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
             >
-                <DialogTitle sx={{textAlign: 'center'}}>Информация о заказе</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        <Grid container spacing={2} sx={{overflow: 'auto', height: '200px'}}>
-                            <Grid item sx={{marginRight: '50px'}}>
-                                <Typography variant='h6' component='span' sx={{color: '#000'}}>Контакты:</Typography>
-                                <Typography>
-                                    <b>Заказчик:</b> {order && order.customer}
-                                </Typography>
-                                <Typography>
-                                    <b>Телефон:</b> {order && order.phone}
-                                </Typography>
-                                <Typography>
-                                    <b>Адрес:</b> {order && order.address}
-                                </Typography>
-                            </Grid>
-                            <Grid item sx={{paddingRight: '10px'}}>
-                                <Typography variant='h6' component='span' sx={{color: '#000'}}>Заказ:</Typography>
-                                {order && order.order.map(product => (
-                                    <Typography key={product._id}>
-                                        <Typography component='span'>
-                                            {product.product.title}
-                                            <Typography variant='span' sx={{marginLeft: '10px'}}>
-                                                <b>Цена:</b> {product.product.price} <b>KGS</b>
-                                            </Typography>
-                                        </Typography>
-                                    </Typography>
-                                ))}
-                            </Grid>
-                        </Grid>
-                    </DialogContentText>
-                </DialogContent>
-                <form onSubmit={(e) => onSubmitHandler(e)}>
-                    <DialogContent>
-                        {order && order.status === 'закрыт' ? null :
-                            <FormSelect
-                                options={["новый", "собран", "закрыт"]}
-                                label="Статус"
-                                onChange={handleChange}
-                                value={state.status}
-                                name="status"
-                                error={getFieldError('status')}
-                            />}
-                    </DialogContent>
-                    <DialogActions>
-                        <Button
-                            disabled={order && order.status === 'закрыт'}
-                            type='submit'
-                            variant='contained'
-                        >
-                            Сохранить
-                        </Button>
-                        <Button
-                            disabled={order && order.status === 'закрыт'}
-                            onClick={() => onDeleteHandler()}
-                            type='button'
-                            variant='contained'
-                        >
-                            Удалить
-                        </Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
-        </>
+                <Box sx={style}>
+                    {children}
+                </Box>
+            </Modal>
+        </div>
     );
 };
 
-export default Modal;
+export default CustomModal;

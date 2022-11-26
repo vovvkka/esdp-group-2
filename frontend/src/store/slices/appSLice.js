@@ -4,6 +4,7 @@ const name = 'app';
 
 export const initialState = {
     drawerOpen: false,
+    modalOpen: false,
 };
 
 const appSlice = createSlice({
@@ -15,6 +16,12 @@ const appSlice = createSlice({
         },
         setDrawerClosed(state) {
             state.drawerOpen = false;
+        },
+        setModalOpen(state) {
+            state.modalOpen = true;
+        },
+        setModalClosed(state) {
+            state.modalOpen = false;
         }
     }
 });
@@ -22,6 +29,8 @@ const appSlice = createSlice({
 export const {
     setDrawerOpen,
     setDrawerClosed,
+    setModalOpen,
+    setModalClosed,
 } = appSlice.actions;
 
 export default appSlice;
