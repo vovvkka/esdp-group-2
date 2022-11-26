@@ -46,8 +46,13 @@ const ordersSlice = createSlice({
         },
         changeStatusSuccess(state, action) {
             state.loading = false;
-            const idx = state.orders.findIndex(order => order._id === action.payload._id);
-            state.orders[idx].status = action.payload.status;
+
+            if (action.payload.status === 'Закрыт') {
+                state.orders = [...state.orders.filter(order => order._id !== action.payload._id)];
+            } else {
+                const idx = state.orders.findIndex(order => order._id === action.payload._id);
+                state.orders[idx].status = action.payload.status;
+            }
         },
         changeStatusFailure(state, action) {
             state.loading = false;

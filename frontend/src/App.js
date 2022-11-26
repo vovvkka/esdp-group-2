@@ -132,14 +132,20 @@ const App = () => {
 
             <ProtectedRoute
                isAllowed={user}
+               path="/admin/cashiers/edit-cashier/:id"
+               component={AdminEditCashier}
+            />
+
+            <ProtectedRoute
+               isAllowed={user}
                path="/admin/orders"
                component={AdminOrders}
             />
 
             <ProtectedRoute
                isAllowed={user}
-               path="/admin/cashiers/edit-cashier/:id"
-               component={AdminEditCashier}
+               path="/admin/orders/archive"
+               component={AdminOrders}
             />
 
             <ProtectedRoute
