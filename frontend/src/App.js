@@ -45,6 +45,7 @@ const LoginRedirectRoute = ({ user, redirectTo, ...props }) => {
 
 const App = () => {
    const user = useSelector((state) => state.users.user);
+
    return (
       <Layout>
          <Switch>
