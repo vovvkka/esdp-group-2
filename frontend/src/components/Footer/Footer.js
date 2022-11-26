@@ -23,8 +23,10 @@ const Footer = () => {
     }, [location.pathname]);
 
     return (
-        isUser?<Box
+        isUser ? <Box
             sx={{
+                width: '100%',
+                height: 'auto',
                 background: Colors.shaft,
                 color: Colors.white,
                 p: {xs: 4, md: 5},
@@ -51,7 +53,8 @@ const Footer = () => {
                         <a href={'https://wa.me/996555911343'} rel="noreferrer" target="_blank">
                             <WhatsAppIcon sx={{mr: 1, color: Colors.dove_gray}}/>
                         </a>
-                        <a href={'https://instagram.com/tay_tay_karakol?igshid=YmMyMTA2M2Y='} rel="noreferrer" target="_blank">
+                        <a href={'https://instagram.com/tay_tay_karakol?igshid=YmMyMTA2M2Y='} rel="noreferrer"
+                           target="_blank">
                             <InstagramIcon sx={{color: Colors.dove_gray}}/>
                         </a>
 
@@ -75,7 +78,7 @@ const Footer = () => {
                     </List>
                 </Grid>
             </Grid>
-        </Box>:null
+        </Box> : null
     );
 };
 

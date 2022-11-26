@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, CssBaseline} from "@mui/material";
+import {Container, CssBaseline, Grid} from "@mui/material";
 import AppToolbar from "../AppToolBar/AppToolBar";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,13 +22,16 @@ const Layout = ({children}) => {
         <>
             <ToastContainer toastStyle={{backgroundColor: "#dde6ff", color: '#000'}}/>
             <CssBaseline/>
-            <AppToolbar/>
-            <main className={classes.main}>
-                <Container maxWidth="100%">
-                    {children}
-                </Container>
-            </main>
-            <Footer/>
+            <Grid sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                <AppToolbar/>
+                <main className={classes.main}>
+                    <Container maxWidth="100%" sx={{position: 'relative'}}>
+                        {children}
+                    </Container>
+                </main>
+                <Footer/>
+            </Grid>
+
             <AppDrawer/>
         </>
     );
