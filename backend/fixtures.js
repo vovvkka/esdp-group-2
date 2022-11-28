@@ -8,6 +8,7 @@ const Product = require('./models/Product');
 const Shift = require('./models/Shift');
 const Order = require('./models/Order');
 const News = require("./models/News");
+const Cash = require('./models/Cash');
 
 const run = async () => {
     await mongoose.connect(config.mongo.db);
@@ -239,6 +240,10 @@ const run = async () => {
         title: 'Оформите скидочную карту и получайте кэшбек!',
         description: 'Дорогие друзья, магазин Tai-Tai напоминает о выгодной программе «Tai-Tai Бонус». Совершайте покупки по скидке и копите баллы, которыми вы сможете оплатить любую покупку! Карту можно оформить в любом филиале Tai-Tai!',
         image: 'fixtures/discount.png',
+    });
+
+    await Cash.create({
+        cash: 3000,
     });
 
     await mongoose.connection.close();
