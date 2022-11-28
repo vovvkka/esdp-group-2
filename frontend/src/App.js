@@ -24,6 +24,7 @@ import NewsInfo from "./containers/NewsInfo/NewsInfo";
 import CashierPanel from "./containers/CashierPanel/CashierPanel";
 import AdminOrders from "./containers/AdminOrders/AdminOrders";
 import AdminAddSubCategory from "./containers/AdminAddSubCategory/AdminAddSubCategory";
+import './scss/app.scss';
 
 const ProtectedRoute = ({ isAllowed, redirectTo, ...props }) => {
    return isAllowed ? <Route {...props} /> : <Redirect to="/" />;

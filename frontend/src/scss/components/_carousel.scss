@@ -1,0 +1,67 @@
+@import '../variables';
+
+.carousel {
+  padding: 10px 0;
+  height: 350px;
+
+  &__content {
+    padding: 0 60px;
+    display: flex;
+    justify-content: space-around;
+    height: 300px;
+    align-items: center;
+  }
+
+  &__info {
+    width: 50%;
+  }
+
+  &__image {
+    width: 45%;
+    height: auto;
+  }
+
+  &__title {
+    font-size: 35px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  &__button {
+    background: $blue;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    font-size: 18px;
+    margin: 10px 0;
+  }
+
+  @media (max-width: 800px) {
+    height: 500px;
+    padding: 0;
+    margin-top: 20px;
+
+    &__content {
+      padding: 0 40px;
+      display: flex;
+      flex-direction: column;
+      height: 410px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    &__info {
+      width: 100%;
+    }
+
+    &__title {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+  }
+}

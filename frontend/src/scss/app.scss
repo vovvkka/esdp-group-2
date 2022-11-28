@@ -1,0 +1,20 @@
+@import './components/all.scss';
+
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: 'Raleway', sans-serif;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+  max-width: 1200px;
+}
+
+.background-wrapper {
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 57%, rgb(241, 234, 220) 57%, rgb(241, 234, 220) 100%);
+  @media (max-width: 800px) {
+    background: white;
+  }
+}
