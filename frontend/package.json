@@ -28,6 +28,7 @@
     "react-toastify": "^9.1.1",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
+    "sass": "^1.56.1",
     "styled-components": "^5.3.6",
     "tss-react": "3.7",
     "web-vitals": "^2.1.4"
