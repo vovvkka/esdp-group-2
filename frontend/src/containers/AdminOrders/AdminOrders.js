@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {changeStatus, getClosedOrders, getNewOrders} from "../../store/actions/ordersActions";
-import {Box, Button, Container, Grid, Modal, Typography} from "@mui/material";
-import {changeStatus, getOrders} from "../../store/actions/ordersActions";
 import {Box, Button, Container, Grid, Typography} from "@mui/material";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import TableAdmin from "../../components/UI/Table/Table";
@@ -102,13 +100,6 @@ const AdminOrders = () => {
 
                 {loading ? <Spinner/> :
                     <Box>
-                        {orders?.length > 0 ?
-                            <TableAdmin
-                                rowsHead={rowsHead}
-                                rows={orders}
-                                orders='Заказы'
-                                onOpenOrderModal={(row) => openOrderModal(row)}
-                            /> : <Typography variant='h6'>Cashiers not found</Typography>}
                         {orders?.length > 0 ?
                             <TableAdmin rowsHead={rowsHead} rows={orders} orders='Заказы'
                                         onOpenOrderModal={openOrderModal}/> : 'Новых заказов нет.'}
