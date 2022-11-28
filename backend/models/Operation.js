@@ -22,7 +22,10 @@ const OperationSchema = new Schema({
         ],
         required: true,
     },
-    dateTime: Date.now(),
+    dateTime: {
+        type: Date,
+        required: true,
+    },
     additionalInfo: {
         type: Object,
     },

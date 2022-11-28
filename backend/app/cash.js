@@ -4,27 +4,42 @@ const permit = require("../middlewares/permit");
 const Shift = require("../models/Shift");
 const Operation = require("../models/Operation");
 const Cash = require("../models/Cash");
-const config = require('./config');
+const config = require('../config');
 const router = express.Router();
 
 
-router.put('/', async (req, res) => {
+router.put('/',auth,permit('cashier'), async (req, res) => {
     const {title, shiftId, amountOfMoney} = req.body;
     try {
         const shift = await Shift.findById(shiftId);
-
-        if (!shift && shift.isActive) {
-            return res.status(404).send({message: 'Operation can not be done!'})
+        if (!shift) {
+            if(!shift.isActive) {
+                return res.status(404).send({message: 'Operation can not be done!'})
+            }
         }
-        if(title===config.insertCash){
-            const cash = await Cash.findOne();
-            const recentCash = cash.cash;
-            cash.cash = recentCash + amountOfMoney;
+        const cash = await Cash.findOne();
+        if(title===config.operations.insertCash){
+            const cashBefore = cash.cash;
+            cash.cash = cashBefore + (+amountOfMoney);
             await cash.save();
-            const operation = new Operation({shift:shift._id,title:config.insertCash,additionalInfo: {recentCash,amountOfMoney}})
+            const operation = new Operation({
+                shift:shift._id,
+                title:config.operations.insertCash,
+                dateTime: Date.now(),
+                additionalInfo: {cashBefore,amountOfMoney,cash:cash.cash}})
             res.send(operation);
-        }else{
-            res.status(403).send({error: 'Shift can not be closed'});
+        }else if(title===config.operations.withdrawCash){
+            const cashBefore = cash.cash;
+            cash.cash = cashBefore - (+amountOfMoney);
+            await cash.save();
+            const operation = new Operation({
+                shift:shift._id,
+                title:config.operations.withdrawCash,
+                dateTime: Date.now(),
+                additionalInfo: {cashBefore,amountOfMoney,cash:cash.cash}})
+            res.send(operation);
+        }else {
+            return res.status(404).send({message: 'Wrong type of operation'});
         }
     } catch (e) {
         res.status(400).send({error: e.errors});
