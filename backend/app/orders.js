@@ -7,12 +7,15 @@ const router = express.Router();
 router.get('/', auth, permit('admin'), async (req, res) => {
     try {
         const query = {};
+        const sort = {orderNumber: -1};
 
-        if (req.query.status) {
-            query.status = req.query.status;
+        if (req.query.status === 'active') {
+            query.status = {$ne: 'Закрыт'};
+        } else {
+            query.status = "Закрыт";
         }
 
-        const orders = await Order.find(query).populate('order.product', 'title price');
+        const orders = await Order.find(query).sort(sort).populate('order.product', 'title price');
 
         res.send(orders);
     } catch (e) {
@@ -72,6 +75,8 @@ router.put('/:id/changeStatus', auth, permit('admin'), async (req, res) => {
         if (!order) return res.status(404).send({message: 'Заказ не найден!'});
 
         if (!req.body.status) return res.status(400).send({message: 'Выберите статус.'});
+
+        if(order.status === 'Закрыт') return res.status(400).send({message: 'Вы не можете изменить статус закрытого заказа.'});
 
         if (order.status === status) return res.status(400).send({message: 'Статус не изменился.'});
 
