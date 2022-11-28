@@ -2,23 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {changeStatus, getClosedOrders, getNewOrders} from "../../store/actions/ordersActions";
 import {Box, Button, Container, Grid, Modal, Typography} from "@mui/material";
+import {changeStatus, getOrders} from "../../store/actions/ordersActions";
+import {Box, Button, Container, Grid, Typography} from "@mui/material";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import TableAdmin from "../../components/UI/Table/Table";
 import FormSelect from "../../components/UI/Form/FormSelect/FormSelect";
+import CustomModal from "../../components/UI/Modal/Modal";
+import {setModalClosed, setModalOpen} from "../../store/slices/appSLice";
 import {Link, useLocation} from "react-router-dom";
-
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 700,
-    maxHeight: 600,
-    background: '#fff',
-    border: 'none !important',
-    boxShadow: 24,
-    p: 4,
-};
 
 
 const AdminOrders = () => {
@@ -26,10 +17,10 @@ const AdminOrders = () => {
 
     const orders = useSelector(state => state.orders.orders);
     const loading = useSelector(state => state.orders.loading);
+    const modalOpen = useSelector(state => state.app.modalOpen);
     const dispatch = useDispatch();
 
     let location = useLocation();
-    const [openModal, setOpenModal] = useState(false);
     const [status, setStatus] = useState('');
     const [order, setOrder] = useState(null);
 
@@ -41,30 +32,25 @@ const AdminOrders = () => {
         }
     }, [dispatch, location.pathname]);
 
-    const handleOpenModal = () => setOpenModal(true);
-    const handleCloseModal = () => setOpenModal(false);
-
-    const openOrderModal = row => {
-        setOrder(row);
-        handleOpenModal();
+    const openOrderModal = async (row) => {
+        await setOrder(row);
+        dispatch(setModalOpen());
     };
 
     const onChangeStatus = e => setStatus(e.target.value);
 
     const onSubmitStatus = () => {
         dispatch(changeStatus(order._id, status));
-        handleCloseModal();
+        dispatch(setModalClosed());
     };
 
     return (
         <>
-            <Modal
-                open={openModal}
-                onClose={handleCloseModal}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+            <CustomModal
+                isOpen={modalOpen}
+                handleClose={() => dispatch(setModalClosed())}
             >
-                <Box sx={style}>
+                <Box width='550px'>
                     <Grid sx={{maxHeight: 400, overflowY: 'scroll', marginBottom: '30px'}}>
                         <Typography textAlign="center" variant="h4" gutterBottom><b>Информация о заказе</b></Typography>
 
@@ -99,7 +85,7 @@ const AdminOrders = () => {
                         </Grid>
                     )}
                 </Box>
-            </Modal>
+            </CustomModal>
 
             <Container>
                 <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
@@ -116,6 +102,13 @@ const AdminOrders = () => {
 
                 {loading ? <Spinner/> :
                     <Box>
+                        {orders?.length > 0 ?
+                            <TableAdmin
+                                rowsHead={rowsHead}
+                                rows={orders}
+                                orders='Заказы'
+                                onOpenOrderModal={(row) => openOrderModal(row)}
+                            /> : <Typography variant='h6'>Cashiers not found</Typography>}
                         {orders?.length > 0 ?
                             <TableAdmin rowsHead={rowsHead} rows={orders} orders='Заказы'
                                         onOpenOrderModal={openOrderModal}/> : 'Новых заказов нет.'}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, CssBaseline, Grid} from "@mui/material";
+import {Container, CssBaseline} from "@mui/material";
 import AppToolbar from "../AppToolBar/AppToolBar";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,7 +9,7 @@ import AppDrawer from "../../Drawer/Drawer";
 
 const useStyles = makeStyles()(() => ({
     main: {
-        minHeight: "56.2vh",
+        minHeight: "60.8vh",
         display: "flex",
         flexDirection: "column"
     }
@@ -22,16 +22,13 @@ const Layout = ({children}) => {
         <>
             <ToastContainer toastStyle={{backgroundColor: "#dde6ff", color: '#000'}}/>
             <CssBaseline/>
-            <Grid sx={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-                <AppToolbar/>
-                <main className={classes.main}>
-                    <Container maxWidth="100%" sx={{position: 'relative'}}>
-                        {children}
-                    </Container>
-                </main>
-                <Footer/>
-            </Grid>
-
+            <AppToolbar/>
+            <main className={classes.main}>
+                <Container maxWidth="100%">
+                    {children}
+                </Container>
+            </main>
+            <Footer/>
             <AppDrawer/>
         </>
     );

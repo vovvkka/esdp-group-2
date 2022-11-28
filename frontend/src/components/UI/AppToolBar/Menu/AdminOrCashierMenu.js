@@ -2,23 +2,20 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import MenuItem from "@mui/material/MenuItem";
-import {Button, Dialog, DialogActions, DialogTitle, Grid, Menu, Typography, useMediaQuery} from "@mui/material";
+import {Box, Button, Grid, Menu, Typography} from "@mui/material";
 import {logoutUser} from "../../../../store/actions/usersActions";
-import {useTheme} from "@mui/material/styles";
 import {closeShift} from "../../../../store/actions/shiftsActions";
+import {setModalClosed, setModalOpen} from "../../../../store/slices/appSLice";
+import CustomModal from "../../Modal/Modal";
 
 
 const AdminOrCashierMenu = ({user}) => {
     const dispatch = useDispatch();
     const shift = useSelector(state => state.shifts.shift);
-
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
+    const modalOpen = useSelector(state => state.app.modalOpen);
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorEl2, setAnchorEl2] = useState(null);
-    const [openDialog, setOpen] = useState(false);
 
     const [wantToLogout, setWantToLogout] = useState(false);
 
@@ -26,13 +23,6 @@ const AdminOrCashierMenu = ({user}) => {
     const open = Boolean(anchorEl);
     const open2 = Boolean(anchorEl2);
 
-    const handleClickOpenDialog = () => {
-        setOpen(true);
-    };
-
-    const handleCloseDialog = () => {
-        setOpen(false);
-    };
     const handleClick = (event) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
 
@@ -121,7 +111,7 @@ const AdminOrCashierMenu = ({user}) => {
                                 <MenuItem
                                     onClick={() => {
                                         handleClose();
-                                        handleClickOpenDialog()
+                                        dispatch(setModalOpen());
                                     }}
                                 >
                                     Закрытие смены
@@ -170,7 +160,7 @@ const AdminOrCashierMenu = ({user}) => {
                     <Button onClick={() => {
                         if (user.role === 'cashier' && shift) {
                             setWantToLogout(true);
-                            handleClickOpenDialog();
+                            dispatch(setModalOpen());
                         } else {
                             dispatch(logoutUser());
                         }
@@ -179,28 +169,28 @@ const AdminOrCashierMenu = ({user}) => {
                         Выйти
                     </Button>
                 </Grid>
-                <Dialog
-                    fullScreen={fullScreen}
-                    open={openDialog}
-                    onClose={handleCloseDialog}
-                    aria-labelledby="responsive-dialog-title"
+                <CustomModal
+                    isOpen={modalOpen}
+                    handleClose={() => dispatch(setModalClosed())}
                 >
-                    <DialogTitle id="responsive-dialog-title">
-                        {"Вы уверены что хотите закрыть смену?"}
-                    </DialogTitle>
+                    <Box width='100%'>
+                        <Typography variant='h6'>
+                            Вы уверены что хотите закрыть смену?
+                        </Typography>
 
-                    <DialogActions>
-                        <Button autoFocus onClick={handleCloseDialog}>
-                            НЕТ
-                        </Button>
-                        <Button onClick={() => {
-                            handleCloseDialog();
-                            shiftCloseHandler(shift._id);
-                        }} autoFocus>
-                            ДА
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                        <Box display='flex' justifyContent='flex-end'>
+                            <Button autoFocus onClick={() => dispatch(setModalClosed())}>
+                                НЕТ
+                            </Button>
+                            <Button onClick={() => {
+                                dispatch(setModalClosed());
+                                shiftCloseHandler(shift._id);
+                            }} autoFocus>
+                                ДА
+                            </Button>
+                        </Box>
+                    </Box>
+                </CustomModal>
             </>
         );
     }
