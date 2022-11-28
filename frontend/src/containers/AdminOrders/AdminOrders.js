@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {changeStatus, getOrders} from "../../store/actions/ordersActions";
+import {changeStatus, getClosedOrders, getNewOrders} from "../../store/actions/ordersActions";
 import {Box, Button, Container, Grid, Modal, Typography} from "@mui/material";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import TableAdmin from "../../components/UI/Table/Table";
 import FormSelect from "../../components/UI/Form/FormSelect/FormSelect";
+import {Link, useLocation} from "react-router-dom";
 
 const style = {
     position: 'absolute',
@@ -27,13 +28,18 @@ const AdminOrders = () => {
     const loading = useSelector(state => state.orders.loading);
     const dispatch = useDispatch();
 
+    let location = useLocation();
     const [openModal, setOpenModal] = useState(false);
     const [status, setStatus] = useState('');
     const [order, setOrder] = useState(null);
 
     useEffect(() => {
-        dispatch(getOrders());
-    }, [dispatch]);
+        if (location.pathname === '/admin/orders/archive') {
+            dispatch(getClosedOrders());
+        } else if (location.pathname === '/admin/orders') {
+            dispatch(getNewOrders());
+        }
+    }, [dispatch, location.pathname]);
 
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
@@ -73,36 +79,46 @@ const AdminOrders = () => {
                         ))}
                     </Grid>
 
-                    <Grid>
-                        <FormSelect
-                            options={["Новый", "Собран", "Закрыт"]}
-                            label="Статус"
-                            onChange={onChangeStatus}
-                            value={status}
-                            name="status"
-                        />
+                    {order && order.status !== 'Закрыт' && (
+                        <Grid>
+                            <FormSelect
+                                options={["Новый", "Собран", "Закрыт"]}
+                                label="Статус"
+                                onChange={onChangeStatus}
+                                value={status}
+                                name="status"
+                            />
 
-                        <Button
-                            variant="contained"
-                            sx={{color: '#fff !important', marginTop: '10px'}}
-                            onClick={onSubmitStatus}
-                        >
-                            Сохранить
-                        </Button>
-                    </Grid>
+                            <Button
+                                variant="contained"
+                                sx={{color: '#fff !important', marginTop: '10px'}}
+                                onClick={onSubmitStatus}
+                            >
+                                Сохранить
+                            </Button>
+                        </Grid>
+                    )}
                 </Box>
             </Modal>
 
             <Container>
                 <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
                     <Typography variant='h5'>Заказы</Typography>
+                    <Button
+                        variant="contained"
+                        sx={{color: '#fff'}}
+                        component={Link}
+                        to={location.pathname.includes('archive') ? "/admin/orders" : "/admin/orders/archive"}
+                    >
+                        {location.pathname.includes('archive') ? 'Назад' : 'Архив'}
+                    </Button>
                 </Grid>
 
                 {loading ? <Spinner/> :
                     <Box>
-                        {orders?.length > 0 ? <TableAdmin rowsHead={rowsHead} rows={orders} orders='Заказы'
-                                                          onOpenOrderModal={openOrderModal}/> :
-                            <Typography variant='h6'>Cashiers not found</Typography>}
+                        {orders?.length > 0 ?
+                            <TableAdmin rowsHead={rowsHead} rows={orders} orders='Заказы'
+                                        onOpenOrderModal={openOrderModal}/> : 'Новых заказов нет.'}
                     </Box>
                 }
             </Container>
