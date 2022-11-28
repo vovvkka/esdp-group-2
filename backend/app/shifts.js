@@ -3,6 +3,7 @@ const auth = require("../middlewares/auth");
 const permit = require("../middlewares/permit");
 const Shift = require("../models/Shift");
 const Operation = require("../models/Operation");
+const Cash = require("../models/Cash");
 const config = require("../config");
 const router = express.Router();
 
@@ -66,10 +67,13 @@ router.put('/:id', auth, permit('cashier'), async (req, res) => {
             return res.status(404).send({message: 'Working Shift not found!'})
         }
 
+        const cash = await Cash.find();
+
         const operation = {
             shift: shift._id,
             title: config.operations.closeShift,
-            dateTime: Date.now(),
+            dateTime: new Date(),
+            additionalInfo: cash,
         };
 
         if(user._id.equals(shift.cashier)){
@@ -91,13 +95,15 @@ router.post( '/',auth, permit('cashier'), async (req, res) => {
     const {pin} = req.body;
     const user = req.user;
     try {
+        const cash = await Cash.find();
         if(user.pin === pin){
             const shift = new Shift({cashier: user._id});
             await shift.save();
             const operation = {
                 shift: shift._id,
                 title: config.operations.openShift,
-                dateTime: Date.now(),
+                dateTime: new Date(),
+                additionalInfo: cash,
             };
             const operations = new Operation(operation);
             await operations.save();
