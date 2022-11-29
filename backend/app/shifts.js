@@ -2,6 +2,9 @@ const express = require('express');
 const auth = require("../middlewares/auth");
 const permit = require("../middlewares/permit");
 const Shift = require("../models/Shift");
+const Operation = require("../models/Operation");
+const Cash = require("../models/Cash");
+const config = require("../config");
 const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
@@ -63,9 +66,22 @@ router.put('/:id', auth, permit('cashier'), async (req, res) => {
         if (!shift) {
             return res.status(404).send({message: 'Working Shift not found!'})
         }
+
+        const cash = await Cash.find();
+
+        const operation = {
+            shift: shift._id,
+            title: config.operations.closeShift,
+            dateTime: new Date(),
+            additionalInfo: cash,
+        };
+
         if(user._id.equals(shift.cashier)){
             shift.isActive = false;
             await shift.save();
+            const operations = new Operation(operation);
+            await operations.save();
+            res.send(operations);
             res.send(shift);
         }else{
             res.status(403).send({error: 'Shift can not be closed'});
@@ -79,9 +95,19 @@ router.post( '/',auth, permit('cashier'), async (req, res) => {
     const {pin} = req.body;
     const user = req.user;
     try {
+        const cash = await Cash.find();
         if(user.pin === pin){
             const shift = new Shift({cashier: user._id});
             await shift.save();
+            const operation = {
+                shift: shift._id,
+                title: config.operations.openShift,
+                dateTime: new Date(),
+                additionalInfo: cash,
+            };
+            const operations = new Operation(operation);
+            await operations.save();
+            res.send(operations);
             res.send(shift);
         }else{
             res.status(403).send({error: 'Wrong PIN'});
