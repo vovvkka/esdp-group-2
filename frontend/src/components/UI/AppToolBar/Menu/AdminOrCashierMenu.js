@@ -88,48 +88,42 @@ const AdminOrCashierMenu = ({user}) => {
         return (
             <>
                 <Grid item display="flex" alignItems="center">
-                    {shift ?
-                        <>
-                            <Button color="inherit" sx={{marginRight: '5px'}} onClick={handleClick}>Операции</Button>
-                            <Menu
-                                id="basic-menu"
-                                anchorEl={anchorEl}
-                                open={open}
-                                onClose={handleClose}
-                                MenuListProps={{
-                                    'aria-labelledby': 'basic-button',
-                                }}
-                            >
-                                <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Продажа</MenuItem>
-                                <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Внесение
-                                    наличных</MenuItem>
-                                <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Изъятие
-                                    наличных</MenuItem>
-                                <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Возврат
-                                    продажи</MenuItem>
-                                <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>X-отчет</MenuItem>
-                                <MenuItem
-                                    onClick={() => {
-                                        handleClose();
-                                        dispatch(setModalOpen());
-                                    }}
-                                >
-                                    Закрытие смены
-                                </MenuItem>
-                            </Menu>
-                        </> : null}
+                    <>
+                        <Button color="inherit" sx={{marginRight: '5px'}} onClick={handleClick}>Операции</Button>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            MenuListProps={{
+                                'aria-labelledby': 'basic-button',
+                            }}
+                        >
+                            {shift ?
+                                <>
+                                    <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Продажа</MenuItem>
+                                    <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Внесение наличных</MenuItem>
+                                    <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Изъятие наличных</MenuItem>
+                                    <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>Возврат продажи</MenuItem>
+                                    <MenuItem onClick={handleClose} component={Link} to={"/cashier"}>X-отчет</MenuItem>
+                                    <MenuItem
+                                        onClick={() => {
+                                            handleClose();
+                                            dispatch(setModalOpen());
+                                        }}
+                                    >
+                                        Закрытие смены
+                                    </MenuItem>
+                                </>
+                                :
+                                <MenuItem onClick={handleClose} component={Link} to={"/cashier/open-shift"}>Открытие смены</MenuItem>
+                            }
 
-                    <Button
-                        id="basic-button"
-                        color="inherit"
-                        aria-controls={open2 ? 'basic-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open2 ? 'true' : undefined}
-                        onClick={handleClick2}
-                        sx={{marginRight: '5px'}}
-                    >
-                        Журнал
-                    </Button>
+
+                        </Menu>
+                    </>
+
+                    <Button color="inherit" onClick={handleClick2} sx={{marginRight: '5px'}}>Журнал</Button>
                     <Menu
                         id="basic-menu"
                         anchorEl={anchorEl2}
