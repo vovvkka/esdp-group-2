@@ -18,6 +18,8 @@ const AdminOrders = () => {
     const modalOpen = useSelector(state => state.app.modalOpen);
     const dispatch = useDispatch();
 
+    console.log(orders);
+
     let location = useLocation();
     const [status, setStatus] = useState('');
     const [order, setOrder] = useState(null);
