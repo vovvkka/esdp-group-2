@@ -14,7 +14,7 @@ const ordersSlice = createSlice({
     reducers: {
         addOrderRequest(state) {
             state.loading = true;
-            state.error = null;
+            state.createError = null;
         },
         addOrderSuccess(state) {
             state.loading = false;
@@ -24,7 +24,7 @@ const ordersSlice = createSlice({
             state.createError = action.payload;
         },
         clearOrderError(state) {
-            state.error = null;
+            state.createError = null;
         },
         getOrdersRequest(state) {
             state.loading = true;
@@ -32,14 +32,12 @@ const ordersSlice = createSlice({
         },
         getOrdersSuccess(state, action) {
             state.loading = false;
-            state.error = null;
             state.orders = action.payload;
         },
         getOrdersFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
         },
-
         changeStatusRequest(state) {
             state.loading = true;
             state.error = null;

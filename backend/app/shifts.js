@@ -7,7 +7,7 @@ const Cash = require("../models/Cash");
 const config = require("../config");
 const router = express.Router();
 
-router.get('/', auth, async (req, res) => {
+router.get('/',auth, async (req, res) => {
     try {
         const shifts = await Shift.find().populate('cashier', 'displayName');
         res.send(shifts);

@@ -12,6 +12,8 @@ import {
 } from "../slices/shiftsSlice";
 import {addNotification} from "./notifierActions";
 import {historyPush} from "./historyActions";
+import {getCash} from "./cashActions";
+import {clearCash} from "../slices/cashSlice";
 
 
 export const fetchShifts = () => {
@@ -34,6 +36,7 @@ export const openShift = (pin) => {
             dispatch(openShiftRequest());
             const response = await axiosApi.post('/shifts', pin);
             dispatch(openShiftSuccess(response.data));
+            dispatch(getCash());
             dispatch(addNotification(`Смена открыта.`, 'success', {autoClose: 1000}));
             dispatch(historyPush('/cashier'));
 
@@ -49,6 +52,7 @@ export const closeShift = (id) => {
             dispatch(closeShiftRequest());
             await axiosApi.put('/shifts/' + id);
             dispatch(closeShiftSuccess());
+            dispatch(clearCash());
             dispatch(addNotification(`Смена закрыта.`, 'success', {autoClose: 1000}));
             dispatch(historyPush('/cashier/open-shift'));
         } catch (e) {
