@@ -4,7 +4,7 @@ const permit = require("../middlewares/permit");
 const Shift = require("../models/Shift");
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/',auth, async (req, res) => {
     try {
         const shifts = await Shift.find().populate('cashier','displayName');
         res.send(shifts);

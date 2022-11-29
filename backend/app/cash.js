@@ -7,18 +7,27 @@ const Cash = require("../models/Cash");
 const config = require('../config');
 const router = express.Router();
 
+router.get('/',auth,permit('cashier'), async (req, res) => {
+    try {
+        const cash = await Cash.findOne();
+        res.send({cash: cash.cash});
+    } catch (e) {
+        res.status(400).send({error: e.errors});
+    }
+});
 
 router.put('/',auth,permit('cashier'), async (req, res) => {
     const {title, shiftId, amountOfMoney} = req.body;
     try {
         const shift = await Shift.findById(shiftId);
-        if (!shift) {
-            if(!shift.isActive) {
-                return res.status(404).send({message: 'Operation can not be done!'})
+        if (shift) {
+            if(!shift.isActive){
+                return res.status(403).send({message: 'Operation can not be done!'});
             }
         }
         const cash = await Cash.findOne();
         if(title===config.operations.insertCash){
+            console.log(0);
             const cashBefore = cash.cash;
             cash.cash = cashBefore + (+amountOfMoney);
             await cash.save();
