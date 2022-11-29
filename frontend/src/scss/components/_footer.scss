@@ -4,6 +4,10 @@
    background: #f1eadc;
    padding: 15px 0;
    width: 100%;
+   position: absolute;
+   bottom: 0;
+   right: 0;
+
 
    &__toolbar {
       display: flex;

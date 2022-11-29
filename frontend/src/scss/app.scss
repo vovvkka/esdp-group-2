@@ -7,6 +7,7 @@
 }
 
 .wrapper {
+  min-height: 100vh;
   position: relative;
 }
 
@@ -24,7 +25,7 @@
 }
 
 .main {
-  min-height: 60.8vh;
+  padding-bottom: 250px;
   display: flex;
   flex-direction: column;
 }
