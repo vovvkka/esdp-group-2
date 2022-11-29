@@ -47,7 +47,13 @@ store.subscribe(() => {
         },
         cart: {
             products: store.getState().cart.products,
-        }
+        },
+        shifts: {
+            shift: store.getState().shifts.shift,
+        },
+        cash: {
+            cash: store.getState().cash.cash,
+        },
     })
 });
 

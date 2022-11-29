@@ -3,11 +3,11 @@ import {CssBaseline} from "@mui/material";
 import AppToolbar from "../AppToolBar/AppToolBar";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import Footer from "../../Footer/Footer";
+import Footer from "../../NewShop/Footer/Footer";
 
 const Layout = ({children}) => {
     return (
-        <>
+        <div className="wrapper">
             <ToastContainer toastStyle={{backgroundColor: "#dde6ff", color: '#000'}}/>
             <CssBaseline/>
             <AppToolbar/>
@@ -17,7 +17,7 @@ const Layout = ({children}) => {
                 </div>
             </div>
             <Footer/>
-        </>
+        </div>
     );
 };
 
