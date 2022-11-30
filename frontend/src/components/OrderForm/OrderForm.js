@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import FormElement from "../UI/Form/FormElement/FormElement";
-import {Button, Grid} from "@mui/material";
 import {useDispatch} from "react-redux";
 import {clearOrderError} from "../../store/slices/ordersSlice";
 
@@ -10,13 +8,14 @@ const OrderForm = ({onSubmit, error}) => {
         customer: "",
         phone: "",
         address: "",
+        comment: "",
     });
 
-    useEffect(()=>{
-        return () =>{
-          dispatch(clearOrderError());
+    useEffect(() => {
+        return () => {
+            dispatch(clearOrderError());
         };
-    },[dispatch]);
+    }, [dispatch]);
 
     const getFieldError = fieldName => {
         try {
@@ -46,46 +45,65 @@ const OrderForm = ({onSubmit, error}) => {
             autoComplete="off"
             onSubmit={onSubmitHandler}
         >
-            <Grid
-                container
-                maxWidth="md"
-                textAlign="center"
-                marginX="auto"
-                direction="column"
-                rowSpacing={2}
-            >
-
-                <FormElement
-                    label="Ваше имя"
-                    onChange={inputChangeHandler}
-                    value={state.customer}
-                    name="customer"
-                    error={getFieldError('customer')}
-                    required
-                />
-
-                <FormElement
-                    type="tel"
-                    label="Ваш телефон"
-                    onChange={inputChangeHandler}
-                    value={state.phone}
-                    name="phone"
-                    error={getFieldError('phone')}
-                    required
-                />
-                <FormElement
-                    label="Ваш адрес"
-                    onChange={inputChangeHandler}
-                    value={state.address}
-                    name="address"
-                    error={getFieldError('address')}
-                    required
-                />
-
-                <Grid item>
-                    <Button type="submit" color="primary" variant="contained">Оформить заказ</Button>
-                </Grid>
-            </Grid>
+            <div className='customer-order__form'>
+                <div className='customer-order__form-block'>
+                    <p className='customer-order__form-block-title'>Данные покупателя</p>
+                    <div className='customer-order__input-wrapper'>
+                        <input
+                            className='customer-order__form-input'
+                            onChange={inputChangeHandler}
+                            value={state.customer}
+                            name="customer"
+                            error={getFieldError('customer')}
+                            required
+                        />
+                        <label className='customer-order__input-label'>Имя</label>
+                    </div>
+                    <div className='customer-order__input-wrapper'>
+                        <input
+                            type="tel"
+                            className='customer-order__form-input'
+                            onChange={inputChangeHandler}
+                            value={state.phone}
+                            name="phone"
+                            error={getFieldError('phone')}
+                            required
+                        />
+                        <label className='customer-order__input-label'>Телефон</label>
+                    </div>
+                    <div className='customer-order__input-wrapper'>
+                        <input
+                            className='customer-order__form-input'
+                            onChange={inputChangeHandler}
+                            value={state.address}
+                            name="address"
+                            error={getFieldError('address')}
+                            required
+                        />
+                        <label className='customer-order__input-label'>Адрес</label>
+                    </div>
+                    <div className='customer-order__input-wrapper'>
+                    <textarea
+                        className='customer-order__form-textarea'
+                        onChange={inputChangeHandler}
+                        value={state.comment}
+                        name="comment"
+                        error={getFieldError('comment')}
+                        required
+                    />
+                        <label className='customer-order__textarea-label'>Комментарии</label>
+                    </div>
+                </div>
+                <div className='customer-order__form-block'>
+                    <p className='customer-order__form-block-title'>Ваш заказ </p>
+                    <p className='customer-order__form-block-title'>Способы оплаты</p>
+                    <div className='customer-order__check-wrapper'>
+                    <input className='customer-order__form-check' type="checkbox" id="pay" name="pay" value="pay"/>
+                    <label className='customer-order__check-label' htmlFor="pay">Оплата наличными</label>
+                    </div>
+                    <button className='customer-order__button'>Разместить заказ</button>
+                </div>
+            </div>
         </form>
     );
 };
