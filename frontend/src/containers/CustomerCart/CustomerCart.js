@@ -16,7 +16,7 @@ const CustomerCart = () => {
     const products = useSelector(state => state.cart.products);
     const total = products.reduce((acc,value)=>{
         return acc + value.price*value.quantity;
-    },0)
+    },0);
 
     return (
         <Grid marginTop={matchesMd ? "180px" : 0} marginBottom={matchesMd ? "50px" : 0}>
