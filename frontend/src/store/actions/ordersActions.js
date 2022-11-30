@@ -32,27 +32,19 @@ export const addOrder = (orderData) => {
    };
 };
 
-export const getNewOrders = () => {
+export const getOrders = (page) => {
    return async (dispatch) => {
       try {
          dispatch(getOrdersRequest());
-         const response = await axiosApi(`/orders?status=active`);
-         dispatch(getOrdersSuccess(response.data));
-      } catch (e) {
-         if (e.response && e.response.data) {
-            dispatch(getOrdersFailure(e.response.data));
-         } else {
-            dispatch(getOrdersFailure({ global: "No internet" }));
-         }
-      }
-   };
-};
 
-export const getClosedOrders = () => {
-   return async (dispatch) => {
-      try {
-         dispatch(getOrdersRequest());
-         const response = await axiosApi(`/orders?status=closed`);
+         let response;
+
+         if (page) {
+            response = await axiosApi(`/orders` + page);
+         } else {
+            response = await axiosApi(`/orders`);
+         }
+
          dispatch(getOrdersSuccess(response.data));
       } catch (e) {
          if (e.response && e.response.data) {
