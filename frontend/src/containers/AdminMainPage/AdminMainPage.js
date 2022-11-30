@@ -86,7 +86,7 @@ const AdminMainPage = () => {
         download: false,
 
         rowsPerPage: shifts && shifts.limit,
-        page: shifts.page && shifts.page - 1,
+        page: shifts?.page && shifts.page - 1,
         rowsPerPageOptions: [],
         count: shifts && shifts.total,
         customRowRender: (data, index) => {
@@ -120,7 +120,7 @@ const AdminMainPage = () => {
                     title={"Список смен"}
                     columns={columns}
                     options={options}
-                    data={shifts.docs}
+                    data={shifts?.docs}
                 />
             </Grid>
             <Catalog/>
