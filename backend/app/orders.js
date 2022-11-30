@@ -6,16 +6,22 @@ const router = express.Router();
 
 router.get('/', auth, permit('admin'), async (req, res) => {
     try {
+        const {page, perPage} = req.query;
         const query = {};
-        const sort = {orderNumber: -1};
+        const options = {
+            populate: {path: 'order.product', select: 'title price'},
+            sort: {orderNumber: -1},
+            page: parseInt(page) || 1,
+            limit: parseInt(perPage) || 10
+        };
 
         if (req.query.status === 'active') {
             query.status = {$ne: 'Закрыт'};
-        } else {
+        } else if (req.query.status === 'closed') {
             query.status = "Закрыт";
         }
 
-        const orders = await Order.find(query).sort(sort).populate('order.product', 'title price');
+        const orders = await Order.paginate(query, options);
 
         res.send(orders);
     } catch (e) {

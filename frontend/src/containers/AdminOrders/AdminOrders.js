@@ -1,36 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {changeStatus, getClosedOrders, getNewOrders} from "../../store/actions/ordersActions";
 import {Box, Button, Container, Grid, Typography} from "@mui/material";
-import Spinner from "../../components/UI/Spinner/Spinner";
-import TableAdmin from "../../components/UI/Table/Table";
+import MUIDataTable from "mui-datatables";
+import {changeStatus, getOrders} from "../../store/actions/ordersActions";
 import FormSelect from "../../components/UI/Form/FormSelect/FormSelect";
 import CustomModal from "../../components/UI/Modal/Modal";
 import {setModalClosed, setModalOpen} from "../../store/slices/appSLice";
-import {Link, useLocation} from "react-router-dom";
 
 
 const AdminOrders = () => {
-    const rowsHead = ['№', 'Имя', 'Телефон', 'Статус', 'Дата'];
-
-    const orders = useSelector(state => state.orders.orders);
-    const loading = useSelector(state => state.orders.loading);
-    const modalOpen = useSelector(state => state.app.modalOpen);
     const dispatch = useDispatch();
-
-    console.log(orders);
-
-    let location = useLocation();
-    const [status, setStatus] = useState('');
+    const orders = useSelector(state => state.orders.orders);
+    const modalOpen = useSelector(state => state.app.modalOpen);
+    const [status, setStatus] = useState(null);
     const [order, setOrder] = useState(null);
 
     useEffect(() => {
-        if (location.pathname === '/admin/orders/archive') {
-            dispatch(getClosedOrders());
-        } else if (location.pathname === '/admin/orders') {
-            dispatch(getNewOrders());
-        }
-    }, [dispatch, location.pathname]);
+        dispatch(getOrders());
+    }, [dispatch]);
 
     const openOrderModal = async (row) => {
         await setOrder(row);
@@ -42,6 +29,114 @@ const AdminOrders = () => {
     const onSubmitStatus = () => {
         dispatch(changeStatus(order._id, status));
         dispatch(setModalClosed());
+        setStatus(null);
+    };
+
+    const columns = [
+        {
+            name: "orderNumber",
+            label: "№",
+            options: {
+                filter: false
+            }
+        },
+        {
+            name: "customer",
+            label: "Имя",
+            options: {
+                filter: false
+            }
+        },
+        {
+            name: "phone",
+            label: "Телефон",
+            options: {
+                filter: false
+            }
+        },
+        {
+            name: "status",
+            label: "Статус",
+            options: {
+                filter: true,
+                filterOptions: {
+                    names: ['Закрытые', 'Открытые']
+                },
+                customBodyRender: (value) => {
+                    let color;
+
+                    if (value === 'Новый') {
+                        color = "white"
+                    } else if (value === 'Собран') {
+                        color = "green"
+                    } else if (value === 'Закрыт') {
+                        color = "red"
+                    } else {
+                        color = "white"
+                    }
+
+                    return <Box display="flex" justifyContent="center" alignItems='center'
+                                sx={{backgroundColor: color, borderRadius: "15px", height: "30px"}}>{value}</Box>
+                },
+            }
+        },
+        {
+            name: "dateTime",
+            label: "Дата",
+            options: {
+                filter: false,
+                customBodyRender: (value) => {
+                    return new Date(value).toLocaleString();
+                }
+            }
+        },
+    ];
+
+    const options = {
+        selectableRows: "none",
+        filter: true,
+        onFilterChange: (changedColumn, filterList) => {
+            console.log(changedColumn);
+            console.log(filterList[3]);
+
+            if (filterList[3][0] === 'Открытые') {
+                dispatch(getOrders('?status=active'));
+            } else if (filterList[3][0] === 'Закрытые') {
+                dispatch(getOrders('?status=closed'));
+            } else {
+                dispatch(getOrders());
+            }
+        },
+        responsive: 'standard',
+        serverSide: true,
+        sort: false,
+        search: false,
+        viewColumns: false,
+        print: false,
+        download: false,
+
+        rowsPerPage: orders && orders.limit,
+        page: orders.page && orders.page - 1,
+        rowsPerPageOptions: [],
+        count: orders && orders.total,
+
+        onRowClick: (data, index) => openOrderModal(orders.docs[index.dataIndex]),
+        onTableChange: (action, tableState) => {
+            console.log(tableState.filterList);
+            switch (action) {
+                case 'changePage':
+                    if (tableState.filterList[3][0] === 'Закрытые') {
+                        dispatch(getOrders(`?status=closed&page=${tableState.page + 1}`));
+                    } else if (tableState.filterList[3][0] === 'Открытые') {
+                        dispatch(getOrders(`?status=active&page=${tableState.page + 1}`));
+                    } else {
+                        dispatch(getOrders(`?page=${tableState.page + 1}`));
+                    }
+                    break;
+                default:
+                    break;
+            }
+        },
     };
 
     return (
@@ -71,7 +166,7 @@ const AdminOrders = () => {
                                 options={["Новый", "Собран", "Закрыт"]}
                                 label="Статус"
                                 onChange={onChangeStatus}
-                                value={status}
+                                value={status ? status : order.status}
                                 name="status"
                             />
 
@@ -88,25 +183,14 @@ const AdminOrders = () => {
             </CustomModal>
 
             <Container>
-                <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
-                    <Typography variant='h5'>Заказы</Typography>
-                    <Button
-                        variant="contained"
-                        sx={{color: '#fff'}}
-                        component={Link}
-                        to={location.pathname.includes('archive') ? "/admin/orders" : "/admin/orders/archive"}
-                    >
-                        {location.pathname.includes('archive') ? 'Назад' : 'Архив'}
-                    </Button>
-                </Grid>
-
-                {loading ? <Spinner/> :
-                    <Box>
-                        {orders?.length > 0 ?
-                            <TableAdmin rowsHead={rowsHead} rows={orders} orders='Заказы'
-                                        onOpenOrderModal={openOrderModal}/> : 'Новых заказов нет.'}
-                    </Box>
-                }
+                <Box>
+                    <MUIDataTable
+                        title={"Список заказов"}
+                        columns={columns}
+                        options={options}
+                        data={orders.docs}
+                    />
+                </Box>
             </Container>
         </>
     );

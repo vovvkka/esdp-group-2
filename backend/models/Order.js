@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const AutoIncrement = require('mongoose-sequence')(mongoose);
+const mongoosePaginate = require('mongoose-paginate');
 const Schema = mongoose.Schema;
 
 
@@ -43,13 +44,17 @@ const OrderSchema  = new Schema({
         type: String,
         required: true,
         default: 'Новый',
-        enum: ['Новый', 'Собран','Закрыт'],
+        enum: ['Новый', 'Собран', 'Закрыт'],
     },
-},{
-    timestamps:true,
+    dateTime: {
+        type: Date,
+        required: true,
+        default: new Date(),
+    }
 });
 
 OrderSchema.plugin(AutoIncrement, {inc_field: 'orderNumber'});
+OrderSchema.plugin(mongoosePaginate);
 const Order = mongoose.model('Order', OrderSchema);
 
 module.exports = Order;

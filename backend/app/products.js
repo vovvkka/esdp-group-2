@@ -30,13 +30,6 @@ router.get('/', async (req, res) => {
             limit: parseInt(perPage) || 30
         };
 
-        if (req.query.search) {
-            query.title = {$regex: req.query.search, $options: 'i'}
-            const products = await Product.find(query);
-
-            return res.send(products);
-        }
-
         if (req.query.category && req.query.key) {
             isNaN(+req.query.key) ? query.title = {
                 $regex: req.query.key,
