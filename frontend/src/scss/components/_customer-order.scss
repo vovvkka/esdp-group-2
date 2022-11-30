@@ -14,17 +14,19 @@
   }
 
   &__location-page {
-    color: $grey;
+    color: $gray;
   }
 
   &__form {
     display: flex;
+    justify-content: space-between;
   }
 
   &__form-block {
-    flex-basis: 50%;
+    flex-basis: 45%;
     display: flex;
     flex-direction: column;
+    align-content: center;
   }
   &__form-block-title {
     font-size: 25px;
@@ -34,7 +36,10 @@
   &__input-wrapper {
     position: relative;
   }
-
+  &__form-error {
+    font-size: 12px;
+    color: $red;
+  }
   &__form-input {
     margin-bottom: 30px;
     padding: 10px 0;
@@ -51,7 +56,7 @@
     position: absolute;
     top: 5px;
     left: 0;
-    color: $grey;
+    color: $gray;
     transition: .5s;
     pointer-events: none;
   }
@@ -104,13 +109,47 @@
   &__form-check::before {
     content: "";
     width: 0.65em;
-    height: 0.65em;
+    height: 0.6em;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em black;
+    box-shadow: inset 1em 1em $blue;
   }
   &__form-check:checked::before {
     transform: scale(1);
+  }
+  &__orders{
+    margin-bottom: 40px;
+  }
+  &__orders-total{
+    display: flex;
+    justify-content: space-between;
+    font-size: 19px;
+    font-weight: bold;
+    background: $light;
+    padding: 10px;
+    margin-top: 20px;
+    text-align: right;
+  }
+  &__orders span{
+    flex-basis: 25%;
+    text-align: left;
+  }
+  &__order:first-child{
+    font-size: 19px;
+    font-weight: bold;
+  }
+  &__order{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }&__order div{
+     flex-basis: 25%;
+   }
+  &__order div:first-child{
+    flex-basis: 50%;
+  }
+  &__button-wrapper{
+    margin-top: 40px;
   }
   &__button {
     background: $blue;
@@ -134,6 +173,32 @@
     }
     &__form-block {
       flex-basis: 100%;
+    }
+    &__button-wrapper{
+      display: flex;
+      justify-content: flex-end;
+    }
+    &__title {
+      font-size: 35px;
+      margin: 0;
+    }
+    &__location {
+      margin: 0;
+    }
+  }
+  @media (max-width: 400px){
+    &__title {
+      font-size: 25px;
+    }
+    &__form-block-title {
+      font-size: 20px;
+    }
+    &__order:first-child{
+      font-size: 17px;
+      font-weight: bold;
+    }
+    &__form-input,&__form-textarea{
+      min-width: 200px;
     }
   }
 }
