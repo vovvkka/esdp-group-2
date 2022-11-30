@@ -6,6 +6,11 @@
   font-family: 'Raleway', sans-serif;
 }
 
+.wrapper {
+  min-height: 100vh;
+  position: relative;
+}
+
 .container {
   margin: 0 auto;
   padding: 0 15px;
@@ -17,4 +22,10 @@
   @media (max-width: 800px) {
     background: white;
   }
+}
+
+.main {
+  padding-bottom: 250px;
+  display: flex;
+  flex-direction: column;
 }

@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
-import {Grid, Typography} from "@mui/material";
-import Catalog from "../../components/Catalog/Catalog";
-import {Box} from "@mui/system";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchShifts} from "../../store/actions/shiftsActions";
-import TableAdmin from "../../components/UI/Table/Table";
+import {Grid} from "@mui/material";
 import {makeStyles} from "tss-react/mui";
+import MUIDataTable from "mui-datatables";
+import Catalog from "../../components/Catalog/Catalog";
+import {fetchShifts} from "../../store/actions/shiftsActions";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
 
 const useStyles = makeStyles()(() => ({
     boxScrolling: {
@@ -24,16 +25,104 @@ const AdminMainPage = () => {
         dispatch(fetchShifts());
     }, [dispatch]);
 
-    const rowsHead = ['№', 'Кассир', 'Дата открытия смены', 'Дата закрытия смены'];
+    const YourCustomRowComponent = props => {
+        const {shiftNumber, cashier, createdAt, updatedAt} = props;
+
+        return (
+            <TableRow>
+                <TableCell>{shiftNumber}</TableCell>
+                <TableCell>{cashier}</TableCell>
+                <TableCell align="right">{createdAt}</TableCell>
+                <TableCell align="right">{updatedAt}</TableCell>
+            </TableRow>
+        );
+    };
+
+    const columns = [
+        {
+            name: "shiftNumber",
+            label: "№"
+        },
+        {
+            name: "cashier",
+            label: "Кассир",
+            options: {
+                customBodyRender: (value) => {
+                    return value.displayName;
+                },
+            }
+        },
+        {
+            name: "createdAt",
+            label: "Дата открытия смены",
+            options: {
+                filter: false,
+                customBodyRender: (value) => {
+                    return new Date(value).toLocaleString();
+                }
+            }
+        },
+        {
+            name: "updatedAt",
+            label: "Дата закрытия смены",
+            options: {
+                filter: false,
+                customBodyRender: (value) => {
+                    return new Date(value).toLocaleString();
+                }
+            }
+        }
+    ];
+
+    const options = {
+        selectableRows: "none",
+        filter: false,
+        responsive: 'standard',
+        serverSide: true,
+        sort: false,
+        search: false,
+        viewColumns: false,
+        print: false,
+        download: false,
+
+        rowsPerPage: shifts && shifts.limit,
+        page: shifts?.page && shifts.page - 1,
+        rowsPerPageOptions: [],
+        count: shifts && shifts.total,
+        customRowRender: (data, index) => {
+            const [shiftNumber, cashier, createdAt, updatedAt] = data;
+
+            return (
+                <YourCustomRowComponent
+                    key={shiftNumber}
+                    shiftNumber={shiftNumber}
+                    cashier={cashier}
+                    createdAt={createdAt}
+                    updatedAt={shifts.docs[index].isActive ? "online" : updatedAt}
+                />
+            );
+        },
+        onTableChange: (action, tableState) => {
+            switch (action) {
+                case 'changePage':
+                    dispatch(fetchShifts(`?page=${tableState.page + 1}`));
+                    break;
+                default:
+                    break;
+            }
+        },
+    };
 
     return (
-        <Grid container spacing={2} justifyContent="flex-end">
-            <Box className={classes.boxScrolling}>
-                {
-                    shifts?.length > 0 ? <TableAdmin rowsHead={rowsHead} rows={shifts} shifts='Смены'/>
-                        : <Typography variant='h6'>Смены не найдены</Typography>
-                }
-            </Box>
+        <Grid container>
+            <Grid item xs={6} className={classes.boxScrolling}>
+                <MUIDataTable
+                    title={"Список смен"}
+                    columns={columns}
+                    options={options}
+                    data={shifts?.docs}
+                />
+            </Grid>
             <Catalog/>
         </Grid>
     );

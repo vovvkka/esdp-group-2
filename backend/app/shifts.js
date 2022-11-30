@@ -7,9 +7,17 @@ const Cash = require("../models/Cash");
 const config = require("../config");
 const router = express.Router();
 
-router.get('/',auth, async (req, res) => {
+router.get('/', auth, async (req, res) => {
+    const {page, perPage} = req.query;
+    const query = {};
+    const options = {
+        populate: {path: 'cashier', select: 'displayName'},
+        page: parseInt(page) || 1,
+        limit: parseInt(perPage) || 30
+    };
+
     try {
-        const shifts = await Shift.find().populate('cashier', 'displayName');
+        const shifts = await Shift.paginate(query, options);
         res.send(shifts);
     } catch (e) {
         res.status(400).send(e);

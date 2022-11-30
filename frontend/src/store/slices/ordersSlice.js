@@ -46,10 +46,10 @@ const ordersSlice = createSlice({
             state.loading = false;
 
             if (action.payload.status === 'Закрыт') {
-                state.orders = [...state.orders.filter(order => order._id !== action.payload._id)];
+                state.orders.docs = [...state.orders.docs.filter(order => order._id !== action.payload._id)];
             } else {
-                const idx = state.orders.findIndex(order => order._id === action.payload._id);
-                state.orders[idx].status = action.payload.status;
+                const idx = state.orders.docs.findIndex(order => order._id === action.payload._id);
+                state.orders.docs[idx].status = action.payload.status;
             }
         },
         changeStatusFailure(state, action) {
