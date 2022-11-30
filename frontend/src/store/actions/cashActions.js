@@ -1,0 +1,66 @@
+import axiosApi from "../../axiosApi";
+import {
+    getCashFailure,
+    getCashRequest,
+    getCashSuccess, insertCashFailure,
+    insertCashRequest,
+    insertCashSuccess, withdrawCashFailure, withdrawCashRequest, withdrawCashSuccess
+} from "../slices/cashSlice";
+
+const openShift = 'Открытие смены';
+const closeShift = 'Закрытие смены';
+const WithdrawCash = 'Изъятие наличных';
+const InsertCash = 'Внесение наличных';
+const purchase = 'Продажа';
+const returnPurchase = 'Возврат продажы';
+
+export const getCash = () => {
+    return async (dispatch) => {
+        try {
+            dispatch(getCashRequest());
+            const response = await axiosApi(`/cash`);
+            dispatch(getCashSuccess(response.data.cash));
+        } catch (e) {
+            if (e.response && e.response.data) {
+                dispatch(getCashFailure(e.response.data));
+            } else {
+                dispatch(getCashFailure({global: "No internet"}));
+            }
+        }
+    };
+};
+
+export const insertCash = (operationData) => {
+    return async (dispatch) => {
+        try {
+            operationData.title = InsertCash;
+            dispatch(insertCashRequest());
+            await axiosApi.put(`/cash`,operationData);
+            dispatch(insertCashSuccess(operationData.amountOfMoney));
+        } catch (e) {
+            if (e.response && e.response.data) {
+                dispatch(insertCashFailure(e.response.data));
+            } else {
+                dispatch(insertCashFailure({global: "No internet"}));
+            }
+        }
+    };
+};
+
+export const withdrawCash = (operationData) => {
+    return async (dispatch) => {
+        try {
+            operationData.title = WithdrawCash;
+            dispatch(withdrawCashRequest());
+            await axiosApi.put(`/cash`,operationData);
+            dispatch(withdrawCashSuccess(operationData.amountOfMoney));
+        } catch (e) {
+            if (e.response && e.response.data) {
+                dispatch(withdrawCashFailure(e.response.data));
+            } else {
+                dispatch(withdrawCashFailure({global: "No internet"}));
+            }
+        }
+    };
+};
+

@@ -8,7 +8,7 @@ const Product = require('./models/Product');
 const Shift = require('./models/Shift');
 const Order = require('./models/Order');
 const News = require("./models/News");
-const Cash = require("./models/Cash");
+const Cash = require('./models/Cash');
 
 const run = async () => {
     await mongoose.connect(config.mongo.db);
@@ -243,7 +243,7 @@ const run = async () => {
     });
 
     await Cash.create({
-        cash: 0
+        cash: 3000,
     });
 
     await mongoose.connection.close();
