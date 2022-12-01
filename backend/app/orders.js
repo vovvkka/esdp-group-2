@@ -44,8 +44,8 @@ router.get('/:id', auth, permit('admin'), async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const {customer, phone, order, address} = req.body;
-    if (!customer || !phone || !address || !order.length) res
+    const {customer, phone, order, address, comment} = req.body;
+    if (!customer || !phone || !address || !order.length || !comment) res
         .status(400)
         .send({error: 'Data not valid'});
 
@@ -59,7 +59,8 @@ router.post('/', async (req, res) => {
         customer,
         phone,
         address,
-        order
+        order,
+        comment
     };
 
     try {

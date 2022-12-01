@@ -23,6 +23,7 @@ const AdminOrCashierMenu = ({user}) => {
     const [wantToLogout, setWantToLogout] = useState(false);
     const [wantToInsertCash, setWantToInsertCash] = useState(false);
     const [wantToWithdrawCash, setWantToWithdrawCash] = useState(false);
+    const [wantToCloseShift, setWantToCloseShift] = useState(false);
     const [state, setState] = useState({
         amountOfMoney:''
     });
@@ -56,6 +57,28 @@ const AdminOrCashierMenu = ({user}) => {
                 <Button autoFocus onClick={() => {
                     dispatch(setModalClosed());
                     setWantToLogout(false);
+                }}>
+                    НЕТ
+                </Button>
+                <Button onClick={() => {
+                    dispatch(setModalClosed());
+                    shiftCloseHandler(shift._id);
+                }} autoFocus>
+                    ДА
+                </Button>
+            </Box>
+        </Box>;
+    }else if(wantToCloseShift){
+        modalChildren=<Box width='100%'>
+            <Typography variant='h6'>
+                Вы уверены что хотите закрыть смену?
+            </Typography>
+            <Typography variant='h6'>
+                Наличных в кассе: {cash&&cash}            </Typography>
+            <Box display='flex' justifyContent='flex-end'>
+                <Button autoFocus onClick={() => {
+                    dispatch(setModalClosed());
+                    setWantToCloseShift(false);
                 }}>
                     НЕТ
                 </Button>
@@ -229,6 +252,7 @@ const AdminOrCashierMenu = ({user}) => {
                                 <MenuItem
                                     onClick={() => {
                                         handleClose();
+                                        setWantToCloseShift(true);
                                         dispatch(setModalOpen());
                                     }}
                                 >
@@ -292,6 +316,7 @@ const AdminOrCashierMenu = ({user}) => {
                         setWantToLogout(false);
                         setWantToInsertCash(false);
                         setWantToWithdrawCash(false);
+                        setWantToCloseShift(false);
                         dispatch(setModalClosed());
                     }}
                 >
