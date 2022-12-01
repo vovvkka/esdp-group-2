@@ -25,6 +25,7 @@ import CashierPanel from "./containers/CashierPanel/CashierPanel";
 import AdminOrders from "./containers/AdminOrders/AdminOrders";
 import AdminAddSubCategory from "./containers/AdminAddSubCategory/AdminAddSubCategory";
 import './scss/app.scss';
+import SuccessOrderPlace from "./containers/SuccessOrderPlace/SuccessOrderPlace";
 
 const ProtectedRoute = ({ isAllowed, redirectTo, ...props }) => {
    return isAllowed ? <Route {...props} /> : <Redirect to="/" />;
@@ -53,8 +54,9 @@ const App = () => {
             <Route path="/" exact component={MainPage} />
             <Route path="/news" exact component={NewsPage} />
             <Route path="/cart" exact component={CustomerCart} />
-            <Route path="/order-place" component={AddOrderProduct} />
+            <Route path="/order-place" exact component={AddOrderProduct} />
             <Route path="/news/:id" component={NewsInfo} />
+            <Route path="/order-place/success" component={SuccessOrderPlace}/>
 
             <ProtectedRoute
                isAllowed={user}

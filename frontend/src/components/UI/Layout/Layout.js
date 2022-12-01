@@ -14,14 +14,14 @@ const Layout = ({children}) => {
             <ToastContainer toastStyle={{backgroundColor: "#dde6ff", color: '#000'}}/>
             <CssBaseline/>
             <AppToolbar/>
-            <div className='main'>
-                {location.pathname.includes('cashier') || location.pathname.includes('admin') ?
-                        children :
+            {location.pathname.includes('cashier') || location.pathname.includes('admin') ?
+                <div>{children}</div> :
+                <div className='main'>
                     <div className="container">
                         {children}
                     </div>
-                }
-            </div>
+                </div>
+            }
             <Footer/>
         </div>
     );
