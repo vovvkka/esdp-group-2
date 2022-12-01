@@ -21,7 +21,7 @@ const Products = () => {
     };
 
     const renderProducts = products?.docs?.length > 0 ? products.docs.map((product) => (
-            <ProductCard product={product}/>
+            <ProductCard key={product._id} product={product}/>
     )) : <Typography>Нет в наличии</Typography>;
 
     return loading ? <Spinner/> : (
