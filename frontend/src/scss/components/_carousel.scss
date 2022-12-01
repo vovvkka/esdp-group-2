@@ -27,17 +27,6 @@
     margin: 0;
   }
 
-  &__button {
-    background: $blue;
-    padding: 10px 30px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    color: white;
-    font-size: 18px;
-    margin: 10px 0;
-  }
-
   @media (max-width: 800px) {
     height: 500px;
     padding: 0;

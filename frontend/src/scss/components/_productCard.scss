@@ -1,13 +1,19 @@
 @import '../variables';
 
 .product-card {
-  width: 350px;
-  height: auto;
-  margin: 15px 0;
-  font-weight: 600;
-  text-align: center;
-  position: relative;
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+
+  &__container {
+    width: 350px;
+    height: auto;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+    padding: 10px;
+  }
+
 
   &__picture {
     height: 350px;
@@ -44,7 +50,7 @@
 
   &__icon {
     color: #ffffff;
-    font-size: 100px;
+    font-size: 80px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -52,6 +58,7 @@
     transform: translate(-50%, -50%);
     text-align: center;
   }
+
 
   @media (max-width: 1200px) {
     &__picture {
@@ -73,15 +80,20 @@
   }
 
   @media (max-width: 800px) {
-    width: 45%;
+    width: 30%;
+    height: auto;
+
+    &__container {
+      width: 100%;
+    }
 
     &__picture {
-      height: 220px;
-      width: auto;
+      height: auto;
+      width: 150px;
     }
 
     &__title {
-      font-size: 18px;
+      font-size: 16px;
       margin: 20px 0 0 0;
     }
 
@@ -91,15 +103,18 @@
   }
 
   @media (max-width: 500px) {
-    width: 45%;
+    width: 33%;
+
+    &__container {
+      width: 100%;
+    }
 
     &__picture {
-      height: 150px;
-      width: auto;
+      width: 100%;
     }
 
     &__title {
-      font-size: 18px;
+      font-size: 16px;
       margin: 20px 0 0 0;
     }
 
