@@ -46,6 +46,7 @@ const OrderSchema  = new Schema({
         default: 'Новый',
         enum: ['Новый', 'Собран', 'Закрыт'],
     },
+    comment: String,
     dateTime: {
         type: Date,
         required: true,
