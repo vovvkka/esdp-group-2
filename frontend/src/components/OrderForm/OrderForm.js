@@ -112,7 +112,7 @@ const OrderForm = ({onSubmit, error}) => {
                         <label className='customer-order__check-label' htmlFor="pay">Оплата наличными</label>
                     </div>
                     <div className='customer-order__button-wrapper'>
-                        <button>Разместить заказ</button>
+                        <button  className='button'>Разместить заказ</button>
                     </div>
                 </div>
             </div>
