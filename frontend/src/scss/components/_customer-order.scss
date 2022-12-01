@@ -151,20 +151,6 @@
   &__button-wrapper{
     margin-top: 40px;
   }
-  &__button {
-    background: $blue;
-    padding: 10px 30px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    color: white;
-    font-size: 18px;
-    margin: 10px 0;
-  }
-
-  &__button:hover {
-    background: $dark-blue;
-  }
 
   @media (max-width: 800px) {
     margin-top: 50px;

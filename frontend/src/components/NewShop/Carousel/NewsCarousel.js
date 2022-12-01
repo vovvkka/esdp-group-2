@@ -44,7 +44,7 @@ const NewsCarousel = () => {
                                 <p className='carousel__title'>{item.title}</p>
                                 <p>{desc}...</p>
                                 <Link to={'/news/' + item._id}>
-                                    <button className='carousel__button'>Читать все</button>
+                                    <button className='button'>Читать все</button>
                                 </Link>
                             </div>
                             <div className='carousel__image'>
