@@ -10,14 +10,14 @@
       | username | admin  |
       | password | admin0 |
     И нажимаю на кнопку "Войти"
-
-    Затем я хочу перейти на страницу "admin/categories/add-new-subcategory"
-    И кликаю на первый селект "#mui-component-select-category"
+    Затем я перехожу на страницу "admin/categories/add-new-subcategory"
+    Затем я кликаю на следующий селект "#mui-component-select-category"
     Если я введу данные
       | title | Кофта |
       | nds   | 10 |
       | nspCash | 20 |
       | nspNotCash | 20 |
-    Затем я кликая на следующий селект "#mui-component-select-status"
+    Затем я кликну на селект "#mui-component-select-status"
     Если я нажимаю на кнопку "Сохранить"
+    То я перехожу на страницу с категориями "admin/categories"
     И вижу заголовок "Категории"
