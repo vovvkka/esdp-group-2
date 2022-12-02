@@ -10,6 +10,7 @@ const OrderForm = ({onSubmit, error}) => {
         phone: "",
         address: "",
         comment: "",
+        cashPay: true,
     });
     useEffect(() => {
         return () => {
@@ -89,7 +90,6 @@ const OrderForm = ({onSubmit, error}) => {
                         onChange={inputChangeHandler}
                         value={state.comment}
                         name="comment"
-                        required
                     />
                         <label className='customer-order__textarea-label'>Комментарии</label>
                     </div>
@@ -105,11 +105,14 @@ const OrderForm = ({onSubmit, error}) => {
                     </div>
                     <p className='customer-order__form-block-title'>Способы оплаты</p>
                     <div className='customer-order__check-wrapper'>
-                        <input className='customer-order__form-check' type="checkbox" id="pay" name="pay" value="pay"/>
+                        <input className='customer-order__form-check' onChange={()=>{setState(prevState => {
+                            return {...prevState, cashPay : !state.cashPay
+                            };
+                        })}} type="checkbox" checked={state.cashPay} id="pay" name="pay" value="pay"/>
                         <label className='customer-order__check-label' htmlFor="pay">Оплата наличными</label>
                     </div>
                     <div className='customer-order__button-wrapper'>
-                        <button className='button'>Разместить заказ</button>
+                        <button  className='button'>Разместить заказ</button>
                     </div>
                 </div>
             </div>

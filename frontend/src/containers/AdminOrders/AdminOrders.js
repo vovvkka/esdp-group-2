@@ -153,6 +153,7 @@ const AdminOrders = () => {
                         <Typography><b>Заказчик:</b> {order && order.customer}</Typography>
                         <Typography><b>Телефон:</b> {order && order.phone}</Typography>
                         <Typography><b>Адрес:</b> {order && order.address}</Typography>
+                        <Typography><b>Комментарий:</b> {order && order.comment}</Typography>
 
                         <Typography variant="h5" sx={{marginTop: '20px'}} gutterBottom><b>Заказ:</b></Typography>
                         {order && order.order.map(order => (
