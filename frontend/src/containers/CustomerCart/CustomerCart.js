@@ -1,88 +1,68 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Avatar, Button, Grid, IconButton, Typography, useMediaQuery} from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
-import {Box} from "@mui/system";
-import theme from "../../theme";
-import {addProduct, deleteProduct, reduceProduct} from "../../store/slices/cartSlice";
-import {Link} from "react-router-dom";
+import {addProduct, clearCart, deleteProduct, reduceProduct} from "../../store/slices/cartSlice";
+import {NavLink} from "react-router-dom";
 
 const CustomerCart = () => {
     const dispatch = useDispatch();
-    const matches = useMediaQuery(theme.breakpoints.down('sm'));
-    const matchesMd = useMediaQuery(theme.breakpoints.down('md'));
     const products = useSelector(state => state.cart.products);
-    const total = products.reduce((acc,value)=>{
-        return acc + value.price*value.quantity;
-    },0);
+    const total = products.reduce((acc, value) => {
+        return acc + value.price * value.quantity;
+    }, 0);
 
     return (
-        <Grid marginTop={matchesMd ? "180px" : 0} marginBottom={matchesMd ? "50px" : 0}>
-            <Typography sx={{mt: 4, mb: 2}} variant="h6" component="div">
-                {products.length ? 'Моя корзина' : 'Корзина пуста'}
-            </Typography>
+        <div className='customer-cart'>
+            <h2 className="title">Корзина</h2>
+            <div className="location">
+                Главная —{" "}
+                <span className="location-page">
+               Корзина
+            </span>
+            </div>
+            <div className="location">
+                {products.length ? null : 'Корзина пуста'}
+            </div>
+            <div className='customer-order__orders'>
+                {products.length?<div className='customer-order__order customer-cart__order'>
+                    <div>Товар</div>
+                    <div>Цена</div>
+                    <div>Кол<span>ичество</span></div>
+                    <div>Всего</div>
+                </div>:null}
+                {products.map(i => <div className='customer-order__order customer-cart__order' key={i._id}>
+                    <div>
+                        <button onClick={() => dispatch(deleteProduct(i._id))}>
+                            x
+                        </button>
+                        <div><img
+                            alt={i.title}
+                            src={'http://localhost:8000/' + i.image}/>
+                            <div>{i.title}</div>
+                        </div>
+                    </div>
+                    <div>{i.price} c.</div>
+                    <div>
+                        <button onClick={() => dispatch(reduceProduct(i._id))}>
+                            -
+                        </button>
+                        {i.quantity}
+                        <button disabled={i.amount <= i.quantity} onClick={() => dispatch(addProduct(i))}>
+                            +
+                        </button>
+                    </div>
+                    <div>{i.price * i.quantity} c.</div>
+                </div>)}
+            </div>
 
-            {products.map(product =>
-                <Grid container item
-                      alignItems="center"
-                      justifyContent="space-between"
-                      direction={matches ? 'column' : 'row'}
-                      sx={{marginBottom: '10px', padding: '10px', backgroundColor: '#afeee23d', borderRadius: '5px'}}
-                      key={product._id}>
-                    <Box sx={{display: 'flex', alignItems: 'center', flexBasis: '50%', flexGrow: 1}}>
-                        <Avatar
-                        alt={product.title}
-                        src={'http://localhost:8000/' + product.image}
-                        sx={{width: 56, height: 56, marginRight:'10px'}}
-                    />
-                    <Typography variant="body1" component="div">
-                                {product.title}
-                            </Typography>
+            {products.length?<div className='customer-cart__button-wrapper'>
+                <button className='button button--light' onClick={() => dispatch(clearCart())}>Обновить корзину</button>
+            </div>:null}
 
-                    </Box>
-                    <Box sx={matches ? {
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            flexGrow: 1,
-                            marginTop: '10px'
-                        }
-                        : {display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexGrow: 1}}>
-                        <Typography variant="body1" component="div">
-                            {product.price} с.
-                        </Typography>
-                        <Box sx={{display: 'flex', alignItems: 'center'}}>
-                            <IconButton onClick={()=>dispatch(reduceProduct(product._id))}>
-                                <RemoveIcon/>
-                            </IconButton>
-                            <Typography variant="body1" component="div">
-                                {product.quantity}
-                            </Typography>
-                            <IconButton disabled={product.amount<=product.quantity} onClick={() => dispatch(addProduct(product))}>
-                                <AddIcon/>
-                            </IconButton>
-                        </Box>
-                        <Typography variant="body1" component="div">
-                            {product.price * product.quantity} с.
-                        </Typography>
-                        <IconButton onClick={() => dispatch(deleteProduct(product._id))}>
-                            <DeleteIcon/>
-                        </IconButton>
-                    </Box>
-                </Grid>)}
-
-            <Box sx={{display: 'flex'}}>
-                {products.length ? <Typography sx={{mt: 2, mb: 2, ml: 'auto'}} variant="h6" component="div">
-                    Общая сумма {total} с.
-                </Typography> : null}
-            </Box>
-
-            {products.length ? <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                <Button variant='contained' size='large' component={Link} to='/order-place'>Оформить заказ</Button>
-            </Box> : null}
-        </Grid>
+            {products.length ? <div className='customer-cart__total-wrapper'>
+                <div className='customer-cart__total customer-order__orders-total'>Итого <span>{total} с.</span></div>
+                <NavLink className='button' to='/order-place'>Оформить заказ</NavLink>
+            </div> : null}
+        </div>
     );
 };
 

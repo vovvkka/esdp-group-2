@@ -18,10 +18,10 @@ const AddOrderProduct = () => {
    };
    return (
       <div className="customer-order">
-         <h2 className="customer-order__title">Оформление заказа</h2>
-         <div className="customer-order__location">
+         <h2 className="title">Оформление заказа</h2>
+         <div className="location">
             Главная —{" "}
-            <span className="customer-order__location-page">
+            <span className="location-page">
                Оформление заказа
             </span>
          </div>
