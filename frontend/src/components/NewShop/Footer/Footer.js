@@ -3,9 +3,11 @@ import {Link, NavLink, useLocation} from "react-router-dom";
 import logo from "../../../assets/logo.png";
 import InstagramIcon from '@mui/icons-material/Instagram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import {useSelector} from "react-redux";
 
 const Footer = () => {
     const location = useLocation();
+    const contacts = useSelector(state => state.contacts.contacts);
 
     if (location.pathname.includes('admin') || location.pathname.includes('cashier')) {
         return <></>;
@@ -39,7 +41,7 @@ const Footer = () => {
                     </ul>
 
                     <div className="footer__contacts">
-                        <p className='number'>+996 (555) 500 500</p>
+                        <p className='number'>{contacts?.phone}</p>
                         <p className="email">hello@womazing.com</p>
 
                         <div className="footer__social">
