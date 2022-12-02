@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 const Header = () => {
     const user = useSelector(state => state.users.user);
     const cartProducts = useSelector(state => state.cart.products);
+    const contacts = useSelector(state => state.contacts.contacts);
     const location = useLocation();
 
     const amount = cartProducts.reduce((acc,value)=>{
@@ -36,7 +37,7 @@ const Header = () => {
                         </ul>
                         <div className='header__info'>
                             <LocalPhoneIcon className='header__icon header__icon--phone'/>
-                            <p className='number'>+996 (555) 500 500</p>
+                            <p className='number'>{contacts?.phone}</p>
                             <Link to='/cart' className='header__cart'>
                                 {amount ?  <div className='header__cart-badge'>{amount}</div> : null}
                                 <ShoppingCartOutlinedIcon className='header__icon header__icon--cart'/>

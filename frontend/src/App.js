@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Layout from "./components/UI/Layout/Layout";
 import Login from "./containers/Login/Login";
 import AdminAddCategory from "./containers/AdminAddCategory/AdminAddCategory";
@@ -24,8 +24,10 @@ import NewsInfo from "./containers/NewsInfo/NewsInfo";
 import CashierPanel from "./containers/CashierPanel/CashierPanel";
 import AdminOrders from "./containers/AdminOrders/AdminOrders";
 import AdminAddSubCategory from "./containers/AdminAddSubCategory/AdminAddSubCategory";
-import './scss/app.scss';
+import "./scss/app.scss";
 import SuccessOrderPlace from "./containers/SuccessOrderPlace/SuccessOrderPlace";
+import { getContacts } from "./store/actions/contactsActions";
+import Contacts from "./containers/Contacts/Contacts";
 
 const ProtectedRoute = ({ isAllowed, redirectTo, ...props }) => {
    return isAllowed ? <Route {...props} /> : <Redirect to="/" />;
@@ -46,7 +48,12 @@ const LoginRedirectRoute = ({ user, redirectTo, ...props }) => {
 };
 
 const App = () => {
+   const dispatch = useDispatch();
    const user = useSelector((state) => state.users.user);
+
+   useEffect(() => {
+      dispatch(getContacts());
+   }, [dispatch]);
 
    return (
       <Layout>
@@ -56,7 +63,8 @@ const App = () => {
             <Route path="/cart" exact component={CustomerCart} />
             <Route path="/order-place" exact component={AddOrderProduct} />
             <Route path="/news/:id" component={NewsInfo} />
-            <Route path="/order-place/success" component={SuccessOrderPlace}/>
+            <Route path="/order-place/success" component={SuccessOrderPlace} />
+            <Route path="/contacts" component={Contacts} />
 
             <ProtectedRoute
                isAllowed={user}

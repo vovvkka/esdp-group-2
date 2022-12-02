@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const ContactsSchema = new Schema({
     address: [{type: String, required: true}],
     phone: [{type: String, required: true}],
+    email: String,
     instagram: String,
 },{
     timestamps: true

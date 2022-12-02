@@ -11,23 +11,21 @@ Given('я введу данные', table => {
         I.fillField(name, value);
     });
 });
+
 When('нажимаю на кнопку {string}', buttonText => {
     I.click(`//form//button[contains(text(), "${buttonText}")]`);
-    I.wait(10);
 });
 
-Given('я хочу перейти на страницу {string}', (page) => {
+When('я захожу на страницу {string}', page => {
     I.amOnPage('/' + page);
-});
-
-Then('кликаю на первый селект {string}', (category) => {
-    I.click(category);
     I.wait(5);
-    I.click(`//ul//li`);
 });
 
-Given('я введу данные', table => {
+When('я нажимаю на кнопку редактирования', () => {
+    I.click(`//table//tr//td//a`);
+});
 
+Then('я введу данные', table => {
     table.rows.forEach(row => {
         const name = row.cells[0].value;
         const value = row.cells[1].value;
@@ -35,16 +33,18 @@ Given('я введу данные', table => {
     });
 });
 
-Then('я кликаю на следующий селект {string}', text => {
-    I.click(text);
-    I.click(`//ul//li[@data-value="Активный"]`);
+When('нажимаю на кнопку', (buttonText) => {
+    I.click(`//form//button[contains(text(), "${buttonText}")]`);
 });
 
-When('я нажимаю на кнопку {string}', saveText => {
-    I.forceClick(`//form//button[contains(text(), "${saveText}")]`);
+Then('я перехожу на страницу {string}', page => {
+    I.amOnPage('/' + page);
     I.wait(5);
 });
 
-When('вижу заголовок {string}', saveText => {
-    I.see(saveText);
+When('вижу заголовок {string}', text => {
+    I.see(text);
 });
+
+
+
