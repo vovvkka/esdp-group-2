@@ -9,6 +9,7 @@ const Shift = require('./models/Shift');
 const Order = require('./models/Order');
 const News = require("./models/News");
 const Cash = require('./models/Cash');
+const Contacts = require("./models/Contacts");
 
 const run = async () => {
     await mongoose.connect(config.mongo.db);
@@ -240,6 +241,13 @@ const run = async () => {
         title: 'Оформите скидочную карту и получайте кэшбек!',
         description: 'Дорогие друзья, магазин Tai-Tai напоминает о выгодной программе «Тай-Тай Бонус». Совершайте покупки по скидке и копите баллы, которыми вы сможете оплатить любую покупку! Карту можно оформить в любом филиале Tai-Tai!',
         image: 'fixtures/discount.png',
+    });
+
+    await Contacts.create({
+        address: ["Мега Молл ул. Торгоева, Алдашева (К.Маркса), Каракол"],
+        phone: ["+996 (555) 911 343"],
+        email: "hello@womazing.com",
+        instagram: 'https://instagram.com/tay_tay_karakol?igshid=YmMyMTA2M2Y='
     });
 
     await Cash.create({
