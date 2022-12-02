@@ -17,8 +17,9 @@ When('нажимаю на кнопку {string}', buttonText => {
     I.wait(5);
 });
 
-Then('я вижу таблицу, где есть категория {string}', text => {
-    I.see(text)
+Then('я вижу таблицу, где есть текст {string}', text => {
+    I.see(text);
+    I.wait(5);
 });
 
 
