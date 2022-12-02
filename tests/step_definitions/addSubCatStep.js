@@ -35,7 +35,7 @@ Given('я введу данные', table => {
     });
 });
 
-Then('я кликая на следующий селект {string}', text => {
+Then('я кликаю на следующий селект {string}', text => {
     I.click(text);
     I.click(`//ul//li[@data-value="Активный"]`);
 });
