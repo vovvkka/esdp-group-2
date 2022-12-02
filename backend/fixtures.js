@@ -244,8 +244,9 @@ const run = async () => {
     });
 
     await Contacts.create({
-        address: ["Каракол Ак-Тилек Мега Молл"],
+        address: ["Мега Молл ул. Торгоева, Алдашева (К.Маркса), Каракол"],
         phone: ["+996 (555) 911 343"],
+        email: "hello@womazing.com",
         instagram: 'https://instagram.com/tay_tay_karakol?igshid=YmMyMTA2M2Y='
     });
 

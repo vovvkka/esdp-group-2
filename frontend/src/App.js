@@ -27,6 +27,7 @@ import AdminAddSubCategory from "./containers/AdminAddSubCategory/AdminAddSubCat
 import "./scss/app.scss";
 import SuccessOrderPlace from "./containers/SuccessOrderPlace/SuccessOrderPlace";
 import { getContacts } from "./store/actions/contactsActions";
+import Contacts from "./containers/Contacts/Contacts";
 
 const ProtectedRoute = ({ isAllowed, redirectTo, ...props }) => {
    return isAllowed ? <Route {...props} /> : <Redirect to="/" />;
@@ -63,6 +64,7 @@ const App = () => {
             <Route path="/order-place" exact component={AddOrderProduct} />
             <Route path="/news/:id" component={NewsInfo} />
             <Route path="/order-place/success" component={SuccessOrderPlace} />
+            <Route path="/contacts" component={Contacts} />
 
             <ProtectedRoute
                isAllowed={user}
