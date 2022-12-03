@@ -1,9 +1,8 @@
 @import './components/all.scss';
+@import './libs/normalize.scss';
 
 * {
-  box-sizing: border-box;
   scroll-behavior: smooth;
-  font-family: 'Raleway', sans-serif;
 }
 
 .wrapper {
@@ -18,7 +17,7 @@
 }
 
 .background-wrapper {
-  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 57%, rgb(241, 234, 220) 57%, rgb(241, 234, 220) 100%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 57%, rgb(241, 234, 220) 57%, rgb(241, 234, 220) 100%);
   @media (max-width: 800px) {
     background: white;
   }
@@ -28,6 +27,6 @@
   padding-bottom: 250px;
 
   @media (max-width: 767px) {
-    padding-bottom: 400px;
+    padding-bottom: 500px;
   }
 }

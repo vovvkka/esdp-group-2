@@ -27,7 +27,7 @@ Given('я введу данные', table => {
 
     });
 });
-Then('я кликаю на селект {string}', text => {
+Then('я нажму на селект {string}', text => {
     I.click(text);
     I.click(`//ul//li[@data-value="Активный"]`);
 });
@@ -39,3 +39,4 @@ When('я нажимаю на кнопку {string}', saveText => {
 Then('я перехожу на страницу с категориями и вижу моя созданную {string}', text => {
     I.see(text)
 });
+

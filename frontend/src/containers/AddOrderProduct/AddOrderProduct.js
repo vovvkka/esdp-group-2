@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 import OrderForm from "../../components/OrderForm/OrderForm";
-import {useDispatch, useSelector} from "react-redux";
-import {addOrder} from "../../store/actions/ordersActions";
+import { useDispatch, useSelector } from "react-redux";
+import { addOrder } from "../../store/actions/ordersActions";
 
 const AddOrderProduct = () => {
-    const errors = useSelector(state => state.orders.createError);
-    const products = useSelector(state => state.cart.products);
-    const dispatch = useDispatch();
+   const errors = useSelector((state) => state.orders.createError);
+   const products = useSelector((state) => state.cart.products);
+   const dispatch = useDispatch();
 
     const addOrderData = async customerData => {
         const order = products.map(product => ({product: product._id, quantity: product.quantity}));

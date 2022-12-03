@@ -20,7 +20,8 @@ export const addOrder = (orderData) => {
          dispatch(addOrderRequest());
          await axiosApi.post("/orders", orderData);
          dispatch(addOrderSuccess());
-         dispatch(historyPush("/"));
+
+         dispatch(historyPush("/order-place/success"));
          dispatch(clearCart());
       } catch (e) {
          if (e.response && e.response.data) {

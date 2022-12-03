@@ -25,7 +25,7 @@ const Products = () => {
     )) : <Typography>Нет в наличии</Typography>;
 
     return loading ? <Spinner/> : (
-        <div className='container'>
+        <div>
                 <div className='products'>
                     {renderProducts}
                 </div>
