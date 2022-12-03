@@ -1,0 +1,56 @@
+@import '../variables';
+
+.isActive {
+  background: black !important;
+  color: white;
+}
+
+.single-product {
+  margin-top: 50px;
+
+  title {
+    color: #000000;
+    font-size: 40px;
+  }
+
+  &__image {
+    max-width: 450px;
+    width: 100%;
+    height: auto;
+  }
+
+  &__main {
+    margin-top: 100px;
+    display: flex;
+  }
+
+  &__price {
+    font-size: 40px;
+    color: $grey;
+  }
+
+  &__text {
+    font-size: 20px;
+  }
+
+  &__size {
+    background: transparent;
+    padding: 10px 15px;
+    border: 1px solid black;
+    margin-right: 14px;
+    font-size: 17px;
+    transition: 0.3s;
+
+    &:hover {
+      background: black;
+      color: white;
+    }
+  }
+
+  &__amount-input {
+    border: 1px solid black;
+    font-weight: 400;
+    font-size: 20px;
+    padding: 10px 5px 10px 12px;
+  }
+}

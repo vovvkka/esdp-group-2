@@ -96,9 +96,6 @@ const AdminOrders = () => {
         selectableRows: "none",
         filter: true,
         onFilterChange: (changedColumn, filterList) => {
-            console.log(changedColumn);
-            console.log(filterList[3]);
-
             if (filterList[3][0] === 'Открытые') {
                 dispatch(getOrders('?status=active'));
             } else if (filterList[3][0] === 'Закрытые') {
