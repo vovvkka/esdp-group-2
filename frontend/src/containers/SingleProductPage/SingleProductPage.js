@@ -22,12 +22,10 @@ const SingleProductPage = () => {
         cartProduct.size = size;
         cartProduct.color = color;
         cartProduct.quantity = amount;
-        console.log(cartProduct);
         dispatch(addProduct(cartProduct));
     };
 
     const changeColor = (e, color) => {
-        console.log(e);
         e.target.className = e.target.className + ' isActive';
         setColor(color);
     };

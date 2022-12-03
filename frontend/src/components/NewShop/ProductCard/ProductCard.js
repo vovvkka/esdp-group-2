@@ -3,6 +3,7 @@ import {apiUrl} from "../../../config";
 import {Link} from "react-router-dom"
 
 const ProductCard = ({product}) => {
+    console.log('asd')
     return (
         <div className='product-card'>
             <img src={apiUrl + '/' + product.image} alt={product.title} className='product-card__picture'/>
