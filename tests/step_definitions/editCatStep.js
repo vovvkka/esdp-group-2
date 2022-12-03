@@ -14,6 +14,7 @@ Given('я введу данные', table => {
 });
 When('нажимаю на кнопку {string}', buttonText => {
     I.click(`//form//button[contains(text(), "${buttonText}")]`);
+    I.wait(5);
 });
 
 Given('я перехожу на страницу {string}', (page) => {
