@@ -8,6 +8,7 @@ const categories = require('./app/categories');
 const shifts = require('./app/shifts');
 const orders = require('./app/orders');
 const cash = require('./app/cash');
+const contacts = require('./app/contacts');
 
 const cashiers = require('./app/cashiers');
 const news = require('./app/news');
@@ -29,6 +30,7 @@ app.use('/orders', orders);
 app.use('/cashiers', cashiers);
 app.use('/news', news);
 app.use('/cash', cash);
+app.use('/contacts', contacts);
 
 const run = async () => {
     await mongoose.connect(config.mongo.db, config.mongo.options);
