@@ -1,9 +1,15 @@
 @import '../variables';
 
 .product-card {
+  width: 350px;
+  height: auto;
+  margin: 15px 0;
+  font-weight: 600;
+  text-align: center;
+  position: relative;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  margin: 15px;
 
   &__container {
     width: 350px;
@@ -13,7 +19,6 @@
     position: relative;
     padding: 10px;
   }
-
 
   &__picture {
     height: 350px;
