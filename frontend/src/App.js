@@ -25,6 +25,7 @@ import CashierPanel from "./containers/CashierPanel/CashierPanel";
 import AdminOrders from "./containers/AdminOrders/AdminOrders";
 import AdminAddSubCategory from "./containers/AdminAddSubCategory/AdminAddSubCategory";
 import './scss/app.scss';
+import SingleProductPage from "./containers/SingleProductPage/SingleProductPage";
 
 const ProtectedRoute = ({ isAllowed, redirectTo, ...props }) => {
    return isAllowed ? <Route {...props} /> : <Redirect to="/" />;
@@ -54,7 +55,8 @@ const App = () => {
             <Route path="/news" exact component={NewsPage} />
             <Route path="/cart" exact component={CustomerCart} />
             <Route path="/order-place" component={AddOrderProduct} />
-            <Route path="/news/:id" component={NewsInfo} />
+             <Route path="/news/:id" component={NewsInfo}/>
+             <Route path="/products/:id" component={SingleProductPage}/>
 
             <ProtectedRoute
                isAllowed={user}

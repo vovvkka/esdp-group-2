@@ -6,6 +6,7 @@ const path = require("path");
 const multer = require("multer");
 const config = require("../config");
 const {nanoid} = require("nanoid");
+const User = require("../models/User");
 
 const router = express.Router();
 
@@ -22,6 +23,9 @@ const upload = multer({storage});
 
 router.get('/', async (req, res) => {
     try {
+        const token = req.get('Authorization');
+        const user = await User.findOne({token});
+
         const {page, perPage} = req.query;
         const query = {};
         const options = {
@@ -29,6 +33,13 @@ router.get('/', async (req, res) => {
             page: parseInt(page) || 1,
             limit: parseInt(perPage) || 30
         };
+
+        if (!user || user.role === 'cashier') {
+            query.status = "Активный"
+            if (!user) {
+                options.select = "category title description price amount unit image"
+            }
+        }
 
         if (req.query.category && req.query.key) {
             isNaN(+req.query.key) ? query.title = {
@@ -59,7 +70,19 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const token = req.get('Authorization');
+        const user = await User.findOne({token});
+
+        let product;
+
+        if (user) {
+            product = await Product.findById(req.params.id).populate({path: 'category', select: 'title'});
+        } else {
+            product = await Product.findById(req.params.id).select('category title description price amount unit image').populate({
+                path: 'category',
+                select: 'title'
+            });
+        }
 
         if (!product) {
             return res.status(404).send({message: 'Product not found!'})

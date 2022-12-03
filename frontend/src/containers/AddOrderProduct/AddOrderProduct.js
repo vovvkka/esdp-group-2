@@ -15,10 +15,13 @@ const AddOrderProduct = () => {
     };
     return (
         <div className='customer-order'>
-            <h2 className='customer-order__title'>
+            <h2 className='title'>
                 Оформление заказа
             </h2>
-            <div className='customer-order__location'>Главная — <span className='customer-order__location-page'>Оформление заказа</span></div>
+            <div className='location'>
+                Главная —
+                <span className='location__page'>Оформление заказа</span>
+            </div>
             <OrderForm
                 error={errors}
                 onSubmit={addOrderData}
