@@ -29,6 +29,7 @@ import SingleProductPage from "./containers/SingleProductPage/SingleProductPage"
 import SuccessOrderPlace from "./containers/SuccessOrderPlace/SuccessOrderPlace";
 import { getContacts } from "./store/actions/contactsActions";
 import Contacts from "./containers/Contacts/Contacts";
+import AdminSettings from "./containers/AdminSettings/AdminSettings";
 
 const ProtectedRoute = ({ isAllowed, redirectTo, ...props }) => {
    return isAllowed ? <Route {...props} /> : <Redirect to="/" />;
@@ -63,8 +64,8 @@ const App = () => {
             <Route path="/news" exact component={NewsPage} />
             <Route path="/cart" exact component={CustomerCart} />
             <Route path="/order-place" component={AddOrderProduct} />
-             <Route path="/news/:id" component={NewsInfo}/>
-             <Route path="/products/:id" component={SingleProductPage}/>
+            <Route path="/news/:id" component={NewsInfo}/>
+            <Route path="/products/:id" component={SingleProductPage}/>
             <Route path="/order-place" exact component={AddOrderProduct} />
             <Route path="/news/:id" component={NewsInfo} />
             <Route path="/order-place/success" component={SuccessOrderPlace} />
@@ -162,6 +163,12 @@ const App = () => {
                isAllowed={user}
                path="/admin/orders/archive"
                component={AdminOrders}
+            />
+
+            <ProtectedRoute
+                isAllowed={user}
+                path="/admin/settings"
+                component={AdminSettings}
             />
 
             <ProtectedRoute
