@@ -10,6 +10,7 @@ const Order = require('./models/Order');
 const News = require("./models/News");
 const Cash = require('./models/Cash');
 const Contacts = require("./models/Contacts");
+const Customer = require("./models/Customer");
 
 const run = async () => {
     await mongoose.connect(config.mongo.db);
@@ -224,6 +225,24 @@ const run = async () => {
         status: 'Закрыт',
         address: 'г.Бишкек, микрорайон-5 2/50'
     });
+
+    await Customer.create({
+        name: 'Джон',
+        surname: 'Доу',
+        phone: '+(996) 555 555 555',
+        address: 'г.Бишкек, микрорайон-10 1/11',
+        discount: 5,
+    },{
+        name: 'Черная',
+        surname: 'пятница',
+        discount: 15,
+    },{
+        name: 'Элина',
+        surname: 'Усенова',
+        phone: '+(996) 555 555 555',
+        email: 'elina@mail.ru',
+        discount: 3,
+    }, );
 
     await News.create({
         title: 'Распродажа в Тай-Тай!',
