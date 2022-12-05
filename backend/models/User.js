@@ -11,6 +11,10 @@ const validateUnique = async value => {
     if (user) return false;
 };
 
+const validateEmail = (email) => {
+    return /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email);
+};
+
 const UserSchema = new Schema({
     username: {
         type: String,
@@ -25,6 +29,14 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         minLength:[6, 'Пароль должен содержать минимум 6 символов']
+    },
+    email: {
+        type: String,
+        required: true,
+        validate: {
+            validator: validateEmail,
+            message: 'Введите правильную почту'
+        },
     },
     pin: {
       type: String,
