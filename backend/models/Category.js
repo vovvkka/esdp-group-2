@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 const Schema = mongoose.Schema;
 
 const CategorySchema = new Schema({
@@ -35,6 +36,7 @@ const CategorySchema = new Schema({
 });
 
 
+CategorySchema.plugin(AutoIncrement, {inc_field: 'categoryNumber'});
 const Category = mongoose.model('Category', CategorySchema);
 
 module.exports = Category;

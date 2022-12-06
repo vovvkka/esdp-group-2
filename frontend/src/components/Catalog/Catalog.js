@@ -57,7 +57,7 @@ const Catalog = () => {
     }
 
     return (
-        <Grid item xs={6} sx={{backgroundColor: '#e0e0e0', padding: '15px'}}>
+        <Grid item xs={6} sx={{padding: '15px'}}>
             <Tabs
                 value={value}
                 onChange={handleChange}
@@ -79,7 +79,6 @@ const Catalog = () => {
                     marginTop: '15px',
                     paddingRight: '10px',
                     overflowY: 'scroll',
-                    height: '680px',
                 }}
             >
                 <TextField onChange={onSearch} id="outlined-basic" label="Поиск" variant="outlined" margin="normal"/>

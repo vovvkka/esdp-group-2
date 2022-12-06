@@ -66,11 +66,11 @@ const AdminOrders = () => {
                     let color;
 
                     if (value === 'Новый') {
-                        color = "white"
+                        color = "#ffb6b6"
                     } else if (value === 'Собран') {
-                        color = "green"
+                        color = "#ffe5b6"
                     } else if (value === 'Закрыт') {
-                        color = "red"
+                        color = "#cdfdcd"
                     } else {
                         color = "white"
                     }

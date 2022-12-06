@@ -40,9 +40,6 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shi
                     {row.title}
                 </TableCell>
                 <TableCell align="center">Нет</TableCell>
-                <TableCell align="center">{row.nds}</TableCell>
-                <TableCell align="center">{row.nspCash}</TableCell>
-                <TableCell align="center">{row.nspNotCash}</TableCell>
                 <TableCell align="center">{row.status}</TableCell>
                 <TableCell align="center">{new Date(row.createdAt).toLocaleString()}</TableCell>
                 <TableCell align="center">{new Date(row.updatedAt).toLocaleString()}</TableCell>
