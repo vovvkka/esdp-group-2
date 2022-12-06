@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Container, Grid} from "@mui/material";
 import FormElement from "../../components/UI/Form/FormElement/FormElement";
-import {getContacts} from "../../store/actions/contactsActions";
+import {editContacts, getContacts} from "../../store/actions/contactsActions";
 import {makeStyles} from "tss-react/mui";
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -101,7 +101,7 @@ const AdminEditContacts = () => {
 
     const onSubmitHandler = e => {
         e.preventDefault();
-        console.log('sent')
+        dispatch(editContacts({...state}));
     };
 
     return contacts && (

@@ -1,9 +1,13 @@
 import axiosApi from "../../axiosApi";
 import {
+    editContactsFailure,
+    editContactsRequest,
+    editContactsSuccess,
+    fetchContactsFailure,
     fetchContactsRequest,
-    fetchContactsSuccess,
-    fetchContactsFailure
+    fetchContactsSuccess
 } from "../slices/contactsSlice";
+import {historyPush} from "./historyActions";
 
 export const getContacts = () => {
     return async dispatch => {
@@ -15,4 +19,22 @@ export const getContacts = () => {
             dispatch(fetchContactsFailure(e));
         }
     }
+};
+
+export const editContacts = (contactsData) => {
+    return async dispatch => {
+        try {
+            dispatch(editContactsRequest());
+            await axiosApi.put('/contacts', contactsData);
+
+            dispatch(editContactsSuccess());
+            dispatch(historyPush('/admin/settings/contacts'));
+        } catch (e) {
+            if (e.response && e.response.data) {
+                dispatch(editContactsFailure(e.response.data));
+            } else {
+                dispatch(editContactsFailure({global: 'No internet'}));
+            }
+        }
+    };
 };

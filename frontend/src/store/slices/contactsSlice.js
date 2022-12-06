@@ -23,6 +23,17 @@ const contactsSlice = createSlice({
         fetchContactsFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
+        },
+        editContactsRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        editContactsSuccess(state) {
+            state.loading = false;
+        },
+        editContactsFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
         }
     }
 });
@@ -30,7 +41,10 @@ const contactsSlice = createSlice({
 export const {
     fetchContactsRequest,
     fetchContactsSuccess,
-    fetchContactsFailure
+    fetchContactsFailure,
+    editContactsRequest,
+    editContactsSuccess,
+    editContactsFailure,
 } = contactsSlice.actions;
 
 export default contactsSlice;
