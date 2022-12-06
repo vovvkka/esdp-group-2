@@ -31,6 +31,7 @@ import { getContacts } from "./store/actions/contactsActions";
 import Contacts from "./containers/Contacts/Contacts";
 import AdminSettings from "./containers/AdminSettings/AdminSettings";
 import AdminEditContacts from "./containers/AdminEditContacts/AdminEditContacts";
+import AdminEditProfile from "./containers/AdminEditProfile/AdminEditProfile";
 
 const ProtectedRoute = ({ isAllowed, redirectTo, ...props }) => {
    return isAllowed ? <Route {...props} /> : <Redirect to="/" />;
@@ -176,6 +177,12 @@ const App = () => {
                 isAllowed={user}
                 path="/admin/edit-contacts"
                 component={AdminEditContacts}
+            />
+
+            <ProtectedRoute
+                isAllowed={user}
+                path="/admin/edit-profile"
+                component={AdminEditProfile}
             />
 
             <ProtectedRoute

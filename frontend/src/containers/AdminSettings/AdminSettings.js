@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container, Grid, Typography} from "@mui/material";
-import {NavLink, useLocation} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import AdminInfo from "../../components/AdminInfo/AdminInfo";
 
 
@@ -19,7 +19,6 @@ const AdminSettings = () => {
                 <Grid item>
                     <AdminInfo/>
                 </Grid>
-
             </Grid>
         </Container>
     );

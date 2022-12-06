@@ -23,6 +23,17 @@ const adminSlice = createSlice({
         fetchAdminProfileFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
+        },
+        editAdminProfileRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        editAdminProfileSuccess(state) {
+            state.loading = false;
+        },
+        editAdminProfileFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
         }
     }
 });
@@ -30,7 +41,10 @@ const adminSlice = createSlice({
 export const {
     fetchAdminProfileRequest,
     fetchAdminProfileSuccess,
-    fetchAdminProfileFailure
+    fetchAdminProfileFailure,
+    editAdminProfileRequest,
+    editAdminProfileSuccess,
+    editAdminProfileFailure
 } = adminSlice.actions;
 
 export default adminSlice;
