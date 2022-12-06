@@ -30,6 +30,7 @@ import SuccessOrderPlace from "./containers/SuccessOrderPlace/SuccessOrderPlace"
 import { getContacts } from "./store/actions/contactsActions";
 import Contacts from "./containers/Contacts/Contacts";
 import AdminSettings from "./containers/AdminSettings/AdminSettings";
+import AdminEditContacts from "./containers/AdminEditContacts/AdminEditContacts";
 
 const ProtectedRoute = ({ isAllowed, redirectTo, ...props }) => {
    return isAllowed ? <Route {...props} /> : <Redirect to="/" />;
@@ -169,6 +170,12 @@ const App = () => {
                 isAllowed={user}
                 path="/admin/settings"
                 component={AdminSettings}
+            />
+
+            <ProtectedRoute
+                isAllowed={user}
+                path="/admin/edit-contacts"
+                component={AdminEditContacts}
             />
 
             <ProtectedRoute

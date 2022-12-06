@@ -7,23 +7,18 @@ import AdminContacts from "./AdminContacts/AdminContacts";
 const AdminInfo = () => {
     const location = useLocation();
 
-    const checkLocation = () => {
-        if (location.pathname === '/admin/settings') return 'profile';
-        if (location.pathname === '/admin/settings/contacts') return 'contacts';
-    };
-
     return (
         <Box>
-            {checkLocation() === 'profile' ?
+            {location.pathname === '/admin/settings' ?
                 <>
                     <Typography variant='h4' sx={{marginBottom: '20px'}}>Профиль админа</Typography>
                     <AdminProfile/>
                 </>
                 : null
             }
-            {checkLocation() === 'contacts' ?
+            {location.pathname === '/admin/settings/contacts' ?
                 <>
-                    <Typography variant='h4' sx={{marginBottom: '20px'}}>Контакты</Typography>
+                    <Typography variant='h4' sx={{marginBottom: '20px'}}>Контактная информация</Typography>
                     <AdminContacts/>
                 </>
                 : null
