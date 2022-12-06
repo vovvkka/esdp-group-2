@@ -12,7 +12,7 @@ const AdminCategories = () => {
     const loading = useSelector(state => state.categories.loading);
     const user = useSelector(state => state.users.user);
 
-    const rowsHead = ['Наименование', 'Плательщик', 'НДС,%', 'НСП нал,%', 'НСП безнал,%', 'Статус', 'Создан', 'Обновлен', 'Действие'];
+    const rowsHead = ['Наименование', 'Категория', 'Статус', 'Создан', 'Обновлен', 'Действие'];
 
     useEffect(() => {
         dispatch(fetchCategories());

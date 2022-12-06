@@ -23,33 +23,18 @@ const run = async () => {
     const [cosmetics, toys, clothes, formula] = await Category.create({
         title: 'Косметика',
         status: 'Активный',
-        nds: 0,
-        nspCash: 0,
-        nspNotCash: 0,
     }, {
         title: 'Игрушки',
         status: 'Активный',
-        nds: 0,
-        nspCash: 0,
-        nspNotCash: 0,
     }, {
         title: 'Одежда',
         status: 'Активный',
-        nds: 0,
-        nspCash: 0,
-        nspNotCash: 0,
     }, {
         title: 'Детское питание',
         status: 'Активный',
-        nds: 0,
-        nspCash: 0,
-        nspNotCash: 0,
     }, {
         title: 'Для матери',
         status: 'Неактивный',
-        nds: 0,
-        nspCash: 0,
-        nspNotCash: 0,
     });
 
     const [product1, product2, product3, product4] = await Product.create({

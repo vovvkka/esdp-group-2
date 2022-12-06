@@ -1,10 +1,10 @@
 import {createTheme} from "@mui/material/styles";
-import {darken, lighten} from "polished";
+import {lighten} from "polished";
 
 export const DrawerWidth = 250;
 
 export const Colors = {
-    primary: "#23b09e",
+    primary: "rgba(17,51,98,0.88)",
     secondary: "#d1adcc",
     success: "#4CAF50",
     info: "#00a2ff",
@@ -21,7 +21,7 @@ export const Colors = {
     body_bg: "#f3f6f9",
     light_gray: "rgb(230,230,230)",
     white: "#fff",
-    black: "#000",
+    black: "#fff",
 };
 
 const theme = createTheme({

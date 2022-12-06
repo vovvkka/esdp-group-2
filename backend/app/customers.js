@@ -63,15 +63,11 @@ router.post('/', auth, permit('admin'), upload.single('image'), async (req, res)
         name,
         surname,
         discount,
-        address: address || null,
+        phone:phone,
+        email:email,
+        address: address,
         image: image,
     };
-    if(email){
-        customerData.email=email;
-    }
-    if(phone){
-        customerData.phone=phone;
-    }
     try {
         const customer = new Customer(customerData);
         await customer.save();
@@ -92,17 +88,13 @@ router.put('/:id', auth, permit('admin'), upload.single('image'), async (req, re
         name,
         surname,
         discount,
-        address: address || null,
+        phone:phone,
+        email:email,
+        address: address,
     };
 
     if (req.file) {
         customerData.image = 'uploads/' + req.file.filename;
-    }
-    if(email){
-        customerData.email=email;
-    }
-    if(phone){
-        customerData.phone=phone;
     }
 
     try {
