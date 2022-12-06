@@ -11,7 +11,7 @@
   }
 
   &__total{
-    margin-right: 10px;
+    margin: 0 10px 10px 10px;
     flex-basis: 20%;
   }
   &__order{
@@ -58,7 +58,6 @@
   &__button-wrapper{
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 20px;
   }
 
   @media (max-width: 850px) {

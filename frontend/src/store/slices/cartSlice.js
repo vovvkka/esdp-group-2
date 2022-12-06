@@ -15,11 +15,19 @@ const cartSlice = createSlice({
         addProduct(state,action) {
             const itemInCart = state.products.find((item) => item._id === action.payload._id);
             if (itemInCart) {
+                if(itemInCart.amount>=itemInCart.quantity+(+action.payload.quantity)) {
+                    itemInCart.quantity=itemInCart.quantity+(+action.payload.quantity);
+                }
+            } else {
+                state.products.push({...action.payload,quantity:+action.payload.quantity});
+            }
+        },
+        increaseProduct(state,action) {
+            const itemInCart = state.products.find((item) => item._id === action.payload);
+            if (itemInCart) {
                 if(itemInCart.amount>=itemInCart.quantity) {
                     itemInCart.quantity++;
                 }
-            } else {
-                state.products.push({...action.payload});
             }
         },
         reduceProduct(state,action) {
@@ -52,6 +60,7 @@ const cartSlice = createSlice({
 
 export const {
     addProduct,
+    increaseProduct,
     reduceProduct,
     deleteProduct,
     clearCart,

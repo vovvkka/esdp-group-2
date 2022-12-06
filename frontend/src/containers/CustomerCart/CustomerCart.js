@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {addProduct, clearCart, deleteProduct, reduceProduct} from "../../store/slices/cartSlice";
+import {clearCart, deleteProduct, increaseProduct, reduceProduct} from "../../store/slices/cartSlice";
 import {NavLink} from "react-router-dom";
 
 const CustomerCart = () => {
@@ -46,7 +46,7 @@ const CustomerCart = () => {
                             -
                         </button>
                         {i.quantity}
-                        <button disabled={i.amount <= i.quantity} onClick={() => dispatch(addProduct(i))}>
+                        <button disabled={i.amount <= i.quantity} onClick={() => dispatch(increaseProduct(i._id))}>
                             +
                         </button>
                     </div>
