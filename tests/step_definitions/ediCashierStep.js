@@ -11,24 +11,37 @@ Given('я введу данные', table => {
         I.fillField(name, value);
     });
 });
+
 When('нажимаю на кнопку {string}', buttonText => {
     I.click(`//form//button[contains(text(), "${buttonText}")]`);
 });
-Given('я перехожу на страницу {string}', (page) => {
+
+When('я захожу на страницу {string}', page => {
     I.amOnPage('/' + page);
+    I.wait(5);
 });
-Given('я введу данные', table => {
+
+When('я нажимаю на кнопку редактирования', () => {
+    I.click(`//table//tr//td//a`);
+});
+
+Then('я введу данные', table => {
     table.rows.forEach(row => {
         const name = row.cells[0].value;
         const value = row.cells[1].value;
         I.fillField(name, value);
     });
 });
-When('нажимаю кнопку {string}', buttonText => {
+
+When('нажимаю на кнопку', (buttonText) => {
     I.click(`//form//button[contains(text(), "${buttonText}")]`);
-    I.wait(5)
 });
 
-When('я перехожу на страницу с кассирами и вижу моего созданного {string}', text => {
-    I.see(text)
+Then('я перехожу на страницу {string}', page => {
+    I.amOnPage('/' + page);
+    I.wait(5);
+});
+
+When('вижу заголовок {string}', text => {
+    I.see(text);
 });
