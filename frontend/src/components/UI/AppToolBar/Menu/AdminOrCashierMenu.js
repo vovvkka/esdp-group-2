@@ -211,6 +211,7 @@ const AdminOrCashierMenu = ({user}) => {
                     <MenuItem onClick={handleClose} component={Link} to={"/admin/categories"}>Категории</MenuItem>
                     <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Номенклатура</MenuItem>
                     <MenuItem onClick={handleClose} component={Link} to={"/admin/cashiers"}>Кассиры</MenuItem>
+                    <MenuItem onClick={handleClose} component={Link} to={"/admin/clients"}>Клиенты</MenuItem>
                 </Menu>
             </>
         );
