@@ -30,6 +30,7 @@ import SuccessOrderPlace from "./containers/SuccessOrderPlace/SuccessOrderPlace"
 import { getContacts } from "./store/actions/contactsActions";
 import Contacts from "./containers/Contacts/Contacts";
 import AdminClients from "./containers/AdminClients/AdminClients";
+import AdminAddClient from "./containers/AdminAddClient/AdminAddClient";
 
 const ProtectedRoute = ({ isAllowed, redirectTo, ...props }) => {
    return isAllowed ? <Route {...props} /> : <Redirect to="/" />;
@@ -91,6 +92,13 @@ const App = () => {
                 exact
                 component={AdminClients}
             />
+            <ProtectedRoute
+                isAllowed={user}
+                path="/admin/clients/add-new-client"
+                exact
+                component={AdminAddClient}
+            />
+
 
             <ProtectedRoute
                 isAllowed={user}
