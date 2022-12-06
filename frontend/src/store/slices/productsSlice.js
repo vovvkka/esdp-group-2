@@ -57,7 +57,7 @@ const productsSlice = createSlice({
         },
         deleteProductSuccess(state, {payload: deletedProduct}) {
             state.fetchLoading = false;
-            state.products = state.products.filter(product => product._id !== deletedProduct._id);
+            state.products.docs = state.products.docs?.filter(product => product._id !== deletedProduct._id);
         },
         deleteProductFailure(state, {payload: error}) {
             state.fetchLoading = true;

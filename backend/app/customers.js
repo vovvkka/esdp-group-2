@@ -21,8 +21,15 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 router.get('/',auth,permit('admin'), async (req, res) => {
+    const {page, perPage} = req.query;
+
     try {
-        const customers = await Customer.find();
+        const options = {
+            page: parseInt(page) || 1,
+            limit: parseInt(perPage) || 30
+        };
+
+        const customers = await Customer.paginate({}, options);
         res.send(customers);
     } catch (e) {
         res.status(500).send(e);

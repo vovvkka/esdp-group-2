@@ -256,43 +256,24 @@ const AdminOrCashierMenu = ({ user }) => {
                </Button>
             </Grid>
 
-            <Menu
-               id="basic-menu"
-               anchorEl={anchorEl}
-               open={open}
-               onClose={handleClose}
-               MenuListProps={{
-                  "aria-labelledby": "basic-button",
-               }}
-            >
-               <MenuItem onClick={handleClose} component={Link} to={"/admin"}>
-                  Главная
-               </MenuItem>
-               <MenuItem
-                  onClick={handleClose}
-                  component={Link}
-                  to={"/admin/categories"}
-               >
-                  Категории
-               </MenuItem>
-               <MenuItem
-                  onClick={handleClose}
-                  component={Link}
-                  to={"/admin/products"}
-               >
-                  Номенклатура
-               </MenuItem>
-               <MenuItem
-                  onClick={handleClose}
-                  component={Link}
-                  to={"/admin/cashiers"}
-               >
-                  Кассиры
-               </MenuItem>
-            </Menu>
-         </>
-      );
-   }
+                <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        'aria-labelledby': 'basic-button',
+                    }}
+                >
+                    <MenuItem onClick={handleClose} component={Link} to={"/admin"}>Главная</MenuItem>
+                    <MenuItem onClick={handleClose} component={Link} to={"/admin/categories"}>Категории</MenuItem>
+                    <MenuItem onClick={handleClose} component={Link} to={"/admin/products"}>Номенклатура</MenuItem>
+                    <MenuItem onClick={handleClose} component={Link} to={"/admin/cashiers"}>Кассиры</MenuItem>
+                    <MenuItem onClick={handleClose} component={Link} to={"/admin/clients"}>Клиенты</MenuItem>
+                </Menu>
+            </>
+        );
+    }
 
    if (user?.role === "cashier") {
       return (
