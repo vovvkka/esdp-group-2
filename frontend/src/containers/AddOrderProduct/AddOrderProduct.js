@@ -16,6 +16,7 @@ const AddOrderProduct = () => {
       const orderObj = { ...customerData, order };
       await dispatch(addOrder(orderObj));
    };
+   
    return (
       <div className="customer-order">
          <h2 className="title">Оформление заказа</h2>
@@ -28,6 +29,7 @@ const AddOrderProduct = () => {
          <OrderForm error={errors} onSubmit={addOrderData} />
       </div>
    );
+
 };
 
 export default AddOrderProduct;

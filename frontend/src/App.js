@@ -24,7 +24,8 @@ import NewsInfo from "./containers/NewsInfo/NewsInfo";
 import CashierPanel from "./containers/CashierPanel/CashierPanel";
 import AdminOrders from "./containers/AdminOrders/AdminOrders";
 import AdminAddSubCategory from "./containers/AdminAddSubCategory/AdminAddSubCategory";
-import "./scss/app.scss";
+import './scss/app.scss';
+import SingleProductPage from "./containers/SingleProductPage/SingleProductPage";
 import SuccessOrderPlace from "./containers/SuccessOrderPlace/SuccessOrderPlace";
 import { getContacts } from "./store/actions/contactsActions";
 import Contacts from "./containers/Contacts/Contacts";
@@ -61,6 +62,9 @@ const App = () => {
             <Route path="/" exact component={MainPage} />
             <Route path="/news" exact component={NewsPage} />
             <Route path="/cart" exact component={CustomerCart} />
+            <Route path="/order-place" component={AddOrderProduct} />
+             <Route path="/news/:id" component={NewsInfo}/>
+             <Route path="/products/:id" component={SingleProductPage}/>
             <Route path="/order-place" exact component={AddOrderProduct} />
             <Route path="/news/:id" component={NewsInfo} />
             <Route path="/order-place/success" component={SuccessOrderPlace} />
