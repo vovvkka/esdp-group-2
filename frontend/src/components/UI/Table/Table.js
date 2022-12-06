@@ -15,6 +15,7 @@ import {Link} from "react-router-dom";
 import {apiUrl} from "../../../config";
 import {deleteProduct} from "../../../store/actions/productsActions";
 import {useDownloadExcel} from "react-export-table-to-excel";
+import {deleteCashier} from "../../../store/actions/cashiersActions";
 
 
 const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shifts, onOpenOrderModal}) => {
@@ -97,18 +98,27 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shi
     }
 
     if (cashiers) {
-        render = rows.map((row) => (
+        render = rows.map((row, i) => (
             <TableRow
                 key={row._id}
                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
             >
-                <TableCell>
+                <TableCell sx={{textAlign: 'center'}}>
+                    {i + 1}
+                </TableCell>
+                <TableCell sx={{textAlign: 'center'}}>
+                    {row.displayName}
+                </TableCell>
+                <TableCell sx={{textAlign: 'center'}}>
                     {row.username}
                 </TableCell>
                 <TableCell align="center">
                     <Box display='flex' justifyContent='center'>
                         <Button component={Link}
                                 to={"/admin/cashiers/edit-cashier/" + row._id}><EditSharpIcon/></Button>
+                        <Button onClick={() => dispatch(deleteCashier(row._id))}>
+                            <DeleteForeverSharpIcon/>
+                        </Button>
                     </Box>
                 </TableCell>
             </TableRow>

@@ -12,7 +12,7 @@ const AdminCashiers = () => {
     const user = useSelector(state => state.users.user);
     const dispatch = useDispatch();
 
-    const rowsHead = ['Кассир', 'Действие'];
+    const rowsHead = ['№','Кассир','Логин','Действие'];
 
     useEffect(() => {
         dispatch(getCashiers());

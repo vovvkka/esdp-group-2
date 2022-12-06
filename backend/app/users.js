@@ -36,6 +36,10 @@ router.post('/sessions', async (req, res) => {
         return res.status(401).send({error: 'Неправильный логин или пароль!'});
     }
 
+    if (user.isFired) {
+        return res.status(401).send({error: 'Неправильный логин или пароль!'});
+    }
+
     const isMatch = await user.checkPassword(req.body.password);
 
     if (!isMatch) {
