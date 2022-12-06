@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/',auth,permit('admin'), async (req, res) => {
     try {
-        const cashiers = await User.find({role: {$eq: 'cashier'}});
+        const cashiers = await User.find({role: {$eq: 'cashier'},isFired: false});
 
         if (!cashiers) {
             return res.status(404).send({message: 'Cashier not found!'});
@@ -21,7 +21,9 @@ router.get('/',auth,permit('admin'), async (req, res) => {
 router.get('/:id',auth,permit('admin'), async (req, res) => {
     try {
         const cashier = await User.findById(req.params.id);
-
+        if (cashier.isFired) {
+            return res.status(404).send({message: 'Cashier not found!'});
+        }
         if (!cashier) {
             return res.status(404).send({message: 'Cashier not found!'});
         }
@@ -48,6 +50,21 @@ router.put('/:id',auth,permit('admin'), async (req, res) => {
         await User.findByIdAndUpdate(req.params.id,userData);
 
         res.send({message: 'Edit successful!'});
+    } catch (e) {
+        res.status(400).send({error: e.errors});
+    }
+});
+
+router.delete('/:id',auth,permit('admin'), async (req, res) => {
+    try {
+        const cashier = await User.findById(req.params.id);
+
+        if (!cashier) {
+            return res.status(404).send({message: 'Cashier not found!'});
+        }
+        await User.findByIdAndUpdate(req.params.id, {"isFired": true});
+
+        res.send({message: 'Delete successful!'});
     } catch (e) {
         res.status(400).send({error: e.errors});
     }

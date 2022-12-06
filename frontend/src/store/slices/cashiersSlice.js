@@ -59,6 +59,18 @@ const cashiersSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        deleteCashierRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        deleteCashierSuccess(state,action) {
+            state.loading = false;
+            state.cashiers = state.cashiers.filter(i => i._id !== action.payload);
+        },
+        deleteCashierFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
     }
 });
 
@@ -74,7 +86,10 @@ export const {
     addCashierFailure,
     editCashierRequest,
     editCashierSuccess,
-    editCashierFailure
+    editCashierFailure,
+    deleteCashierRequest,
+    deleteCashierSuccess,
+    deleteCashierFailure
 } = cashiersSlice.actions;
 
 export default cashiersSlice;
