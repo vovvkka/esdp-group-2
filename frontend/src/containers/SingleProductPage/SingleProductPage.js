@@ -9,8 +9,6 @@ const SingleProductPage = () => {
     const match = useRouteMatch();
     const dispatch = useDispatch();
     const product = useSelector(state => state.products.product);
-    const [size, setSize] = useState(null);
-    const [color, setColor] = useState(null);
     const [amount, setAmount] = useState(1);
     const cartProduct = {...product};
 
@@ -19,15 +17,8 @@ const SingleProductPage = () => {
     }, [dispatch, match.params.id]);
 
     const addToCart = () => {
-        cartProduct.size = size;
-        cartProduct.color = color;
         cartProduct.quantity = amount;
         dispatch(addProduct(cartProduct));
-    };
-
-    const changeColor = (e, color) => {
-        e.target.className = e.target.className + ' isActive';
-        setColor(color);
     };
 
     const changeAmount = (e) => {
@@ -54,29 +45,9 @@ const SingleProductPage = () => {
                     <h2 className='single-product__price'>Цена: {product.price} сом</h2>
 
                     <div className='single-product__choose'>
-                        <h4 className='single-product__text'>Выберите размер</h4>
-                        <div>
-                            <button className='single-product__size' onClick={() => setSize('S')}>S</button>
-                            <button className='single-product__size' onClick={() => setSize('M')}>M</button>
-                            <button className='single-product__size' onClick={() => setSize('L')}>L</button>
-                            <button className='single-product__size' onClick={() => setSize('XL')}>XL</button>
-                        </div>
-                    </div>
+                        <h4 className='single-product__text'>В наличии: {product.amount} {product.unit}</h4>
 
-                    <div className='single-product__choose'>
-                        <h4 className='single-product__text'>Выберите цвет</h4>
-                        <div>
-                            <button className='single-product__size' onClick={(e) => changeColor(e, 'синий')}>синий
-                            </button>
-                            <button className='single-product__size' onClick={(e) => changeColor(e, 'серый')}>серый
-                            </button>
-                            <button className='single-product__size'
-                                    onClick={(e) => changeColor(e, 'красный')}>красный
-                            </button>
-                            <button className='single-product__size'
-                                    onClick={(e) => changeColor(e, 'оранжевый')}>оранжевый
-                            </button>
-                        </div>
+                        <p>{product.description}</p>
                     </div>
 
                     <div>

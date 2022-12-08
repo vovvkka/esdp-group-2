@@ -1,22 +1,6 @@
 @import "../variables";
 
 .contacts {
-   &__title {
-      margin: 30px 0 20px 5px;
-      font-weight: 500;
-      font-size: 55px;
-   }
-
-   &__location {
-      margin: 0 0 50px 0;
-      font-weight: 500;
-      font-size: 17px;
-   }
-
-   &__location-page {
-      color: $gray;
-   }
-
    &__info {
       margin-top: 100px;
       display: flex;

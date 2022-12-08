@@ -1,41 +1,44 @@
 import React, {useEffect} from 'react';
-import {ThemeProvider} from "@mui/system";
-import theme from "../../theme";
-import {Box, Container, Stack, Typography, useMediaQuery} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {getNews} from "../../store/actions/newsActions";
-import NewsCardDesktop from "../../components/NewsCard/NewsCardDesktop";
-import NewsCardMobile from "../../components/NewsCard/NewsCardMobile";
+import {apiUrl} from "../../config";
+import {Link} from "react-router-dom";
 
 const NewsPage = () => {
     const dispatch = useDispatch();
     const news = useSelector(state => state.news.news);
-    const matches = useMediaQuery(theme.breakpoints.down("md"));
 
     useEffect(() => {
         dispatch(getNews());
     }, [dispatch]);
 
     return (
-        <ThemeProvider theme={theme}>
-            <Container
-                disableGutters
-                maxWidth="lg"
-                sx={{
-                    background: "#fff",
-                    marginTop: matches ? "150px" : 0
-                }}
-            >
-                <Stack>
-                    <Typography variant='h3' sx={{margin: '25px 0'}}>Новости</Typography>
-                    <Box>
-                        {news.map(item => {
-                            return matches ? <NewsCardMobile {...item} key={item._id}/> : <NewsCardDesktop {...item} key={item._id}/>
-                        })}
-                    </Box>
-                </Stack>
-            </Container>
-        </ThemeProvider>
+        <div className='news'>
+            <div className='news__top'>
+                <h1 className='title'>Новости</h1>
+                <div className='location'>Главная — <span
+                    className='location__page'>Новости</span></div>
+            </div>
+
+            <div className='news__main'>
+                {news.map(n => {
+                    const desc = n.description.length >= 20 ? n.description.split(' ').slice(0, 20).join(' ') : n.description;
+                    return (
+                        <div className='news__card' key={n._id}>
+                            <div className='news__card-image-body'>
+                                <img className='news__card-image' src={apiUrl + '/' + n.image} alt={n.title}/>
+                            </div>
+                            <div className='news__card-body'>
+                                <h3 className='news__card-title'>{n.title}</h3>
+                                <p className='news__card-date'>{new Date(n.updatedAt).toLocaleString()}</p>
+                                <p className='news__card-description'>{desc}...</p>
+                                <Link to={`/news/${n._id}`} className='button news__card-btn'>Читать всё</Link>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
     );
 };
 

@@ -37,9 +37,9 @@ const Header = () => {
                         </ul>
                         <div className='header__info'>
                             <LocalPhoneIcon className='header__icon header__icon--phone'/>
-                            <p className='number'>{contacts?.phone}</p>
+                            <a href={'tel:' + contacts?.phone} className='number'>{contacts?.phone}</a>
                             <Link to='/cart' className='header__cart'>
-                                {amount ?  <div className='header__cart-badge'>{amount}</div> : null}
+                                {amount ? <div className='header__cart-badge'>{amount}</div> : null}
                                 <ShoppingCartOutlinedIcon className='header__icon header__icon--cart'/>
                             </Link>
                             {user?.role === 'admin' || user?.role === 'cashier' ?

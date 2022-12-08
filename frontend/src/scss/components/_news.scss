@@ -1,0 +1,51 @@
+@import "../variables";
+
+.news {
+  &__main {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
+  &__card {
+    display: flex;
+    border: 1px solid #80808070;
+    border-radius: 10px;
+    margin-top: 30px;
+    padding: 10px;
+  }
+
+  &__card-image-body {
+    margin: auto;
+  }
+
+  &__card-image {
+    width: 450px;
+    height: auto;
+    margin-right: 20px;
+    align-items: center;
+  }
+
+  &__card-title {
+    font-size: 32px;
+  }
+
+  &__card-date {
+    font-size: 18px;
+    color: $gray;
+  }
+
+  &__card-description {
+    font-size: 20px;
+  }
+
+  &__card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__card-btn {
+    margin-top: auto;
+  }
+}
