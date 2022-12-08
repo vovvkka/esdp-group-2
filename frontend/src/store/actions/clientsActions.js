@@ -1,11 +1,14 @@
 import axiosApi from "../../axiosApi";
 import {
+    createClientFailure,
+    createClientRequest, createClientSuccess,
     deleteClientFailure,
     deleteClientRequest, deleteClientSuccess,
     fetchClientsFailure,
     fetchClientsRequest,
     fetchClientsSuccess
 } from "../slices/clientsSlice";
+import {historyPush} from "./historyActions";
 
 export const fetchClients = () => {
     return async dispatch => {
@@ -23,6 +26,19 @@ export const fetchClients = () => {
             }
         }
     };
+};
+
+export const createClient = (clientData) => {
+    return async dispatch => {
+        try {
+            dispatch(createClientRequest());
+            await axiosApi.post('/customers', clientData);
+            dispatch(createClientSuccess());
+            dispatch(historyPush('/admin/clients'));
+        } catch (e) {
+            dispatch(createClientFailure(e.response.data));
+        }
+    }
 };
 
 export const deleteClient = id => {

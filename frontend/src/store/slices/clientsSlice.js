@@ -7,6 +7,8 @@ export const initialState = {
     client: null,
     loading: false,
     error: null,
+    createClientLoading: false,
+    createClientError: null,
 };
 
 const clientsSlice = createSlice({
@@ -24,6 +26,17 @@ const clientsSlice = createSlice({
         fetchClientsFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
+        },
+        createClientRequest(state) {
+            state.createClientLoading = true;
+            state.createClientError = null;
+        },
+        createClientSuccess(state) {
+            state.createClientLoading = false;
+        },
+        createClientFailure(state, {payload: error}) {
+            state.createClientLoading = false;
+            state.createClientError = error;
         },
         deleteClientRequest(state) {
             state.loading = true;
@@ -44,6 +57,9 @@ export const {
     fetchClientsRequest,
     fetchClientsSuccess,
     fetchClientsFailure,
+    createClientRequest,
+    createClientSuccess,
+    createClientFailure,
     deleteClientRequest,
     deleteClientSuccess,
     deleteClientFailure,
