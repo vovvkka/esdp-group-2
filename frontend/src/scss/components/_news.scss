@@ -15,10 +15,6 @@
     padding: 10px;
   }
 
-  &__card-image-body {
-    margin: auto;
-  }
-
   &__card-image {
     width: 450px;
     height: auto;
@@ -40,6 +36,7 @@
   }
 
   &__card-body {
+    word-break: break-all;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
