@@ -1,11 +1,13 @@
 import axiosApi from "../../axiosApi";
 import {
+    createNewsFailure, createNewsRequest, createNewsSuccess,
     getNewsFailure,
     getNewsRequest,
     getNewsSuccess, getOneNewsFailure,
     getOneNewsRequest,
     getOneNewsSuccess
 } from "../slices/newsSlice";
+import {historyPush} from "./historyActions";
 
 export const getNews = (query) => {
     return async dispatch => {
@@ -19,7 +21,6 @@ export const getNews = (query) => {
     }
 };
 
-
 export const getOneNews = id => {
     return async dispatch => {
         try {
@@ -28,6 +29,19 @@ export const getOneNews = id => {
             dispatch(getOneNewsSuccess(response.data));
         } catch (e) {
             dispatch(getOneNewsFailure(e));
+        }
+    };
+};
+
+export const createNews = newsData => {
+    return async dispatch => {
+        try {
+            dispatch(createNewsRequest());
+            await axiosApi.post('/news', newsData);
+            dispatch(createNewsSuccess());
+            dispatch(historyPush('/admin/news'));
+        } catch (e) {
+            dispatch(createNewsFailure(e));
         }
     };
 };

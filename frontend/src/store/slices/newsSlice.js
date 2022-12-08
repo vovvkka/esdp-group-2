@@ -39,6 +39,15 @@ const newsSlice = createSlice({
             state.sinleLoading = false;
             state.singleError = action.payload;
         },
+        createNewsRequest(state) {
+
+        },
+        createNewsSuccess(state) {
+
+        },
+        createNewsFailure(state) {
+
+        }
     }
 });
 
@@ -49,6 +58,9 @@ export const {
     getOneNewsRequest,
     getOneNewsSuccess,
     getOneNewsFailure,
+    createNewsRequest,
+    createNewsSuccess,
+    createNewsFailure
 } = newsSlice.actions;
 
 export default newsSlice;
