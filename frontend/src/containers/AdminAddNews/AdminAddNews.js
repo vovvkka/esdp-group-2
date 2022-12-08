@@ -1,14 +1,14 @@
 import React from 'react';
 import {Container, Typography} from "@mui/material";
 import {useDispatch} from "react-redux";
-import {createProduct} from "../../store/actions/productsActions";
 import NewsForm from "../../components/NewsForm/NewsForm";
+import {createNews} from "../../store/actions/newsActions";
 
 const AdminAddNews = () => {
     const dispatch = useDispatch();
 
     const onNewsFormSubmit = newsData => {
-        dispatch(createProduct(newsData));
+        dispatch(createNews(newsData));
     };
 
     return (
