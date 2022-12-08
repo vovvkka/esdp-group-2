@@ -1,8 +1,9 @@
 import React from 'react';
 import {apiUrl} from "../../config";
 import {Link} from "react-router-dom";
+import {Button} from "@mui/material";
 
-const NewsCard = ({n}) => {
+const NewsCard = ({n, isAdmin}) => {
     const desc = n.description.length >= 20 ? n.description.split(' ').slice(0, 20).join(' ') : n.description;
 
     return (
@@ -11,10 +12,16 @@ const NewsCard = ({n}) => {
                 <img className='news__card-image' src={apiUrl + '/' + n.image} alt={n.title}/>
             </div>
             <div className='news__card-body'>
-                <h3 className='news__card-title'>{n.title}</h3>
-                <p className='news__card-date'>{new Date(n.updatedAt).toLocaleString()}</p>
-                <p className='news__card-description'>{desc}...</p>
-                <Link to={`/news/${n._id}`} className='button news__card-btn'>Читать всё</Link>
+                <div className="news__card-body-info">
+                    <h3 className='news__card-title'>{n.title}</h3>
+                    <p className='news__card-date'>{new Date(n.updatedAt).toLocaleString()}</p>
+                    <p className='news__card-description'>{desc}...</p>
+                </div>
+
+                <div className="news__card-body-bottom">
+                    <Link to={`/news/${n._id}`} className='button news__card-btn'>Читать всё</Link>
+                    <Button>Опубликовать</Button>
+                </div>
             </div>
         </div>
     );

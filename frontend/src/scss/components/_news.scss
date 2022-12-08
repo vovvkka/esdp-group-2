@@ -39,10 +39,16 @@
     word-break: break-all;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: flex-start;
   }
 
   &__card-btn {
     margin-top: auto;
+  }
+
+  &__card-bottom {
+    display: flex;
+    justify-content: space-between;
   }
 }
