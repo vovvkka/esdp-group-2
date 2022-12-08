@@ -1,5 +1,5 @@
 import React from 'react';
-import {Typography} from "@mui/material";
+import {Container, Typography} from "@mui/material";
 import {useDispatch} from "react-redux";
 import {createProduct} from "../../store/actions/productsActions";
 import NewsForm from "../../components/NewsForm/NewsForm";
@@ -12,18 +12,19 @@ const AdminAddNews = () => {
     };
 
     return (
-        <>
+        <Container>
             <Typography
                 textAlign="center"
                 marginBottom="20px"
                 variant="h4"
+                marginTop="60px"
             >
                 Добавить новость
             </Typography>
             <NewsForm
                 onSubmit={onNewsFormSubmit}
             />
-        </>
+        </Container>
     );
 };
 

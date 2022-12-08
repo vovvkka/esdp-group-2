@@ -35,6 +35,7 @@ import AdminEditProfile from "./containers/AdminEditProfile/AdminEditProfile";
 import AdminResetPassword from "./containers/AdminResetPassword/AdminResetPassword";
 import AdminClients from "./containers/AdminClients/AdminClients";
 import AdminAddClient from "./containers/AdminAddClient/AdminAddClient";
+import AdminNews from "./containers/AdminNews/AdminNews";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ? <Route {...props} /> : <Redirect to="/"/>;
@@ -101,7 +102,6 @@ const App = () => {
                     exact
                     component={AdminAddClient}
                 />
-
 
                 <ProtectedRoute
                     isAllowed={user}
@@ -181,6 +181,19 @@ const App = () => {
                     isAllowed={user}
                     path="/admin/orders/archive"
                     component={AdminOrders}
+                />
+
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/news"
+                    exact
+                    component={AdminNews}
+                />
+
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/news/add-new-news"
+                    component={AdminAddNews}
                 />
 
                 <ProtectedRoute
