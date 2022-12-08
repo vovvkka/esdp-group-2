@@ -1,5 +1,6 @@
 @import './components/all.scss';
 @import './libs/normalize.scss';
+@import "./variables";
 
 * {
   scroll-behavior: smooth;
@@ -48,5 +49,5 @@
 }
 
 .active {
-  color: #3f6e72;
+  color: $admin-blue;
 }

@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, {useEffect} from "react";
+import {Redirect, Route, Switch} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import Layout from "./components/UI/Layout/Layout";
 import Login from "./containers/Login/Login";
 import AdminAddCategory from "./containers/AdminAddCategory/AdminAddCategory";
@@ -27,7 +27,7 @@ import AdminAddSubCategory from "./containers/AdminAddSubCategory/AdminAddSubCat
 import './scss/app.scss';
 import SingleProductPage from "./containers/SingleProductPage/SingleProductPage";
 import SuccessOrderPlace from "./containers/SuccessOrderPlace/SuccessOrderPlace";
-import { getContacts } from "./store/actions/contactsActions";
+import {getContacts} from "./store/actions/contactsActions";
 import Contacts from "./containers/Contacts/Contacts";
 import AdminSettings from "./containers/AdminSettings/AdminSettings";
 import AdminEditContacts from "./containers/AdminEditContacts/AdminEditContacts";
@@ -36,195 +36,194 @@ import AdminResetPassword from "./containers/AdminResetPassword/AdminResetPasswo
 import AdminClients from "./containers/AdminClients/AdminClients";
 import AdminAddClient from "./containers/AdminAddClient/AdminAddClient";
 
-const ProtectedRoute = ({ isAllowed, redirectTo, ...props }) => {
-   return isAllowed ? <Route {...props} /> : <Redirect to="/" />;
+const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
+    return isAllowed ? <Route {...props} /> : <Redirect to="/"/>;
 };
 
-const LoginRedirectRoute = ({ user, redirectTo, ...props }) => {
-   if (!user) {
-      return <Route {...props} />;
-   }
+const LoginRedirectRoute = ({user, redirectTo, ...props}) => {
+    if (!user) {
+        return <Route {...props} />;
+    }
 
-   if (user.role === "admin") {
-      return <Redirect to="/admin" />;
-   }
+    if (user.role === "admin") {
+        return <Redirect to="/admin"/>;
+    }
 
-   if (user.role === "cashier") {
-      return <Redirect to="/cashier/open-shift" />;
-   }
+    if (user.role === "cashier") {
+        return <Redirect to="/cashier/open-shift"/>;
+    }
 };
 
 const App = () => {
-   const dispatch = useDispatch();
-   const user = useSelector((state) => state.users.user);
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.users.user);
 
-   useEffect(() => {
-      dispatch(getContacts());
-   }, [dispatch]);
+    useEffect(() => {
+        dispatch(getContacts());
+    }, [dispatch]);
 
-   return (
-      <Layout>
-         <Switch>
-            <Route path="/" exact component={MainPage} />
-            <Route path="/news" exact component={NewsPage} />
-            <Route path="/cart" exact component={CustomerCart} />
-            <Route path="/order-place" component={AddOrderProduct} />
-            <Route path="/news/:id" component={NewsInfo}/>
-            <Route path="/products/:id" component={SingleProductPage}/>
-            <Route path="/order-place" exact component={AddOrderProduct} />
-            <Route path="/news/:id" component={NewsInfo} />
-            <Route path="/order-place/success" component={SuccessOrderPlace}/>
-            <Route path="/contacts" component={Contacts}/>
+    return (
+        <Layout>
+            <Switch>
+                <Route path="/" exact component={MainPage}/>
+                <Route path="/news" exact component={NewsPage}/>
+                <Route path="/cart" exact component={CustomerCart}/>
+                <Route path="/news/:id" component={NewsInfo}/>
+                <Route path="/products/:id" component={SingleProductPage}/>
+                <Route path="/order-place" exact component={AddOrderProduct}/>
+                <Route path="/order-place/success" exact component={SuccessOrderPlace}/>
+                <Route path="/news/:id" component={NewsInfo}/>
+                <Route path="/contacts" component={Contacts}/>
 
-            <ProtectedRoute
-                isAllowed={user}
-                path="/admin"
-                exact
-                component={AdminMainPage}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin"
+                    exact
+                    component={AdminMainPage}
+                />
 
-            <ProtectedRoute
-                isAllowed={user}
-                path="/admin/categories"
-                exact
-                component={AdminCategories}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/categories"
+                    exact
+                    component={AdminCategories}
+                />
 
-            <ProtectedRoute
-                isAllowed={user}
-                path="/admin/clients"
-                exact
-                component={AdminClients}
-            />
-            <ProtectedRoute
-                isAllowed={user}
-                path="/admin/clients/add-new-client"
-                exact
-                component={AdminAddClient}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/clients"
+                    exact
+                    component={AdminClients}
+                />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/clients/add-new-client"
+                    exact
+                    component={AdminAddClient}
+                />
 
 
-            <ProtectedRoute
-                isAllowed={user}
-                path="/admin/categories/edit-category/:id"
-                component={AdminEditCategory}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/categories/edit-category/:id"
+                    component={AdminEditCategory}
+                />
 
-            <ProtectedRoute
-                isAllowed={user}
-                path="/admin/categories/add-new-category"
-                component={AdminAddCategory}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/categories/add-new-category"
+                    component={AdminAddCategory}
+                />
 
-            <ProtectedRoute
-                isAllowed={user}
-                path="/admin/categories/add-new-subcategory"
-                component={AdminAddSubCategory}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/categories/add-new-subcategory"
+                    component={AdminAddSubCategory}
+                />
 
-            <ProtectedRoute
-               isAllowed={user}
-               path="/admin/products"
-               exact
-               component={AdminProducts}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/products"
+                    exact
+                    component={AdminProducts}
+                />
 
-            <ProtectedRoute
-               isAllowed={user}
-               path="/admin/products/add-new-product"
-               component={AdminAddProduct}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/products/add-new-product"
+                    component={AdminAddProduct}
+                />
 
-            <ProtectedRoute
-               isAllowed={user}
-               path="/admin/products/edit-product/:id"
-               component={AdminEditProduct}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/products/edit-product/:id"
+                    component={AdminEditProduct}
+                />
 
-            <ProtectedRoute
-               isAllowed={user}
-               path="/admin/news/add-news"
-               component={AdminAddNews}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/news/add-news"
+                    component={AdminAddNews}
+                />
 
-            <ProtectedRoute
-               isAllowed={user}
-               path="/admin/news/edit-news/:id"
-               component={AdminEditNews}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/news/edit-news/:id"
+                    component={AdminEditNews}
+                />
 
-            <ProtectedRoute
-               isAllowed={user}
-               exact
-               path="/admin/cashiers"
-               component={AdminCashiers}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    exact
+                    path="/admin/cashiers"
+                    component={AdminCashiers}
+                />
 
-            <ProtectedRoute
-               isAllowed={user}
-               path="/admin/cashiers/add-new-cashier"
-               component={AdminAddCashier}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/cashiers/add-new-cashier"
+                    component={AdminAddCashier}
+                />
 
-            <ProtectedRoute
-               isAllowed={user}
-               path="/admin/cashiers/edit-cashier/:id"
-               component={AdminEditCashier}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/cashiers/edit-cashier/:id"
+                    component={AdminEditCashier}
+                />
 
-            <ProtectedRoute
-               isAllowed={user}
-               path="/admin/orders"
-               component={AdminOrders}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/orders"
+                    component={AdminOrders}
+                />
 
-            <ProtectedRoute
-               isAllowed={user}
-               path="/admin/orders/archive"
-               component={AdminOrders}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/orders/archive"
+                    component={AdminOrders}
+                />
 
-            <ProtectedRoute
-                isAllowed={user}
-                path="/admin/settings"
-                component={AdminSettings}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/settings"
+                    component={AdminSettings}
+                />
 
-            <ProtectedRoute
-                isAllowed={user}
-                path="/admin/edit-contacts"
-                component={AdminEditContacts}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/edit-contacts"
+                    component={AdminEditContacts}
+                />
 
-            <ProtectedRoute
-                isAllowed={user}
-                path="/admin/edit-profile"
-                component={AdminEditProfile}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/edit-profile"
+                    component={AdminEditProfile}
+                />
 
-            <ProtectedRoute
-                isAllowed={user}
-                path="/admin/reset-password"
-                component={AdminResetPassword}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/reset-password"
+                    component={AdminResetPassword}
+                />
 
-            <ProtectedRoute
-               isAllowed={user}
-               exact
-               path="/cashier/open-shift"
-               component={CashierOpenShift}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    exact
+                    path="/cashier/open-shift"
+                    component={CashierOpenShift}
+                />
 
-            <ProtectedRoute
-               isAllowed={user}
-               path="/cashier"
-               component={CashierPanel}
-            />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/cashier"
+                    component={CashierPanel}
+                />
 
-            <LoginRedirectRoute user={user} path="/login" component={Login} />
-         </Switch>
-      </Layout>
-   );
+                <LoginRedirectRoute user={user} path="/login" component={Login}/>
+            </Switch>
+        </Layout>
+    );
 };
 
 export default App;
