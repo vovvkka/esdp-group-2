@@ -8,26 +8,28 @@ const AddOrderProduct = () => {
    const products = useSelector((state) => state.cart.products);
    const dispatch = useDispatch();
 
-    const addOrderData = async customerData => {
-        const order = products.map(product => ({product: product._id, quantity: product.quantity}));
-        const orderObj = {...customerData, order};
-        await dispatch(addOrder(orderObj));
-    };
-    return (
-        <div className='customer-order'>
-            <h2 className='title'>
-                Оформление заказа
-            </h2>
-            <div className='location'>
-                Главная —
-                <span className='location__page'>Оформление заказа</span>
-            </div>
-            <OrderForm
-                error={errors}
-                onSubmit={addOrderData}
-            />
-        </div>
-    );
+   const addOrderData = async (customerData) => {
+      const order = products.map((product) => ({
+         product: product._id,
+         quantity: product.quantity,
+      }));
+      const orderObj = { ...customerData, order };
+      await dispatch(addOrder(orderObj));
+   };
+   
+   return (
+      <div className="customer-order">
+         <h2 className="title">Оформление заказа</h2>
+         <div className="location">
+            Главная —{" "}
+            <span className="location-page">
+               Оформление заказа
+            </span>
+         </div>
+         <OrderForm error={errors} onSubmit={addOrderData} />
+      </div>
+   );
+
 };
 
 export default AddOrderProduct;

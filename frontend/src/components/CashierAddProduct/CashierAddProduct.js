@@ -31,7 +31,7 @@ const CashierAddProduct = () => {
                 }));
             }
         }
-    }, [state.barcode]);
+    }, [dispatch, products, state.barcode]);
 
     const stateChange = (name, value) => {
         setState(prev => ({
@@ -72,7 +72,7 @@ const CashierAddProduct = () => {
                 />
             </Grid>
             <Grid>
-                <TableContainer component={Paper} sx={{height: '55vh', overflow: 'auto'}}>
+                <TableContainer component={Paper} sx={{height: '55vh', overflow: 'auto',  boxShadow: 'none !important'}}>
                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow>

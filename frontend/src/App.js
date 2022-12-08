@@ -33,6 +33,8 @@ import AdminSettings from "./containers/AdminSettings/AdminSettings";
 import AdminEditContacts from "./containers/AdminEditContacts/AdminEditContacts";
 import AdminEditProfile from "./containers/AdminEditProfile/AdminEditProfile";
 import AdminResetPassword from "./containers/AdminResetPassword/AdminResetPassword";
+import AdminClients from "./containers/AdminClients/AdminClients";
+import AdminAddClient from "./containers/AdminAddClient/AdminAddClient";
 
 const ProtectedRoute = ({ isAllowed, redirectTo, ...props }) => {
    return isAllowed ? <Route {...props} /> : <Redirect to="/" />;
@@ -71,39 +73,53 @@ const App = () => {
             <Route path="/products/:id" component={SingleProductPage}/>
             <Route path="/order-place" exact component={AddOrderProduct} />
             <Route path="/news/:id" component={NewsInfo} />
-            <Route path="/order-place/success" component={SuccessOrderPlace} />
-            <Route path="/contacts" component={Contacts} />
+            <Route path="/order-place/success" component={SuccessOrderPlace}/>
+            <Route path="/contacts" component={Contacts}/>
 
             <ProtectedRoute
-               isAllowed={user}
-               path="/admin"
-               exact
-               component={AdminMainPage}
+                isAllowed={user}
+                path="/admin"
+                exact
+                component={AdminMainPage}
             />
 
             <ProtectedRoute
-               isAllowed={user}
-               path="/admin/categories"
-               exact
-               component={AdminCategories}
+                isAllowed={user}
+                path="/admin/categories"
+                exact
+                component={AdminCategories}
             />
 
             <ProtectedRoute
-               isAllowed={user}
-               path="/admin/categories/edit-category/:id"
-               component={AdminEditCategory}
+                isAllowed={user}
+                path="/admin/clients"
+                exact
+                component={AdminClients}
+            />
+            <ProtectedRoute
+                isAllowed={user}
+                path="/admin/clients/add-new-client"
+                exact
+                component={AdminAddClient}
+            />
+
+
+            <ProtectedRoute
+                isAllowed={user}
+                path="/admin/categories/edit-category/:id"
+                component={AdminEditCategory}
             />
 
             <ProtectedRoute
-               isAllowed={user}
-               path="/admin/categories/add-new-category"
-               component={AdminAddCategory}
+                isAllowed={user}
+                path="/admin/categories/add-new-category"
+                component={AdminAddCategory}
             />
 
             <ProtectedRoute
-               isAllowed={user}
-               path="/admin/categories/add-new-subcategory"
-               component={AdminAddSubCategory}
+                isAllowed={user}
+                path="/admin/categories/add-new-subcategory"
+                component={AdminAddSubCategory}
             />
 
             <ProtectedRoute

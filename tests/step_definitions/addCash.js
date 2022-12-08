@@ -21,30 +21,44 @@ When('я захожу на страницу {string}', page => {
     I.wait(5);
 });
 
-When('я нажимаю на кнопку редактирования', () => {
-    I.click(`//table//tr//td//a`);
-});
-
-Then('я введу данные', table => {
+When('я ввожу данные', table => {
     table.rows.forEach(row => {
         const name = row.cells[0].value;
         const value = row.cells[1].value;
         I.fillField(name, value);
     });
+    I.wait(5);
 });
 
-When('нажимаю на кнопку', (buttonText) => {
+Then('нажмаю на кнопку {string}', buttonText => {
     I.click(`//form//button[contains(text(), "${buttonText}")]`);
 });
 
-Then('я перехожу на страницу {string}', page => {
+When('перехожу на страницу {string}', page => {
     I.amOnPage('/' + page);
     I.wait(5);
 });
 
-When('вижу заголовок {string}', text => {
-    I.see(text);
+Then('нажимаю на кнопку {string}', text => {
+    I.click(`//button[contains(text(), "${text}")]`);
+    I.wait(5);
 });
 
+When('выбираю поле {string}', text => {
+    I.click(`//ul/li[contains(text(), "${text}")]`);
+    I.wait(5);
+});
 
+When('я ввожу данные', table => {
+    table.rows.forEach(row => {
+        const name = row.cells[0].value;
+        const value = row.cells[1].value;
+        I.fillField(name, value);
+    });
+    I.wait(5);
+});
+
+Then('нажимаю на кнопку {string}', text => {
+    I.click(`//button[contains(text(), "${text}")]`);
+});
 

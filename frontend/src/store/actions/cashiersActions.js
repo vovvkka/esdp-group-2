@@ -1,10 +1,17 @@
 import {
     addCashierFailure,
     addCashierRequest,
-    addCashierSuccess, editCashierFailure, editCashierRequest, editCashierSuccess, getCashierFailure, getCashierRequest,
+    addCashierSuccess, deleteCashierFailure,
+    deleteCashierRequest, deleteCashierSuccess,
+    editCashierFailure,
+    editCashierRequest,
+    editCashierSuccess,
+    getCashierFailure,
+    getCashierRequest,
     getCashiersFailure,
     getCashiersRequest,
-    getCashiersSuccess, getCashierSuccess
+    getCashiersSuccess,
+    getCashierSuccess
 } from "../slices/cashiersSlice";
 import axiosApi from "../../axiosApi";
 import {historyPush} from "./historyActions";
@@ -40,6 +47,23 @@ export const editCashier = (id, cashierData) => {
                 dispatch(editCashierFailure(e.response.data));
             } else {
                 dispatch(editCashierFailure({global: 'No internet'}));
+            }
+        }
+    };
+};
+
+export const deleteCashier = id => {
+    return async dispatch => {
+        try {
+            dispatch(deleteCashierRequest());
+            await axiosApi.delete('/cashiers/' + id);
+
+            dispatch(deleteCashierSuccess(id));
+        } catch (e) {
+            if (e.response && e.response.data) {
+                dispatch(deleteCashierFailure(e.response.data));
+            } else {
+                dispatch(deleteCashierFailure({global: 'No internet'}));
             }
         }
     };

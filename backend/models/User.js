@@ -51,6 +51,10 @@ const UserSchema = new Schema({
         required: true,
         enum: ['cashier', 'admin'],
     },
+    isFired: {
+        type:Boolean,
+        default: false,
+    },
     displayName: String
 });
 
