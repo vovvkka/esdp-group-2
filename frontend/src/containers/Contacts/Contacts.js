@@ -15,10 +15,10 @@ const Contacts = () => {
             <div className="container">
                 <div className="contacts__block">
                     <div className="contacts__title-block">
-                        <h2 className="contacts__title">Контакты</h2>
-                        <div className="contacts__location">
+                        <h2 className="title">Контакты</h2>
+                        <div className="location">
                             Главная —{" "}
-                            <span className="contacts__location-page"> Контакты</span>
+                            <span className="location__page"> Контакты</span>
                         </div>
                     </div>
 
