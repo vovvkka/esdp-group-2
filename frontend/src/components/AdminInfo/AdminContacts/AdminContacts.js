@@ -10,16 +10,16 @@ const AdminContacts = () => {
 
     useEffect(() => {
         dispatch(getContacts());
-    }, []);
+    }, [dispatch]);
 
     return (
         <Box>
             {contacts &&
                 <>
-                    <Typography variant='h6'><b>Электронная почта магазина:</b> {contacts.email} </Typography>
-                    <Typography variant='h6'><b>Телефон:</b> {contacts.phone.join(', ')} </Typography>
-                    <Typography variant='h6'><b>Адрес:</b> {contacts.address.join(', ')} </Typography>
-                    <Button sx={{margin: '20px 0'}} component={Link} to='/admin/edit-contacts'>Редактировать</Button>
+                    <Typography fontSize="18px"><b>Электронная почта магазина:</b> {contacts.email} </Typography>
+                    <Typography fontSize="18px"><b>Телефон:</b> {contacts.phone.join(', ')} </Typography>
+                    <Typography fontSize="18px"><b>Адрес:</b> {contacts.address.join(', ')} </Typography>
+                    <Button sx={{margin: '20px 0'}} component={Link} to='/admin/edit-contacts' variant="contained">Редактировать</Button>
                 </>
             }
         </Box>

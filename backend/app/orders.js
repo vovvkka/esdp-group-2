@@ -5,106 +5,104 @@ const Order = require("../models/Order");
 const router = express.Router();
 
 router.get("/", auth, permit("admin"), async (req, res) => {
-    try {
-        const {page, perPage} = req.query;
-        const query = {};
-        const options = {
-            populate: {path: "order.product", select: "title price"},
-            sort: {orderNumber: -1},
-            page: parseInt(page) || 1,
-            limit: parseInt(perPage) || 10,
-        };
+   try {
+      const { page, perPage } = req.query;
+      const query = {};
+      const options = {
+         populate: { path: "order.product", select: "title price" },
+         sort: { orderNumber: -1 },
+         page: parseInt(page) || 1,
+         limit: parseInt(perPage) || 10,
+      };
 
-        if (req.query.status === "active") {
-            query.status = {$ne: "Закрыт"};
-        } else if (req.query.status === "closed") {
-            query.status = "Закрыт";
-        }
+      if (req.query.status === "active") {
+         query.status = { $ne: "Закрыт" };
+      } else if (req.query.status === "closed") {
+         query.status = "Закрыт";
+      }
 
-        const orders = await Order.paginate(query, options);
+      const orders = await Order.paginate(query, options);
 
-        res.send(orders);
-    } catch (e) {
-        res.status(500).send(e);
-    }
+      res.send(orders);
+   } catch (e) {
+      res.status(500).send(e);
+   }
 });
 
 router.get("/:id", auth, permit("admin"), async (req, res) => {
-    try {
-        const order = await Order.findById(req.params.id).populate(
-            "order.product",
-            "title price"
-        );
+   try {
+      const order = await Order.findById(req.params.id).populate(
+         "order.product",
+         "title price"
+      );
 
-        if (!order) {
-            return res.status(404).send({message: "Order not found!"});
-        }
+      if (!order) {
+         return res.status(404).send({ message: "Order not found!" });
+      }
 
-        res.send(order);
-    } catch (e) {
-        res.status(400).send(e);
-    }
+      res.send(order);
+   } catch (e) {
+      res.status(400).send(e);
+   }
 });
 
 router.post("/", async (req, res) => {
-    const {customer, phone, order, address, comment} = req.body;
-    if (!customer || !phone || !address || !order.length) {
-        return res.status(400).send({error: "Data not valid"});
-    }
+   const { customer, phone, order, address, comment } = req.body;
+   if (!customer || !phone || !address || !order.length) {
+      return res.status(400).send({ error: "Data not valid" });
+   }
 
-    // order.map(i=> {
-    //     i = Order.findById(i._id);
-    //     if(i.quantity>i.amount) res.status(400)
-    //             .send({error: 'Data not valid'});
-    // }); Заглушка на кол-во заказываемого товара
+   // order.map(i=> {
+   //     i = Order.findById(i._id);
+   //     if(i.quantity>i.amount) res.status(400)
+   //             .send({error: 'Data not valid'});
+   // }); Заглушка на кол-во заказываемого товара
 
-    const orderData = {
-        customer,
-        phone,
-        address,
-        order,
-        comment,
-    };
+   const orderData = {
+      customer,
+      phone,
+      address,
+      order,
+      comment,
+   };
 
-    try {
-        const order = new Order(orderData);
-        await order.save();
+   try {
+      const order = new Order(orderData);
+      await order.save();
 
-        res.send(order);
-    } catch (e) {
-        res.status(400).send({error: e.errors});
-    }
+      res.send(order);
+   } catch (e) {
+      res.status(400).send({ error: e.errors });
+   }
 });
 
 router.put("/:id/changeStatus", auth, permit("admin"), async (req, res) => {
-    try {
-        const {status} = req.body;
+   try {
+      const { status } = req.body;
 
-        const order = await Order.findById(req.params.id);
+      const order = await Order.findById(req.params.id);
 
-        if (!order) return res.status(404).send({message: "Заказ не найден!"});
+      if (!order) return res.status(404).send({ message: "Заказ не найден!" });
 
-        if (!req.body.status)
-            return res.status(400).send({message: "Выберите статус."});
+      if (!req.body.status)
+         return res.status(400).send({ message: "Выберите статус." });
 
-        if (order.status === "Закрыт")
-            return res
-                .status(400)
-                .send({
-                    message: "Вы не можете изменить статус закрытого заказа.",
-                });
+      if (order.status === "Закрыт")
+         return res.status(400).send({
+            message: "Вы не можете изменить статус закрытого заказа.",
+         });
 
-        if (order.status === status)
-            return res.status(400).send({message: "Статус не изменился."});
+      if (order.status === status)
+         return res.status(400).send({ message: "Статус не изменился." });
 
-        order.status = status;
-        await order.save();
+      order.status = status;
+      await order.save();
 
-        res.send(order);
-    } catch (e) {
-        console.log(e);
-        res.status(400).send({error: e.errors});
-    }
+      res.send(order);
+   } catch (e) {
+      console.log(e);
+      res.status(400).send({ error: e.errors });
+   }
 });
 
 module.exports = router;

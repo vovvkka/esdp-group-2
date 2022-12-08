@@ -21,8 +21,9 @@ export const addOrder = (orderData) => {
          await axiosApi.post("/orders", orderData);
          dispatch(addOrderSuccess());
 
-         dispatch(historyPush("/order-place/success"));
          dispatch(clearCart());
+         dispatch(historyPush("/order-place/success"));
+         
       } catch (e) {
          if (e.response && e.response.data) {
             dispatch(addOrderFailure(e.response.data));

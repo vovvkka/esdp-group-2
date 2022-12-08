@@ -4,12 +4,6 @@ const mongoosePaginate = require('mongoose-paginate');
 const Schema = mongoose.Schema;
 
 
-const validatePhone = value => {
-    const pattern = /^(\+[(]\d{2,3}[)])( \d{3}){3}$/;
-
-    if (!pattern.test(value)) return false;
-};
-
 const ProductsSchema = new Schema({
     product: {
         type: Schema.Types.ObjectId,
@@ -30,10 +24,6 @@ const OrderSchema  = new Schema({
     phone: {
         type: String,
         required: true,
-        validate: {
-            validator: validatePhone,
-            message: 'Неправильный формат номера!',
-        }
     },
     address: {
         type: String,
