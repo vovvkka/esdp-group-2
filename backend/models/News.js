@@ -11,6 +11,10 @@ const NewsSchema = new Schema({
         required: true,
     },
     image: String,
+    published: {
+        type: Boolean,
+        default:false,
+    }
 },{
     timestamps: true
 });

@@ -112,6 +112,9 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shi
                 <TableCell sx={{textAlign: 'center'}}>
                     {row.username}
                 </TableCell>
+                <TableCell sx={{textAlign: 'center'}}>
+                    {new Date(row.createdAt).toLocaleString()}
+                </TableCell>
                 <TableCell align="center">
                     <Box display='flex' justifyContent='center'>
                         <Button component={Link}

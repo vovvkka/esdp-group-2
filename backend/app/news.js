@@ -4,6 +4,8 @@ const config = require("../config");
 const {nanoid} = require("nanoid");
 const path = require("path");
 const News = require("../models/News");
+const auth = require("../middlewares/auth");
+const permit = require("../middlewares/permit");
 const router = express.Router();
 
 const storage = multer.diskStorage({
@@ -18,7 +20,12 @@ const upload = multer({storage});
 
 router.get('/', async (req, res) => {
     try {
-        const news = await News.find().sort({createdAt: -1});
+        let news;
+        if(req.query.shop) {
+            news = await News.find({published: true}).sort({createdAt: -1});
+        }else{
+            news = await News.find().sort({createdAt: -1});
+        }
         res.send(news);
     } catch (e) {
         res.status(400).send(e);
@@ -38,7 +45,7 @@ router.get('/:id', async (req, res) => {
         res.sendStatus(500);
     }
 });
-router.post('/', upload.single('image'), async (req, res) => {
+router.post('/',auth,permit('admin'), upload.single('image'), async (req, res) => {
     const {title, description} = req.body;
     const newsData = {
         title,
@@ -57,7 +64,24 @@ router.post('/', upload.single('image'), async (req, res) => {
     }
 });
 
-router.put('/:id', upload.single('image'), async (req, res) => {
+router.post('/:id/publish',auth,permit('admin'),async(req,res)=>{
+    try {
+        const news = await News.findById(req.params.id);
+
+        if (!news) {
+            return res.status(404).send({message: 'Album not found!'});
+        }
+
+        const updateNews = await News
+            .findByIdAndUpdate(req.params.id,  {published: !news.published});
+
+        res.send(updateNews);
+    } catch {
+        res.sendStatus(500);
+    }
+});
+
+router.put('/:id',auth,permit('admin'), upload.single('image'), async (req, res) => {
     const {title, description} = req.body;
     const newsData = {
         title,
@@ -80,7 +104,7 @@ router.put('/:id', upload.single('image'), async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req,res)=>{
+router.delete('/:id',auth,permit('admin'), async (req,res)=>{
     try {
         const news = await News.findById(req.params.id);
         if (!news) {

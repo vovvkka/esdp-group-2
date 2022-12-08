@@ -13,7 +13,7 @@ const NewsPage = () => {
     const matches = useMediaQuery(theme.breakpoints.down("md"));
 
     useEffect(() => {
-        dispatch(getNews());
+        dispatch(getNews('?shop=true'));
     }, [dispatch]);
 
     return (
