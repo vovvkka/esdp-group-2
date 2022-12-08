@@ -10,8 +10,8 @@ const orders = require('./app/orders');
 const cash = require('./app/cash');
 const contacts = require('./app/contacts');
 const customers = require('./app/customers');
-
 const cashiers = require('./app/cashiers');
+const admin = require('./app/admin');
 const news = require('./app/news');
 const config = require('./config');
 
@@ -29,6 +29,7 @@ app.use('/shifts', shifts);
 app.use('/customers', customers);
 app.use('/orders', orders);
 app.use('/cashiers', cashiers);
+app.use('/admin', admin);
 app.use('/news', news);
 app.use('/cash', cash);
 app.use('/contacts', contacts);

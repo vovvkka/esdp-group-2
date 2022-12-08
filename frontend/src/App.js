@@ -29,6 +29,10 @@ import SingleProductPage from "./containers/SingleProductPage/SingleProductPage"
 import SuccessOrderPlace from "./containers/SuccessOrderPlace/SuccessOrderPlace";
 import { getContacts } from "./store/actions/contactsActions";
 import Contacts from "./containers/Contacts/Contacts";
+import AdminSettings from "./containers/AdminSettings/AdminSettings";
+import AdminEditContacts from "./containers/AdminEditContacts/AdminEditContacts";
+import AdminEditProfile from "./containers/AdminEditProfile/AdminEditProfile";
+import AdminResetPassword from "./containers/AdminResetPassword/AdminResetPassword";
 import AdminClients from "./containers/AdminClients/AdminClients";
 import AdminAddClient from "./containers/AdminAddClient/AdminAddClient";
 
@@ -65,8 +69,8 @@ const App = () => {
             <Route path="/news" exact component={NewsPage} />
             <Route path="/cart" exact component={CustomerCart} />
             <Route path="/order-place" component={AddOrderProduct} />
-             <Route path="/news/:id" component={NewsInfo}/>
-             <Route path="/products/:id" component={SingleProductPage}/>
+            <Route path="/news/:id" component={NewsInfo}/>
+            <Route path="/products/:id" component={SingleProductPage}/>
             <Route path="/order-place" exact component={AddOrderProduct} />
             <Route path="/news/:id" component={NewsInfo} />
             <Route path="/order-place/success" component={SuccessOrderPlace}/>
@@ -178,6 +182,30 @@ const App = () => {
                isAllowed={user}
                path="/admin/orders/archive"
                component={AdminOrders}
+            />
+
+            <ProtectedRoute
+                isAllowed={user}
+                path="/admin/settings"
+                component={AdminSettings}
+            />
+
+            <ProtectedRoute
+                isAllowed={user}
+                path="/admin/edit-contacts"
+                component={AdminEditContacts}
+            />
+
+            <ProtectedRoute
+                isAllowed={user}
+                path="/admin/edit-profile"
+                component={AdminEditProfile}
+            />
+
+            <ProtectedRoute
+                isAllowed={user}
+                path="/admin/reset-password"
+                component={AdminResetPassword}
             />
 
             <ProtectedRoute
