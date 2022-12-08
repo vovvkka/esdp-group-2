@@ -10,7 +10,7 @@ const NewsCarousel = () => {
     const news = useSelector(state => state.news.news);
 
     useEffect(() => {
-        dispatch(getNews());
+        dispatch(getNews('?shop=true'));
     }, [dispatch]);
 
     return (

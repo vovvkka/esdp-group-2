@@ -55,7 +55,12 @@ const UserSchema = new Schema({
         type:Boolean,
         default: false,
     },
-    displayName: String
+    displayName: String,
+    createdAt: {
+        type: Date,
+        required: true,
+        default: new Date(),
+    },
 });
 
 UserSchema.pre('save', async function(next) {

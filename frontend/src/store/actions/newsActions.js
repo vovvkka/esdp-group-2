@@ -7,11 +7,11 @@ import {
     getOneNewsSuccess
 } from "../slices/newsSlice";
 
-export const getNews = () => {
+export const getNews = (query) => {
     return async dispatch => {
         try {
             dispatch(getNewsRequest());
-            const response = await axiosApi('/news');
+            const response = await axiosApi('/news'+query);
             dispatch(getNewsSuccess(response.data));
         } catch (e) {
             dispatch(getNewsFailure(e));
