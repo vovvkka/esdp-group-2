@@ -2,7 +2,6 @@ const express = require('express');
 const User = require("../models/User");
 const auth = require("../middlewares/auth");
 const permit = require("../middlewares/permit");
-const Contacts = require("../models/Contacts");
 const router = express.Router();
 
 router.get('/', auth, permit('admin'), async (req, res) => {
@@ -38,6 +37,30 @@ router.put('/', auth, permit('admin'), async (req, res) => {
         res.send(updateProfile);
     } catch {
         res.sendStatus(500);
+    }
+});
+
+router.put('/password', auth, permit('admin'), async (req, res) => {
+    const {oldPassword, newPassword, newPasswordRepeat} = req.body;
+
+    if (newPassword !== newPasswordRepeat) {
+        return res.send({error: 'Пароли не совпадают!'});
+    }
+
+    try {
+        const user = await User.findOne(req.user);
+        const isMatch = await user.checkPassword(oldPassword);
+
+        if (!isMatch) {
+            return res.status(401).send({error: 'Неправильный старый пароль!'});
+        }
+
+        user.password = newPassword;
+        await user.save({validateBeforeSave: false});
+        res.send({message: 'Пароль успешно изменен!'});
+    } catch (e) {
+        console.log(e);
+        res.status(400).send(e);
     }
 });
 

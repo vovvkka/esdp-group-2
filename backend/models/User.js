@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const {compare, genSalt, hash} = require('bcrypt');
 const {nanoid} = require('nanoid');
 
 const Schema = mongoose.Schema;
@@ -57,16 +57,16 @@ const UserSchema = new Schema({
 UserSchema.pre('save', async function(next) {
     if (!this.isModified('password')) return next();
 
-    const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
-    this.password = await bcrypt.hash(this.password, salt);
+    const salt = await genSalt(SALT_WORK_FACTOR);
+    this.password = await hash(this.password, salt);
 
     next();
 });
 
 UserSchema.pre('findOneAndUpdate', async function(next) {
     if (!this._update.password) return next();
-    const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
-    this._update.password = await bcrypt.hash(this._update.password, salt);
+    const salt = await genSalt(SALT_WORK_FACTOR);
+    this._update.password = await hash(this._update.password, salt);
 
     next();
 });
@@ -79,7 +79,7 @@ UserSchema.set('toJSON', {
 });
 
 UserSchema.methods.checkPassword = function(password) {
-    return bcrypt.compare(password, this.password);
+    return compare(password, this.password);
 };
 
 UserSchema.methods.generateToken = function() {

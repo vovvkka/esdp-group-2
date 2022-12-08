@@ -34,6 +34,17 @@ const adminSlice = createSlice({
         editAdminProfileFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
+        },
+        changePasswordRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        changePasswordSuccess(state) {
+            state.loading = true;
+        },
+        changePasswordFailure(state, action) {
+            state.loading = true;
+            state.error = action.payload;
         }
     }
 });
@@ -44,7 +55,10 @@ export const {
     fetchAdminProfileFailure,
     editAdminProfileRequest,
     editAdminProfileSuccess,
-    editAdminProfileFailure
+    editAdminProfileFailure,
+    changePasswordRequest,
+    changePasswordSuccess,
+    changePasswordFailure
 } = adminSlice.actions;
 
 export default adminSlice;
