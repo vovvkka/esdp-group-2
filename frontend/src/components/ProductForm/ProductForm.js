@@ -18,7 +18,7 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
         unit: "",
         status: "",
         purchasePrice: "",
-        image: "",
+        image: [],
     });
 
     useEffect(() => {
@@ -30,15 +30,18 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
             setState({...product});
         }
     }, [product]);
-
     const submitFormHandler = e => {
         e.preventDefault();
         const formData = new FormData();
-
         Object.keys(state).forEach(key => {
-            formData.append(key, state[key]);
+            if (key === 'image') {
+                state[key].forEach(item => {
+                    formData.append(`image`, item);
+                });
+            } else {
+                formData.append(key, state[key]);
+            }
         });
-
         onSubmit(formData);
     };
 
@@ -52,7 +55,8 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
 
     const fileChangeHandler = e => {
         const name = e.target.name;
-        const file = e.target.files[0];
+        const file = Object.values(e.target.files);
+
 
         setState(prevState => ({...prevState, [name]: file}));
     };
@@ -120,6 +124,7 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                     <FileInput
                         label="Фото"
                         name="image"
+                        multiple='multiple'
                         onChange={fileChangeHandler}
                     />
                 </Grid>
@@ -195,7 +200,7 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                 <Grid item>
                     {}
                     <Button type="submit" color="primary" variant="contained"
-                            onClick={submitFormHandler}>Добавить</Button>
+                            onClick={submitFormHandler}>{product?'Редактировать':'Добавить'}</Button>
                 </Grid>
             </Grid>
         </form>

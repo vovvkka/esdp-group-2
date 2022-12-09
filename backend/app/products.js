@@ -76,7 +76,7 @@ router.get('/:id', async (req, res) => {
         let product;
 
         if (user) {
-            product = await Product.findById(req.params.id).populate({path: 'category', select: 'title'});
+            product = await Product.findById(req.params.id);
         } else {
             product = await Product.findById(req.params.id).select('category title description price amount unit image').populate({
                 path: 'category',
@@ -94,10 +94,9 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', auth, permit('admin'), upload.single('image'), async (req, res) => {
+router.post('/', auth, permit('admin'), upload.array('image',5), async (req, res) => {
     const {category, title, barcode, priceType, price, amount, unit, status, purchasePrice} = req.body;
     const description = req.body.description;
-    const image = req.file ? 'uploads/' + req.file.filename : null;
 
     if (!category || !title || !barcode || !priceType || !price || !amount || !unit || !status || !purchasePrice) {
         return res.status(400).send({message: 'Data not valid!'});
@@ -114,18 +113,21 @@ router.post('/', auth, permit('admin'), upload.single('image'), async (req, res)
         status,
         purchasePrice,
         description: description || null,
-        image: image || null,
     };
+    if (req.files) {
+        productData.image = req.files.map(i=>'uploads/' + i.filename);
+    }
     try {
         const products = new Product(productData);
         await products.save();
         res.send(products);
     } catch (e) {
+
         res.status(400).send(e);
     }
 });
 
-router.put('/:id', auth, permit('admin'), upload.single('image'), async (req, res) => {
+router.put('/:id', auth, permit('admin'), upload.array('image',5), async (req, res) => {
     const {category, title, barcode, priceType, price, amount, unit, status, purchasePrice} = req.body;
     const description = req.body.description;
 
@@ -141,9 +143,8 @@ router.put('/:id', auth, permit('admin'), upload.single('image'), async (req, re
         purchasePrice,
         description: description || null,
     };
-
-    if (req.file) {
-        productData.image = 'uploads/' + req.file.filename;
+    if (req.files) {
+        productData.image = req.files.map(i=>'uploads/' + i.filename);
     }
 
     try {
@@ -157,7 +158,7 @@ router.put('/:id', auth, permit('admin'), upload.single('image'), async (req, re
             .findByIdAndUpdate(req.params.id, productData);
 
         res.send(updateProduct);
-    } catch {
+    } catch(e) {
         res.sendStatus(500);
     }
 });
