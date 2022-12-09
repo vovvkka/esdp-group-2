@@ -93,7 +93,7 @@ const Catalog = () => {
                         padding: '10px',
                         alignSelf: 'start',
                     }}>
-                        <Avatar src={apiUrl + '/' + item.image}
+                        <Avatar src={apiUrl + '/' + item.image[0]}
                                 alt='image'
                                 sx={{width: 70, height: 70}}
                         />
