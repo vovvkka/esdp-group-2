@@ -20,7 +20,7 @@ const NewsCard = ({n, isAdmin}) => {
 
                 <div className="news__card-body-bottom">
                     <Link to={`/news/${n._id}`} className='button news__card-btn'>Читать всё</Link>
-                    <Button>Опубликовать</Button>
+                    {/*<Button className="button news__card-btn">Опубликовать</Button>*/}
                 </div>
             </div>
         </div>
