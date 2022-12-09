@@ -299,36 +299,8 @@ const AdminOrCashierMenu = ({user}) => {
         );
     }
 
-    const cashOperation = () => {
-        if (wantToInsertCash) {
-            dispatch(
-                insertCash({
-                    shiftId: shift._id,
-                    amountOfMoney: state.amountOfMoney,
-                })
-            );
-            setWantToInsertCash(false);
-            setState({amountOfMoney: ""});
-        } else if (wantToWithdrawCash) {
-            dispatch(
-                withdrawCash({
-                    shiftId: shift._id,
-                    amountOfMoney: state.amountOfMoney,
-                })
-            );
-            setWantToWithdrawCash(false);
-            setState({amountOfMoney: ""});
-        }
-    };
-    const shiftCloseHandler = async (id) => {
-        if (wantToLogout) {
-            await dispatch(closeShift(id));
-            await dispatch(logoutUser());
-            setWantToLogout(false);
-        } else {
-            dispatch(closeShift(shift._id));
-        }
-    };
+
+
     if (user?.role === "admin") {
         return (
             <>
