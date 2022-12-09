@@ -2,7 +2,7 @@ import axiosApi from "../../axiosApi";
 import {
     changeNewsStatusFailure,
     changeNewsStatusRequest, changeNewsStatusSuccess,
-    createNewsFailure, createNewsRequest, createNewsSuccess,
+    createNewsFailure, createNewsRequest, createNewsSuccess, deleteNewsFailure, deleteNewsRequest, deleteNewsSuccess,
     getNewsFailure,
     getNewsRequest,
     getNewsSuccess, getOneNewsFailure,
@@ -56,6 +56,18 @@ export const changeNewsStatus = id => {
             dispatch(changeNewsStatusSuccess(id));
         } catch (e) {
             dispatch(changeNewsStatusFailure(e));
+        }
+    }
+}
+
+export const deleteNews = id => {
+    return async dispatch => {
+        try {
+            dispatch(deleteNewsRequest());
+            await axiosApi.delete(`/news/${id}`);
+            dispatch(deleteNewsSuccess(id));
+        } catch (e) {
+            dispatch(deleteNewsFailure(e));
         }
     }
 }

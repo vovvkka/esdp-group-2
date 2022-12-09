@@ -1,9 +1,9 @@
 import React from 'react';
 import {apiUrl} from "../../config";
 import {Link} from "react-router-dom";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {Delete, Visibility, VisibilityOff} from "@mui/icons-material";
 
-const NewsCard = ({n, isAdmin, onChangeStatus}) => {
+const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
     const desc = n.description.length >= 20 ? n.description.split(' ').slice(0, 20).join(' ') : n.description;
 
     return (
@@ -22,12 +22,21 @@ const NewsCard = ({n, isAdmin, onChangeStatus}) => {
                     <Link to={`/news/${n._id}`} className='button news__card-btn'>Читать всё</Link>
                     {
                         isAdmin && (
-                            <button
-                                className={n.published? 'button button--success' : 'button button--warning'}
-                                onClick={() => onChangeStatus()}
-                            >
-                                {n.published? <Visibility/> : <VisibilityOff/>}
-                            </button>
+                            <div className="news__card-body-admin">
+                                <button
+                                    className={n.published ? 'button button--success' : 'button button--warning'}
+                                    onClick={() => onChangeStatus()}
+                                >
+                                    {n.published ? <Visibility/> : <VisibilityOff/>}
+                                </button>
+
+                                <button
+                                    className="button button--warning news__card-body-admin-delete"
+                                    onClick={onDeleteNews}
+                                >
+                                    <Delete/>
+                                </button>
+                            </div>
                         )
                     }
                 </div>

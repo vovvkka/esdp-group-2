@@ -54,6 +54,15 @@
       justify-content: space-between;
    }
 
+   &__card-body-admin {
+      display: flex;
+
+      &-delete {
+         margin-left: 10px;
+         padding: 2px 10px;
+      }
+   }
+
    @media (max-width: 1000px) {
       &__card {
          display: flex;

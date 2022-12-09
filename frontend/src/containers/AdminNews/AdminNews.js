@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {Button, Container, Grid, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {changeNewsStatus, getNews} from "../../store/actions/newsActions";
+import {changeNewsStatus, deleteNews, getNews} from "../../store/actions/newsActions";
 import NewsCard from "../../components/NewsCard/NewsCard";
 
 const AdminNews = () => {
@@ -15,6 +15,10 @@ const AdminNews = () => {
 
     const onChangeStatus = id => {
         dispatch(changeNewsStatus(id));
+    };
+
+    const onDeleteNews = id => {
+        dispatch(deleteNews(id));
     };
 
     return (
@@ -41,6 +45,7 @@ const AdminNews = () => {
                         key={n._id}
                         isAdmin={true}
                         onChangeStatus={() => onChangeStatus(n._id)}
+                        onDeleteNews={() => onDeleteNews(n._id)}
                     />
                 ))}
             </Grid>
