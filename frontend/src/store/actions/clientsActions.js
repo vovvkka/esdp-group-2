@@ -3,10 +3,10 @@ import {
     createClientFailure,
     createClientRequest, createClientSuccess,
     deleteClientFailure,
-    deleteClientRequest, deleteClientSuccess,
+    deleteClientRequest, deleteClientSuccess, editClientFailure, editClientRequest, editClientSuccess,
     fetchClientsFailure,
     fetchClientsRequest,
-    fetchClientsSuccess
+    fetchClientsSuccess, fetchOneClientFailure, fetchOneClientRequest, fetchOneClientSuccess
 } from "../slices/clientsSlice";
 import {historyPush} from "./historyActions";
 
@@ -28,6 +28,22 @@ export const fetchClients = () => {
     };
 };
 
+
+export const fetchOneClient = id => {
+    return async dispatch => {
+        try {
+            dispatch(fetchOneClientRequest());
+
+            const response = await axiosApi('/customers/' + id);
+
+            dispatch(fetchOneClientSuccess(response.data));
+        } catch (e) {
+            dispatch(fetchOneClientFailure(e.response.data));
+        }
+    }
+};
+
+
 export const createClient = (clientData) => {
     return async dispatch => {
         try {
@@ -39,6 +55,24 @@ export const createClient = (clientData) => {
             dispatch(createClientFailure(e.response.data));
         }
     }
+};
+
+
+export const editClient = (id, clientData) => {
+    return async dispatch => {
+        try {
+            dispatch(editClientRequest());
+            await axiosApi.put('/customers/' + id, clientData);
+            dispatch(editClientSuccess());
+            dispatch(historyPush('/admin/clients'));
+        } catch (e) {
+            if (e.response && e.response.data) {
+                dispatch(editClientFailure(e.response.data));
+            } else {
+                dispatch(editClientFailure({global: 'No internet'}));
+            }
+        }
+    };
 };
 
 export const deleteClient = id => {
