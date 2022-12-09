@@ -32,6 +32,13 @@ const AdminOrCashierMenu = ({ user }) => {
    const [state, setState] = useState({
       amountOfMoney: "",
    });
+   const [productReturn, setProductReturn] = useState({
+       date: "",
+       checkNumber: "",
+       barcode: "",
+       quantity: "",
+   });
+   const [wantToReturnAProduct, setWantToReturnAProduct] = useState(false);
 
    const open = Boolean(anchorEl);
    const open2 = Boolean(anchorEl2);
@@ -46,6 +53,14 @@ const AdminOrCashierMenu = ({ user }) => {
       const { name, value } = e.target;
 
       setState((prevState) => {
+         return { ...prevState, [name]: value };
+      });
+   };
+
+   const inputChangeHandlerToReturn = (e) => {
+      const { name, value } = e.target;
+
+      setProductReturn((prevState) => {
          return { ...prevState, [name]: value };
       });
    };
@@ -189,6 +204,57 @@ const AdminOrCashierMenu = ({ user }) => {
             </Box>
          </Box>
       );
+   } else if (wantToReturnAProduct) {
+      modalChildren = (
+         <Box width="100%">
+            <Typography variant="h6">Возврат продажи</Typography>
+               <FormElement
+                  label="Дата"
+                  onChange={inputChangeHandlerToReturn}
+                  value={productReturn.date}
+                  name="date"
+                  required={true}
+                  fullWidth={false}
+               />
+               <FormElement
+                  label="Номер чека"
+                  onChange={inputChangeHandlerToReturn}
+                  value={productReturn.checkNumber}
+                  name="checkNumber"
+                  required={true}
+                  fullWidth={false}
+               />
+               <FormElement
+                  label="Штрих-код"
+                  onChange={inputChangeHandlerToReturn}
+                  value={productReturn.barcode}
+                  name="barcode"
+                  required={true}
+                  fullWidth={false}
+               />
+               <FormElement
+                  label="Кол-во"
+                  onChange={inputChangeHandlerToReturn}
+                  value={productReturn.quantity}
+                  name="quantity"
+                  required={true}
+                  fullWidth={false}
+               />
+               <Typography variant="h6">
+                  Сумма к выдаче: 0
+               </Typography>
+               <Box display="flex" justifyContent="flex-end">
+                  <Button
+                     onClick={() => {
+                        dispatch(setModalClosed());
+                     }}
+                     autoFocus
+                  >
+                     Вернуть
+                  </Button>
+               </Box>
+           </Box>
+       );
    }
    const cashOperation = () => {
       if (wantToInsertCash) {
@@ -327,9 +393,11 @@ const AdminOrCashierMenu = ({ user }) => {
                              Изъятие наличных
                           </MenuItem>
                           <MenuItem
-                             onClick={handleClose}
-                             component={Link}
-                             to={"/cashier"}
+                             onClick={() => {
+                                 handleClose();
+                                 setWantToReturnAProduct(true);
+                                 dispatch(setModalOpen());
+                             }}
                           >
                              Возврат продажи
                           </MenuItem>
