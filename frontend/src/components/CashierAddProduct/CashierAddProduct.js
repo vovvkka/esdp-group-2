@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Grid, Paper, Typography} from "@mui/material";
+import {Button, Grid, IconButton, Paper, TextField, Typography} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
 import FormSelect from "../UI/Form/FormSelect/FormSelect";
 import TableCell from "@mui/material/TableCell";
@@ -9,15 +9,24 @@ import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
 import {useDispatch, useSelector} from "react-redux";
-import {addProductToCashbox, cancelAllCashbox, deleteProductFromCashbox} from "../../store/slices/cashboxSlice";
+import {
+    addProductToCashbox,
+    cancelAllCashbox,
+    changeDiscount, decreaseProduct,
+    deleteProductFromCashbox, increaseProduct, setCustomer
+} from "../../store/slices/cashboxSlice";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const CashierAddProduct = () => {
-    const [state, setState] = useState({customer: '', barcode: ''});
     const addedProducts = useSelector(state => state.cashbox.products);
     const products = useSelector(state => state.products.products.docs);
     const total = useSelector(state => state.cashbox.total);
+    const totalWithDiscount = useSelector(state => state.cashbox.totalWithDiscount);
     const user = useSelector(state => state.users.user);
     const dispatch = useDispatch();
+
+    const [state, setState] = useState({customer: '', barcode: ''});
 
     useEffect(() => {
         if (products && products.length) {
@@ -34,6 +43,9 @@ const CashierAddProduct = () => {
     }, [dispatch, products, state.barcode]);
 
     const stateChange = (name, value) => {
+        if (name === 'customer') {
+            dispatch(setCustomer(value));
+        }
         setState(prev => ({
             ...prev,
             [name]: value,
@@ -78,7 +90,7 @@ const CashierAddProduct = () => {
                             <TableRow>
                                 <TableCell align="right">Номер</TableCell>
                                 <TableCell>Наименование</TableCell>
-                                <TableCell align="right">Кол-во</TableCell>
+                                <TableCell align="center">Кол-во</TableCell>
                                 <TableCell align="right">Цена</TableCell>
                                 <TableCell align="right">Сумма</TableCell>
                                 <TableCell align="right">Скидка (%)</TableCell>
@@ -87,23 +99,40 @@ const CashierAddProduct = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {addedProducts.map((product, index) => {
-                                return <TableRow
-                                    key={index}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell>{index + 1}</TableCell>
-                                    <TableCell component="th" scope="row">
-                                        {product.title}
-                                    </TableCell>
-                                    <TableCell align="right">{product.quantity}</TableCell>
-                                    <TableCell align="right">{product.price}</TableCell>
-                                    <TableCell align="right">{product.price * product.quantity}</TableCell>
-                                    <TableCell align="right">{state.customer === 'Постоянный клиент' ? '5' : '0'}</TableCell>
-                                    <TableCell align="right">{state.customer === 'Постоянный клиент' ? Math.round(product.price * product.quantity - (product.price * product.quantity) / 100 * 5) : product.price * product.quantity}</TableCell>
-                                    <TableCell align="right"><Button size='small' variant='contained' onClick={() => deleteHandler(product._id)}>Удалить</Button></TableCell>
-                                </TableRow>
-                            })}
+                                {addedProducts.map((product, index) => (
+                                        <TableRow
+                                            key={index}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell align='center'>{index + 1}</TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {product.title}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <IconButton color="secondary" onClick={() => dispatch(decreaseProduct(product._id))}>
+                                                    <RemoveCircleOutlineIcon />
+                                                </IconButton>
+                                                {product.quantity}
+                                                <IconButton color="secondary" onClick={() => dispatch(increaseProduct(product._id))}>
+                                                    <AddCircleOutlineIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell align="right">{product.price}</TableCell>
+                                            <TableCell align="right">{product.price * product.quantity}</TableCell>
+                                            <TableCell align="right">
+                                                <TextField
+                                                    type="number"
+                                                    size="small"
+                                                    sx={{width: '70px', padding: 0, border: 'none !important'}}
+                                                    onChange={(e) =>  dispatch(changeDiscount({value: e.target.value, index}))}
+                                                    value={product.discount}
+                                                    InputProps={{ inputProps: { min: 0, max: 100 } }}
+                                                />
+                                            </TableCell>
+                                            <TableCell align="right">{Math.round(product.price * product.quantity - (product.price * product.quantity * (product.discount / 100)))}</TableCell>
+                                            <TableCell align="right"><Button size='small' variant='contained' onClick={() => deleteHandler(product._id)}>Удалить</Button></TableCell>
+                                        </TableRow>
+                                ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
@@ -111,8 +140,8 @@ const CashierAddProduct = () => {
                     <Grid>
                         <Grid container justifyContent='space-around' sx={{margin: '20px 0'}}>
                             <Typography variant='h5'>Сумма: <b>{total}</b> сом</Typography>
-                            <Typography variant='h5'>Скидка: <b>{state.customer === 'Постоянный клиент' ? Math.round(total / 100 * 5) : '0'}</b> сом</Typography>
-                            <Typography variant='h5'>Итого: <b>{state.customer === 'Постоянный клиент' ? Math.round(total - total / 100 * 5) : total} </b> сом</Typography>
+                            <Typography variant='h5'>Скидка: <b>{Math.round(total - totalWithDiscount)}</b> сом</Typography>
+                            <Typography variant='h5'>Итого: <b>{totalWithDiscount} </b> сом</Typography>
                         </Grid>
                         <Grid container spacing={2} justifyContent='center'>
                             <Grid item>
@@ -128,7 +157,6 @@ const CashierAddProduct = () => {
                     </Grid>
                    : null
                 }
-
             </Grid>
         </Grid>
     );
