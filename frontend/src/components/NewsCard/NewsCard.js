@@ -1,7 +1,7 @@
 import React from 'react';
 import {apiUrl} from "../../config";
 import {Link} from "react-router-dom";
-import {Button} from "@mui/material";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 const NewsCard = ({n, isAdmin}) => {
     const desc = n.description.length >= 20 ? n.description.split(' ').slice(0, 20).join(' ') : n.description;
@@ -20,7 +20,15 @@ const NewsCard = ({n, isAdmin}) => {
 
                 <div className="news__card-body-bottom">
                     <Link to={`/news/${n._id}`} className='button news__card-btn'>Читать всё</Link>
-                    {/*<Button className="button news__card-btn">Опубликовать</Button>*/}
+                    {
+                        isAdmin && (
+                            <button
+                                className={n.published? 'button button--success' : 'button button--warning'}
+                            >
+                                {n.published? <Visibility/> : <VisibilityOff/>}
+                            </button>
+                        )
+                    }
                 </div>
             </div>
         </div>

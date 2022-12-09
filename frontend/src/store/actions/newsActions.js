@@ -13,7 +13,7 @@ export const getNews = (query) => {
     return async dispatch => {
         try {
             dispatch(getNewsRequest());
-            const response = await axiosApi('/news'+query);
+            const response = await axiosApi('/news' + (query || ''));
             dispatch(getNewsSuccess(response.data));
         } catch (e) {
             dispatch(getNewsFailure(e));
