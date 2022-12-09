@@ -14,6 +14,7 @@ const AdminOrders = () => {
     const modalOpen = useSelector(state => state.app.modalOpen);
     const [status, setStatus] = useState(null);
     const [order, setOrder] = useState(null);
+    const [openDetailInfo, setOpenDetailInfo] = useState(false);
 
     useEffect(() => {
         dispatch(getOrders());
@@ -21,6 +22,7 @@ const AdminOrders = () => {
 
     const openOrderModal = async (row) => {
         await setOrder(row);
+        setOpenDetailInfo(true);
         dispatch(setModalOpen());
     };
 
@@ -138,47 +140,55 @@ const AdminOrders = () => {
 
     return (
         <>
-            <CustomModal
-                isOpen={modalOpen}
-                handleClose={() => dispatch(setModalClosed())}
-            >
-                <Box width='550px'>
-                    <Grid sx={{maxHeight: 400, overflowY: 'scroll', marginBottom: '30px'}}>
-                        <Typography textAlign="center" variant="h4" gutterBottom><b>Информация о заказе</b></Typography>
+            {
+                openDetailInfo && (
+                    <CustomModal
+                        isOpen={modalOpen}
+                        handleClose={() => {
+                            dispatch(setModalClosed());
+                            setOpenDetailInfo(false);
+                        }}
+                    >
+                        <Box width='550px'>
+                            <Grid sx={{maxHeight: 400, overflowY: 'scroll', marginBottom: '30px'}}>
+                                <Typography textAlign="center" variant="h4" gutterBottom><b>Информация о
+                                    заказе</b></Typography>
 
-                        <Typography variant="h5"><b>Контакты:</b></Typography>
-                        <Typography><b>Заказчик:</b> {order && order.customer}</Typography>
-                        <Typography><b>Телефон:</b> {order && order.phone}</Typography>
-                        <Typography><b>Адрес:</b> {order && order.address}</Typography>
-                        <Typography><b>Комментарий:</b> {order && order.comment}</Typography>
+                                <Typography variant="h5"><b>Контакты:</b></Typography>
+                                <Typography><b>Заказчик:</b> {order && order.customer}</Typography>
+                                <Typography><b>Телефон:</b> {order && order.phone}</Typography>
+                                <Typography><b>Адрес:</b> {order && order.address}</Typography>
+                                <Typography><b>Комментарий:</b> {order && order.comment}</Typography>
 
-                        <Typography variant="h5" sx={{marginTop: '20px'}} gutterBottom><b>Заказ:</b></Typography>
-                        {order && order.order.map(order => (
-                            <Typography key={order._id}>{order.product.title} <b>x{order.quantity}</b></Typography>
-                        ))}
-                    </Grid>
+                                <Typography variant="h5" sx={{marginTop: '20px'}} gutterBottom><b>Заказ:</b></Typography>
+                                {order && order.order.map(order => (
+                                    <Typography key={order._id}>{order.product.title} <b>x{order.quantity}</b></Typography>
+                                ))}
+                            </Grid>
 
-                    {order && order.status !== 'Закрыт' && (
-                        <Grid>
-                            <FormSelect
-                                options={["Новый", "Собран", "Закрыт"]}
-                                label="Статус"
-                                onChange={onChangeStatus}
-                                value={status ? status : order.status}
-                                name="status"
-                            />
+                            {order && order.status !== 'Закрыт' && (
+                                <Grid>
+                                    <FormSelect
+                                        options={["Новый", "Собран", "Закрыт"]}
+                                        label="Статус"
+                                        onChange={onChangeStatus}
+                                        value={status ? status : order.status}
+                                        name="status"
+                                    />
 
-                            <Button
-                                variant="contained"
-                                sx={{color: '#fff !important', marginTop: '10px'}}
-                                onClick={onSubmitStatus}
-                            >
-                                Сохранить
-                            </Button>
-                        </Grid>
-                    )}
-                </Box>
-            </CustomModal>
+                                    <Button
+                                        variant="contained"
+                                        sx={{color: '#fff !important', marginTop: '10px'}}
+                                        onClick={onSubmitStatus}
+                                    >
+                                        Сохранить
+                                    </Button>
+                                </Grid>
+                            )}
+                        </Box>
+                    </CustomModal>
+                )
+            }
 
             <Container>
                 <Box>

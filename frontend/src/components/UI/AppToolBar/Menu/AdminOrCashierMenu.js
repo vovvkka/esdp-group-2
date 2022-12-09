@@ -422,18 +422,23 @@ const AdminOrCashierMenu = ({ user }) => {
                   Выйти
                </Button>
             </Grid>
-            <CustomModal
-               isOpen={modalOpen}
-               handleClose={() => {
-                  setWantToLogout(false);
-                  setWantToInsertCash(false);
-                  setWantToWithdrawCash(false);
-                  setWantToCloseShift(false);
-                  dispatch(setModalClosed());
-               }}
-            >
-               {modalChildren}
-            </CustomModal>
+
+             {
+                ( wantToInsertCash || wantToCloseShift || wantToWithdrawCash || wantToLogout ) && (
+                     <CustomModal
+                         isOpen={modalOpen}
+                         handleClose={() => {
+                             setWantToLogout(false);
+                             setWantToInsertCash(false);
+                             setWantToWithdrawCash(false);
+                             setWantToCloseShift(false);
+                             dispatch(setModalClosed());
+                         }}
+                     >
+                         {modalChildren}
+                     </CustomModal>
+                 )
+             }
          </>
       );
    }
