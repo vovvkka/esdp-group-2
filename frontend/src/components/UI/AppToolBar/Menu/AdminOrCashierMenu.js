@@ -5,16 +5,10 @@ import MenuItem from "@mui/material/MenuItem";
 import {Box, Button, Grid, Menu, Typography} from "@mui/material";
 import {logoutUser} from "../../../../store/actions/usersActions";
 import {closeShift} from "../../../../store/actions/shiftsActions";
-import {
-    setModalClosed,
-    setModalOpen,
-} from "../../../../store/slices/appSLice";
+import {setModalClosed, setModalOpen} from "../../../../store/slices/appSLice";
 import CustomModal from "../../Modal/Modal";
 import FormElement from "../../Form/FormElement/FormElement";
-import {
-    insertCash,
-    withdrawCash,
-} from "../../../../store/actions/cashActions";
+import {insertCash, withdrawCash,} from "../../../../store/actions/cashActions";
 
 const AdminOrCashierMenu = ({user}) => {
     const dispatch = useDispatch();
@@ -29,9 +23,11 @@ const AdminOrCashierMenu = ({user}) => {
     const [wantToInsertCash, setWantToInsertCash] = useState(false);
     const [wantToWithdrawCash, setWantToWithdrawCash] = useState(false);
     const [wantToCloseShift, setWantToCloseShift] = useState(false);
+
     const [wantToReturnAProduct, setWantToReturnAProduct] = useState(false);
     const [state, setState] = useState({
         amountOfMoney: "",
+        comment: ''
     });
     const [productReturn, setProductReturn] = useState({
         date: "",
@@ -57,12 +53,50 @@ const AdminOrCashierMenu = ({user}) => {
         });
     };
 
+
     const inputChangeHandlerToReturn = (e) => {
         const { name, value } = e.target;
 
         setProductReturn((prevState) => {
             return { ...prevState, [name]: value };
         });
+    };
+
+
+    const cashOperation = e => {
+        e.preventDefault();
+        if (wantToInsertCash) {
+            dispatch(
+                insertCash({
+                    shiftId: shift._id,
+                    amountOfMoney: state.amountOfMoney,
+                    comment: state.comment
+                })
+            );
+            setWantToInsertCash(false);
+            setState({amountOfMoney: "", comment: ''});
+            dispatch(setModalClosed());
+        } else if (wantToWithdrawCash) {
+            dispatch(
+                withdrawCash({
+                    shiftId: shift._id,
+                    amountOfMoney: state.amountOfMoney,
+                    comment: state.comment
+                })
+            );
+            setWantToWithdrawCash(false);
+            setState({amountOfMoney: "", comment: ''});
+            dispatch(setModalClosed());
+        }
+    };
+    const shiftCloseHandler = async (id) => {
+        if (wantToLogout) {
+            await dispatch(closeShift(id));
+            await dispatch(logoutUser());
+            setWantToLogout(false);
+        } else {
+            dispatch(closeShift(shift._id));
+        }
     };
 
     let modalChildren;
@@ -135,35 +169,43 @@ const AdminOrCashierMenu = ({user}) => {
                 <Typography variant="h6">
                     Наличных в кассе: {cash && cash}{" "}
                 </Typography>
-                <FormElement
-                    label="Сумма"
-                    onChange={inputChangeHandler}
-                    value={state.amountOfMoney}
-                    name="amountOfMoney"
-                    required={true}
-                    fullWidth={false}
-                />
-                <Box display="flex" justifyContent="flex-end">
-                    <Button
-                        onClick={() => {
-                            dispatch(setModalClosed());
-                            cashOperation();
-                        }}
-                        autoFocus
-                    >
-                        Внести
-                    </Button>
-                    <Button
-                        autoFocus
-                        onClick={() => {
-                            dispatch(setModalClosed());
-                            setWantToInsertCash(false);
-                            setState({amountOfMoney: ""});
-                        }}
-                    >
-                        Отмена
-                    </Button>
-                </Box>
+
+                <form onSubmit={cashOperation}>
+                    <FormElement
+                        label="Сумма"
+                        onChange={inputChangeHandler}
+                        value={state.amountOfMoney}
+                        name="amountOfMoney"
+                        required={true}
+                        fullWidth={false}
+                    />
+                    <FormElement
+                        label="Комментарий"
+                        onChange={inputChangeHandler}
+                        value={state.comment}
+                        name="comment"
+                        fullWidth={false}
+                    />
+                    <Box display="flex" justifyContent="flex-end">
+                        <Button
+                            type='submit'
+                            autoFocus
+                        >
+                            Внести
+                        </Button>
+                        <Button
+                            autoFocus
+                            type='button'
+                            onClick={() => {
+                                dispatch(setModalClosed());
+                                setWantToInsertCash(false);
+                                setState({amountOfMoney: "", comment: ''});
+                            }}
+                        >
+                            Отмена
+                        </Button>
+                    </Box>
+                </form>
             </Box>
         );
     } else if (wantToWithdrawCash) {
@@ -399,6 +441,7 @@ const AdminOrCashierMenu = ({user}) => {
                                     Изъятие наличных
                                 </MenuItem>
                                 <MenuItem
+
                                     onClick={() => {
                                         handleClose();
                                         setWantToReturnAProduct(true);
