@@ -1,6 +1,8 @@
 import axiosApi from "../../axiosApi";
 import {
-    createNewsFailure, createNewsRequest, createNewsSuccess,
+    changeNewsStatusFailure,
+    changeNewsStatusRequest, changeNewsStatusSuccess,
+    createNewsFailure, createNewsRequest, createNewsSuccess, deleteNewsFailure, deleteNewsRequest, deleteNewsSuccess,
     getNewsFailure,
     getNewsRequest,
     getNewsSuccess, getOneNewsFailure,
@@ -13,7 +15,7 @@ export const getNews = (query) => {
     return async dispatch => {
         try {
             dispatch(getNewsRequest());
-            const response = await axiosApi('/news'+query);
+            const response = await axiosApi('/news' + (query || ''));
             dispatch(getNewsSuccess(response.data));
         } catch (e) {
             dispatch(getNewsFailure(e));
@@ -45,3 +47,27 @@ export const createNews = newsData => {
         }
     };
 };
+
+export const changeNewsStatus = id => {
+    return async dispatch => {
+        try {
+            dispatch(changeNewsStatusRequest());
+            await axiosApi.post(`/news/${id}/publish`);
+            dispatch(changeNewsStatusSuccess(id));
+        } catch (e) {
+            dispatch(changeNewsStatusFailure(e));
+        }
+    }
+}
+
+export const deleteNews = id => {
+    return async dispatch => {
+        try {
+            dispatch(deleteNewsRequest());
+            await axiosApi.delete(`/news/${id}`);
+            dispatch(deleteNewsSuccess(id));
+        } catch (e) {
+            dispatch(deleteNewsFailure(e));
+        }
+    }
+}

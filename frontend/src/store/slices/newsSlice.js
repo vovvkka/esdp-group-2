@@ -40,14 +40,41 @@ const newsSlice = createSlice({
             state.singleError = action.payload;
         },
         createNewsRequest(state) {
-
+            state.singleLoading = true;
+            state.singleError = null;
         },
         createNewsSuccess(state) {
-
+            state.singleLoading = false;
         },
-        createNewsFailure(state) {
-
-        }
+        createNewsFailure(state, action) {
+            state.singleLoading = false;
+            state.singleError = action.payload;
+        },
+        changeNewsStatusRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        changeNewsStatusSuccess(state, action) {
+            const idx = state.news.findIndex(n => n._id === action.payload);
+            state.loading = true;
+            state.news[idx].published = !state.news[idx].published;
+        },
+        changeNewsStatusFailure(state, action) {
+            state.loading = true;
+            state.error = action.payload;
+        },
+        deleteNewsRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        deleteNewsSuccess(state, action) {
+            state.loading = false;
+            state.news = [...state.news.filter(n => n._id !== action.payload)];
+        },
+        deleteNewsFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
     }
 });
 
@@ -60,7 +87,13 @@ export const {
     getOneNewsFailure,
     createNewsRequest,
     createNewsSuccess,
-    createNewsFailure
+    createNewsFailure,
+    changeNewsStatusRequest,
+    changeNewsStatusSuccess,
+    changeNewsStatusFailure,
+    deleteNewsRequest,
+    deleteNewsSuccess,
+    deleteNewsFailure
 } = newsSlice.actions;
 
 export default newsSlice;
