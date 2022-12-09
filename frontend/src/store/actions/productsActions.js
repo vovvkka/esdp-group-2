@@ -1,15 +1,19 @@
 import axiosApi from "../../axiosApi";
 import {
     createProductFailure,
-    createProductRequest, createProductSuccess, deleteProductFailure, deleteProductRequest, deleteProductSuccess,
+    createProductRequest,
+    createProductSuccess,
+    deleteProductFailure,
+    deleteProductRequest,
+    deleteProductSuccess, editProductFailure, editProductRequest, editProductSuccess,
     fetchOneProductFailure,
-    fetchOneProductRequest, fetchOneProductSuccess,
+    fetchOneProductRequest,
+    fetchOneProductSuccess,
     fetchProductsFailure,
     fetchProductsRequest,
     fetchProductsSuccess,
 } from "../slices/productsSlice";
 import {historyPush} from "./historyActions";
-import {editCategoryFailure, editCategoryRequest, editCategorySuccess} from "../slices/categoriesSlice";
 
 
 export const fetchProducts = (search) => {
@@ -17,9 +21,9 @@ export const fetchProducts = (search) => {
         try {
             dispatch(fetchProductsRequest());
             let response;
-            if(search){
-                response = await axiosApi('/products'+search);
-            }else {
+            if (search) {
+                response = await axiosApi('/products' + search);
+            } else {
                 response = await axiosApi('/products');
             }
             dispatch(fetchProductsSuccess(response.data));
@@ -59,17 +63,17 @@ export const createProduct = (productData) => {
 export const editProduct = (id, productData) => {
     return async dispatch => {
         try {
-            dispatch(editCategoryRequest());
+            dispatch(editProductRequest());
 
             await axiosApi.put('/products/' + id, productData);
 
-            dispatch(editCategorySuccess());
+            dispatch(editProductSuccess());
             dispatch(historyPush('/admin/products'));
         } catch (e) {
             if (e.response && e.response.data) {
-                dispatch(editCategoryFailure(e.response.data));
+                dispatch(editProductFailure(e.response.data));
             } else {
-                dispatch(editCategoryFailure({global: 'No internet'}));
+                dispatch(editProductFailure({global: 'No internet'}));
             }
         }
     };
@@ -77,11 +81,11 @@ export const editProduct = (id, productData) => {
 
 export const deleteProduct = id => {
     return async dispatch => {
-        try{
+        try {
             dispatch(deleteProductRequest());
             const response = await axiosApi.delete('/products/' + id);
             dispatch(deleteProductSuccess(response.data));
-        }catch (e) {
+        } catch (e) {
             dispatch(deleteProductFailure(e.response.data));
         }
     }

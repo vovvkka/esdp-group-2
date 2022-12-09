@@ -8,17 +8,17 @@ const useStyles = makeStyles()(() => ({
     }
 }));
 
-const FileInput = ({onChange, name, label}) => {
+const FileInput = ({onChange, name, label,multiple}) => {
     const {classes} = useStyles();
     const inputRef = useRef();
 
-    const [filename, setFilename] = useState('');
+    const [filename, setFilename] = useState([]);
 
     const onFileChange = e => {
         if (e.target.files[0]) {
-            setFilename(e.target.files[0].name);
+            setFilename([...filename,e.target.files[0].name]);
         } else {
-            setFilename('');
+            setFilename([]);
         }
 
         onChange(e);
@@ -32,6 +32,7 @@ const FileInput = ({onChange, name, label}) => {
         <>
             <input
                 type="file"
+                multiple={multiple}
                 name={name}
                 className={classes.input}
                 onChange={onFileChange}
