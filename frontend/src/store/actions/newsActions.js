@@ -1,5 +1,7 @@
 import axiosApi from "../../axiosApi";
 import {
+    changeNewsStatusFailure,
+    changeNewsStatusRequest, changeNewsStatusSuccess,
     createNewsFailure, createNewsRequest, createNewsSuccess,
     getNewsFailure,
     getNewsRequest,
@@ -45,3 +47,15 @@ export const createNews = newsData => {
         }
     };
 };
+
+export const changeNewsStatus = id => {
+    return async dispatch => {
+        try {
+            dispatch(changeNewsStatusRequest());
+            await axiosApi.post(`/news/${id}/publish`);
+            dispatch(changeNewsStatusSuccess(id));
+        } catch (e) {
+            dispatch(changeNewsStatusFailure(e));
+        }
+    }
+}

@@ -3,7 +3,7 @@ import {apiUrl} from "../../config";
 import {Link} from "react-router-dom";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
-const NewsCard = ({n, isAdmin}) => {
+const NewsCard = ({n, isAdmin, onChangeStatus}) => {
     const desc = n.description.length >= 20 ? n.description.split(' ').slice(0, 20).join(' ') : n.description;
 
     return (
@@ -24,6 +24,7 @@ const NewsCard = ({n, isAdmin}) => {
                         isAdmin && (
                             <button
                                 className={n.published? 'button button--success' : 'button button--warning'}
+                                onClick={() => onChangeStatus()}
                             >
                                 {n.published? <Visibility/> : <VisibilityOff/>}
                             </button>
