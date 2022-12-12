@@ -2,24 +2,26 @@ import React, {useEffect, useState} from 'react';
 import {Button, Grid, Paper} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
 import FormSelect from "../UI/Form/FormSelect/FormSelect";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCategories} from "../../store/actions/categoriesActions";
 
 
-const CategoryForm = ({onSubmit, data, sub, categories}) => {
+const CategoryForm = ({onSubmit, data}) => {
+    const dispatch = useDispatch();
     const error = useSelector(state => state.categories.error);
+    const categories = useSelector(state => state.categories.categories);
     const [options, setOptions] = useState([]);
 
     const [state, setState] = useState({
         category: "",
         title: "",
         status: "",
-        nds: 0,
-        nspCash: 0,
-        nspNotCash: 0,
     });
-
     useEffect(() => {
-        setOptions(categories);
+        dispatch(fetchCategories());
+    }, [dispatch]);
+    useEffect(() => {
+        setOptions([{_id: '123', title: 'Без категории'}, ...categories]);
     }, [categories]);
 
     const getFieldError = fieldName => {
@@ -29,27 +31,34 @@ const CategoryForm = ({onSubmit, data, sub, categories}) => {
             return undefined;
         }
     };
-
     useEffect(() => {
         if (data) {
-            setState(data);
+            if (data.category === null) {
+                const newData = {...data};
+                newData.category = '123';
+                setState(newData);
+            } else {
+                setState(data);
+            }
         }
     }, [data]);
 
     const inputChangeHandler = e => {
         const {name, value} = e.target;
-
         setState(prevState => {
-            if (typeof value === 'number') {
-                return {...prevState, [name]: parseInt(value)};
-            }
             return {...prevState, [name]: value};
         });
     };
 
     const onSubmitHandler = e => {
         e.preventDefault();
-        onSubmit({...state});
+        if (state.category === '123') {
+            const newData = {...state};
+            newData.category = null;
+            onSubmit(newData);
+        } else {
+            onSubmit({...state});
+        }
     };
 
     return (
@@ -57,27 +66,24 @@ const CategoryForm = ({onSubmit, data, sub, categories}) => {
             autoComplete="off"
             onSubmit={(e) => onSubmitHandler(e)}
         >
-            <Paper display="flex" >
-                {sub ?
-                    <Grid container justifyContent='center' sx={{margin: '20px'}}>
-                        <Grid xs={6} item>
-                            <FormSelect
-                                selectFromServer
-                                options={options}
-                                label="Категория"
-                                onChange={inputChangeHandler}
-                                value={state.category}
-                                name="category"
-                                error={getFieldError('category')}
-                                required={true}
-                            />
-                        </Grid>
+            <Paper display="flex" sx={{padding: '30px 0 10px 0'}}>
+
+                <Grid container justifyContent='center'>
+                    <Grid xs={7} item>
+                        <FormSelect
+                            selectFromServer
+                            options={options}
+                            label="Категория"
+                            onChange={inputChangeHandler}
+                            value={state.category}
+                            name="category"
+                            error={getFieldError('category')}
+                            required={true}
+                        />
                     </Grid>
-                    : null
-                }
-                <Grid container textAlign="center" marginX="auto" spacing={3} justifyContent='center'>
-                    <Grid item xs={2}>
+                    <Grid item xs={7} sx={{marginBottom: '4px'}}>
                         <FormElement
+                            required={true}
                             label="Название"
                             onChange={inputChangeHandler}
                             value={state.title}
@@ -85,39 +91,9 @@ const CategoryForm = ({onSubmit, data, sub, categories}) => {
                             error={getFieldError('title')}
                         />
                     </Grid>
-
-                    <Grid item xs={2}>
-                        <FormElement
-                            type="number"
-                            label="НДС,%"
-                            onChange={inputChangeHandler}
-                            value={state.nds}
-                            name="nds"
-                            error={getFieldError('nds')}
-                        />
-                    </Grid>
-                    <Grid item xs={2}>
-                        <FormElement
-                            type="number"
-                            label="НСП нал,%"
-                            onChange={inputChangeHandler}
-                            value={state.nspCash}
-                            name="nspCash"
-                            error={getFieldError('nspCash')}
-                        />
-                    </Grid>
-                    <Grid item xs={2}>
-                        <FormElement
-                            type="number"
-                            label="НСП безнал,%"
-                            onChange={inputChangeHandler}
-                            value={state.nspNotCash}
-                            name="nspNotCash"
-                            error={getFieldError('nspNotCash')}
-                        />
-                    </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={7}>
                         <FormSelect
+                            required={true}
                             options={["Активный", "Неактивный"]}
                             label="Статус"
                             onChange={inputChangeHandler}
