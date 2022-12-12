@@ -55,10 +55,10 @@ const AdminOrCashierMenu = ({user}) => {
 
 
     const inputChangeHandlerToReturn = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
 
         setProductReturn((prevState) => {
-            return { ...prevState, [name]: value };
+            return {...prevState, [name]: value};
         });
     };
 
@@ -215,35 +215,42 @@ const AdminOrCashierMenu = ({user}) => {
                 <Typography variant="h6">
                     Наличных в кассе: {cash && cash}
                 </Typography>
-                <FormElement
-                    label="Сумма"
-                    onChange={inputChangeHandler}
-                    value={state.amountOfMoney}
-                    name="amountOfMoney"
-                    required={true}
-                    fullWidth={false}
-                />
-                <Box display="flex" justifyContent="flex-end">
-                    <Button
-                        onClick={() => {
-                            dispatch(setModalClosed());
-                            cashOperation();
-                        }}
-                        autoFocus
-                    >
-                        Изъять
-                    </Button>
-                    <Button
-                        autoFocus
-                        onClick={() => {
-                            dispatch(setModalClosed());
-                            setWantToWithdrawCash(false);
-                            setState({amountOfMoney: ""});
-                        }}
-                    >
-                        Отмена
-                    </Button>
-                </Box>
+                <form onSubmit={cashOperation}>
+                    <FormElement
+                        label="Сумма"
+                        onChange={inputChangeHandler}
+                        value={state.amountOfMoney}
+                        name="amountOfMoney"
+                        required={true}
+                        fullWidth={false}
+                    />
+                    <FormElement
+                        label="Комментарий"
+                        onChange={inputChangeHandler}
+                        value={state.comment}
+                        name="comment"
+                        fullWidth={false}
+                    />
+                    <Box display="flex" justifyContent="flex-end">
+                        <Button
+                            type='submit'
+                            autoFocus
+                        >
+                            Изъять
+                        </Button>
+                        <Button
+                            type='button'
+                            autoFocus
+                            onClick={() => {
+                                dispatch(setModalClosed());
+                                setWantToWithdrawCash(false);
+                                setState({amountOfMoney: "", comment: ''});
+                            }}
+                        >
+                            Отмена
+                        </Button>
+                    </Box>
+                </form>
             </Box>
         );
     } else if (wantToReturnAProduct) {
@@ -300,7 +307,6 @@ const AdminOrCashierMenu = ({user}) => {
     }
 
 
-
     if (user?.role === "admin") {
         return (
             <>
@@ -316,7 +322,7 @@ const AdminOrCashierMenu = ({user}) => {
                     >
                         Администрирование
                     </Button>
-                    <Button sx={{marginRight: "5px", color: "#fff !important"}}>
+                    <Button component={Link} to={`/admin/journal`} sx={{marginRight: "5px", color: "#fff !important"}}>
                         Журнал
                     </Button>
                     <Button component={Link} to={`/admin/orders`} sx={{color: "#fff !important"}}>
