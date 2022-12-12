@@ -43,7 +43,7 @@ const Header = () => {
                                 <ShoppingCartOutlinedIcon className='header__icon header__icon--cart'/>
                             </Link>
                             {user?.role === 'admin' || user?.role === 'cashier' ?
-                                <Link to={user?.role} className='header__cabinet'>
+                                <Link to={`/${user?.role}`} className='header__cabinet'>
                                     <LockOutlinedIcon className='header__icon header__icon--lock' fontSize='large'/>
                                 </Link>
                                 : null}
