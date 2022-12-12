@@ -11,7 +11,7 @@ const Layout = ({children}) => {
 
     return (
         <div className="wrapper">
-            <ToastContainer toastStyle={{backgroundColor: "#dde6ff", color: '#000'}}/>
+            <ToastContainer toastStyle={{backgroundColor: "#dde6ff", color: '#000', width: '510px'}}/>
             <CssBaseline/>
             <AppToolbar/>
             {location.pathname.includes('cashier') || location.pathname.includes('admin') ?

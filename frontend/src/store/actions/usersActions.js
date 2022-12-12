@@ -1,5 +1,14 @@
 import axiosApi from "../../axiosApi";
-import {loginFailure, loginRequest, loginSuccess, logoutRequest, logoutSuccess} from "../slices/usersSlice";
+import {
+    forgotPasswordFailure,
+    forgotPasswordRequest, forgotPasswordSuccess,
+    loginFailure,
+    loginRequest,
+    loginSuccess,
+    logoutFailure,
+    logoutRequest,
+    logoutSuccess, resetPasswordFailure, resetPasswordRequest, resetPasswordSuccess
+} from "../slices/usersSlice";
 import {historyPush} from "./historyActions";
 import {addNotification} from "./notifierActions";
 
@@ -42,7 +51,38 @@ export const logoutUser = () => {
             dispatch(logoutSuccess());
             dispatch(historyPush('/'));
         } catch (e) {
-            dispatch(loginFailure(e));
+            dispatch(logoutFailure(e));
+        }
+    };
+};
+
+export const forgotPassword = email => {
+    return async dispatch => {
+        try {
+            dispatch(forgotPasswordRequest());
+
+            await axiosApi.post('/users/forgot-password', {email});
+
+            dispatch(forgotPasswordSuccess());
+            dispatch(addNotification('Письмо для сброса пароля было отправлено на почту!', 'success', {autoClose: 3000}));
+        } catch (e) {
+            dispatch(forgotPasswordFailure(e.response.data));
+        }
+    };
+};
+
+export const resetPassword = (id, token, userData) => {
+    return async dispatch => {
+        try {
+            dispatch(resetPasswordRequest());
+
+            await axiosApi.post(`/users/reset-password/${id}/${token}`, userData);
+
+            dispatch(resetPasswordSuccess());
+            dispatch(historyPush('/login'));
+            dispatch(addNotification('Вы успешно сбросили пароль!', 'success', {autoClose: 2000}));
+        } catch (e) {
+            dispatch(resetPasswordFailure(e.response.data));
         }
     };
 };

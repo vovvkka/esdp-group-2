@@ -38,6 +38,28 @@ const usersSlice = createSlice({
             state.logoutLoading = false;
             state.logoutError = action.payload;
         },
+        forgotPasswordRequest(state) {
+            state.loginLoading = true;
+            state.loginError = null;
+        },
+        forgotPasswordSuccess(state) {
+            state.loginLoading = false;
+        },
+        forgotPasswordFailure(state, action) {
+            state.loginLoading = false;
+            state.loginError = action.payload;
+        },
+        resetPasswordRequest(state) {
+            state.loginLoading = true;
+            state.loginError = null;
+        },
+        resetPasswordSuccess(state) {
+            state.loginLoading = false;
+        },
+        resetPasswordFailure(state, action) {
+            state.loginLoading = false;
+            state.loginError = action.payload;
+        },
     }
 });
 
@@ -48,6 +70,12 @@ export const {
     logoutRequest,
     logoutSuccess,
     logoutFailure,
+    forgotPasswordRequest,
+    forgotPasswordSuccess,
+    forgotPasswordFailure,
+    resetPasswordRequest,
+    resetPasswordSuccess,
+    resetPasswordFailure
 } = usersSlice.actions;
 
 export default usersSlice;
