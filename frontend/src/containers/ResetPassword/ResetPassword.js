@@ -50,7 +50,7 @@ const ResetPassword = ({match}) => {
 
                 {error && (
                     <Alert severity="error" className={classes.alert}>
-                        Error! {error.message}
+                        Ошибка! {error.message}
                     </Alert>
                 )}
 
@@ -66,6 +66,7 @@ const ResetPassword = ({match}) => {
                         label="Введите новый пароль"
                         name="password"
                         value={user.password}
+                        inputProps={{minLength: 6}}
                         onChange={inputChangeHandler}
                     />
 
@@ -74,6 +75,7 @@ const ResetPassword = ({match}) => {
                         type="password"
                         label="Повторите новый пароль"
                         name="password1"
+                        inputProps={{minLength: 6}}
                         value={user.password1}
                         onChange={inputChangeHandler}
                     />

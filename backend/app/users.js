@@ -118,13 +118,17 @@ router.post('/forgot-password', async (req, res) => {
 });
 router.post('/reset-password/:id/:token', async (req, res) => {
     const {id, token} = req.params;
-    const {password} = req.body;
+    const {password, password1} = req.body;
 
     try {
         const user = await User.findById(id);
 
         if (!user) {
             return res.status(404).send({error: "Пользователь не найден."});
+        }
+
+        if (password !== password1) {
+            return res.status(400).send({message: "Пароли не совпадают!"});
         }
 
         const secret = JWT_SECRET + user.password;
