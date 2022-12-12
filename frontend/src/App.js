@@ -38,6 +38,8 @@ import AdminAddClient from "./containers/AdminAddClient/AdminAddClient";
 import AdminNews from "./containers/AdminNews/AdminNews";
 import AdminJournal from "./containers/AdminJournal/AdminJournal";
 import AdminEditClient from "./containers/AddminEditClient/AdminEditClient";
+import ForgotPassword from "./containers/ForgotPassword/ForgotPassword";
+import ResetPassword from "./containers/ResetPassword/ResetPassword";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ? <Route {...props} /> : <Redirect to="/"/>;
@@ -77,6 +79,10 @@ const App = () => {
                 <Route path="/order-place/success" exact component={SuccessOrderPlace}/>
                 <Route path="/news/:id" component={NewsInfo}/>
                 <Route path="/contacts" component={Contacts}/>
+                <Route path="/contacts" component={Contacts}/>
+                <Route path="/forgot-password" exact component={ForgotPassword}/>
+                <Route path="/reset-password/:id/:token" exact component={ResetPassword}/>
+                <LoginRedirectRoute user={user} path="/login" component={Login}/>
 
                 <ProtectedRoute
                     isAllowed={user}
@@ -248,8 +254,6 @@ const App = () => {
                     path="/cashier"
                     component={CashierPanel}
                 />
-
-                <LoginRedirectRoute user={user} path="/login" component={Login}/>
             </Switch>
         </Layout>
     );

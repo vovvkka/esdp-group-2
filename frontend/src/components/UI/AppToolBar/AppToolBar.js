@@ -39,7 +39,7 @@ const AppToolbar = () => {
 
 
     useEffect(() => {
-        if (location.pathname.includes('admin') || location.pathname.includes('cashier') || location.pathname.includes('login')) {
+        if (location.pathname.includes('admin') || location.pathname.includes('cashier')) {
             setIsUser(false);
         } else {
             setIsUser(true);

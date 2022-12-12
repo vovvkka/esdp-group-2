@@ -166,7 +166,7 @@ const run = async () => {
         username: 'admin',
         displayName: 'Заказчик Тай-Тай',
         password: 'admin0',
-        email: 'zakazchik@gmail.com',
+        email: 'v.golem228@gmail.com',
         pin: 1234,
         token: nanoid(),
         role: 'admin',
