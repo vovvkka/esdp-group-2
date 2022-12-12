@@ -37,6 +37,7 @@ import AdminClients from "./containers/AdminClients/AdminClients";
 import AdminAddClient from "./containers/AdminAddClient/AdminAddClient";
 import AdminNews from "./containers/AdminNews/AdminNews";
 import AdminJournal from "./containers/AdminJournal/AdminJournal";
+import AdminEditClient from "./containers/AddminEditClient/AdminEditClient";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ? <Route {...props} /> : <Redirect to="/"/>;
@@ -103,6 +104,12 @@ const App = () => {
                     path="/admin/clients/add-new-client"
                     exact
                     component={AdminAddClient}
+                />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/admin/clients/edit-client/:id"
+                    exact
+                    component={AdminEditClient}
                 />
 
                 <ProtectedRoute

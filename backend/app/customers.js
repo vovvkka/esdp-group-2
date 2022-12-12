@@ -63,10 +63,10 @@ router.post('/', auth, permit('admin'), upload.single('image'), async (req, res)
         name,
         surname,
         discount,
-        phone:phone,
-        email:email,
-        address: address,
-        image: image,
+        phone,
+        email,
+        address,
+        image,
     };
     try {
         const customer = new Customer(customerData);
@@ -88,9 +88,9 @@ router.put('/:id', auth, permit('admin'), upload.single('image'), async (req, re
         name,
         surname,
         discount,
-        phone:phone,
-        email:email,
-        address: address,
+        phone,
+        email,
+        address,
     };
 
     if (req.file) {
