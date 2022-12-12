@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Grid, Paper, Typography} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
 import {useSelector} from "react-redux";
 import FileInput from "../UI/Form/FileInput/FileInput";
 
 
-const ClientForm = ({onSubmit}) => {
+const ClientForm = ({onSubmit, data}) => {
     const error = useSelector(state => state.clients.createClientError);
     const [state, setState] = useState({
         name: "",
@@ -19,10 +19,20 @@ const ClientForm = ({onSubmit}) => {
 
     const inputChangeHandler = e => {
         const {name, value} = e.target;
+
         setState(prevState => {
+            if (typeof value === 'number') {
+                return {...prevState, [name]: parseInt(value)};
+            }
             return {...prevState, [name]: value};
         });
     };
+
+    useEffect(() => {
+        if (data) {
+            setState(data);
+        }
+    }, [data]);
 
     const fileChangeHandler = e => {
         const name = e.target.name;
@@ -37,7 +47,6 @@ const ClientForm = ({onSubmit}) => {
         });
         onSubmit(formData);
     };
-
     const getFieldError = fieldName => {
         try {
             return error.error[fieldName].message;
@@ -49,6 +58,7 @@ const ClientForm = ({onSubmit}) => {
     return (
         <form
             autoComplete="off"
+            onSubmit={submitFormHandler}
         >
             <Paper display="flex" >
                 <Grid container textAlign="center" marginX="auto" spacing={3} justifyContent='center'
@@ -56,9 +66,8 @@ const ClientForm = ({onSubmit}) => {
                     <Grid item xs={11}>
                         <Typography textAlign="left">Имя</Typography>
                         <FormElement
-                            label="Имя"
                             onChange={inputChangeHandler}
-                            value={state.name}
+                            value={state.name || ""}
                             name="name"
                             error={getFieldError('name')}
                             required={true}
@@ -67,9 +76,8 @@ const ClientForm = ({onSubmit}) => {
                     <Grid item xs={11}>
                         <Typography textAlign="left">Фамилия</Typography>
                         <FormElement
-                            label="Фамилия"
                             onChange={inputChangeHandler}
-                            value={state.surname}
+                            value={state.surname || ""}
                             name="surname"
                             error={getFieldError('surname')}
                             required={true}
@@ -78,9 +86,8 @@ const ClientForm = ({onSubmit}) => {
                     <Grid item xs={11}>
                         <Typography textAlign="left">Email</Typography>
                         <FormElement
-                            label="Email"
                             onChange={inputChangeHandler}
-                            value={state.email}
+                            value={state.email || ""}
                             name="email"
                             error={getFieldError('email')}
                         />
@@ -90,9 +97,8 @@ const ClientForm = ({onSubmit}) => {
                         <Typography textAlign="left">Телефон</Typography>
                         <FormElement
                             type="tel"
-                            label="Телефон"
                             onChange={inputChangeHandler}
-                            value={state.phone}
+                            value={state.phone || ""}
                             name="phone"
                             error={getFieldError('phone')}
                             required={true}
@@ -101,20 +107,18 @@ const ClientForm = ({onSubmit}) => {
                     <Grid item xs={11}>
                         <Typography textAlign="left">Адрес</Typography>
                         <FormElement
-                            label="Адрес"
                             onChange={inputChangeHandler}
-                            value={state.address}
+                            value={state.address || ""}
                             name="address"
                             error={getFieldError('address')}
                         />
                     </Grid>
                     <Grid item xs={11}>
-                        <Typography textAlign="left">Скидка</Typography>
+                        <Typography textAlign="left">Скидка в %</Typography>
                         <FormElement
                             type="number"
-                            label="Скидка в %"
                             onChange={inputChangeHandler}
-                            value={state.discount}
+                            value={state.discount || ""}
                             name="discount"
                             error={getFieldError('discount')}
                             required={true}
@@ -130,7 +134,7 @@ const ClientForm = ({onSubmit}) => {
                     </Grid>
                 </Grid>
                 <Grid sx={{margin: "25px 0 0 20px", paddingBottom: "20px"}} container justifyContent='left'>
-                    <Button onClick={submitFormHandler} type="submit" color="primary" variant="contained">Записать</Button>
+                    <Button type="submit" color="primary" variant="contained">Записать</Button>
                 </Grid>
             </Paper>
         </form>
