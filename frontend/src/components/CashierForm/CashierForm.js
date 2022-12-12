@@ -40,6 +40,7 @@ const CashierForm = ({onSubmit, cashier, isParams, error}) => {
     const [cashierData, setCashierData] = useState({
         username: '',
         password: '',
+        email: '',
         displayName: '',
         pin: '',
         role: 'cashier'
@@ -108,6 +109,16 @@ const CashierForm = ({onSubmit, cashier, isParams, error}) => {
                         value={cashierData.displayName}
                         onChange={(e) => inputChangeHandler(e.target.name, e.target.value)}
                         error={getFieldError('displayName')}
+                    />
+
+                    <FormElement
+                        required={false}
+                        type="email"
+                        label="Email"
+                        name="email"
+                        value={cashierData.email}
+                        onChange={(e) => inputChangeHandler(e.target.name, e.target.value)}
+                        error={getFieldError('email')}
                     />
 
                     <FormElement

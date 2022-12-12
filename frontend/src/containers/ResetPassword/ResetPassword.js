@@ -16,6 +16,10 @@ const useStyles = makeStyles()(theme => ({
     form: {
         marginTop: theme.spacing(1),
     },
+    alert: {
+        margin: theme.spacing(3, 0),
+        width: '100%',
+    },
 }));
 
 const ResetPassword = ({match}) => {
@@ -42,7 +46,7 @@ const ResetPassword = ({match}) => {
     };
 
     return (
-        <Container maxWidth="xs" sx={{marginTop: '150px'}}>
+        <Container maxWidth="xs" sx={{marginTop: '100px'}}>
             <div className={classes.paper}>
                 <Typography component="h1" variant="h6">
                     Сброс пароля
@@ -50,7 +54,7 @@ const ResetPassword = ({match}) => {
 
                 {error && (
                     <Alert severity="error" className={classes.alert}>
-                        Error! {error.message}
+                        Ошибка! {error.message}
                     </Alert>
                 )}
 
@@ -66,6 +70,7 @@ const ResetPassword = ({match}) => {
                         label="Введите новый пароль"
                         name="password"
                         value={user.password}
+                        inputProps={{minLength: 6}}
                         onChange={inputChangeHandler}
                     />
 
@@ -74,6 +79,7 @@ const ResetPassword = ({match}) => {
                         type="password"
                         label="Повторите новый пароль"
                         name="password1"
+                        inputProps={{minLength: 6}}
                         value={user.password1}
                         onChange={inputChangeHandler}
                     />
