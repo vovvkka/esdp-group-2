@@ -10,12 +10,18 @@ import {
 } from "../slices/clientsSlice";
 import {historyPush} from "./historyActions";
 
-export const fetchClients = () => {
+export const fetchClients = (page) => {
     return async dispatch => {
         try {
             dispatch(fetchClientsRequest());
 
-            const response = await axiosApi('/customers');
+            let response;
+
+            if (page) {
+                response = await axiosApi('/customers' + page);
+            } else {
+                response = await axiosApi('/customers');
+            }
 
             dispatch(fetchClientsSuccess(response.data));
         } catch (e) {

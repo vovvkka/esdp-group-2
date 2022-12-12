@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-const idValidator = require('mongoose-id-validator');
-const config = require('../config');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
 const Schema = mongoose.Schema;
+const idValidator = require('mongoose-id-validator');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
+const mongoosePaginate = require('mongoose-paginate');
+const config = require('../config');
 
 const OperationSchema = new Schema({
     shift: {
@@ -32,8 +33,8 @@ const OperationSchema = new Schema({
 });
 
 OperationSchema.plugin(idValidator, {message: 'Bad ID value for {PATH}'});
-
 OperationSchema.plugin(AutoIncrement, {inc_field: 'operationNumber'});
+OperationSchema.plugin(mongoosePaginate);
 const Operation = mongoose.model('Operation', OperationSchema);
 
 

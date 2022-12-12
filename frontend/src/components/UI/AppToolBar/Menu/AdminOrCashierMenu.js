@@ -322,7 +322,7 @@ const AdminOrCashierMenu = ({user}) => {
                     >
                         Администрирование
                     </Button>
-                    <Button sx={{marginRight: "5px", color: "#fff !important"}}>
+                    <Button component={Link} to={`/admin/journal`} sx={{marginRight: "5px", color: "#fff !important"}}>
                         Журнал
                     </Button>
                     <Button component={Link} to={`/admin/orders`} sx={{color: "#fff !important"}}>
