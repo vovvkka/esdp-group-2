@@ -32,15 +32,40 @@ const run = async () => {
     }, {
         title: 'Детское питание',
         status: 'Активный',
+    });
+
+    const [child, mother] = await Category.create({
+        title: 'Для ребенка',
+        category: cosmetics._id,
+        ancestors: [cosmetics._id],
+        status: 'Активный',
     }, {
         title: 'Для матери',
+        category: cosmetics._id,
+        ancestors: [cosmetics._id],
         status: 'Неактивный',
-    });
+    },);
+    const [crya, nyan] = await Category.create({
+        title: 'Фирма Кря-Кря',
+        category: child._id,
+        ancestors: [cosmetics._id,child._id],
+        status: 'Активный',
+    }, {
+        title: 'Фирма Ушастый нянь',
+        category: child._id,
+        ancestors: [cosmetics._id,child._id],
+        status: 'Активный',
+    }, {
+        title: 'Уходовая',
+        category: mother._id,
+        ancestors: [cosmetics._id,mother._id],
+        status: 'Неактивный',
+    },);
 
     const [product1, product2, product3, product4] = await Product.create({
         title: "Детский крем Кря-кря",
         price: 300,
-        category: cosmetics._id,
+        category: crya._id,
         image: ['fixtures/creme.jpg'],
         description: 'Детский крем Кря-кря с витаминами А и Е',
         barcode: 10101010,
@@ -52,7 +77,7 @@ const run = async () => {
     }, {
         title: "Крем мыло Ушастый нянь",
         price: 250,
-        category: cosmetics._id,
+        category: nyan._id,
         image: ['fixtures/soap.jpg'],
         description: 'Крем-мыло детское гипоаллергенное 300мл., с олив. маслом и экстрактом алоэ-вера',
         barcode: 10101011,
@@ -65,7 +90,7 @@ const run = async () => {
         title: "Погремушки-зверята",
         price: 500,
         category: toys._id,
-        image: ['fixtures/toy.jpg','fixtures/deer.jpeg','fixtures/elephant.jpeg'],
+        image: ['fixtures/toy.jpg', 'fixtures/deer.jpeg', 'fixtures/elephant.jpeg'],
         description: 'Набор погремушек в виде зверей 6шт.',
         barcode: 10101012,
         priceType: 'Свободная',
@@ -221,17 +246,17 @@ const run = async () => {
         phone: '+(996) 555 555 555',
         address: 'г.Бишкек, микрорайон-10 1/11',
         discount: 5,
-    },{
+    }, {
         name: 'Черная',
         surname: 'пятница',
         discount: 15,
-    },{
+    }, {
         name: 'Элина',
         surname: 'Усенова',
         phone: '+(996) 555 555 555',
         email: 'elina@mail.ru',
         discount: 3,
-    }, );
+    },);
 
     await News.create({
         title: 'Распродажа в Тай-Тай!',

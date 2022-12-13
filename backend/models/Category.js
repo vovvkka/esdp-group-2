@@ -16,22 +16,21 @@ const CategorySchema = new Schema({
             message: 'Категория с таким названием уже существует.',
         }
     },
+    category: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
+        default: null,
+    },
+    ancestors: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Category'
+    }],
     status: {
         type: String,
         enum: ['Активный', 'Неактивный'],
         required: true,
     },
-    nds: {
-        type: Number,
-    },
-    nspCash: {
-        type: Number,
-    },
-    nspNotCash: {
-        type: Number,
-    },
-
-},{
+}, {
     timestamps: true
 });
 

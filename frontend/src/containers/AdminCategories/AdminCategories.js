@@ -26,10 +26,8 @@ const AdminCategories = () => {
         <Container>
             <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
                 <Typography variant='h5'>Категории</Typography>
-                <Box>
-                    <Button variant='contained' component={Link} to='/admin/categories/add-new-category' sx={{margin: '0 10px'}}>Добавить категорию</Button>
-                    <Button variant='contained' component={Link} to='/admin/categories/add-new-subcategory'>Добавить подкатегорию</Button>
-                </Box>
+                <Button variant='contained' component={Link} to='/admin/categories/add-new-category' sx={{margin: '0 10px'}}>Добавить категорию</Button>
+
             </Grid>
             {loading ? <Spinner/>:
                 <Box>

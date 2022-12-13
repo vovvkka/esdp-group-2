@@ -3,7 +3,7 @@ import {historyPush} from "./historyActions";
 import {
     createCategoryFailure,
     createCategoryRequest,
-    createCategorySuccess, createSubCategoryFailure, createSubCategoryRequest, createSubCategorySuccess,
+    createCategorySuccess,
     deleteCategoryFailure,
     deleteCategoryRequest,
     deleteCategorySuccess,
@@ -73,26 +73,6 @@ export const createCategory = categoryData => {
     };
 };
 
-export const createSubCategory = subcategoryData => {
-    return async dispatch => {
-        try {
-            dispatch(createSubCategoryRequest());
-
-            await axiosApi.post('/categories/subcategory', subcategoryData);
-
-            dispatch(createSubCategorySuccess());
-            dispatch(historyPush('/admin/categories'));
-        } catch (e) {
-            if (e.response && e.response.data) {
-                dispatch(createSubCategoryFailure(e.response.data));
-            } else {
-                dispatch(createSubCategoryFailure({global: 'No internet'}));
-            }
-        }
-    };
-};
-
-
 export const editCategory = (id, categoryData) => {
     return async dispatch => {
         try {
@@ -117,9 +97,10 @@ export const deleteCategory = id => {
         try {
             dispatch(deleteCategoryRequest());
 
-            const response = await axiosApi.delete('/categories/' + id);
+            await axiosApi.delete('/categories/' + id);
 
-            dispatch(deleteCategorySuccess(response.data));
+            dispatch(deleteCategorySuccess());
+            dispatch(fetchCategories());
         } catch (e) {
             if (e.response && e.response.data) {
                 dispatch(deleteCategoryFailure(e.response.data));
