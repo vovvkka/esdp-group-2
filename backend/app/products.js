@@ -1,5 +1,6 @@
 const express = require('express');
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 const auth = require('../middlewares/auth');
 const permit = require('../middlewares/permit');
 const path = require("path");
@@ -25,9 +26,12 @@ router.get('/', async (req, res) => {
     try {
         const token = req.get('Authorization');
         const user = await User.findOne({token});
-
+        let descendants;
         const {page, perPage} = req.query;
         const query = {};
+        if (req.query.category) {
+            descendants = await Category.find({ancestors: {$in: [req.query.category]}});
+        }
         const options = {
             populate: {path: 'category', select: 'title'},
             page: parseInt(page) || 1,
@@ -46,11 +50,19 @@ router.get('/', async (req, res) => {
                 $regex: req.query.key,
                 $options: 'i'
             } : query.barcode = {$regex: +req.query.key, $options: 'i'};
-            query.category = req.query.category;
+            if (descendants.length) {
+                query.category = {$in: descendants};
+            } else {
+                query.category = req.query.category;
+            }
         }
 
         if (req.query.category) {
-            query.category = req.query.category;
+            if (descendants.length) {
+                query.category = {$in: descendants};
+            } else {
+                query.category = req.query.category;
+            }
         }
 
         if (req.query.key) {
@@ -94,7 +106,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', auth, permit('admin'), upload.array('image',5), async (req, res) => {
+router.post('/', auth, permit('admin'), upload.array('image', 5), async (req, res) => {
     const {category, title, barcode, priceType, price, amount, unit, status, purchasePrice} = req.body;
     const description = req.body.description;
 
@@ -115,7 +127,7 @@ router.post('/', auth, permit('admin'), upload.array('image',5), async (req, res
         description: description || null,
     };
     if (req.files) {
-        productData.image = req.files.map(i=>'uploads/' + i.filename);
+        productData.image = req.files.map(i => 'uploads/' + i.filename);
     }
     try {
         const products = new Product(productData);
@@ -127,7 +139,7 @@ router.post('/', auth, permit('admin'), upload.array('image',5), async (req, res
     }
 });
 
-router.put('/:id', auth, permit('admin'), upload.array('image',5), async (req, res) => {
+router.put('/:id', auth, permit('admin'), upload.array('image', 5), async (req, res) => {
     const {category, title, barcode, priceType, price, amount, unit, status, purchasePrice} = req.body;
     const description = req.body.description;
 
@@ -144,21 +156,21 @@ router.put('/:id', auth, permit('admin'), upload.array('image',5), async (req, r
         description: description || null,
     };
     if (req.files) {
-        productData.image = req.files.map(i=>'uploads/' + i.filename);
+        productData.image = req.files.map(i => 'uploads/' + i.filename);
     }
 
     try {
         const product = await Product.findById(req.params.id);
 
         if (!product) {
-            res.status(404).send({message: 'Product not found!'});
+            return res.status(404).send({message: 'Product not found!'});
         }
 
         const updateProduct = await Product
             .findByIdAndUpdate(req.params.id, productData);
 
         res.send(updateProduct);
-    } catch(e) {
+    } catch (e) {
         res.sendStatus(500);
     }
 });

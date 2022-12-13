@@ -23,7 +23,6 @@ import CustomerCart from "./containers/CustomerCart/CustomerCart";
 import NewsInfo from "./containers/NewsInfo/NewsInfo";
 import CashierPanel from "./containers/CashierPanel/CashierPanel";
 import AdminOrders from "./containers/AdminOrders/AdminOrders";
-import AdminAddSubCategory from "./containers/AdminAddSubCategory/AdminAddSubCategory";
 import './scss/app.scss';
 import SingleProductPage from "./containers/SingleProductPage/SingleProductPage";
 import SuccessOrderPlace from "./containers/SuccessOrderPlace/SuccessOrderPlace";
@@ -135,12 +134,6 @@ const App = () => {
                     isAllowed={user}
                     path="/admin/categories/add-new-category"
                     component={AdminAddCategory}
-                />
-
-                <ProtectedRoute
-                    isAllowed={user}
-                    path="/admin/categories/add-new-subcategory"
-                    component={AdminAddSubCategory}
                 />
 
                 <ProtectedRoute

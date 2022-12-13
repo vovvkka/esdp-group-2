@@ -91,8 +91,6 @@ router.put('/:id', auth, permit('cashier'), async (req, res) => {
             additionalInfo: {cash: cash.cash},
         };
 
-        console.log(operationData)
-
         const operation = new Operation(operationData);
         await operation.save();
 

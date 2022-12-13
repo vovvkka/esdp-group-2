@@ -36,7 +36,7 @@ const CustomerCart = () => {
                         </button>
                         <div><img
                             alt={i.title}
-                            src={'http://localhost:8000/' + i.image}/>
+                            src={'http://localhost:8000/' + i.image[0]}/>
                             <div>{i.title}</div>
                         </div>
                     </div>
