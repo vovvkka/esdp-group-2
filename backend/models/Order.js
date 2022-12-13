@@ -14,6 +14,11 @@ const ProductsSchema = new Schema({
         type: Number,
         min: 1,
     },
+    price: {
+        type: Number,
+        required: true,
+        min: 0
+    },
 });
 
 const OrderSchema  = new Schema({

@@ -59,9 +59,14 @@ router.put("/:id", auth, permit("admin"), async (req, res) => {
     const categoryData = {title, status, category};
 
     try {
-        const currentCategory = await Category.findById(category);
-        if (!currentCategory) {
-            return res.status(404).send({message: 'Category not found!'});
+        if(category===null){
+            categoryData.ancestors = [];
+        }else {
+            const currentCategory = await Category.findById(category);
+
+            if (!currentCategory) {
+                return res.status(404).send({message: 'Category not found!'});
+            }
         }
         if (category) {
             const ancestor = await Category.findById(category);

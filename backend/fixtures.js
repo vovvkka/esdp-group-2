@@ -211,31 +211,31 @@ const run = async () => {
     await Order.create({
         customer: 'Лера',
         phone: '+(996) 555 555 555',
-        order: [{product: product1._id, quantity: 1}],
+        order: [{product: product1._id, quantity: 1, price: product1.price}],
         status: 'Закрыт',
         address: 'г.Бишкек, микрорайон-10 1/10'
     }, {
         customer: 'Вова',
         phone: '+(996) 555 555 551',
-        order: [{product: product2._id, quantity: 1}, {product: product4._id, quantity: 2}],
+        order: [{product: product2._id, quantity: 1, price: product2.price}, {product: product4._id, quantity: 2, price: product4.price}],
         status: 'Новый',
         address: 'г.Бишкек, микрорайон-12 16/30'
     }, {
         customer: 'Акбар',
         phone: '+(996) 555 515 555',
-        order: [{product: product1._id, quantity: 3}],
+        order: [{product: product1._id, quantity: 3, price: product1.price}],
         status: 'Собран',
         address: 'г.Бишкек, микрорайон-8 21/13'
     }, {
         customer: 'Даниил',
         phone: '+(996) 555 155 555',
-        order: [{product: product3._id, quantity: 1}, {product: product2._id, quantity: 1}],
+        order: [{product: product3._id, quantity: 1, price: product3.price}, {product: product2._id, quantity: 1, price: product2.price}],
         status: 'Собран',
         address: 'г.Бишкек, микрорайон-9 12/40'
     }, {
         customer: 'Жалын',
         phone: '+(996) 551 555 555',
-        order: [{product: product4._id, quantity: 2}, {product: product3._id, quantity: 1}],
+        order: [{product: product4._id, quantity: 2, price: product4.price}, {product: product3._id, quantity: 1, price: product3.price}],
         status: 'Закрыт',
         address: 'г.Бишкек, микрорайон-5 2/50'
     });
