@@ -10,7 +10,7 @@ const NewsCarousel = () => {
     const news = useSelector(state => state.news.news);
 
     useEffect(() => {
-        dispatch(getNews('?shop=true'));
+        dispatch(getNews('?shop=true&limit=5'))
     }, [dispatch]);
 
     return (
@@ -32,7 +32,7 @@ const NewsCarousel = () => {
                         background: 'transparent',
                         borderRadius: 0,
                         color: 'black',
-                        width: '5px'
+                        width: '50px'
                     }
                 }}
                 IndicatorIcon={<div/>}
@@ -42,13 +42,13 @@ const NewsCarousel = () => {
                         return <div className='carousel__content' key={item._id}>
                             <div className='carousel__info'>
                                 <p className='carousel__title'>{item.title}</p>
-                                <p>{desc}...</p>
+                                <p className='carousel__description'>{desc}...</p>
                                 <Link to={'/news/' + item._id}>
                                     <button className='button'>Читать все</button>
                                 </Link>
                             </div>
                             <div className='carousel__image'>
-                                <img src={`${apiUrl}/${item.image}`} alt="" width='100%' height='auto'/>
+                                <img src={`${apiUrl}/${item.image}`} alt="" width='100%' height='auto' draggable={false}/>
                             </div>
                         </div>
                     })}

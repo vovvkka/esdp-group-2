@@ -49,7 +49,7 @@ const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
 
     return (
         <>
-            <div className='news__card' key={n._id}>
+            <div className='news__card'>
                 <div className='news__card-image-body'>
                     <img className='news__card-image' src={apiUrl + '/' + n.image} alt={n.title}/>
                 </div>

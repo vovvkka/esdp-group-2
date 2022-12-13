@@ -41,7 +41,7 @@ const Footer = () => {
                     </ul>
 
                     <div className="footer__contacts">
-                        <a href={'tel:' + contacts?.phone} className='number'>{contacts?.phone}</a>
+                        <a href={'tel:' + contacts?.phone} className='number'>{contacts?.phone[0]}</a>
                         <p className="email">hello@womazing.com</p>
 
                         <div className="footer__social">

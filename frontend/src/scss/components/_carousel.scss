@@ -1,7 +1,7 @@
 @import '../variables';
 
 .carousel {
-  padding: 10px 0;
+  padding: 20px 0;
   height: 350px;
 
   &__content {
@@ -21,6 +21,10 @@
     height: auto;
   }
 
+  &__description {
+    margin-bottom: 20px;
+  }
+
   &__title {
     font-size: 35px;
     font-weight: 600;
@@ -35,7 +39,7 @@
     &__content {
       padding: 0 40px;
       display: flex;
-      flex-direction: column;
+      flex-direction: column-reverse;
       height: 410px;
       align-items: center;
       justify-content: center;
@@ -50,11 +54,11 @@
     &__title {
       font-size: 20px;
       font-weight: 600;
-      margin: 0;
+      margin: 10px 0;
     }
 
     &__image {
-      width: 80%;
+      width: 70%;
       height: auto;
     }
 
