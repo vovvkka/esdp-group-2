@@ -8,4 +8,14 @@
   &__page {
     color: $gray;
   }
+
+  @media (max-width: 780px) {
+    margin-top: 10px;
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+  }
 }
