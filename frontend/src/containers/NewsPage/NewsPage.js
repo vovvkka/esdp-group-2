@@ -20,7 +20,7 @@ const NewsPage = () => {
             </div>
 
             <div className='news__main'>
-                {news.map(n => <NewsCard n={n}/>)}
+                {news.map(n => <NewsCard n={n} key={n._id}/>)}
             </div>
         </div>
     );
