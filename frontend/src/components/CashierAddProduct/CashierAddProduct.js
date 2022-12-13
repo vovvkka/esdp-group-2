@@ -17,6 +17,7 @@ import {
 } from "../../store/slices/cashboxSlice";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import {fetchClients} from "../../store/actions/clientsActions";
 
 const CashierAddProduct = () => {
     const addedProducts = useSelector(state => state.cashbox.products);
@@ -24,9 +25,21 @@ const CashierAddProduct = () => {
     const total = useSelector(state => state.cashbox.total);
     const totalWithDiscount = useSelector(state => state.cashbox.totalWithDiscount);
     const user = useSelector(state => state.users.user);
+    const customers = useSelector(state => state.clients.clients.docs);
     const dispatch = useDispatch();
 
     const [state, setState] = useState({customer: '', barcode: ''});
+    const [clientsOptions, setClientsOptions] = useState([]);
+
+    useEffect(() => {
+        dispatch(fetchClients());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (customers) {
+            setClientsOptions(customers);
+        }
+    }, [customers]);
 
     useEffect(() => {
         if (products && products.length) {
@@ -77,10 +90,11 @@ const CashierAddProduct = () => {
                 <FormSelect
                     name='customer'
                     label='Покупатель'
-                    options={['Клиент', 'Постоянный клиент']}
+                    options={clientsOptions}
                     xs={3}
                     onChange={(e) => stateChange(e.target.name, e.target.value)}
                     value={state.customer}
+                    customerSelect
                 />
             </Grid>
             <Grid>

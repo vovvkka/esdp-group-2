@@ -46,11 +46,9 @@ const cashboxSlice = createSlice({
             state.totalWithDiscount = 0;
         },
         setCustomer(state, action) {
-            state.customer = action.payload;
-
-            let discount;
-            state.customer === 'Постоянный клиент' ?  discount = 5 : discount = 0;
-            state.products = state.products.map(product => ({...product, discount}));
+            const customer = action.payload;
+            state.customer = customer;
+            state.products = state.products.map(product => ({...product, discount: customer.discount}));
 
             state.total = state.products.reduce((acc, item) => acc + (item.price * item.quantity), 0);
             state.totalWithDiscount = Math.round(state.products.reduce((acc, item) => acc + (item.price * item.quantity - item.price * item.quantity * (item.discount / 100)), 0));        },
