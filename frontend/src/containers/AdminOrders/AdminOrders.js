@@ -121,7 +121,6 @@ const AdminOrders = () => {
 
         onRowClick: (data, index) => openOrderModal(orders.docs[index.dataIndex]),
         onTableChange: (action, tableState) => {
-            console.log(tableState.filterList);
             switch (action) {
                 case 'changePage':
                     if (tableState.filterList[3][0] === 'Закрытые') {
@@ -162,7 +161,7 @@ const AdminOrders = () => {
 
                                 <Typography variant="h5" sx={{marginTop: '20px'}} gutterBottom><b>Заказ:</b></Typography>
                                 {order && order.order.map(order => (
-                                    <Typography key={order._id}>{order.product.title} <b>x{order.quantity}</b></Typography>
+                                    <Typography key={order._id}>{order.product.title} <b>{order.quantity} x {order.price}c</b></Typography>
                                 ))}
                             </Grid>
 

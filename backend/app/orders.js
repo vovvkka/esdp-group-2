@@ -2,6 +2,7 @@ const express = require("express");
 const auth = require("../middlewares/auth");
 const permit = require("../middlewares/permit");
 const Order = require("../models/Order");
+const Product = require("../models/Product");
 const router = express.Router();
 
 router.get("/", auth, permit("admin"), async (req, res) => {
@@ -9,7 +10,7 @@ router.get("/", auth, permit("admin"), async (req, res) => {
       const { page, perPage } = req.query;
       const query = {};
       const options = {
-         populate: { path: "order.product", select: "title price" },
+         populate: { path: "order.product", select: "title" },
          sort: { orderNumber: -1 },
          page: parseInt(page) || 1,
          limit: parseInt(perPage) || 10,
@@ -52,11 +53,11 @@ router.post("/", async (req, res) => {
       return res.status(400).send({ error: "Data not valid" });
    }
 
-   // order.map(i=> {
-   //     i = Order.findById(i._id);
-   //     if(i.quantity>i.amount) res.status(400)
-   //             .send({error: 'Data not valid'});
-   // }); Заглушка на кол-во заказываемого товара
+   order.map(i=> {
+       const item = Product.findById(i._id);
+       if(i.quantity>item.amount) res.status(400).send({error: 'Data not valid'});
+       i.price = Product.price;
+   });
 
    const orderData = {
       customer,

@@ -27,7 +27,6 @@ router.put('/', auth, permit('cashier'), async (req, res) => {
         }
         const cash = await Cash.findOne();
         if (title === config.operations.insertCash) {
-            console.log(0);
             const cashBefore = cash.cash;
             cash.cash = cashBefore + (+amountOfMoney);
             await cash.save();
