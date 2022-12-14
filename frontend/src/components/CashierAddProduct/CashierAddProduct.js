@@ -17,6 +17,8 @@ import {
 } from "../../store/slices/cashboxSlice";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import {fetchClients} from "../../store/actions/clientsActions";
+import {purchaseOperation} from "../../store/actions/cashActions";
 
 const CashierAddProduct = () => {
     const addedProducts = useSelector(state => state.cashbox.products);
@@ -24,9 +26,22 @@ const CashierAddProduct = () => {
     const total = useSelector(state => state.cashbox.total);
     const totalWithDiscount = useSelector(state => state.cashbox.totalWithDiscount);
     const user = useSelector(state => state.users.user);
+    const customers = useSelector(state => state.clients.clients.docs);
+    const shift = useSelector(state => state.shifts.shift);
     const dispatch = useDispatch();
 
     const [state, setState] = useState({customer: '', barcode: ''});
+    const [clientsOptions, setClientsOptions] = useState([]);
+
+    useEffect(() => {
+        dispatch(fetchClients());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (customers) {
+            setClientsOptions(customers);
+        }
+    }, [customers]);
 
     useEffect(() => {
         if (products && products.length) {
@@ -64,6 +79,18 @@ const CashierAddProduct = () => {
         }
     };
 
+    const purchaseHandler = () => {
+        const purchaseInfo = addedProducts.map((product) => ({_id: product._id, quantity: product.quantity, discount: product.discount}));
+
+        const purchase = {
+            shift: shift._id,
+            customerInfo: state.customer,
+            purchaseInfo,
+        };
+
+        dispatch(purchaseOperation(purchase));
+    };
+
     return (
         <Grid>
             <Grid container justifyContent='space-between' alignItems='center' sx={{padding: '10px 20px'}}>
@@ -77,10 +104,11 @@ const CashierAddProduct = () => {
                 <FormSelect
                     name='customer'
                     label='Покупатель'
-                    options={['Клиент', 'Постоянный клиент']}
+                    options={clientsOptions}
                     xs={3}
                     onChange={(e) => stateChange(e.target.name, e.target.value)}
                     value={state.customer}
+                    customerSelect
                 />
             </Grid>
             <Grid>
@@ -151,7 +179,7 @@ const CashierAddProduct = () => {
                                 <Button variant='contained' onClick={cancelHandler}>Отмена</Button>
                             </Grid>
                             <Grid item>
-                                <Button variant='contained'>Получить</Button>
+                                <Button variant='contained' onClick={purchaseHandler}>Получить</Button>
                             </Grid>
                         </Grid>
                     </Grid>

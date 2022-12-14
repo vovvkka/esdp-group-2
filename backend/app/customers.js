@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
-router.get('/',auth,permit('admin'), async (req, res) => {
+router.get('/', auth, async (req, res) => {
     const {page, perPage} = req.query;
 
     try {

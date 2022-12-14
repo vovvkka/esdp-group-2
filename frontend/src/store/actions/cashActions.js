@@ -2,9 +2,16 @@ import axiosApi from "../../axiosApi";
 import {
     getCashFailure,
     getCashRequest,
-    getCashSuccess, insertCashFailure,
+    getCashSuccess,
+    insertCashFailure,
     insertCashRequest,
-    insertCashSuccess, withdrawCashFailure, withdrawCashRequest, withdrawCashSuccess
+    insertCashSuccess,
+    purchaseFailure,
+    purchaseRequest,
+    purchaseSuccess,
+    withdrawCashFailure,
+    withdrawCashRequest,
+    withdrawCashSuccess
 } from "../slices/cashSlice";
 
 const openShift = 'Открытие смены';
@@ -60,6 +67,21 @@ export const withdrawCash = (operationData) => {
             } else {
                 dispatch(withdrawCashFailure({global: "No internet"}));
             }
+        }
+    };
+};
+
+export const purchaseOperation = (operationData) => {
+    return async dispatch => {
+        try {
+            operationData.title = purchase;
+            dispatch(purchaseRequest());
+
+            await axiosApi.post(`/operations`, operationData);
+
+            dispatch(purchaseSuccess());
+        } catch (e) {
+            dispatch(purchaseFailure(e));
         }
     };
 };
