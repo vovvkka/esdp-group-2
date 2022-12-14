@@ -83,7 +83,7 @@ const CashierAddProduct = () => {
         const purchaseInfo = addedProducts.map((product) => ({_id: product._id, quantity: product.quantity, discount: product.discount}));
 
         const purchase = {
-            shift: shift._id,
+            shiftId: shift._id,
             customerInfo: state.customer,
             purchaseInfo,
         };

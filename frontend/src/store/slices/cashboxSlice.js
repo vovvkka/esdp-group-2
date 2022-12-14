@@ -94,6 +94,12 @@ const cashboxSlice = createSlice({
 
             state.total = state.products.reduce((acc, item) => acc + (item.price * item.quantity), 0);
             state.totalWithDiscount = Math.round(state.products.reduce((acc, item) => acc + (item.price * item.quantity - item.price * item.quantity * (item.discount / 100)), 0));
+        },
+        purchased(state) {
+            state.total = 0;
+            state.totalWithDiscount = 0;
+            state.products = [];
+            state.customer = '';
         }
     }
 });
@@ -105,7 +111,8 @@ export const {
     changeDiscount,
     setCustomer,
     decreaseProduct,
-    increaseProduct
+    increaseProduct,
+    purchased
 } = cashboxSlice.actions;
 
 export default cashboxSlice;

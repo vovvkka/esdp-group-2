@@ -13,6 +13,7 @@ import {
     withdrawCashRequest,
     withdrawCashSuccess
 } from "../slices/cashSlice";
+import {purchased} from "../slices/cashboxSlice";
 
 const openShift = 'Открытие смены';
 const closeShift = 'Закрытие смены';
@@ -80,6 +81,7 @@ export const purchaseOperation = (operationData) => {
             await axiosApi.post(`/operations`, operationData);
 
             dispatch(purchaseSuccess());
+            dispatch(purchased());
         } catch (e) {
             dispatch(purchaseFailure(e));
         }

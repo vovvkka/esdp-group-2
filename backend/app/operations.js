@@ -24,17 +24,20 @@ router.get("/", auth, async (req, res) => {
 });
 router.post("/", auth,permit('cashier'), async (req, res) => {
     const {title, shiftId, customerInfo, purchaseInfo} = req.body;
+
     try {
         const shift = await Shift.findById(shiftId);
+
         if (shift) {
             if (!shift.isActive) {
                 return res.status(403).send({message: 'Operation can not be done!'});
             }
         }
+
         if (title === config.operations.purchase) {
             const operation = new Operation({
                 shift: shift._id,
-                title: config.operations.insertCash,
+                title: config.operations.purchase,
                 dateTime: Date.now(),
                 additionalInfo: {customerInfo,purchaseInfo}
             });
@@ -45,6 +48,7 @@ router.post("/", auth,permit('cashier'), async (req, res) => {
         }
 
     } catch (e) {
+        console.log(e);
         res.status(400).send({error: e.errors});
     }
 });
