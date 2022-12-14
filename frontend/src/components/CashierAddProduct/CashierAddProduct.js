@@ -18,6 +18,7 @@ import {
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {fetchClients} from "../../store/actions/clientsActions";
+import {purchaseOperation} from "../../store/actions/cashActions";
 
 const CashierAddProduct = () => {
     const addedProducts = useSelector(state => state.cashbox.products);
@@ -26,6 +27,7 @@ const CashierAddProduct = () => {
     const totalWithDiscount = useSelector(state => state.cashbox.totalWithDiscount);
     const user = useSelector(state => state.users.user);
     const customers = useSelector(state => state.clients.clients.docs);
+    const shift = useSelector(state => state.shifts.shift);
     const dispatch = useDispatch();
 
     const [state, setState] = useState({customer: '', barcode: ''});
@@ -75,6 +77,18 @@ const CashierAddProduct = () => {
         if (user.role === 'cashier') {
             dispatch(cancelAllCashbox());
         }
+    };
+
+    const purchaseHandler = () => {
+        const purchaseInfo = addedProducts.map((product) => ({_id: product._id, quantity: product.quantity, discount: product.discount}));
+
+        const purchase = {
+            shift: shift._id,
+            customerInfo: state.customer,
+            purchaseInfo,
+        };
+
+        dispatch(purchaseOperation(purchase));
     };
 
     return (
@@ -165,7 +179,7 @@ const CashierAddProduct = () => {
                                 <Button variant='contained' onClick={cancelHandler}>Отмена</Button>
                             </Grid>
                             <Grid item>
-                                <Button variant='contained'>Получить</Button>
+                                <Button variant='contained' onClick={purchaseHandler}>Получить</Button>
                             </Grid>
                         </Grid>
                     </Grid>

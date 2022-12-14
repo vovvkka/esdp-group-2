@@ -18,14 +18,14 @@ const cashboxSlice = createSlice({
             const index = state.products.findIndex(item => item._id === action.payload._id);
 
             if (!product) {
-                if (state.customer === 'Постоянный клиент') {
-                    state.products = [...state.products, {...action.payload, quantity: 1, discount: 5}];
+                if (state.customer) {
+                    state.products = [...state.products, {...action.payload, quantity: 1, discount: state.customer.discount}];
                 } else {
                     state.products = [...state.products, {...action.payload, quantity: 1, discount: 0}];
                 }
             } else {
-                if (state.customer === 'Постоянный клиент') {
-                    state.products[index] = {...state.products[index], quantity: product.quantity + 1, discount: 5};
+                if (state.customer) {
+                    state.products[index] = {...state.products[index], quantity: product.quantity + 1, discount: state.customer.discount};
                 } else {
                     state.products[index] = {...state.products[index], quantity: product.quantity + 1, discount: 0};
                 }

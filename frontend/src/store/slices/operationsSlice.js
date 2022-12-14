@@ -4,8 +4,8 @@ const name = 'operations';
 
 export const initialState = {
     operations: {},
-    fetchLoading: false,
-    fetchError: null,
+    loading: false,
+    error: null,
 };
 
 const operationsSlice = createSlice({
@@ -13,16 +13,16 @@ const operationsSlice = createSlice({
     initialState,
     reducers: {
         fetchOperationsRequest(state) {
-            state.fetchLoading = true;
-            state.fetchError = null;
+            state.loading = true;
+            state.error = null;
         },
         fetchOperationsSuccess(state, {payload: operations}) {
-            state.fetchLoading = false;
+            state.loading = false;
             state.operations = operations;
         },
         fetchOperationsFailure(state, {payload: error}) {
-            state.fetchLoading = false;
-            state.fetchError = error;
+            state.loading = false;
+            state.error = error;
         },
     }
 });
