@@ -10,22 +10,15 @@ const NewsInfo = ({match}) => {
     useEffect(() => {
         dispatch(getOneNews(match.params.id));
     }, [dispatch, match.params.id]);
-    return  oneNews && (
-        <>
-        <h1 className="title">
-            {oneNews.title}
-        </h1>
-        <div className="oneNews__card">
-            <div className="oneNews__card-body">
-                <p className="oneNews__card-description">
-                    {oneNews.description}
-                </p>
-            </div>
-            <div className="oneNews__card-image-body">
-                <img className='oneNews__card-image' src={apiUrl + '/' + oneNews.image} alt={oneNews}/>
+
+    return oneNews && (
+        <div className="oneNews">
+            <h2 className="title">{oneNews.title}</h2>
+            <div className="oneNews__info">
+                <img className='oneNews__image' src={apiUrl + '/' + oneNews.image} alt={oneNews}/>
+                <p className="oneNews__description">{oneNews.description}</p>
             </div>
         </div>
-        </>
     );
 };
 
