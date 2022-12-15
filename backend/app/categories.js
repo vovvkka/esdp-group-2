@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
     try {
-        const category = await Category.find().populate('category', 'title');
+        const category = await Category.find().populate('category ancestors', 'title');
         res.send(category);
     } catch (e) {
         res.status(400).send(e);

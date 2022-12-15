@@ -10,6 +10,7 @@ const Catalog = () => {
     const categories = useSelector(state => state.categories.categories);
     const products = useSelector(state => state.products.products);
     const user = useSelector(state => state.users.user);
+    const cashbox = useSelector(state => state.cashbox.products);
     const dispatch = useDispatch();
 
     const [value, setValue] = useState(0);
@@ -82,27 +83,81 @@ const Catalog = () => {
                 }}
             >
                 <TextField onChange={onSearch} id="outlined-basic" label="Поиск" variant="outlined" margin="normal"/>
-                {products && products.docs?.map(item =>
-                    <div onClick={() => handleClick(item)} key={item._id} style={{
-                        cursor: 'pointer',
-                        display: 'flex',
-                        width: '48%',
-                        marginBottom: '15px',
-                        backgroundColor: 'white',
-                        borderRadius: '5px',
-                        padding: '10px',
-                        alignSelf: 'start',
-                    }}>
-                        <Avatar src={apiUrl + '/' + item.image[0]}
-                                alt='image'
-                                sx={{width: 70, height: 70}}
-                        />
+                {products && products.docs?.map(item => {
+                        const itemInCashbox = cashbox.filter(i => i._id === item._id);
+                        if(itemInCashbox.length) {
+                            if(itemInCashbox[0].quantity >= item.amount){
+                                return <div key={item._id} style={{
+                                    opacity: 0.5,
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    width: '48%',
+                                    marginBottom: '15px',
+                                    backgroundColor: 'white',
+                                    borderRadius: '5px',
+                                    padding: '10px',
+                                    alignSelf: 'start',
+                                }}>
+                                    <Avatar src={apiUrl + '/' + item.image[0]}
+                                            alt='image'
+                                            sx={{width: 70, height: 70}}
+                                    />
 
-                        <div style={{marginLeft: '15px'}}>
-                            <b>{item.title}</b>
-                            <div>{item.barcode}</div>
-                        </div>
-                    </div>
+                                    <div style={{marginLeft: '15px'}}>
+                                        <b>{item.title}</b>
+                                        <div>{item.barcode}</div>
+                                    </div>
+                                </div>
+                            } else{
+                                return <div onClick={() => {
+                                    handleClick(item)
+                                }} key={item._id} style={{
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    width: '48%',
+                                    marginBottom: '15px',
+                                    backgroundColor: 'white',
+                                    borderRadius: '5px',
+                                    padding: '10px',
+                                    alignSelf: 'start',
+                                }}>
+                                    <Avatar src={apiUrl + '/' + item.image[0]}
+                                            alt='image'
+                                            sx={{width: 70, height: 70}}
+                                    />
+
+                                    <div style={{marginLeft: '15px'}}>
+                                        <b>{item.title}</b>
+                                        <div>{item.barcode}</div>
+                                    </div>
+                                </div>
+                            }
+                        }else{
+                            return <div onClick={() => {
+                                handleClick(item)
+                            }} key={item._id} style={{
+                                cursor: 'pointer',
+                                display: 'flex',
+                                width: '48%',
+                                marginBottom: '15px',
+                                backgroundColor: 'white',
+                                borderRadius: '5px',
+                                padding: '10px',
+                                alignSelf: 'start',
+                            }}>
+                                <Avatar src={apiUrl + '/' + item.image[0]}
+                                        alt='image'
+                                        sx={{width: 70, height: 70}}
+                                />
+
+                                <div style={{marginLeft: '15px'}}>
+                                    <b>{item.title}</b>
+                                    <div>{item.barcode}</div>
+                                </div>
+                            </div>
+                    }
+
+                    }
                 )}
             </div>
         </Grid>

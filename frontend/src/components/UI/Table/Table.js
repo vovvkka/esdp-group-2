@@ -32,15 +32,27 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shi
     let render;
 
     if (categories) {
-        render = rows.map((row) => (
-            <TableRow
+        render = rows.map((row) => {
+            let ancestors;
+            if(row.category) {
+                ancestors = row.ancestors.reduce(
+                    (accumulator, currentValue, i) => {
+                        if(i===0) {
+                            return accumulator + currentValue.title;
+                        } else {
+                            return accumulator + ' - ' + currentValue.title;
+                        }
+                    },
+                    ''
+                );        }
+            return <TableRow
                 key={row.title}
                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
             >
                 <TableCell component="th" scope="row">
                     {row.title}
                 </TableCell>
-                <TableCell align="center">{row.category?row.category.title:'Нет'}</TableCell>
+                <TableCell align="center">{row.category?ancestors:'Нет'}</TableCell>
                 <TableCell align="center">{row.status}</TableCell>
                 <TableCell align="center">{new Date(row.createdAt).toLocaleString()}</TableCell>
                 <TableCell align="center">{new Date(row.updatedAt).toLocaleString()}</TableCell>
@@ -51,8 +63,8 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shi
                         <Button onClick={() => dispatch(deleteCategory(row._id))}><DeleteForeverSharpIcon/></Button>
                     </Box>
                 </TableCell>
-            </TableRow>
-        ));
+            </TableRow>;
+            });
     }
 
 
