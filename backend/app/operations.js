@@ -3,7 +3,9 @@ const Operation = require("../models/Operation");
 const auth = require("../middlewares/auth");
 const permit = require("../middlewares/permit");
 const Shift = require("../models/Shift");
+const Cash = require("../models/Cash");
 const config = require("../config");
+const Product = require("../models/Product");
 const router = express.Router();
 
 router.get("/", auth, async (req, res) => {
@@ -22,8 +24,8 @@ router.get("/", auth, async (req, res) => {
         res.status(400).send(e);
     }
 });
-router.post("/", auth,permit('cashier'), async (req, res) => {
-    const {title, shiftId, customerInfo, purchaseInfo} = req.body;
+router.post("/", auth, permit('cashier'), async (req, res) => {
+    const {title, shiftId, customerInfo, purchaseInfo, total} = req.body;
 
     try {
         const shift = await Shift.findById(shiftId);
@@ -35,21 +37,35 @@ router.post("/", auth,permit('cashier'), async (req, res) => {
         }
 
         if (title === config.operations.purchase) {
+            const completePurchaseInfo = await Promise.all(
+                purchaseInfo.map(async i => {
+                        const item = await Product.findById(i._id);
+                        if (i.quantity > item.amount) {
+                            throw({error: 'Data not valid'});
+                        }
+                        await Product.findByIdAndUpdate(i._id, {amount: item.amount - i.quantity});
+                        return {...i, price: item.price}
+                }));
+
+            const cash = await Cash.findOne();
+            const cashBefore = cash.cash;
+            cash.cash = cashBefore + (+total);
+            await cash.save();
             const operation = new Operation({
                 shift: shift._id,
                 title: config.operations.purchase,
                 dateTime: Date.now(),
-                additionalInfo: {customerInfo,purchaseInfo}
+                additionalInfo: {customer: customerInfo, completePurchaseInfo, amountOfMoney: total, cash: cashBefore}
             });
             await operation.save();
-            res.send(operation);
-        }  else {
+
+            await res.send(operation);
+        } else {
             return res.status(404).send({message: 'Wrong type of operation'});
         }
 
     } catch (e) {
-        console.log(e);
-        res.status(400).send({error: e.errors});
+        res.status(400).send(e);
     }
 });
 module.exports = router;

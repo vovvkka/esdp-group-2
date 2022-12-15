@@ -14,9 +14,9 @@ import {
     withdrawCashSuccess
 } from "../slices/cashSlice";
 import {purchased} from "../slices/cashboxSlice";
+import {purchaseReceipt} from "../slices/shiftsSlice";
+import {fetchProducts} from "./productsActions";
 
-const openShift = 'Открытие смены';
-const closeShift = 'Закрытие смены';
 const WithdrawCash = 'Изъятие наличных';
 const InsertCash = 'Внесение наличных';
 const purchase = 'Продажа';
@@ -43,7 +43,7 @@ export const insertCash = (operationData) => {
         try {
             operationData.title = InsertCash;
             dispatch(insertCashRequest());
-            await axiosApi.put(`/cash`,operationData);
+            await axiosApi.put(`/cash`, operationData);
             dispatch(insertCashSuccess(operationData.amountOfMoney));
         } catch (e) {
             if (e.response && e.response.data) {
@@ -60,7 +60,7 @@ export const withdrawCash = (operationData) => {
         try {
             operationData.title = WithdrawCash;
             dispatch(withdrawCashRequest());
-            await axiosApi.put(`/cash`,operationData);
+            await axiosApi.put(`/cash`, operationData);
             dispatch(withdrawCashSuccess(operationData.amountOfMoney));
         } catch (e) {
             if (e.response && e.response.data) {
@@ -80,8 +80,10 @@ export const purchaseOperation = (operationData) => {
 
             await axiosApi.post(`/operations`, operationData);
 
-            dispatch(purchaseSuccess());
+            dispatch(purchaseSuccess(operationData.total));
             dispatch(purchased());
+            dispatch(purchaseReceipt());
+            dispatch(fetchProducts());
         } catch (e) {
             dispatch(purchaseFailure(e));
         }

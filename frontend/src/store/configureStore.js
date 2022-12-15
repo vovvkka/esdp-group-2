@@ -58,6 +58,7 @@ store.subscribe(() => {
         },
         shifts: {
             shift: store.getState().shifts.shift,
+            receipts: store.getState().shifts.receipts,
         },
         cash: {
             cash: store.getState().cash.cash,
