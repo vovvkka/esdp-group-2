@@ -48,32 +48,29 @@ router.get("/:id", auth, permit("admin"), async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-   const { customer, phone, order, address, comment } = req.body;
+   try {
+      const { customer, phone, order, address, comment } = req.body;
    if (!customer || !phone || !address || !order.length) {
       return res.status(400).send({ error: "Data not valid" });
    }
 
-   order.map(i=> {
-       const item = Product.findById(i._id);
-       if(i.quantity>item.amount) res.status(400).send({error: 'Data not valid'});
-       i.price = Product.price;
-   });
-
-   const orderData = {
+   const orderWithPrice = await Promise.all(order.map(async i=> {
+      const item = await Product.findById(i.product);
+      if(i.quantity>item.amount) throw({error: 'Data not valid'});
+       return {...i, price: item.price}
+   }));
+      const orderData = {
       customer,
       phone,
       address,
-      order,
+      order:orderWithPrice,
       comment,
    };
-
-   try {
-      const order = new Order(orderData);
-      await order.save();
-
-      res.send(order);
+      const orderNew = new Order(orderData);
+      await orderNew.save();
+      await  res.send(orderNew);
    } catch (e) {
-      res.status(400).send({ error: e.errors });
+      res.status(400).send(e);
    }
 });
 
@@ -101,7 +98,6 @@ router.put("/:id/changeStatus", auth, permit("admin"), async (req, res) => {
 
       res.send(order);
    } catch (e) {
-      console.log(e);
       res.status(400).send({ error: e.errors });
    }
 });

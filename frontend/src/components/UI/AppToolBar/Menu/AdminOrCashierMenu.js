@@ -13,6 +13,7 @@ import {insertCash, withdrawCash,} from "../../../../store/actions/cashActions";
 const AdminOrCashierMenu = ({user}) => {
     const dispatch = useDispatch();
     const shift = useSelector((state) => state.shifts.shift);
+    const receipts = useSelector(state => state.shifts.receipts);
     const cash = useSelector((state) => state.cash.cash);
     const modalOpen = useSelector((state) => state.app.modalOpen);
 
@@ -493,7 +494,7 @@ const AdminOrCashierMenu = ({user}) => {
                                 Номер смены: {shift.shiftNumber}
                             </Typography>
                             <Typography sx={{textTransform: "UpperCase", color: 'inherit'}}>
-                                Количество чеков: 3
+                                Количество чеков: {receipts}
                             </Typography>
                             <Typography sx={{textTransform: "UpperCase", color: 'inherit'}}>
                                 Наличка в кассе: {cash && cash}

@@ -39,9 +39,10 @@ router.get('/', async (req, res) => {
         };
 
         if (!user || user.role === 'cashier') {
-            query.status = "Активный"
+            query.status = "Активный";
+            query.amount = {$gte:1};
             if (!user) {
-                options.select = "category title description price amount unit image"
+                options.select = "category title description price amount unit image";
             }
         }
 
@@ -71,7 +72,6 @@ router.get('/', async (req, res) => {
                 $options: 'i'
             } : query.barcode = {$regex: +req.query.key, $options: 'i'};
         }
-
         const products = await Product.paginate(query, options);
         res.send(products);
     } catch (e) {

@@ -5,6 +5,7 @@ const name = 'shifts';
 export const initialState = {
     shifts: [],
     shift: null,
+    receipts: 0,
     fetchLoading: false,
     fetchError: null,
 };
@@ -44,11 +45,15 @@ const shiftsSlice = createSlice({
         closeShiftSuccess(state) {
             state.loading = false;
             state.shift=null;
+            state.receipts=0;
         },
         closeShiftFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
         },
+        purchaseReceipt(state) {
+            state.receipts++;
+        }
     }
 });
 
@@ -62,6 +67,7 @@ export const {
     closeShiftRequest,
     closeShiftSuccess,
     closeShiftFailure,
+    purchaseReceipt,
 } = shiftsSlice.actions
 
 export default shiftsSlice;

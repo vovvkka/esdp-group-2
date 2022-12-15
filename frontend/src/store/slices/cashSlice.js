@@ -57,7 +57,8 @@ const cashSlice = createSlice({
             state.loading = true;
             state.error = null;
         },
-        purchaseSuccess(state) {
+        purchaseSuccess(state, action) {
+            state.cash = state.cash + (+action.payload);
             state.loading = false;
         },
         purchaseFailure(state, {payload: error}) {

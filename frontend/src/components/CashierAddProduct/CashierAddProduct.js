@@ -86,6 +86,7 @@ const CashierAddProduct = () => {
             shiftId: shift._id,
             customerInfo: state.customer,
             purchaseInfo,
+            total: totalWithDiscount,
         };
 
         dispatch(purchaseOperation(purchase));
