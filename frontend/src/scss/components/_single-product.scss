@@ -12,6 +12,10 @@
 .single-product {
   margin-top: 50px;
 
+  &__error{
+    color: $red;
+    margin-bottom: 10px;
+  }
   &__slide {
     max-width: 450px;
     width: 100%;

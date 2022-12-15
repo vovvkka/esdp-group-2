@@ -13,6 +13,7 @@ const SingleProductPage = () => {
     const dispatch = useDispatch();
     const mainRef = useRef(null);
     const thumbsRef = useRef(null);
+    const [error,setError] = useState(null);
 
     const product = useSelector(state => state.products.product);
     const [amount, setAmount] = useState(1);
@@ -35,9 +36,11 @@ const SingleProductPage = () => {
 
     const changeAmount = (e) => {
         if (e.target.value > product.amount) {
+            setError('Максимальное количество '+product.amount);
             setAmount(product.amount);
             return e.preventDefault();
         }
+        setError(null);
         setAmount(e.target.value);
     };
 
@@ -118,6 +121,7 @@ const SingleProductPage = () => {
                     {product.description ? <p className='item'><b>Описание:</b> {product.description}</p> : null}
 
                     <div className='single-product__cart item'>
+                        {error?<div className='single-product__error'>{error}</div>:null}
                         <input type="number" required min={1} max={product.amount} maxLength={4} value={amount}
                                pattern="\d*" onChange={changeAmount} className='single-product__amount-input'/>
                         <button className='button' onClick={() => addToCart()}>Добавить в корзину</button>
