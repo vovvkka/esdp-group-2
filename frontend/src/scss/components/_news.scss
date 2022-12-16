@@ -9,6 +9,7 @@
 
    &__card {
       display: flex;
+      justify-content: center;
       border: 1px solid #80808070;
       border-radius: 10px;
       margin-top: 30px;
@@ -36,7 +37,7 @@
    }
 
    &__card-body {
-      word-break: break-all;
+      word-break: break-word;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -48,6 +49,13 @@
    }
 
    &__card-body-bottom {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+   }
+
+   &__card-body-bottom-admin {
       width: 100%;
       display: flex;
       align-items: center;
@@ -79,6 +87,13 @@
          &-info {
             text-align: center;
          }
+      }
+
+      &__card-body-bottom {
+         width: 100%;
+         display: flex;
+         align-items: center;
+         justify-content: center;
       }
    }
 
