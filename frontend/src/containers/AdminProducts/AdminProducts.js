@@ -7,6 +7,7 @@ import {deleteProduct, fetchProducts} from "../../store/actions/productsActions"
 import EditSharpIcon from "@mui/icons-material/EditSharp";
 import DeleteForeverSharpIcon from "@mui/icons-material/DeleteForeverSharp";
 import {fetchCategories} from "../../store/actions/categoriesActions";
+import './AdminProducts.css';
 
 
 const AdminProducts = () => {
@@ -181,7 +182,6 @@ const AdminProducts = () => {
 
 
         onFilterConfirm: (changedColumn, filterList) => {
-            console.log('onFilterConfirm');
             changedColumn.filterList = filterList
         },
 
@@ -210,7 +210,7 @@ const AdminProducts = () => {
     };
 
     return (
-        <Box margin='0 auto'>
+        <Box className='AdminProducts' width='95%' margin='0 auto'>
             <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
                 <Typography variant='h5'>Товары</Typography>
                 <Button variant='contained' component={Link} to='/admin/products/add-new-product'>Добавить</Button>

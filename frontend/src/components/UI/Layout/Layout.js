@@ -15,7 +15,7 @@ const Layout = ({children}) => {
             <CssBaseline/>
             <AppToolbar/>
             {location.pathname.includes('cashier') || location.pathname.includes('admin') ?
-                <div>{children}</div> :
+                <div style={{padding:'15px 0'}}>{children}</div> :
                 <div className='main'>
                     <div className="container">
                         {children}

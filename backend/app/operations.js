@@ -13,6 +13,7 @@ router.get("/", auth, async (req, res) => {
     const query = {};
     const options = {
         populate: {path: 'shift', select: 'shiftNumber'},
+        sort: {operationNumber:-1},
         page: parseInt(page) || 1,
         limit: parseInt(perPage) || 30
     };

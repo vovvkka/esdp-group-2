@@ -7,8 +7,27 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
     try {
-        const category = await Category.find().populate('category ancestors', 'title');
-        res.send(category);
+        if(req.query.tree||req.query.node) {
+            let category;
+            if(req.query.tree) {
+                category = await Category.find({category: null}).lean();
+            }else{
+                category = await Category.find({category: {$eq:req.query.node}}).lean();
+            }
+            const withChildren = await Promise.all(category.map(async i => {
+                const child = await Category.find({category: {$eq: i._id}});
+                if (!child.length) {
+                    return {...i, isLeaf: true, value: i._id, id: i._id, pId: i.category};
+                } else {
+                    return {...i, value: i._id, id: i._id, pId: i.category};
+                }
+            }));
+
+            await res.send(withChildren);
+        }else{
+            const category = await Category.find().populate('category ancestors', 'title');
+            res.send(category);
+        }
     } catch (e) {
         res.status(400).send(e);
     }
@@ -16,7 +35,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     try {
-        const category = await Category.findById(req.params.id).populate('ancestors', 'title');
+        const category = await Category.findById(req.params.id).lean().populate('category','title').select('title category status');
 
         if (!category) {
             return res.status(404).send({message: "Category not found!"});

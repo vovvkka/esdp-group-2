@@ -11,7 +11,7 @@ const AdminEditProduct = ({match}) => {
     const categories = useSelector(state => state.categories.categories);
 
     useEffect(() => {
-        dispatch(fetchCategories());
+        dispatch(fetchCategories('?tree=true'));
     }, [dispatch]);
 
     useEffect(() => {

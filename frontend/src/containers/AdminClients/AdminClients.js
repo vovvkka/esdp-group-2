@@ -119,7 +119,7 @@ const AdminClients = () => {
     };
 
     return (
-        <Box margin='0 auto'>
+        <Box width='95%' margin='0 auto'>
             <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
                 <Typography variant='h5'>Клиенты</Typography>
                 <Button variant='contained' component={Link} to='/admin/clients/add-new-client'>Добавить</Button>
