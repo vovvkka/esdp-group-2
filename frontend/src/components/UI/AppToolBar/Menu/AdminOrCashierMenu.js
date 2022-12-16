@@ -297,6 +297,13 @@ const AdminOrCashierMenu = ({user}) => {
                     <Button
                         onClick={() => {
                             dispatch(setModalClosed());
+                            setWantToReturnAProduct(false);
+                            setProductReturn({
+                                date: "",
+                                checkNumber: "",
+                                barcode: "",
+                                quantity: "",
+                            });
                         }}
                         autoFocus
                     >
@@ -483,64 +490,73 @@ const AdminOrCashierMenu = ({user}) => {
                             : null}
                     </Menu>
                 </Grid>
+                <Box sx={{display:'flex'}}>
+                    <Grid item display="flex" flexDirection="column">
+                        <Typography sx={{textTransform: "UpperCase", color: 'inherit'}}>
+                            Кассир: {user.username}
+                        </Typography>
+                        {shift ? (
+                            <>
+                                <Typography sx={{textTransform: "UpperCase", color: 'inherit'}}>
+                                    Номер смены: {shift.shiftNumber}
+                                </Typography>
+                                <Typography sx={{textTransform: "UpperCase", color: 'inherit'}}>
+                                    Количество чеков: {receipts}
+                                </Typography>
+                                <Typography sx={{textTransform: "UpperCase", color: 'inherit'}}>
+                                    Наличка в кассе: {cash && cash}
+                                </Typography>
+                            </>
+                        ) : null}
 
-                <Grid item display="flex" flexDirection="column">
-                    <Typography sx={{textTransform: "UpperCase", color: 'inherit'}}>
-                        Кассир: {user.username}
-                    </Typography>
-                    {shift ? (
-                        <>
-                            <Typography sx={{textTransform: "UpperCase", color: 'inherit'}}>
-                                Номер смены: {shift.shiftNumber}
-                            </Typography>
-                            <Typography sx={{textTransform: "UpperCase", color: 'inherit'}}>
-                                Количество чеков: {receipts}
-                            </Typography>
-                            <Typography sx={{textTransform: "UpperCase", color: 'inherit'}}>
-                                Наличка в кассе: {cash && cash}
-                            </Typography>
-                        </>
-                    ) : null}
-
-                    <Button
-                        onClick={() => {
-                            if (user.role === "cashier" && shift) {
-                                setWantToLogout(true);
-                                dispatch(setModalOpen());
-                            } else {
-                                dispatch(logoutUser());
-                            }
-                        }}
-                        color="primary"
-                        variant="contained"
-                        sx={{
-                            marginTop: "5px",
-                            color: "#fff !important",
-                            background: "#116ffb5e",
-                            ":hover": {background: "#6592d55e"}
-                        }}
-                    >
-                        Выйти
-                    </Button>
-                </Grid>
-
-                {
-                    (wantToInsertCash || wantToCloseShift || wantToWithdrawCash || wantToLogout || wantToReturnAProduct) && (
-                        <CustomModal
-                            isOpen={modalOpen}
-                            handleClose={() => {
-                                setWantToLogout(false);
-                                setWantToInsertCash(false);
-                                setWantToWithdrawCash(false);
-                                setWantToCloseShift(false);
-                                setState({amountOfMoney: "", comment: ''});
-                                dispatch(setModalClosed());
+                        <Button
+                            onClick={() => {
+                                if (user.role === "cashier" && shift) {
+                                    setWantToLogout(true);
+                                    dispatch(setModalOpen());
+                                } else {
+                                    dispatch(logoutUser());
+                                }
+                            }}
+                            color="primary"
+                            variant="contained"
+                            sx={{
+                                marginTop: "5px",
+                                color: "#fff !important",
+                                background: "#116ffb5e",
+                                ":hover": {background: "#6592d55e"}
                             }}
                         >
-                            {modalChildren}
-                        </CustomModal>
-                    )
-                }
+                            Выйти
+                        </Button>
+                    </Grid>
+
+                    {
+                        (wantToInsertCash || wantToCloseShift || wantToWithdrawCash || wantToLogout || wantToReturnAProduct) && (
+                            <CustomModal
+                                isOpen={modalOpen}
+                                handleClose={() => {
+                                    setWantToLogout(false);
+                                    setWantToInsertCash(false);
+                                    setWantToWithdrawCash(false);
+                                    setWantToCloseShift(false);
+                                    setWantToReturnAProduct(false);
+                                    setProductReturn({
+                                        date: "",
+                                        checkNumber: "",
+                                        barcode: "",
+                                        quantity: "",
+                                    });
+                                    setState({amountOfMoney: "", comment: ''});
+                                    dispatch(setModalClosed());
+                                }}
+                            >
+                                {modalChildren}
+                            </CustomModal>
+                        )
+                    }
+                </Box>
+
             </>
         );
     }
