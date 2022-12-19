@@ -11,7 +11,7 @@ const AdminAddProduct = () => {
     const error = useSelector(state => state.products.createProductError);
 
     useEffect(() => {
-        dispatch(fetchCategories());
+        dispatch(fetchCategories('?tree=true'));
     }, [dispatch]);
 
     const onProductFormSubmit = productData => {

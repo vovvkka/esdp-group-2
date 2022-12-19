@@ -33,14 +33,20 @@ router.get('/', async (req, res) => {
             descendants = await Category.find({ancestors: {$in: [req.query.category]}});
         }
         const options = {
-            populate: {path: 'category', select: 'title'},
+            populate: {
+                path: 'category', select: 'title ancestors',
+                populate: {
+                    path: 'ancestors',
+                    select: 'title',
+                }
+            },
             page: parseInt(page) || 1,
             limit: parseInt(perPage) || 30
         };
 
         if (!user || user.role === 'cashier') {
             query.status = "Активный";
-            query.amount = {$gte:1};
+            query.amount = {$gte: 1};
             if (!user) {
                 options.select = "category title description price amount unit image";
             }
@@ -88,7 +94,10 @@ router.get('/:id', async (req, res) => {
         let product;
 
         if (user) {
-            product = await Product.findById(req.params.id);
+            product = await Product.findById(req.params.id).populate({
+                path: 'category',
+                select: 'title'
+            });
         } else {
             product = await Product.findById(req.params.id).select('category title description price amount unit image').populate({
                 path: 'category',
@@ -109,10 +118,6 @@ router.get('/:id', async (req, res) => {
 router.post('/', auth, permit('admin'), upload.array('image', 5), async (req, res) => {
     const {category, title, barcode, priceType, price, amount, unit, status, purchasePrice} = req.body;
     const description = req.body.description;
-
-    if (!category || !title || !barcode || !priceType || !price || !amount || !unit || !status || !purchasePrice) {
-        return res.status(400).send({message: 'Data not valid!'});
-    }
 
     const productData = {
         category,
@@ -171,6 +176,7 @@ router.put('/:id', auth, permit('admin'), upload.array('image', 5), async (req, 
 
         res.send(updateProduct);
     } catch (e) {
+        console.log(e);
         res.sendStatus(500);
     }
 });

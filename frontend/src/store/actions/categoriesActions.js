@@ -18,12 +18,16 @@ import {
     fetchCategorySuccess
 } from "../slices/categoriesSlice";
 
-export const fetchCategories = () => {
+export const fetchCategories = (query) => {
     return async dispatch => {
         try {
             dispatch(fetchCategoriesRequest());
-
-            const response = await axiosApi('/categories');
+            let response;
+            if(query){
+                response = await axiosApi('/categories'+query);
+            }else{
+                response = await axiosApi('/categories');
+            }
 
             dispatch(fetchCategoriesSuccess(response.data));
         } catch (e) {

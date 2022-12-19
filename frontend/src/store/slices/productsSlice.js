@@ -42,6 +42,7 @@ const productsSlice = createSlice({
         fetchOneProductRequest(state) {
             state.fetchLoading = true;
             state.fetchError = null;
+            state.createProductError = null;
         },
         fetchOneProductSuccess(state, {payload: product}) {
             state.fetchLoading = false;

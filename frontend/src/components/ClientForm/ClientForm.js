@@ -61,9 +61,9 @@ const ClientForm = ({onSubmit, data}) => {
             onSubmit={submitFormHandler}
         >
             <Paper display="flex" >
-                <Grid container textAlign="center" marginX="auto" spacing={3} justifyContent='center'
-                      flexDirection="column">
-                    <Grid item xs={11}>
+                <Grid container textAlign="center" marginX="auto" paddingBottom='35px' spacing={3} justifyContent='center'
+                     flexWrap='wrap'>
+                    <Grid item xs={5}>
                         <Typography textAlign="left">Имя</Typography>
                         <FormElement
                             onChange={inputChangeHandler}
@@ -73,7 +73,7 @@ const ClientForm = ({onSubmit, data}) => {
                             required={true}
                         />
                     </Grid>
-                    <Grid item xs={11}>
+                    <Grid item xs={5}>
                         <Typography textAlign="left">Фамилия</Typography>
                         <FormElement
                             onChange={inputChangeHandler}
@@ -83,7 +83,7 @@ const ClientForm = ({onSubmit, data}) => {
                             required={true}
                         />
                     </Grid>
-                    <Grid item xs={11}>
+                    <Grid item xs={5}>
                         <Typography textAlign="left">Email</Typography>
                         <FormElement
                             onChange={inputChangeHandler}
@@ -93,7 +93,7 @@ const ClientForm = ({onSubmit, data}) => {
                         />
                     </Grid>
 
-                    <Grid item xs={11}>
+                    <Grid item xs={5}>
                         <Typography textAlign="left">Телефон</Typography>
                         <FormElement
                             type="tel"
@@ -104,7 +104,7 @@ const ClientForm = ({onSubmit, data}) => {
                             required={true}
                         />
                     </Grid>
-                    <Grid item xs={11}>
+                    <Grid item xs={5}>
                         <Typography textAlign="left">Адрес</Typography>
                         <FormElement
                             onChange={inputChangeHandler}
@@ -113,7 +113,7 @@ const ClientForm = ({onSubmit, data}) => {
                             error={getFieldError('address')}
                         />
                     </Grid>
-                    <Grid item xs={11}>
+                    <Grid item xs={5}>
                         <Typography textAlign="left">Скидка в %</Typography>
                         <FormElement
                             type="number"
@@ -124,7 +124,7 @@ const ClientForm = ({onSubmit, data}) => {
                             required={true}
                         />
                     </Grid>
-                    <Grid item xs={11}>
+                    <Grid item xs={5}>
                         <Typography textAlign="left">Аватар</Typography>
                     <FileInput
                         label="Аватар"
@@ -132,10 +132,14 @@ const ClientForm = ({onSubmit, data}) => {
                         onChange={fileChangeHandler}
                     />
                     </Grid>
+                    <Grid  item xs={5}  container flexDirection='column' justifyContent='flex-end' >
+                        <div style={{paddingBottom:'9px',display:'flex',justifyContent:'flex-end'}}>
+                            <Button type="submit" color="primary" variant="contained">Записать</Button>
+                        </div>
+                    </Grid>
+
                 </Grid>
-                <Grid sx={{margin: "25px 0 0 20px", paddingBottom: "20px"}} container justifyContent='left'>
-                    <Button type="submit" color="primary" variant="contained">Записать</Button>
-                </Grid>
+
             </Paper>
         </form>
     );

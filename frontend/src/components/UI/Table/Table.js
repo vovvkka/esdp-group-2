@@ -12,8 +12,6 @@ import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import {deleteCategory} from "../../../store/actions/categoriesActions";
 import {useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
-import {apiUrl} from "../../../config";
-import {deleteProduct} from "../../../store/actions/productsActions";
 import {useDownloadExcel} from "react-export-table-to-excel";
 import {deleteCashier} from "../../../store/actions/cashiersActions";
 
@@ -34,25 +32,26 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shi
     if (categories) {
         render = rows.map((row) => {
             let ancestors;
-            if(row.category) {
+            if (row.category) {
                 ancestors = row.ancestors.reduce(
                     (accumulator, currentValue, i) => {
-                        if(i===0) {
+                        if (i === 0) {
                             return accumulator + currentValue.title;
                         } else {
-                            return accumulator + ' - ' + currentValue.title;
+                            return accumulator + ' → ' + currentValue.title;
                         }
                     },
                     ''
-                );        }
+                );
+            }
             return <TableRow
-                key={row.title}
+                key={row._id}
                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
             >
                 <TableCell component="th" scope="row">
                     {row.title}
                 </TableCell>
-                <TableCell align="center">{row.category?ancestors:'Нет'}</TableCell>
+                <TableCell align="center">{row.category ? ancestors : 'Нет'}</TableCell>
                 <TableCell align="center">{row.status}</TableCell>
                 <TableCell align="center">{new Date(row.createdAt).toLocaleString()}</TableCell>
                 <TableCell align="center">{new Date(row.updatedAt).toLocaleString()}</TableCell>
@@ -64,49 +63,7 @@ const TableAdmin = ({rows, rowsHead, categories, products, cashiers, orders, shi
                     </Box>
                 </TableCell>
             </TableRow>;
-            });
-    }
-
-
-    if (products) {
-        render = rows.map((row) => (
-            <TableRow
-                key={row._id}
-                sx={{'&:last-child td, &:last-child th': {border: 0}}}
-            >
-                <TableCell align='center'>
-                    {row.category ? row.category.title : 'Нет категории'}
-                </TableCell>
-                <TableCell align="center">{row.title}</TableCell>
-                <TableCell align="center">
-                    <Box
-                        component="img"
-                        sx={{
-                            height: 'auto',
-                            width: 50,
-                        }}
-                        alt={row.title}
-                        src={apiUrl + '/' + row.image}
-                    />
-                </TableCell>
-                <TableCell align="center">{row.barcode}</TableCell>
-                <TableCell align="center">{row.amount}</TableCell>
-                <TableCell align="center">{row.unit}</TableCell>
-                <TableCell align="center">{row.purchasePrice}</TableCell>
-                <TableCell align="center">{row.price}</TableCell>
-                <TableCell align="center">{row.status}</TableCell>
-                <TableCell align="center">{row.priceType}</TableCell>
-                <TableCell align="center">{new Date(row.createdAt).toLocaleString()}</TableCell>
-                <TableCell align="center">{new Date(row.updatedAt).toLocaleString()}</TableCell>
-                <TableCell align="center">
-                    <Box display='flex'>
-                        <Button component={Link}
-                                to={"/admin/products/edit-product/" + row._id}><EditSharpIcon/></Button>
-                        <Button onClick={() => dispatch(deleteProduct(row._id))}><DeleteForeverSharpIcon/></Button>
-                    </Box>
-                </TableCell>
-            </TableRow>
-        ));
+        });
     }
 
     if (cashiers) {

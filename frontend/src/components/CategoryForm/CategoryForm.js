@@ -2,8 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {Button, Grid, Paper} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
 import FormSelect from "../UI/Form/FormSelect/FormSelect";
+import {TreeSelect} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchCategories} from "../../store/actions/categoriesActions";
+import axiosApi from "../../axiosApi";
+import './CategoryForm.css';
 
 
 const CategoryForm = ({onSubmit, data}) => {
@@ -18,10 +21,10 @@ const CategoryForm = ({onSubmit, data}) => {
         status: "",
     });
     useEffect(() => {
-        dispatch(fetchCategories());
+        dispatch(fetchCategories('?tree=true'));
     }, [dispatch]);
     useEffect(() => {
-        setOptions([{_id: '123', title: 'Без категории'}, ...categories]);
+        setOptions([{_id: '123', title: 'Без категории', value: '123',id:'123',pId:0,isLeaf:true}, ...categories]);
     }, [categories]);
 
     const getFieldError = fieldName => {
@@ -38,7 +41,9 @@ const CategoryForm = ({onSubmit, data}) => {
                 newData.category = '123';
                 setState(newData);
             } else {
-                setState(data);
+                const newData={...data};
+                newData.category=newData.category.title;
+                setState(newData);
             }
         }
     }, [data]);
@@ -52,7 +57,19 @@ const CategoryForm = ({onSubmit, data}) => {
 
     const onSubmitHandler = e => {
         e.preventDefault();
-        if (state.category === '123') {
+        if (data){
+            if (state.category === '123') {
+                const newData = {...state};
+                newData.category = null;
+                onSubmit(newData);
+            }else if(state.category===data.category?.title){
+                const newData={...state};
+                newData.category=data.category._id;
+                onSubmit(newData);
+            }else {
+                onSubmit({...state});
+            }
+        }else if (state.category === '123') {
             const newData = {...state};
             newData.category = null;
             onSubmit(newData);
@@ -61,8 +78,20 @@ const CategoryForm = ({onSubmit, data}) => {
         }
     };
 
+    const onLoadData = async ({id}) => {
+        const response = await axiosApi('/categories/?node=' + id);
+        setOptions(options.concat(response.data));
+
+    }
+    const onChange = (newValue) => {
+        setState(prevState => {
+            return {...prevState, category: newValue};
+        });
+    };
+
     return (
         <form
+            className='CategoryForm'
             autoComplete="off"
             onSubmit={(e) => onSubmitHandler(e)}
         >
@@ -70,15 +99,24 @@ const CategoryForm = ({onSubmit, data}) => {
 
                 <Grid container justifyContent='center'>
                     <Grid xs={7} item>
-                        <FormSelect
-                            selectFromServer
-                            options={options}
-                            label="Категория"
-                            onChange={inputChangeHandler}
+
+                        <label>Категория</label>
+                        <div style={{color:'#dc4815'}}>{getFieldError('category')?'Заполните это поле':null}</div>
+                        <TreeSelect
+                            treeDataSimpleMode
+                            style={{
+                                width: '100%',
+                                marginTop:'10px',
+                                marginBottom:'5px'
+                            }}
                             value={state.category}
-                            name="category"
-                            error={getFieldError('category')}
-                            required={true}
+                            dropdownStyle={{
+                                maxHeight: 400,
+                                overflow: 'auto',
+                            }}
+                            onChange={onChange}
+                            loadData={onLoadData}
+                            treeData={options}
                         />
                     </Grid>
                     <Grid item xs={7} sx={{marginBottom: '4px'}}>
