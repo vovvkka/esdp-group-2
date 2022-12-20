@@ -16,14 +16,15 @@ When('нажимаю на кнопку {string}', buttonText => {
     I.wait(10);
 });
 
-Given('я хочу перейти на страницу {string}', (page) => {
+Given('я хочу перейти на страницу {string}', page => {
     I.amOnPage('/' + page);
+    I.wait(5);
 });
 
-Then('кликаю на первый селект {string}', (category) => {
-    I.click(category);
+Then('кликаю на первый селект и выбираю поле {string}', text => {
+    I.click(`//div//input`);
     I.wait(5);
-    I.click(`//ul//li`);
+    I.click(`//div//span[@title="${text}"]`);
 });
 
 Given('я введу данные', table => {
