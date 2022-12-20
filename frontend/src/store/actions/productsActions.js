@@ -10,7 +10,7 @@ import {
     fetchOneProductRequest,
     fetchOneProductSuccess,
     fetchProductsFailure,
-    fetchProductsRequest,
+    fetchProductsRequest, fetchProductsSearchFailure, fetchProductsSearchRequest, fetchProductsSearchSuccess,
     fetchProductsSuccess,
 } from "../slices/productsSlice";
 import {historyPush} from "./historyActions";
@@ -29,6 +29,19 @@ export const fetchProducts = (search) => {
             dispatch(fetchProductsSuccess(response.data));
         } catch (e) {
             dispatch(fetchProductsFailure(e.response.data));
+        }
+    }
+};
+
+export const fetchProductsSearch = (search) => {
+    return async dispatch => {
+        try {
+            dispatch(fetchProductsSearchRequest());
+            const response = await axiosApi('/products'+search);
+
+            dispatch(fetchProductsSearchSuccess(response.data));
+        } catch (e) {
+            dispatch(fetchProductsSearchFailure(e.response.data));
         }
     }
 };

@@ -22,6 +22,7 @@ export const Colors = {
     light_gray: "rgb(230,230,230)",
     white: "#fff",
     black: "#fff",
+    blue: "#6E9C9F",
 };
 
 const theme = createTheme({
@@ -53,10 +54,10 @@ const theme = createTheme({
             },
             styleOverrides: {
                 tooltip: {
-                    background: Colors.primary,
+                    background: Colors.blue,
                 },
                 arrow: {
-                    color: Colors.primary,
+                    color: Colors.blue,
                 },
             },
         },
