@@ -35,20 +35,20 @@ const Contacts = () => {
                     <div className="contacts__info">
                         <div className="contacts__info-block">
                             <p className="contacts__info-title">Телефон</p>
-                            {contacts?.phone.map(p => (
-                                <p key={p._id} className="contacts__info-sub-title">{p}</p>
+                            {contacts?.phone.map((p,i) => (
+                                <p key={i} className="contacts__info-sub-title">{p}</p>
                             ))}
                         </div>
                         <div className="contacts__info-block">
                             <p className="contacts__info-title">E-mail</p>
-                            {contacts?.email.map(e => (
-                                <p key={e._id} className="contacts__info-sub-title">{e}</p>
+                            {contacts?.email.map((e,i) => (
+                                <p key={i} className="contacts__info-sub-title">{e}</p>
                             ))}
                         </div>
                         <div className="contacts__info-block">
                             <p className="contacts__info-title">Адрес</p>
-                            {contacts?.address.map(a => (
-                                <p key={a} className="contacts__info-sub-title">{a}</p>
+                            {contacts?.address.map((a,i) => (
+                                <p key={i} className="contacts__info-sub-title">{a}</p>
                             ))}
 
                         </div>

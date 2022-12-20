@@ -4,6 +4,7 @@ const name = 'products';
 
 export const initialState = {
     products: [],
+    productsSearch: [],
     product: null,
     fetchLoading: false,
     fetchError: null,
@@ -24,6 +25,17 @@ const productsSlice = createSlice({
             state.products = products;
         },
         fetchProductsFailure(state, {payload: error}) {
+            state.fetchLoading = false;
+            state.fetchError = error;
+        },fetchProductsSearchRequest(state) {
+            state.fetchLoading = true;
+            state.fetchError = null;
+        },
+        fetchProductsSearchSuccess(state, {payload: products}) {
+            state.fetchLoading = false;
+            state.productsSearch = products;
+        },
+        fetchProductsSearchFailure(state, {payload: error}) {
             state.fetchLoading = false;
             state.fetchError = error;
         },
@@ -81,6 +93,9 @@ export const {
     fetchProductsRequest,
     fetchProductsSuccess,
     fetchProductsFailure,
+    fetchProductsSearchRequest,
+    fetchProductsSearchSuccess,
+    fetchProductsSearchFailure,
     fetchOneProductRequest,
     fetchOneProductSuccess,
     fetchOneProductFailure,

@@ -39,6 +39,7 @@ import AdminJournal from "./containers/AdminJournal/AdminJournal";
 import AdminEditClient from "./containers/AddminEditClient/AdminEditClient";
 import ForgotPassword from "./containers/ForgotPassword/ForgotPassword";
 import ResetPassword from "./containers/ResetPassword/ResetPassword";
+import SearchPage from "./containers/SearchPage/SearchPage";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ? <Route {...props} /> : <Redirect to="/"/>;
@@ -78,40 +79,40 @@ const App = () => {
                 <Route path="/order-place/success" exact component={SuccessOrderPlace}/>
                 <Route path="/news/:id" component={NewsInfo}/>
                 <Route path="/contacts" component={Contacts}/>
-                <Route path="/contacts" component={Contacts}/>
+                <Route path="/search" component={SearchPage}/>
                 <Route path="/forgot-password" exact component={ForgotPassword}/>
                 <Route path="/reset-password/:id/:token" exact component={ResetPassword}/>
                 <LoginRedirectRoute user={user} path="/login" component={Login}/>
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin"
                     exact
                     component={AdminMainPage}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/categories"
                     exact
                     component={AdminCategories}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/clients"
                     exact
                     component={AdminClients}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/clients/add-new-client"
                     exact
                     component={AdminAddClient}
                 />
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/clients/edit-client/:id"
                     exact
                     component={AdminEditClient}
@@ -125,112 +126,106 @@ const App = () => {
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/categories/edit-category/:id"
                     component={AdminEditCategory}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/categories/add-new-category"
                     component={AdminAddCategory}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/products"
                     exact
                     component={AdminProducts}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/products/add-new-product"
                     component={AdminAddProduct}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/products/edit-product/:id"
                     component={AdminEditProduct}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/news/add-news"
                     component={AdminAddNews}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/news/edit-news/:id"
                     component={AdminEditNews}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     exact
                     path="/admin/cashiers"
                     component={AdminCashiers}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/cashiers/add-new-cashier"
                     component={AdminAddCashier}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/cashiers/edit-cashier/:id"
                     component={AdminEditCashier}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/orders"
                     component={AdminOrders}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
-                    path="/admin/orders/archive"
-                    component={AdminOrders}
-                />
-
-                <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/news"
                     exact
                     component={AdminNews}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/news/add-new-news"
                     component={AdminAddNews}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/settings"
                     component={AdminSettings}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/edit-contacts"
                     component={AdminEditContacts}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/edit-profile"
                     component={AdminEditProfile}
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='admin'}
                     path="/admin/reset-password"
                     component={AdminResetPassword}
                 />
@@ -243,7 +238,7 @@ const App = () => {
                 />
 
                 <ProtectedRoute
-                    isAllowed={user}
+                    isAllowed={user?.role==='cashier'}
                     path="/cashier"
                     component={CashierPanel}
                 />

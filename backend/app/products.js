@@ -29,6 +29,7 @@ router.get('/', async (req, res) => {
         let descendants;
         const {page, perPage} = req.query;
         const query = {};
+        console.log(req.query);
         if (req.query.category) {
             descendants = await Category.find({ancestors: {$in: [req.query.category]}});
         }
@@ -84,7 +85,21 @@ router.get('/', async (req, res) => {
         res.status(400).send(e);
     }
 });
-
+router.get('/search', async (req, res) => {
+    try {
+        const query = {};
+        if (req.query.key) {
+            isNaN(+req.query.key) ? query.title = {
+                $regex: req.query.key,
+                $options: 'i'
+            } : null
+        }
+        const products = await Product.find(query).limit(5);
+        res.send(products);
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
 
 router.get('/:id', async (req, res) => {
     try {
@@ -176,7 +191,6 @@ router.put('/:id', auth, permit('admin'), upload.array('image', 5), async (req, 
 
         res.send(updateProduct);
     } catch (e) {
-        console.log(e);
         res.sendStatus(500);
     }
 });
