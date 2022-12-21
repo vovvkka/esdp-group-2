@@ -11,12 +11,14 @@ import axiosApi from "../../axiosApi";
 import {Link} from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import {fetchProductsSearch} from "../../store/actions/productsActions";
+import {setKey} from "../../store/slices/productsSlice";
 
 const SearchPage = () => {
     const products = useSelector(state => state.products.productsSearch);
     const loading = useSelector(state => state.products.fetchLoading);
     const [currentPage, setCurrentPage] = useState(1);
-    const [key, setKey] = useState(null);
+    const [value,setValue] = useState(null);
+    const key = useSelector(state => state.products.key);
     const [productsList, setProductsList] = useState([]);
     const dispatch = useDispatch();
 
@@ -24,11 +26,11 @@ const SearchPage = () => {
         setCurrentPage(value);
     };
     const onInputChange = async (e) => {
-        setKey(e.target.value);
+        setValue(e.target.value);
         if (e.target.value.length<=2) {
             return setProductsList([]);
         } else {
-            const response = await axiosApi(`/products/search?key=${key}`);
+            const response = await axiosApi(`/products/search?key=${e.target.value}`);
             const data = response.data.map(i => {
                     return {...i, label: i.title};
                 }
@@ -37,15 +39,18 @@ const SearchPage = () => {
         }
     };
 
-    const renderProducts = products.docs ? (products.docs.length > 0 ?
+    const renderProducts = products.docs ?
+            (products.docs.length ?
                 products.docs.map((product) => (
                     <ProductCard key={product._id} product={product}/>)
-                ) : <Typography>По вашему запросу совпадений не найдено</Typography>) :
+                )
+                : null)
+            :
             null
         ;
         return (
             <ThemeProvider theme={theme}>
-                <div>
+                <div className='searchPage'>
                     <div className='container'>
                         <h2 className="title">Поиск</h2>
                         <div className="location">
@@ -53,12 +58,13 @@ const SearchPage = () => {
                             <span className="location__page"> Поиск</span>
                         </div>
 
-                        <Stack sx={{marginTop: '25px'}}>
-                            <div style={{display: "flex"}}>
-                                <div style={{flexGrow: 3}}>
+                        <Stack mt='25px'>
+                            <div className='searchPage__bar'>
+                                <div className='searchPage__select'>
                                     <Autocomplete
                                         sx={{width: '98%'}}
                                         options={productsList}
+                                        freeSolo
                                         isOptionEqualToValue={() => true}
                                         autoHighlight
                                         getOptionLabel={(option) => option.label}
@@ -89,6 +95,8 @@ const SearchPage = () => {
                                                     onKeyDown: (e) => {
                                                         if (e.key === 'Enter') {
                                                             e.stopPropagation();
+                                                            dispatch(setKey(value));
+                                                            dispatch(fetchProductsSearch('?page=' + currentPage + '&key=' + value));
                                                         }
                                                     },
                                                 }}
@@ -96,19 +104,25 @@ const SearchPage = () => {
                                         )}
                                     />
                                 </div>
-                                <button type='submit'
-                                        onClick={() => dispatch(fetchProductsSearch('?page=' + currentPage + '&key=' + key))}
-                                        style={{margin: 0}} className='button'><SearchIcon/></button>
+                                <button type='submit' className='searchPage__button button'
+                                        onClick={() => {
+                                            dispatch(setKey(value));
+                                            dispatch(fetchProductsSearch('?page=' + currentPage + '&key=' + value));
+                                        }}><SearchIcon/></button>
                             </div>
                             {loading ? <Spinner/> : (
-                                <div style={{marginTop: '15px'}}>
+                                <div className='searchPage__products'>
+                                    {
+                                        products.docs?.length>0?<Typography>Поиск по запросу - {key}</Typography>:null
+                                    }
                                     <div className='products'>
                                         {renderProducts}
                                     </div>
-                                    {products.docs ? <Box display='flex' justifyContent='center' paddingY='10px'>
+                                    {products.docs.length ?
+                                        <div className='searchPage__pages' >
                                         <Pagination count={products.pages} page={currentPage} onChange={handleChange}
                                                     color="secondary"/>
-                                    </Box> : null}
+                                    </div> : <Typography sx={{justifySelf:'start'}}>{key} - По вашему запросу совпадений не найдено</Typography>}
                                 </div>
                             )}
 
