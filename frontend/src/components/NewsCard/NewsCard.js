@@ -2,13 +2,11 @@ import React, {useState} from 'react';
 import {apiUrl} from "../../config";
 import {Link} from "react-router-dom";
 import {Delete, Visibility, VisibilityOff} from "@mui/icons-material";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {Box, Button, Typography} from "@mui/material";
-import {setModalClosed, setModalOpen} from "../../store/slices/appSLice";
 import CustomModal from "../UI/Modal/Modal";
 
 const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
-    const dispatch = useDispatch();
     const modalOpen = useSelector(state => state.app.modalOpen);
     const [wantToDelete, setWantToDelete] = useState(false);
 
@@ -26,7 +24,6 @@ const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
                     <Button
                         autoFocus
                         onClick={() => {
-                            dispatch(setModalClosed());
                             setWantToDelete(false);
                         }}
                     >
@@ -34,7 +31,6 @@ const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
                     </Button>
                     <Button
                         onClick={() => {
-                            dispatch(setModalClosed());
                             onDeleteNews();
                         }}
                         autoFocus
@@ -76,7 +72,6 @@ const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
                                         className="button button--warning news__card-body-admin-delete"
                                         onClick={() => {
                                             setWantToDelete(true);
-                                            dispatch(setModalOpen());
                                         }}
                                     >
                                         <Delete/>
@@ -94,7 +89,6 @@ const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
                         isOpen={modalOpen}
                         handleClose={() => {
                             setWantToDelete(false);
-                            dispatch(setModalClosed());
                         }}
                     >
                         {modalChildren}

@@ -16,6 +16,7 @@ import {
 import {purchased} from "../slices/cashboxSlice";
 import {purchaseReceipt} from "../slices/shiftsSlice";
 import {fetchProducts} from "./productsActions";
+import {fetchReceipt} from "../slices/operationsSlice";
 
 const WithdrawCash = 'Изъятие наличных';
 const InsertCash = 'Внесение наличных';
@@ -78,12 +79,13 @@ export const purchaseOperation = (operationData) => {
             operationData.title = purchase;
             dispatch(purchaseRequest());
 
-            await axiosApi.post(`/operations`, operationData);
+            const response = await axiosApi.post(`/operations`, operationData);
 
             dispatch(purchaseSuccess(operationData.total));
             dispatch(purchased());
             dispatch(purchaseReceipt());
             dispatch(fetchProducts());
+            dispatch(fetchReceipt(response.data));
         } catch (e) {
             dispatch(purchaseFailure(e));
         }

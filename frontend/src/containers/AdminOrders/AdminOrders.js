@@ -5,7 +5,6 @@ import MUIDataTable from "mui-datatables";
 import {changeStatus, getOrders} from "../../store/actions/ordersActions";
 import FormSelect from "../../components/UI/Form/FormSelect/FormSelect";
 import CustomModal from "../../components/UI/Modal/Modal";
-import {setModalClosed, setModalOpen} from "../../store/slices/appSLice";
 
 
 const AdminOrders = () => {
@@ -23,14 +22,12 @@ const AdminOrders = () => {
     const openOrderModal = async (row) => {
         await setOrder(row);
         setOpenDetailInfo(true);
-        dispatch(setModalOpen());
     };
 
     const onChangeStatus = e => setStatus(e.target.value);
 
     const onSubmitStatus = () => {
         dispatch(changeStatus(order._id, status));
-        dispatch(setModalClosed());
         setStatus(null);
     };
 
@@ -144,7 +141,6 @@ const AdminOrders = () => {
                     <CustomModal
                         isOpen={modalOpen}
                         handleClose={() => {
-                            dispatch(setModalClosed());
                             setOpenDetailInfo(false);
                         }}
                     >
