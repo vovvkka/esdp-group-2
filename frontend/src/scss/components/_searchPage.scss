@@ -1,0 +1,26 @@
+.searchPage {
+
+
+  &__bar {
+    display: flex;
+  }
+
+  &__select {
+    flex-grow: 3;
+  }
+
+  &__button {
+    margin: 0;
+  }
+
+  &__products {
+    margin-top: 15px;
+  }
+
+  &__pages {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+  }
+
+}
