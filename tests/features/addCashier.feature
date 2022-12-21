@@ -7,14 +7,16 @@
   Сценарий:
     Допустим я захожу на страницу "login"
     Если я введу данные
-      | username       | admin |
-      | password    | admin0           |
+      | username | admin |
+      | password | admin0 |
     И нажимаю на кнопку "Войти"
-  Затем я перехожу на страницу "admin/cashiers/add-new-cashier"
+
+    Затем я перехожу на страницу "admin/cashiers/add-new-cashier"
     Если я введу данные
-      | username       |  cashier 3 |
-      | displayName       |  Александр Атомико |
-      | password       | cashier3  |
-      | pin       | 3333  |
-   И нажимаю кнопку "Создать"
-    То я перехожу на страницу с кассирами и вижу моего созданного "cashier 3"
+      | username | cashier44 |
+      | displayName | Александр Атомико |
+      | email | cashier44@gmail.com |
+      | password | 123456 |
+      | pin | 4444 |
+    И нажимаю кнопку "Создать"
+    То я перехожу на страницу с кассирами и вижу заголовок "Кассиры"
