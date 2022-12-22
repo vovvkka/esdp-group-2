@@ -5,18 +5,15 @@ import MenuItem from "@mui/material/MenuItem";
 import {Box, Button, Grid, Menu, Typography} from "@mui/material";
 import {logoutUser} from "../../../../store/actions/usersActions";
 import {closeShift} from "../../../../store/actions/shiftsActions";
-import {setModalClosed, setModalOpen} from "../../../../store/slices/appSLice";
 import CustomModal from "../../Modal/Modal";
 import FormElement from "../../Form/FormElement/FormElement";
 import {insertCash, withdrawCash,} from "../../../../store/actions/cashActions";
-import axiosApi from "../../../../axiosApi";
 
 const AdminOrCashierMenu = ({user}) => {
     const dispatch = useDispatch();
     const shift = useSelector((state) => state.shifts.shift);
     const receipts = useSelector(state => state.shifts.receipts);
     const cash = useSelector((state) => state.cash.cash);
-    const modalOpen = useSelector((state) => state.app.modalOpen);
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorEl2, setAnchorEl2] = useState(null);
@@ -32,11 +29,12 @@ const AdminOrCashierMenu = ({user}) => {
         comment: ''
     });
     const [productReturn, setProductReturn] = useState({
+        date: "",
         checkNumber: "",
         barcode: "",
         quantity: "",
-        total: null,
     });
+
     const open = Boolean(anchorEl);
     const open2 = Boolean(anchorEl2);
 
@@ -76,7 +74,6 @@ const AdminOrCashierMenu = ({user}) => {
             );
             setWantToInsertCash(false);
             setState({amountOfMoney: "", comment: ''});
-            dispatch(setModalClosed());
         } else if (wantToWithdrawCash) {
             dispatch(
                 withdrawCash({
@@ -87,7 +84,6 @@ const AdminOrCashierMenu = ({user}) => {
             );
             setWantToWithdrawCash(false);
             setState({amountOfMoney: "", comment: ''});
-            dispatch(setModalClosed());
         }
     };
     const shiftCloseHandler = async (id) => {
@@ -114,7 +110,6 @@ const AdminOrCashierMenu = ({user}) => {
                     <Button
                         autoFocus
                         onClick={() => {
-                            dispatch(setModalClosed());
                             setWantToLogout(false);
                         }}
                     >
@@ -122,7 +117,6 @@ const AdminOrCashierMenu = ({user}) => {
                     </Button>
                     <Button
                         onClick={() => {
-                            dispatch(setModalClosed());
                             shiftCloseHandler(shift._id);
                         }}
                         autoFocus
@@ -145,7 +139,6 @@ const AdminOrCashierMenu = ({user}) => {
                     <Button
                         autoFocus
                         onClick={() => {
-                            dispatch(setModalClosed());
                             setWantToCloseShift(false);
                         }}
                     >
@@ -153,7 +146,6 @@ const AdminOrCashierMenu = ({user}) => {
                     </Button>
                     <Button
                         onClick={() => {
-                            dispatch(setModalClosed());
                             shiftCloseHandler(shift._id);
                         }}
                         autoFocus
@@ -198,7 +190,6 @@ const AdminOrCashierMenu = ({user}) => {
                             autoFocus
                             type='button'
                             onClick={() => {
-                                dispatch(setModalClosed());
                                 setWantToInsertCash(false);
                                 setState({amountOfMoney: "", comment: ''});
                             }}
@@ -243,7 +234,6 @@ const AdminOrCashierMenu = ({user}) => {
                             type='button'
                             autoFocus
                             onClick={() => {
-                                dispatch(setModalClosed());
                                 setWantToWithdrawCash(false);
                                 setState({amountOfMoney: "", comment: ''});
                             }}
@@ -258,6 +248,14 @@ const AdminOrCashierMenu = ({user}) => {
         modalChildren = (
             <Box width="100%">
                 <Typography variant="h6">Возврат продажи</Typography>
+                <FormElement
+                    label="Дата"
+                    onChange={inputChangeHandlerToReturn}
+                    value={productReturn.date}
+                    name="date"
+                    required={true}
+                    fullWidth={false}
+                />
                 <FormElement
                     label="Номер чека"
                     onChange={inputChangeHandlerToReturn}
@@ -286,29 +284,11 @@ const AdminOrCashierMenu = ({user}) => {
                     Сумма к выдаче: 0
                 </Typography>
                 <Box display="flex" justifyContent="flex-end">
-                    {productReturn.total?
-                        <Button
-                            onClick={async () => {
-                                    dispatch(setModalClosed());
-                                setWantToReturnAProduct(false);
-                                setProductReturn({
-                                    checkNumber: "",
-                                    barcode: "",
-                                    quantity: "",
-                                });
-                            }}
-                            autoFocus
-                        >
-                            Вернуть
-                        </Button>:
                     <Button
-                        onClick={async() => {
-                            console.log({...productReturn, shiftId: shift._id,title:'Возврат продажы'});
-                            const res = await axiosApi.post('/operations',{...productReturn, shiftId: shift._id,title:'Возврат продажы'});
-                            if(res.ok)
-                            dispatch(setModalClosed());
+                        onClick={() => {
                             setWantToReturnAProduct(false);
                             setProductReturn({
+                                date: "",
                                 checkNumber: "",
                                 barcode: "",
                                 quantity: "",
@@ -317,7 +297,7 @@ const AdminOrCashierMenu = ({user}) => {
                         autoFocus
                     >
                         Вернуть
-                    </Button>}
+                    </Button>
                 </Box>
             </Box>
         );
@@ -421,7 +401,6 @@ const AdminOrCashierMenu = ({user}) => {
                                     onClick={() => {
                                         handleClose();
                                         setWantToInsertCash(true);
-                                        dispatch(setModalOpen());
                                     }}
                                 >
                                     Внесение наличных
@@ -430,7 +409,6 @@ const AdminOrCashierMenu = ({user}) => {
                                     onClick={() => {
                                         handleClose();
                                         setWantToWithdrawCash(true);
-                                        dispatch(setModalOpen());
                                     }}
                                 >
                                     Изъятие наличных
@@ -440,7 +418,6 @@ const AdminOrCashierMenu = ({user}) => {
                                     onClick={() => {
                                         handleClose();
                                         setWantToReturnAProduct(true);
-                                        dispatch(setModalOpen());
                                     }}
                                 >
                                     Возврат продажи
@@ -456,7 +433,6 @@ const AdminOrCashierMenu = ({user}) => {
                                     onClick={() => {
                                         handleClose();
                                         setWantToCloseShift(true);
-                                        dispatch(setModalOpen());
                                     }}
                                 >
                                     Закрытие смены
@@ -522,7 +498,6 @@ const AdminOrCashierMenu = ({user}) => {
                             onClick={() => {
                                 if (user.role === "cashier" && shift) {
                                     setWantToLogout(true);
-                                    dispatch(setModalOpen());
                                 } else {
                                     dispatch(logoutUser());
                                 }
@@ -543,7 +518,6 @@ const AdminOrCashierMenu = ({user}) => {
                     {
                         (wantToInsertCash || wantToCloseShift || wantToWithdrawCash || wantToLogout || wantToReturnAProduct) && (
                             <CustomModal
-                                isOpen={modalOpen}
                                 handleClose={() => {
                                     setWantToLogout(false);
                                     setWantToInsertCash(false);
@@ -557,7 +531,6 @@ const AdminOrCashierMenu = ({user}) => {
                                         quantity: "",
                                     });
                                     setState({amountOfMoney: "", comment: ''});
-                                    dispatch(setModalClosed());
                                 }}
                             >
                                 {modalChildren}

@@ -4,6 +4,7 @@ const name = 'operations';
 
 export const initialState = {
     operations: {},
+    receipt: {},
     loading: false,
     error: null,
 };
@@ -24,6 +25,9 @@ const operationsSlice = createSlice({
             state.loading = false;
             state.error = error;
         },
+        fetchReceipt(state, action) {
+            state.receipt = action.payload;
+        }
     }
 });
 
@@ -31,6 +35,7 @@ export const {
     fetchOperationsRequest,
     fetchOperationsSuccess,
     fetchOperationsFailure,
+    fetchReceipt,
 } = operationsSlice.actions;
 
 export default operationsSlice;

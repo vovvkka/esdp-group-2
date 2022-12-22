@@ -1,0 +1,67 @@
+.receipt {
+  max-width: 75mm;
+  width: 75mm;
+
+  &__ticket {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__center-text {
+    text-align: center;
+  }
+
+  &__header-text:last-child {
+    margin: 10px 0;
+  }
+
+  &__flex {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__about-cashier {
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+    padding: 10px 0;
+  }
+
+  &__product-item {
+    padding: 10px 0;
+    border-bottom: 2px dashed black;
+  }
+
+  &__total {
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+    padding: 10px 0;
+    margin: 20px 0;
+  }
+}
+
+
+@media print {
+  * {
+    visibility: hidden;
+  }
+
+  .receipt__ticket * {
+    visibility: initial !important;
+  }
+
+  .receipt__ticket {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    z-index: 9999999999;
+    padding: 2.5mm;
+  }
+
+  .css-1482lxd {
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    max-height: none !important;
+    overflow: unset !important;
+  }
+}

@@ -48,7 +48,7 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
                             throw({error: 'Data not valid'});
                         }
                         await Product.findByIdAndUpdate(i._id, {amount: item.amount - i.quantity});
-                        return {...i, price: item.price}
+                        return {...i, price: item.price, title: item.title, barcode: item.barcode}
                 }));
 
             const cash = await Cash.findOne();
