@@ -6,6 +6,8 @@ import {fetchOneProduct} from "../../store/actions/productsActions";
 import {apiUrl} from "../../config";
 import {addProduct} from "../../store/slices/cartSlice";
 import '@splidejs/react-splide/css';
+import Spinner from "../../components/UI/Spinner/Spinner";
+import {clearProduct} from "../../store/slices/productsSlice";
 
 
 const SingleProductPage = () => {
@@ -13,14 +15,19 @@ const SingleProductPage = () => {
     const dispatch = useDispatch();
     const mainRef = useRef(null);
     const thumbsRef = useRef(null);
-    const [error,setError] = useState(null);
+    const [error, setError] = useState(null);
 
     const product = useSelector(state => state.products.product);
+    const loading = useSelector(state => state.products.fetchLoading);
     const [amount, setAmount] = useState(1);
     const cartProduct = {...product};
 
     useEffect(() => {
         dispatch(fetchOneProduct(match.params.id));
+
+        return () => {
+            dispatch(clearProduct());
+        }
     }, [dispatch, match.params.id]);
 
     useEffect(() => {
@@ -28,6 +35,7 @@ const SingleProductPage = () => {
             mainRef.current.sync(thumbsRef.current.splide);
         }
     });
+
 
     const addToCart = () => {
         cartProduct.quantity = amount;
@@ -79,6 +87,11 @@ const SingleProductPage = () => {
             },
         },
     };
+
+
+    if (loading) {
+        return <Spinner/>
+    }
 
     return product && (
         <div className='single-product'>
