@@ -10,7 +10,6 @@ import CustomModal from "../../components/UI/Modal/Modal";
 const AdminOrders = () => {
     const dispatch = useDispatch();
     const orders = useSelector(state => state.orders.orders);
-    const modalOpen = useSelector(state => state.app.modalOpen);
     const [status, setStatus] = useState(null);
     const [order, setOrder] = useState(null);
     const [openDetailInfo, setOpenDetailInfo] = useState(false);
@@ -139,7 +138,6 @@ const AdminOrders = () => {
             {
                 openDetailInfo && (
                     <CustomModal
-                        isOpen={modalOpen}
                         handleClose={() => {
                             setOpenDetailInfo(false);
                         }}
