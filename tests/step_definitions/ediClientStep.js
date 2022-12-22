@@ -14,13 +14,16 @@ Given('я введу данные', table => {
 
 When('нажимаю на кнопку {string}', buttonText => {
     I.click(`//form//button[contains(text(), "${buttonText}")]`);
-    I.wait(5);
 });
 
-Given('я перехожу на страницу {string}', (page) => {
+When('я захожу на страницу {string}', page => {
     I.amOnPage('/' + page);
+    I.wait(2);
 });
 
+When('я нажимаю на кнопку редактирования', () => {
+    I.click(`//table//tr//td//a`);
+});
 Given('я введу данные', table => {
     table.rows.forEach(row => {
         const name = row.cells[0].value;
@@ -29,10 +32,16 @@ Given('я введу данные', table => {
     });
 });
 
-When('нажимаю кнопку {string}', buttonText => {
-    I.click(`//form//button[contains(text(), "${buttonText}")]`);
+When('добавляю фотографию {string}', text => {
+    I.attachFile('//div//input[@type="file"]', `${text}`);
+    I.wait(2);
 });
 
-Then('я перехожу на страницу с кассирами и вижу заголовок {string}', text => {
+When('нажимаю кнопку {string}', buttonText => {
+    I.click(`//form//button[contains(text(), "${buttonText}")]`);
+    I.wait(2);
+});
+
+When('я перехожу на страницу и вижу таблицу {string}', (text) => {
     I.see(text);
 });

@@ -1,8 +1,6 @@
 @import '../variables';
 
 .product-card {
-  width: 350px;
-  height: auto;
   margin: 15px 0;
   font-weight: 600;
   text-align: center;
@@ -10,6 +8,7 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 
   &__container {
     width: 350px;
@@ -21,8 +20,8 @@
   }
 
   &__picture {
-    height: 350px;
     width: 100%;
+    height: 275px;
   }
 
   &__overlay {
@@ -41,6 +40,10 @@
     &:hover {
       opacity: 0.5;
     }
+  }
+
+  &__info {
+    margin-top: auto;
   }
 
   &__price {
@@ -66,36 +69,14 @@
   }
 
 
-  @media (max-width: 1200px) {
-    &__picture {
-      height: 300px;
-      width: auto;
-    }
-  }
-
-  @media (max-width: 1000px) {
-    &__picture {
-      height: 335px;
-      width: auto;
-    }
-
-    &__title {
-      font-size: 18px;
-      margin: 20px 0 0 0;
-    }
-  }
-
   @media (max-width: 800px) {
-    width: 30%;
-    height: auto;
-
     &__container {
       width: 100%;
     }
 
     &__picture {
       height: auto;
-      width: 150px;
+      width: 100%;
     }
 
     &__title {
@@ -109,14 +90,13 @@
   }
 
   @media (max-width: 500px) {
-    width: 33%;
-
     &__container {
       width: 100%;
     }
 
     &__picture {
       width: 100%;
+      height: 180px;
     }
 
     &__title {

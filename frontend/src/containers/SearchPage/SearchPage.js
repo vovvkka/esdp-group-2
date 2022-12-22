@@ -118,7 +118,7 @@ const SearchPage = () => {
                                     <div className='products'>
                                         {renderProducts}
                                     </div>
-                                    {products.docs.length ?
+                                    {products.docs?.length ?
                                         <div className='searchPage__pages' >
                                         <Pagination count={products.pages} page={currentPage} onChange={handleChange}
                                                     color="secondary"/>

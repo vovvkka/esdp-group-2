@@ -6,6 +6,8 @@ import {fetchOneProduct} from "../../store/actions/productsActions";
 import {apiUrl} from "../../config";
 import {addProduct} from "../../store/slices/cartSlice";
 import '@splidejs/react-splide/css';
+import Spinner from "../../components/UI/Spinner/Spinner";
+import {clearProduct} from "../../store/slices/productsSlice";
 
 
 const SingleProductPage = () => {
@@ -13,21 +15,27 @@ const SingleProductPage = () => {
     const dispatch = useDispatch();
     const mainRef = useRef(null);
     const thumbsRef = useRef(null);
-    const [error,setError] = useState(null);
+    const [error, setError] = useState(null);
 
     const product = useSelector(state => state.products.product);
+    const loading = useSelector(state => state.products.fetchLoading);
     const [amount, setAmount] = useState(1);
     const cartProduct = {...product};
 
     useEffect(() => {
         dispatch(fetchOneProduct(match.params.id));
+
+        return () => {
+            dispatch(clearProduct());
+        }
     }, [dispatch, match.params.id]);
 
     useEffect(() => {
         if (mainRef.current && thumbsRef.current && thumbsRef.current.splide) {
             mainRef.current.sync(thumbsRef.current.splide);
         }
-    }, [mainRef.current, thumbsRef.current]);
+    });
+
 
     const addToCart = () => {
         cartProduct.quantity = amount;
@@ -80,6 +88,11 @@ const SingleProductPage = () => {
         },
     };
 
+
+    if (loading) {
+        return <Spinner/>
+    }
+
     return product && (
         <div className='single-product'>
             <div className='single-product__top'>
@@ -90,27 +103,37 @@ const SingleProductPage = () => {
 
             <div className='single-product__main'>
                 <div className='single-product__slide'>
-                    <Splide
-                        options={mainOptions}
-                        ref={mainRef}
-                    >
-                        {product.image.map((slide, index) => (
-                            <SplideSlide key={index}>
-                                <img src={apiUrl + '/' + slide} alt={product.title}/>
-                            </SplideSlide>
-                        ))}
-                    </Splide>
+                    {product.image.length > 1 ?
+                        <>
+                            <Splide
+                                options={mainOptions}
+                                ref={mainRef}
+                            >
+                                {product.image.map((slide, index) => (
+                                    <SplideSlide key={index}>
+                                        <img src={apiUrl + '/' + slide} alt={product.title}/>
+                                    </SplideSlide>
+                                ))}
+                            </Splide>
 
-                    <Splide
-                        options={thumbsOptions}
-                        ref={thumbsRef}
-                    >
-                        {product.image.map(slide => (
-                            <SplideSlide key={slide}>
-                                <img src={apiUrl + '/' + slide} alt={product.title}/>
-                            </SplideSlide>
-                        ))}
-                    </Splide>
+                            <Splide
+                                options={thumbsOptions}
+                                ref={thumbsRef}
+                            >
+                                {product.image.map(slide => (
+                                    <SplideSlide key={slide}>
+                                        <img src={apiUrl + '/' + slide} alt={product.title}/>
+                                    </SplideSlide>
+                                ))}
+                            </Splide>
+                        </> :
+                        <>
+                            {product.image.map(slide => (
+                                <img key={slide} className='single-product__image' src={apiUrl + '/' + slide}
+                                     alt={product.title}/>
+                            ))}
+                        </>
+                    }
                 </div>
 
                 <div className='single-product__info'>

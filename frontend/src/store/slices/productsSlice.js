@@ -90,6 +90,9 @@ const productsSlice = createSlice({
             state.createProductLoading = false;
             state.createProductError = action.payload;
         },
+        clearProduct(state) {
+            state.product = null;
+        }
     }
 });
 export const {
@@ -111,7 +114,8 @@ export const {
     deleteProductFailure,
     editProductRequest,
     editProductSuccess,
-    editProductFailure
+    editProductFailure,
+    clearProduct,
 } = productsSlice.actions
 
 export default productsSlice;
