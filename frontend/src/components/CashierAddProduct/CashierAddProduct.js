@@ -97,10 +97,10 @@ const CashierAddProduct = () => {
             customerInfo: state.customer,
             purchaseInfo,
             total: totalWithDiscount,
+            discount: total-totalWithDiscount,
         };
 
         await dispatch(purchaseOperation(purchase));
-
         setWantToGetReceipt(true);
     };
 

@@ -64,6 +64,18 @@ const cashSlice = createSlice({
         purchaseFailure(state, {payload: error}) {
             state.loading = false;
             state.error = error;
+        },
+        returnRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        returnSuccess(state, action) {
+            state.cash = state.cash - (+action.payload);
+            state.loading = false;
+        },
+        returnFailure(state, {payload: error}) {
+            state.loading = false;
+            state.error = error;
         }
     }
 });
@@ -81,7 +93,10 @@ export const {
     withdrawCashFailure,
     purchaseRequest,
     purchaseSuccess,
-    purchaseFailure
+    purchaseFailure,
+    returnRequest,
+    returnSuccess,
+    returnFailure
 } = cashSlice.actions;
 
 export default cashSlice;
