@@ -19,6 +19,8 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {fetchClients} from "../../store/actions/clientsActions";
 import {purchaseOperation} from "../../store/actions/cashActions";
+import CustomModal from "../UI/Modal/Modal";
+import Receipt from "../Receipt/Receipt";
 
 const CashierAddProduct = () => {
     const addedProducts = useSelector(state => state.cashbox.products);
@@ -28,11 +30,14 @@ const CashierAddProduct = () => {
     const user = useSelector(state => state.users.user);
     const customers = useSelector(state => state.clients.clients.docs);
     const shift = useSelector(state => state.shifts.shift);
-    const cashbox = useSelector(state => state.cashbox.products);
+    const cashbox = useSelector(state => state.cashbox);
+    const receipt = useSelector(state => state.operations.receipt);
     const dispatch = useDispatch();
+
 
     const [state, setState] = useState({customer: '', barcode: ''});
     const [clientsOptions, setClientsOptions] = useState([]);
+    const [wantToGetReceipt, setWantToGetReceipt] = useState(false);
 
     useEffect(() => {
         dispatch(fetchClients());
@@ -80,8 +85,12 @@ const CashierAddProduct = () => {
         }
     };
 
-    const purchaseHandler = () => {
-        const purchaseInfo = addedProducts.map((product) => ({_id: product._id, quantity: product.quantity, discount: product.discount}));
+    const purchaseHandler = async () => {
+        const purchaseInfo = addedProducts.map((product) => ({
+            _id: product._id,
+            quantity: product.quantity,
+            discount: product.discount
+        }));
 
         const purchase = {
             shiftId: shift._id,
@@ -90,7 +99,9 @@ const CashierAddProduct = () => {
             total: totalWithDiscount,
         };
 
-        dispatch(purchaseOperation(purchase));
+        await dispatch(purchaseOperation(purchase));
+
+        setWantToGetReceipt(true);
     };
 
     return (
@@ -130,7 +141,7 @@ const CashierAddProduct = () => {
                         </TableHead>
                         <TableBody>
                                 {addedProducts.map((product, index) => {
-                                    const itemInCashbox = cashbox.filter(i => i._id === product._id);
+                                    const itemInCashbox = cashbox.products.filter(i => i._id === product._id);
                                     let disabled = false;
                                     if (itemInCashbox[0].quantity >= product.amount) {
                                         disabled = true;
@@ -193,13 +204,30 @@ const CashierAddProduct = () => {
                                 <Button variant='contained' onClick={cancelHandler}>Отмена</Button>
                             </Grid>
                             <Grid item>
-                                <Button variant='contained' onClick={purchaseHandler}>Получить</Button>
+                                <Button variant='contained' onClick={() => purchaseHandler()}>Получить</Button>
                             </Grid>
                         </Grid>
                     </Grid>
-                   : null
+                    : null
                 }
             </Grid>
+
+            {
+                wantToGetReceipt && (
+                    <CustomModal
+                        isOpen={wantToGetReceipt}
+                        handleClose={() => {
+                            setWantToGetReceipt(false);
+                        }}
+                    >
+                        <Receipt
+                            displayName={user.displayName}
+                            shiftNumber={shift.shiftNumber}
+                            receipt={receipt}
+                        />
+                    </CustomModal>
+                )
+            }
         </Grid>
     );
 };

@@ -7,7 +7,6 @@ import thunk from "redux-thunk";
 import categoriesSlice from "./slices/categoriesSlice";
 import productsSlice from "./slices/productsSlice";
 import cashiersSlice from "./slices/cashiersSlice";
-import appSlice from "./slices/appSLice";
 import newsSlice from "./slices/newsSlice";
 import ordersSlice from "./slices/ordersSlice";
 import cartSlice from "./slices/cartSlice";
@@ -24,7 +23,6 @@ const rootReducer = combineReducers({
     categories: categoriesSlice.reducer,
     products: productsSlice.reducer,
     cashiers: cashiersSlice.reducer,
-    app: appSlice.reducer,
     news: newsSlice.reducer,
     orders: ordersSlice.reducer,
     cart: cartSlice.reducer,
