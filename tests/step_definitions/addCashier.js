@@ -34,6 +34,5 @@ When('нажимаю кнопку {string}', buttonText => {
 });
 
 Then('я перехожу на страницу с кассирами и вижу заголовок {string}', text => {
-    // I.wait(5);
     I.see(text);
 });

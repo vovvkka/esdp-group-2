@@ -43,10 +43,10 @@ Then('я нажму на селект {string}', text => {
 
 When('я нажимаю на кнопку {string}', saveText => {
     I.forceClick(`//form//button[contains(text(), "${saveText}")]`);
-    I.wait(5)
+    I.wait(5);
 });
 
 Then('я перехожу на страницу с категориями и вижу моя созданную {string}', text => {
-    I.see(text)
+    I.see(text);
 });
 
