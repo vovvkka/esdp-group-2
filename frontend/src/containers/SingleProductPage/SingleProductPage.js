@@ -27,7 +27,7 @@ const SingleProductPage = () => {
         if (mainRef.current && thumbsRef.current && thumbsRef.current.splide) {
             mainRef.current.sync(thumbsRef.current.splide);
         }
-    }, [mainRef.current, thumbsRef.current]);
+    });
 
     const addToCart = () => {
         cartProduct.quantity = amount;
@@ -90,27 +90,37 @@ const SingleProductPage = () => {
 
             <div className='single-product__main'>
                 <div className='single-product__slide'>
-                    <Splide
-                        options={mainOptions}
-                        ref={mainRef}
-                    >
-                        {product.image.map((slide, index) => (
-                            <SplideSlide key={index}>
-                                <img src={apiUrl + '/' + slide} alt={product.title}/>
-                            </SplideSlide>
-                        ))}
-                    </Splide>
+                    {product.image.length > 1 ?
+                        <>
+                            <Splide
+                                options={mainOptions}
+                                ref={mainRef}
+                            >
+                                {product.image.map((slide, index) => (
+                                    <SplideSlide key={index}>
+                                        <img src={apiUrl + '/' + slide} alt={product.title}/>
+                                    </SplideSlide>
+                                ))}
+                            </Splide>
 
-                    <Splide
-                        options={thumbsOptions}
-                        ref={thumbsRef}
-                    >
-                        {product.image.map(slide => (
-                            <SplideSlide key={slide}>
-                                <img src={apiUrl + '/' + slide} alt={product.title}/>
-                            </SplideSlide>
-                        ))}
-                    </Splide>
+                            <Splide
+                                options={thumbsOptions}
+                                ref={thumbsRef}
+                            >
+                                {product.image.map(slide => (
+                                    <SplideSlide key={slide}>
+                                        <img src={apiUrl + '/' + slide} alt={product.title}/>
+                                    </SplideSlide>
+                                ))}
+                            </Splide>
+                        </> :
+                        <>
+                            {product.image.map(slide => (
+                                <img key={slide} className='single-product__image' src={apiUrl + '/' + slide}
+                                     alt={product.title}/>
+                            ))}
+                        </>
+                    }
                 </div>
 
                 <div className='single-product__info'>
