@@ -118,11 +118,16 @@ const SearchPage = () => {
                                     <div className='products'>
                                         {renderProducts}
                                     </div>
-                                    {products.docs?.length ?
-                                        <div className='searchPage__pages' >
-                                        <Pagination count={products.pages} page={currentPage} onChange={handleChange}
-                                                    color="secondary"/>
-                                    </div> : <Typography sx={{justifySelf:'start'}}>{key} - По вашему запросу совпадений не найдено</Typography>}
+                                    {!products.docs?null:
+                                        products.docs.length ?
+                                            <div className='searchPage__pages'>
+                                                <Pagination count={products.pages} page={currentPage}
+                                                            onChange={handleChange}
+                                                            color="secondary"/>
+                                            </div> :
+                                            <Typography sx={{justifySelf: 'start'}}>{key} - По вашему запросу совпадений
+                                                не найдено</Typography>
+                                    }
                                 </div>
                             )}
 
