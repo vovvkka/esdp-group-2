@@ -4,7 +4,6 @@ Given('я захожу на страницу {string}', (page) => {
     I.amOnPage('/' + page);
 });
 
-
 Given('я введу данные', table => {
     table.rows.forEach(row => {
         const name = row.cells[0].value;
@@ -38,7 +37,7 @@ When('нажимаю кнопку сохранения заказа', () => {
 });
 
 Then('я вижу статус заказа {string}', text => {
-    I.see(text)
+    I.see(text);
 });
 
 
