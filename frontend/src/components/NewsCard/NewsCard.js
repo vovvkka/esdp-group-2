@@ -2,12 +2,10 @@ import React, {useState} from 'react';
 import {apiUrl} from "../../config";
 import {Link} from "react-router-dom";
 import {Delete, Visibility, VisibilityOff} from "@mui/icons-material";
-import {useSelector} from "react-redux";
 import {Box, Button, Typography} from "@mui/material";
 import CustomModal from "../UI/Modal/Modal";
 
 const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
-    const modalOpen = useSelector(state => state.app.modalOpen);
     const [wantToDelete, setWantToDelete] = useState(false);
 
     const desc = n.description.length >= 20 ? n.description.split(' ').slice(0, 20).join(' ') : n.description;
@@ -86,7 +84,6 @@ const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
             {
                 wantToDelete && (
                     <CustomModal
-                        isOpen={modalOpen}
                         handleClose={() => {
                             setWantToDelete(false);
                         }}
