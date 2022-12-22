@@ -13,7 +13,7 @@ router.get("/", auth, async (req, res) => {
     const query = {};
     const options = {
         populate: {path: 'shift', select: 'shiftNumber'},
-        sort: {operationNumber:-1},
+        sort: {operationNumber: -1},
         page: parseInt(page) || 1,
         limit: parseInt(perPage) || 30
     };
@@ -26,7 +26,8 @@ router.get("/", auth, async (req, res) => {
     }
 });
 router.post("/", auth, permit('cashier'), async (req, res) => {
-    const {title, shiftId, customerInfo, purchaseInfo, total} = req.body;
+    const title = req.body.title;
+    const shiftId = req.body.shiftId;
 
     try {
         const shift = await Shift.findById(shiftId);
@@ -35,17 +36,21 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
             if (!shift.isActive) {
                 return res.status(403).send({message: 'Operation can not be done!'});
             }
+        } else {
+            return res.status(404).send({message: 'Shift not found!'});
         }
 
         if (title === config.operations.purchase) {
+            const {customerInfo, purchaseInfo, total} = req.body;
+
             const completePurchaseInfo = await Promise.all(
                 purchaseInfo.map(async i => {
-                        const item = await Product.findById(i._id);
-                        if (i.quantity > item.amount) {
-                            throw({error: 'Data not valid'});
-                        }
-                        await Product.findByIdAndUpdate(i._id, {amount: item.amount - i.quantity});
-                        return {...i, price: item.price, title: item.title, barcode: item.barcode}
+                    const item = await Product.findById(i._id);
+                    if (i.quantity > item.amount) {
+                        throw({error: 'Data not valid'});
+                    }
+                    await Product.findByIdAndUpdate(i._id, {amount: item.amount - i.quantity});
+                    return {...i, price: item.price, title: item.title, barcode: item.barcode}
                 }));
 
             const cash = await Cash.findOne();
@@ -61,11 +66,68 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
             await operation.save();
 
             await res.send(operation);
+        } else if (title === 'returnPurchaseCheck') {
+            const {checkNumber, barcode, quantity} = req.body;
+
+            const purchase = await Operation.findOne({operationNumber: checkNumber});
+            if (!purchase || purchase.title !== config.operations.purchase) {
+                return res.status(404).send({message: 'Wrong receipt number'});
+            }
+            const item = purchase.additionalInfo.completePurchaseInfo.filter(i => i.barcode === barcode);
+
+            if (!item.length) {
+                return res.status(404).send({message: 'Wrong product'});
+            }
+
+            if(item[0].returned){
+                if (quantity > item[0].quantity-item[0].returned) {
+                    return res.status(400).send({message: 'Wrong amount'});
+                }
+            }
+            if (quantity > item[0].quantity) {
+                return res.status(400).send({message: 'Wrong amount'});
+            }
+            await res.send({total: item[0].price - (item[0].price * quantity * item[0].discount) / 100});
+        } else if (title === config.operations.returnPurchase) {
+            const {checkNumber, barcode, quantity, total} = req.body;
+            const purchase = await Operation.findOne({operationNumber: checkNumber});
+            const purchaseInfo = purchase.additionalInfo.completePurchaseInfo.map(i => {
+                if(i.barcode === barcode){
+                    if(i.returned){
+                        i.returned=i.returned+quantity;
+                    }else {
+                        i.returned = quantity;
+                    }
+                    return i;
+                }else{
+                    return i;
+                }
+            });
+            await Operation.findByIdAndUpdate(purchase._id, {...purchase, completePurchaseInfo:purchaseInfo});
+
+
+            const item = await Product.findOne({barcode: barcode});
+            await Product.findByIdAndUpdate(item._id, {amount: item.amount + quantity});
+
+            const cash = await Cash.findOne();
+            const cashBefore = cash.cash;
+            cash.cash = cashBefore - (+total);
+            await cash.save();
+            const operation = new Operation({
+                shift: shift._id,
+                title: config.operations.returnPurchase,
+                dateTime: Date.now(),
+                additionalInfo: {barcode, quantity, checkNumber, amountOfMoney: total, cash: cashBefore}
+            });
+            await operation.save();
+
+            await res.send(operation);
         } else {
             return res.status(404).send({message: 'Wrong type of operation'});
         }
 
     } catch (e) {
+        console.log(e);
         res.status(400).send(e);
     }
 });

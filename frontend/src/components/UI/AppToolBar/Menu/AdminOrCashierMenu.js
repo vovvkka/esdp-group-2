@@ -7,7 +7,9 @@ import {logoutUser} from "../../../../store/actions/usersActions";
 import {closeShift} from "../../../../store/actions/shiftsActions";
 import CustomModal from "../../Modal/Modal";
 import FormElement from "../../Form/FormElement/FormElement";
-import {insertCash, withdrawCash,} from "../../../../store/actions/cashActions";
+import {insertCash, returnOperation, withdrawCash,} from "../../../../store/actions/cashActions";
+import axiosApi from "../../../../axiosApi";
+import {addNotification} from "../../../../store/actions/notifierActions";
 
 const AdminOrCashierMenu = ({user}) => {
     const dispatch = useDispatch();
@@ -29,10 +31,10 @@ const AdminOrCashierMenu = ({user}) => {
         comment: ''
     });
     const [productReturn, setProductReturn] = useState({
-        date: "",
         checkNumber: "",
         barcode: "",
         quantity: "",
+        total: null,
     });
 
     const open = Boolean(anchorEl);
@@ -249,14 +251,9 @@ const AdminOrCashierMenu = ({user}) => {
             <Box width="100%">
                 <Typography variant="h6">Возврат продажи</Typography>
                 <FormElement
-                    label="Дата"
-                    onChange={inputChangeHandlerToReturn}
-                    value={productReturn.date}
-                    name="date"
-                    required={true}
-                    fullWidth={false}
-                />
-                <FormElement
+                    InputProps={productReturn.total?{
+                        readOnly: true,
+                    }:null}
                     label="Номер чека"
                     onChange={inputChangeHandlerToReturn}
                     value={productReturn.checkNumber}
@@ -265,6 +262,9 @@ const AdminOrCashierMenu = ({user}) => {
                     fullWidth={false}
                 />
                 <FormElement
+                    InputProps={productReturn.total?{
+                        readOnly: true,
+                    }:null}
                     label="Штрих-код"
                     onChange={inputChangeHandlerToReturn}
                     value={productReturn.barcode}
@@ -273,6 +273,9 @@ const AdminOrCashierMenu = ({user}) => {
                     fullWidth={false}
                 />
                 <FormElement
+                    InputProps={productReturn.total?{
+                        readOnly: true,
+                    }:null}
                     label="Кол-во"
                     onChange={inputChangeHandlerToReturn}
                     value={productReturn.quantity}
@@ -280,24 +283,50 @@ const AdminOrCashierMenu = ({user}) => {
                     required={true}
                     fullWidth={false}
                 />
-                <Typography variant="h6">
-                    Сумма к выдаче: 0
-                </Typography>
+                {productReturn.total?<Typography variant="h6">
+                    Сумма к выдаче: {productReturn.total}
+                </Typography>:null}
                 <Box display="flex" justifyContent="flex-end">
-                    <Button
-                        onClick={() => {
-                            setWantToReturnAProduct(false);
-                            setProductReturn({
-                                date: "",
-                                checkNumber: "",
-                                barcode: "",
-                                quantity: "",
-                            });
+                    {productReturn.total?<Button
+                        onClick={async() => {
+                            try {
+                                await dispatch(returnOperation({shiftId: shift._id, ...productReturn}));
+                                setWantToReturnAProduct(false);
+                                setProductReturn({
+                                    checkNumber: "",
+                                    barcode: "",
+                                    quantity: "",
+                                    total: null,
+                                });
+                            }catch {
+                                dispatch(addNotification('Неверные данные!', 'error'));
+                            }
                         }}
                         autoFocus
                     >
                         Вернуть
+                    </Button>:<Button
+                        onClick={async () => {
+                            try {
+                                const res = await axiosApi.post('/operations', {
+                                    ...productReturn,
+                                    shiftId: shift._id,
+                                    title: 'returnPurchaseCheck'
+                                });
+                                if (res.data) {
+                                    setProductReturn(prevState => {
+                                        return {...prevState, total: res.data.total}
+                                    });
+                                }
+                            }catch {
+                                dispatch(addNotification('Неверные данные!', 'error'));
+                            }
+                        }}
+                        autoFocus
+                    >
+                        Проверить
                     </Button>
+                    }
                 </Box>
             </Box>
         );
@@ -518,6 +547,7 @@ const AdminOrCashierMenu = ({user}) => {
                     {
                         (wantToInsertCash || wantToCloseShift || wantToWithdrawCash || wantToLogout || wantToReturnAProduct) && (
                             <CustomModal
+                                isOpen={wantToInsertCash || wantToCloseShift || wantToWithdrawCash || wantToLogout || wantToReturnAProduct}
                                 handleClose={() => {
                                     setWantToLogout(false);
                                     setWantToInsertCash(false);
@@ -525,10 +555,10 @@ const AdminOrCashierMenu = ({user}) => {
                                     setWantToCloseShift(false);
                                     setWantToReturnAProduct(false);
                                     setProductReturn({
-                                        date: "",
                                         checkNumber: "",
                                         barcode: "",
                                         quantity: "",
+                                        total: null,
                                     });
                                     setState({amountOfMoney: "", comment: ''});
                                 }}

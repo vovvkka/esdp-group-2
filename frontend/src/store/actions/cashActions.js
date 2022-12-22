@@ -9,6 +9,9 @@ import {
     purchaseFailure,
     purchaseRequest,
     purchaseSuccess,
+    returnFailure,
+    returnRequest,
+    returnSuccess,
     withdrawCashFailure,
     withdrawCashRequest,
     withdrawCashSuccess
@@ -21,7 +24,7 @@ import {fetchReceipt} from "../slices/operationsSlice";
 const WithdrawCash = 'Изъятие наличных';
 const InsertCash = 'Внесение наличных';
 const purchase = 'Продажа';
-const returnPurchase = 'Возврат продажы';
+export const returnPurchase = 'Возврат продажы';
 
 export const getCash = () => {
     return async (dispatch) => {
@@ -88,6 +91,22 @@ export const purchaseOperation = (operationData) => {
             dispatch(fetchReceipt(response.data));
         } catch (e) {
             dispatch(purchaseFailure(e));
+        }
+    };
+};
+
+export const returnOperation = (operationData) => {
+    return async dispatch => {
+        try {
+            operationData.title = returnPurchase;
+            dispatch(returnRequest());
+
+            await axiosApi.post(`/operations`, operationData);
+
+            dispatch(returnSuccess(operationData.total));
+            dispatch(fetchProducts());
+        } catch (e) {
+            dispatch(returnFailure(e));
         }
     };
 };

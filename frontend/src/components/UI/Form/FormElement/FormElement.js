@@ -1,7 +1,7 @@
 import React from 'react';
 import {Grid, TextField} from "@mui/material";
 
-const FormElement = ({name, value, onChange, label, error, type, required, fullWidth, inputProps, width, xs, multiline,rows}) => {
+const FormElement = ({name, value, onChange, label, error, type, required, fullWidth, InputProps, width, xs, multiline,rows}) => {
     return (
         <Grid item xs={xs || 12}>
             <TextField
@@ -15,7 +15,7 @@ const FormElement = ({name, value, onChange, label, error, type, required, fullW
                 error={Boolean(error)}
                 helperText={error}
                 autoComplete={name}
-                inputProps={inputProps}
+                InputProps={InputProps}
                 multiline={multiline}
                 rows={rows}
                 fullWidth={fullWidth ? fullWidth : true}
