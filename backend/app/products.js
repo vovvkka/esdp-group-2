@@ -29,7 +29,6 @@ router.get('/', async (req, res) => {
         let descendants;
         const {page, perPage} = req.query;
         const query = {};
-        console.log(req.query);
         if (req.query.category) {
             descendants = await Category.find({ancestors: {$in: [req.query.category]}});
         }

@@ -90,3 +90,21 @@ export const purchaseOperation = (operationData) => {
     };
 };
 
+export const returnOperation = (operationData) => {
+    return async dispatch => {
+        try {
+            operationData.title = returnOperation();
+            dispatch(purchaseRequest());
+
+            await axiosApi.post(`/operations`, operationData);
+
+            dispatch(purchaseSuccess(operationData.total));
+            dispatch(purchased());
+            dispatch(purchaseReceipt());
+            dispatch(fetchProducts());
+        } catch (e) {
+            dispatch(purchaseFailure(e));
+        }
+    };
+};
+

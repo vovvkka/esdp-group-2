@@ -26,7 +26,8 @@ router.get("/", auth, async (req, res) => {
     }
 });
 router.post("/", auth, permit('cashier'), async (req, res) => {
-    const {title, shiftId, customerInfo, purchaseInfo, total} = req.body;
+    const title = req.body.title;
+    const shiftId = req.query.shiftId;
 
     try {
         const shift = await Shift.findById(shiftId);
@@ -38,6 +39,8 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
         }
 
         if (title === config.operations.purchase) {
+            const {customerInfo, purchaseInfo, total} = req.body;
+
             const completePurchaseInfo = await Promise.all(
                 purchaseInfo.map(async i => {
                         const item = await Product.findById(i._id);
@@ -61,11 +64,18 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
             await operation.save();
 
             await res.send(operation);
-        } else {
+        } else  if (title === config.operations.returnPurchase) {
+            const {checkNumber, barcode, quantity} = req.body;
+
+            const purchase = await Operation.findOne({operationNumber: checkNumber});
+
+            await res.send(purchase);
+        }else {
             return res.status(404).send({message: 'Wrong type of operation'});
         }
 
     } catch (e) {
+        console.log(e);
         res.status(400).send(e);
     }
 });
