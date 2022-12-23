@@ -29,7 +29,7 @@ const CustomerCart = () => {
                     <div>Кол<span>ичество</span></div>
                     <div>Всего</div>
                 </div>:null}
-                {products.map(i => <div className='customer-order__order customer-cart__order' key={i._id}>
+                {products.map(i => [<div className='customer-order__order customer-cart__order' key={i._id}>
                     <div>
                         <button onClick={() => dispatch(deleteProduct(i._id))}>
                             x
@@ -51,7 +51,9 @@ const CustomerCart = () => {
                         </button>
                     </div>
                     <div>{i.price * i.quantity} c.</div>
-                </div>)}
+                </div>,
+                    <div key={i.title} className='customer-cart__order-total'>Подытог {i.price * i.quantity} c.</div>]
+                )}
             </div>
 
             {products.length?<div className='customer-cart__button-wrapper'>

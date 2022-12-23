@@ -123,6 +123,16 @@
   &__orders {
     margin-bottom: 40px;
   }
+  &__order-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    text-align: right;
+    border-top: 2px solid $light;
+  }
+  &__order-total span{
+    text-align: right!important;
+  }
 
   &__orders-total {
     display: flex;

@@ -17,6 +17,11 @@
   &__order{
     margin-bottom: 10px;
   }
+  &__order-total{
+    display: none;
+    font-weight: bold;
+    text-align: right;
+  }
   &__order:first-child{
     border-bottom: 1px solid $grey;
   }
@@ -71,6 +76,9 @@
   @media (max-width: 550px) {
     &__order div:last-child {
       display: none;
+    }
+    &__order-total{
+      display: block;
     }
     &__order div:nth-child(3) {
       flex-grow: 1;
