@@ -1,44 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {apiUrl} from "../../config";
 import {Link} from "react-router-dom";
 import {Delete, Visibility, VisibilityOff} from "@mui/icons-material";
-import {Box, Button, Typography} from "@mui/material";
-import CustomModal from "../UI/Modal/Modal";
 
 const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
-    const [wantToDelete, setWantToDelete] = useState(false);
+
 
     const desc = n.description.length >= 20 ? n.description.split(' ').slice(0, 20).join(' ') : n.description;
-
-    let modalChildren;
-    if (wantToDelete) {
-        modalChildren = (
-            <Box width="100%">
-                <Typography variant="h6">
-                    Вы уверены что хотите удалить новость?
-                </Typography>
-
-                <Box display="flex" justifyContent="flex-end">
-                    <Button
-                        autoFocus
-                        onClick={() => {
-                            setWantToDelete(false);
-                        }}
-                    >
-                        НЕТ
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            onDeleteNews();
-                        }}
-                        autoFocus
-                    >
-                        ДА
-                    </Button>
-                </Box>
-            </Box>
-        )
-    }
 
 
     return (
@@ -68,9 +36,7 @@ const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
 
                                     <button
                                         className="button button--warning news__card-body-admin-delete"
-                                        onClick={() => {
-                                            setWantToDelete(true);
-                                        }}
+                                        onClick={onDeleteNews}
                                     >
                                         <Delete/>
                                     </button>
@@ -80,18 +46,6 @@ const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
                     </div>
                 </div>
             </div>
-
-            {
-                wantToDelete && (
-                    <CustomModal
-                        handleClose={() => {
-                            setWantToDelete(false);
-                        }}
-                    >
-                        {modalChildren}
-                    </CustomModal>
-                )
-            }
 
 
         </>
