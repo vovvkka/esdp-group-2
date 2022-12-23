@@ -97,11 +97,15 @@ const CashierAddProduct = () => {
             customerInfo: state.customer,
             purchaseInfo,
             total: totalWithDiscount,
-            discount: total-totalWithDiscount,
+            discount: total - totalWithDiscount,
         };
 
         await dispatch(purchaseOperation(purchase));
         setWantToGetReceipt(true);
+    };
+
+    const handleClose = () => {
+        setWantToGetReceipt(false);
     };
 
     return (
@@ -216,14 +220,13 @@ const CashierAddProduct = () => {
                 wantToGetReceipt && (
                     <CustomModal
                         isOpen={wantToGetReceipt}
-                        handleClose={() => {
-                            setWantToGetReceipt(false);
-                        }}
+                        handleClose={handleClose}
                     >
                         <Receipt
                             displayName={user.displayName}
                             shiftNumber={shift.shiftNumber}
                             receipt={receipt}
+                            handleClose={handleClose}
                         />
                     </CustomModal>
                 )
