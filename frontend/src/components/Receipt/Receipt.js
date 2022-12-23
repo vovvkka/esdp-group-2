@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Receipt = ({displayName, shiftNumber, receipt}) => {
+const Receipt = ({displayName, shiftNumber, receipt, handleClose}) => {
     console.log(receipt);
 
     return (
@@ -62,7 +62,7 @@ const Receipt = ({displayName, shiftNumber, receipt}) => {
                                     </p>
                                     <p className="receipt__text">
                                         {product.discount ?
-                                            product.quantity * product.price * product.discount / 100 :
+                                            (product.quantity * product.price) - (product.quantity * product.price * product.discount / 100) :
                                             product.quantity * product.price}
                                     </p>
                                 </div>
@@ -75,11 +75,12 @@ const Receipt = ({displayName, shiftNumber, receipt}) => {
                     <div className='receipt__flex'>
                         <p>итого:</p>
                         <p>
-                            общая сумма: {} <br/>
-                            скидка:
+                            общая сумма: {receipt?.additionalInfo?.amountOfMoney + receipt?.additionalInfo?.discount}
+                            <br/>
+                            скидка: {receipt?.additionalInfo?.discount}
                         </p>
                     </div>
-                    <p className="receipt__center-text">
+                    <p className="receipt__center-text total">
                         <b>Итого: {receipt?.additionalInfo?.amountOfMoney}</b>
                     </p>
                 </div>
@@ -93,7 +94,7 @@ const Receipt = ({displayName, shiftNumber, receipt}) => {
             </div>
             <div className='receipt__flex'>
                 <button id="btnPrint" className="hidden-print button" onClick={() => window.print()}>Печать</button>
-                <button id="btnPrint" className="hidden-print button">Закрыть</button>
+                <button id="btnPrint" className="hidden-print button" onClick={handleClose}>Закрыть</button>
             </div>
         </div>
     );
