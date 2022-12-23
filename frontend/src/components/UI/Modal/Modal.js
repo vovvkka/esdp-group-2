@@ -12,7 +12,7 @@ const style = {
     boxShadow: 24,
     p: 4,
     maxHeight: '90vh',
-    overflow: 'scroll',
+    overflowX: 'scroll',
 };
 
 const CustomModal = ({isOpen, handleClose, children}) => {

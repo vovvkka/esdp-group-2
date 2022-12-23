@@ -98,7 +98,12 @@ const OrderForm = ({onSubmit, error}) => {
                     <p className='customer-order__form-block-title'>Ваш заказ </p>
                     <div className='customer-order__orders'>
                         <div className='customer-order__order'><div>Товар</div><div>Кол<span>ичество</span></div><div>Цена</div></div>
-                        {cart.map(i=><div  className='customer-order__order' key={i._id}><div>{i.title}</div><div>{i.quantity}</div><div>{i.price} c.</div></div>)}
+                        {cart.map(i=>
+                            [<div  className='customer-order__order' key={i._id}>
+                                <div>{i.title}</div><div>{i.quantity}</div><div>{i.price} c.</div>
+                            </div>,
+                            <div key={i.title} className='customer-order__order-total'>Подытог <span>{i.price * i.quantity} c.</span></div>]
+                        )}
                         <div className='customer-order__orders-total'>Итого <span>{cart.reduce((acc,value)=>{
                             return acc + value.price*value.quantity;
                         },0)} с.</span></div>

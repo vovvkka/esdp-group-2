@@ -55,13 +55,35 @@ const LoginRedirectRoute = ({user, redirectTo, ...props}) => {
     }
 
     if (user.role === "cashier") {
+        return <Redirect to="/cashier"/>;
+    }
+};
+
+const CashierRedirectRoute = ({user,shift, ...props}) => {
+    if (!user) {
+        return <Redirect to="/"/>;
+    }
+    if (user.role==='admin') {
+        return <Redirect to="/admin"/>;
+    }
+
+    if (shift&&props.path==='/cashier') {
+        return <Route {...props}/>;
+    }else if(!shift&&props.path==='/cashier') {
         return <Redirect to="/cashier/open-shift"/>;
+    }
+
+    if (!shift&&props.path==='/cashier/open-shift') {
+        return <Route {...props}/>;
+    }else if(shift&&props.path==='/cashier/open-shift'){
+        return <Redirect to="/cashier"/>
     }
 };
 
 const App = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.users.user);
+    const shift = useSelector((state) => state.shifts.shift);
 
     useEffect(() => {
         dispatch(getContacts());
@@ -230,15 +252,16 @@ const App = () => {
                     component={AdminResetPassword}
                 />
 
-                <ProtectedRoute
-                    isAllowed={user}
-                    exact
+                <CashierRedirectRoute
+                    user={user}
+                    shift={shift}
                     path="/cashier/open-shift"
                     component={CashierOpenShift}
                 />
 
-                <ProtectedRoute
-                    isAllowed={user?.role==='cashier'}
+                <CashierRedirectRoute
+                    user={user}
+                    shift={shift}
                     path="/cashier"
                     component={CashierPanel}
                 />
