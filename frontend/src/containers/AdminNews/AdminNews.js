@@ -1,13 +1,17 @@
-import React, {useEffect} from "react";
-import {Button, Container, Grid, Typography} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {Box, Button, Container, Grid, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {changeNewsStatus, deleteNews, getNews} from "../../store/actions/newsActions";
 import NewsCard from "../../components/NewsCard/NewsCard";
+import CustomModal from "../../components/UI/Modal/Modal";
 
 const AdminNews = () => {
     const dispatch = useDispatch();
     const news = useSelector((state) => state.news.news);
+    const [wantToDelete, setWantToDelete] = useState(false);
+    const [id,setId] = useState(null);
+    let modalChildren;
 
     useEffect(() => {
         dispatch(getNews());
@@ -17,9 +21,38 @@ const AdminNews = () => {
         dispatch(changeNewsStatus(id));
     };
 
-    const onDeleteNews = id => {
-        dispatch(deleteNews(id));
+    const onDeleteNews = async () => {
+        await dispatch(deleteNews(id));
+        setWantToDelete(false);
+        setId(null);
     };
+
+    if (wantToDelete) {
+        modalChildren = (
+            <Box width="100%">
+                <Typography variant="h6">
+                    Вы уверены что хотите удалить новость?
+                </Typography>
+
+                <Box display="flex" justifyContent="flex-end">
+                    <Button
+                        autoFocus
+                        onClick={() => {
+                            setWantToDelete(false);
+                        }}
+                    >
+                        НЕТ
+                    </Button>
+                    <Button
+                        onClick={onDeleteNews}
+                        autoFocus
+                    >
+                        ДА
+                    </Button>
+                </Box>
+            </Box>
+        )
+    }
 
     return (
         <Container>
@@ -45,10 +78,26 @@ const AdminNews = () => {
                         key={n._id}
                         isAdmin={true}
                         onChangeStatus={() => onChangeStatus(n._id)}
-                        onDeleteNews={() => onDeleteNews(n._id)}
+                        onDeleteNews={() => {
+                            setWantToDelete(true);
+                            setId(n._id);
+                        }}
                     />
                 ))}
             </Grid>
+            {
+                wantToDelete && (
+                    <CustomModal
+                        isOpen={wantToDelete}
+                        handleClose={() => {
+                            setWantToDelete(false);
+                            setId(null);
+                        }}
+                    >
+                        {modalChildren}
+                    </CustomModal>
+                )
+            }
         </Container>
     );
 };

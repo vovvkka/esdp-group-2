@@ -138,6 +138,7 @@ const AdminOrders = () => {
             {
                 openDetailInfo && (
                     <CustomModal
+                        isOpen={openDetailInfo}
                         handleClose={() => {
                             setOpenDetailInfo(false);
                         }}
