@@ -32,6 +32,13 @@ router.get('/', async (req, res) => {
         if (req.query.category) {
             descendants = await Category.find({ancestors: {$in: [req.query.category]}});
         }
+        const sort={};
+        if(req.query.price) {
+            sort.price=req.query.price;
+        }
+        if(req.query.date) {
+            sort.updatedAt=req.query.date;
+        }
         const options = {
             populate: {
                 path: 'category', select: 'title ancestors',
@@ -41,7 +48,8 @@ router.get('/', async (req, res) => {
                 }
             },
             page: parseInt(page) || 1,
-            limit: parseInt(perPage) || 30
+            limit: parseInt(perPage) || 30,
+            sort:sort
         };
 
         if (!user || user.role === 'cashier') {
@@ -84,6 +92,31 @@ router.get('/', async (req, res) => {
         res.status(400).send(e);
     }
 });
+
+router.get('/main', async (req, res) => {
+    try {
+        const query = {};
+        let descendants;
+        if (req.query.category) {
+            descendants = await Category.find({ancestors: {$in: [req.query.category]}});
+        }
+        if (req.query.category) {
+            if (descendants.length) {
+                query.category = {$in: descendants};
+            } else {
+                query.category = req.query.category;
+            }
+        }
+        query.status = "Активный";
+        query.amount = {$gte: 1};
+        const products = await Product.find(query).sort({updatedAt:'asc'})
+            .select("category title description price amount unit image").limit(12);
+        res.send(products);
+        console.log(products.length);
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
 router.get('/search', async (req, res) => {
     try {
         const query = {};
@@ -93,7 +126,9 @@ router.get('/search', async (req, res) => {
                 $options: 'i'
             } : null
         }
-        const products = await Product.find(query).limit(5);
+        query.status = "Активный";
+        query.amount = {$gte: 1};
+        const products = await Product.find(query).select("category title description price amount unit image").limit(5);
         res.send(products);
     } catch (e) {
         res.status(400).send(e);

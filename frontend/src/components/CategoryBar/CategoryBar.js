@@ -14,9 +14,9 @@ const CategoryBar = () => {
     useEffect(()=>{
         if (categories.length) {
             if (!value){
-                dispatch(fetchProducts());
+                dispatch(fetchProducts('/main'));
             }else {
-                dispatch(fetchProducts('?category=' + categories[value-1]._id));
+                dispatch(fetchProducts('/main?category=' + categories[value-1]._id));
             }
         }
     },[dispatch,categories,value]);

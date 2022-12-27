@@ -39,6 +39,10 @@ const Header = () => {
                             <NavLink to='/contacts' className='header__link'
                                      activeClassName='header__link-active'>Контакты</NavLink>
                         </li>
+                        <li className='header__list-element'>
+                            <NavLink to='/catalog' className='header__link'
+                                     activeClassName='header__link-active'>Каталог</NavLink>
+                        </li>
                         <Tooltip title="Поиск">
                             <li className='header__list-element'>
                                 <NavLink to='/search' className='header__link'
