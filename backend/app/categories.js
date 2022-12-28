@@ -7,14 +7,14 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
     try {
-        if(req.query.tree||req.query.node) {
+        if (req.query.tree || req.query.node) {
             let category;
-            if(req.query.tree) {
+            if (req.query.tree) {
                 category = await Category.find({category: null}).lean();
-            }else{
-                category = await Category.find({category: {$eq:req.query.node}}).lean();
+            } else {
+                category = await Category.find({category: {$eq: req.query.node}}).lean();
             }
-            const withChildren = await Promise.all(category.map(async i => {
+            let withChildren = await Promise.all(category.map(async i => {
                 const child = await Category.find({category: {$eq: i._id}});
                 if (!child.length) {
                     return {...i, isLeaf: true, value: i._id, id: i._id, pId: i.category};
@@ -22,10 +22,21 @@ router.get("/", async (req, res) => {
                     return {...i, value: i._id, id: i._id, pId: i.category};
                 }
             }));
+            if (req.query.user) {
+                withChildren = withChildren.filter(i => i.status === 'Активный');
+            }
 
             await res.send(withChildren);
-        }else{
-            const category = await Category.find().populate('category ancestors', 'title');
+        } else {
+            let category;
+            if (req.query.table) {
+                category = await Category.find().populate('category ancestors', 'title');
+            } else {
+                category = await Category.find({
+                    category: null,
+                    status: 'Активный'
+                }).populate('category ancestors', 'title');
+            }
             res.send(category);
         }
     } catch (e) {
@@ -35,7 +46,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     try {
-        const category = await Category.findById(req.params.id).lean().populate('category','title').select('title category status');
+        const category = await Category.findById(req.params.id).lean().populate('category', 'title').select('title category status');
 
         if (!category) {
             return res.status(404).send({message: "Category not found!"});
@@ -78,9 +89,9 @@ router.put("/:id", auth, permit("admin"), async (req, res) => {
     const categoryData = {title, status, category};
 
     try {
-        if(category===null){
+        if (category === null) {
             categoryData.ancestors = [];
-        }else {
+        } else {
             const currentCategory = await Category.findById(category);
 
             if (!currentCategory) {

@@ -15,7 +15,7 @@ const AdminCategories = () => {
     const rowsHead = ['Наименование', 'Категория', 'Статус', 'Создан', 'Обновлен', 'Действие'];
 
     useEffect(() => {
-        dispatch(fetchCategories());
+        dispatch(fetchCategories('?table=true'));
     }, [dispatch]);
 
     if (user?.role !== 'admin') {

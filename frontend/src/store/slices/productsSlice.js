@@ -92,6 +92,9 @@ const productsSlice = createSlice({
         },
         clearProduct(state) {
             state.product = null;
+        },
+        clearProducts(state) {
+            state.productsSearch = [];
         }
     }
 });
@@ -116,6 +119,7 @@ export const {
     editProductSuccess,
     editProductFailure,
     clearProduct,
+    clearProducts,
 } = productsSlice.actions
 
 export default productsSlice;

@@ -40,6 +40,7 @@ import AdminEditClient from "./containers/AddminEditClient/AdminEditClient";
 import ForgotPassword from "./containers/ForgotPassword/ForgotPassword";
 import ResetPassword from "./containers/ResetPassword/ResetPassword";
 import SearchPage from "./containers/SearchPage/SearchPage";
+import ShopCatalog from "./containers/ShopCatalog/ShopCatalog";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ? <Route {...props} /> : <Redirect to="/"/>;
@@ -95,6 +96,7 @@ const App = () => {
                 <Route path="/" exact component={MainPage}/>
                 <Route path="/news" exact component={NewsPage}/>
                 <Route path="/cart" exact component={CustomerCart}/>
+                <Route path="/catalog" exact component={ShopCatalog}/>
                 <Route path="/news/:id" component={NewsInfo}/>
                 <Route path="/products/:id" component={SingleProductPage}/>
                 <Route path="/order-place" exact component={AddOrderProduct}/>
