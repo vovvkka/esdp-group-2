@@ -112,7 +112,6 @@ router.get('/main', async (req, res) => {
         const products = await Product.find(query).sort({updatedAt:'asc'})
             .select("category title description price amount unit image").limit(12);
         res.send(products);
-        console.log(products.length);
     } catch (e) {
         res.status(400).send(e);
     }
