@@ -1,19 +1,25 @@
-import React, {useState} from 'react';
-import {makeStyles} from "tss-react/mui";
-import {Alert, Container, Grid, Typography, useMediaQuery} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
-import {loginUser} from "../../store/actions/usersActions";
+import React, { useState } from "react";
+import { makeStyles } from "tss-react/mui";
+import {
+    Alert,
+    Container,
+    Grid,
+    Typography,
+    useMediaQuery,
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../store/actions/usersActions";
 import FormElement from "../../components/UI/Form/FormElement/FormElement";
 import ButtonWithProgress from "../../components/UI/ButtonWithProgress/ButtonWithProgress";
 import theme from "../../theme";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const useStyles = makeStyles()(theme => ({
+const useStyles = makeStyles()((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
     },
     avatar: {
         margin: theme.spacing(1),
@@ -27,36 +33,39 @@ const useStyles = makeStyles()(theme => ({
     },
     alert: {
         margin: theme.spacing(3, 0),
-        width: '100%',
+        width: "100%",
     },
 }));
 
 const Login = () => {
-    const {classes} = useStyles();
-    const matches = useMediaQuery(theme.breakpoints.down('md'));
+    const { classes } = useStyles();
+    const matches = useMediaQuery(theme.breakpoints.down("md"));
 
     const dispatch = useDispatch();
-    const error = useSelector(state => state.users.loginError);
-    const loading = useSelector(state => state.users.loginLoading);
+    const error = useSelector((state) => state.users.loginError);
+    const loading = useSelector((state) => state.users.loginLoading);
 
     const [user, setUser] = useState({
-        username: '',
-        password: '',
+        username: "",
+        password: "",
     });
 
-    const inputChangeHandler = e => {
-        const {name, value} = e.target;
-        setUser(prev => ({...prev, [name]: value}));
+    const inputChangeHandler = (e) => {
+        const { name, value } = e.target;
+        setUser((prev) => ({ ...prev, [name]: value }));
     };
 
-    const submitFormHandler = e => {
+    const submitFormHandler = (e) => {
         e.preventDefault();
 
-        dispatch(loginUser({...user}));
+        dispatch(loginUser({ ...user }));
     };
 
     return (
-        <Container maxWidth="xs" sx={{marginTop: matches ? '200px' : '100px'}}>
+        <Container
+            maxWidth="xs"
+            sx={{ marginTop: matches ? "200px" : "100px" }}
+        >
             <div className={classes.paper}>
                 <Typography component="h1" variant="h6">
                     Войти
@@ -107,12 +116,9 @@ const Login = () => {
 
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link to="/forgot-password">
-                                Забыли пароль?
-                            </Link>
+                            <Link to="/forgot-password">Забыли пароль?</Link>
                         </Grid>
                     </Grid>
-
                 </Grid>
             </div>
         </Container>

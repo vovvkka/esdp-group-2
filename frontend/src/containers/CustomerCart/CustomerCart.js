@@ -26,7 +26,7 @@ const CustomerCart = () => {
                 {products.length?<div className='customer-order__order customer-cart__order'>
                     <div>Товар</div>
                     <div>Цена</div>
-                    <div>Кол<span>ичество</span></div>
+                    <div>Количество</div>
                     <div>Всего</div>
                 </div>:null}
                 {products.map(i => [<div className='customer-order__order customer-cart__order' key={i._id}>

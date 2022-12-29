@@ -1,5 +1,6 @@
 import React from "react";
 import {useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 
 const Contacts = () => {
     const contacts = useSelector((state) => state.contacts.contacts);
@@ -17,8 +18,9 @@ const Contacts = () => {
                     <div className="contacts__title-block">
                         <h2 className="title">Контакты</h2>
                         <div className="location">
-                            Главная —{" "}
-                            <span className="location__page"> Контакты</span>
+                            <Link to="/">Главная</Link>
+                            <span>—</span>
+                            <p className="location__page">Контакты</p>
                         </div>
                     </div>
 
