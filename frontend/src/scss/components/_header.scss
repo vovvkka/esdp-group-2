@@ -1,6 +1,12 @@
 @import '../variables';
 
 .header {
+  &__logo-wrapper {
+    display: flex;
+    &__button {
+      align-self: center;
+    }
+  }
   &__logo {
     width: 150px;
     height: auto;
@@ -59,6 +65,7 @@
   &__info {
     display: flex;
     align-items: center;
+    margin-bottom: 15px;
   }
 
   &__cart {
