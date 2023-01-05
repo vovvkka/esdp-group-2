@@ -95,6 +95,7 @@ const AdminOrCashierMenu = ({user}) => {
             setWantToLogout(false);
         } else {
             dispatch(closeShift(shift._id));
+            setWantToCloseShift(false);
         }
     };
 
@@ -251,9 +252,9 @@ const AdminOrCashierMenu = ({user}) => {
             <Box width="100%">
                 <Typography variant="h6">Возврат продажи</Typography>
                 <FormElement
-                    InputProps={productReturn.total?{
+                    InputProps={productReturn.total ? {
                         readOnly: true,
-                    }:null}
+                    } : null}
                     label="Номер чека"
                     onChange={inputChangeHandlerToReturn}
                     value={productReturn.checkNumber}
@@ -262,9 +263,9 @@ const AdminOrCashierMenu = ({user}) => {
                     fullWidth={false}
                 />
                 <FormElement
-                    InputProps={productReturn.total?{
+                    InputProps={productReturn.total ? {
                         readOnly: true,
-                    }:null}
+                    } : null}
                     label="Штрих-код"
                     onChange={inputChangeHandlerToReturn}
                     value={productReturn.barcode}
@@ -273,9 +274,9 @@ const AdminOrCashierMenu = ({user}) => {
                     fullWidth={false}
                 />
                 <FormElement
-                    InputProps={productReturn.total?{
+                    InputProps={productReturn.total ? {
                         readOnly: true,
-                    }:null}
+                    } : null}
                     label="Кол-во"
                     onChange={inputChangeHandlerToReturn}
                     value={productReturn.quantity}
@@ -283,12 +284,12 @@ const AdminOrCashierMenu = ({user}) => {
                     required={true}
                     fullWidth={false}
                 />
-                {productReturn.total?<Typography variant="h6">
+                {productReturn.total ? <Typography variant="h6">
                     Сумма к выдаче: {productReturn.total}
-                </Typography>:null}
+                </Typography> : null}
                 <Box display="flex" justifyContent="flex-end">
-                    {productReturn.total?<Button
-                        onClick={async() => {
+                    {productReturn.total ? <Button
+                        onClick={async () => {
                             try {
                                 await dispatch(returnOperation({shiftId: shift._id, ...productReturn}));
                                 setWantToReturnAProduct(false);
@@ -298,14 +299,14 @@ const AdminOrCashierMenu = ({user}) => {
                                     quantity: "",
                                     total: null,
                                 });
-                            }catch {
+                            } catch {
                                 dispatch(addNotification('Неверные данные!', 'error'));
                             }
                         }}
                         autoFocus
                     >
                         Вернуть
-                    </Button>:<Button
+                    </Button> : <Button
                         onClick={async () => {
                             try {
                                 const res = await axiosApi.post('/operations', {
@@ -318,7 +319,7 @@ const AdminOrCashierMenu = ({user}) => {
                                         return {...prevState, total: res.data.total}
                                     });
                                 }
-                            }catch {
+                            } catch {
                                 dispatch(addNotification('Неверные данные!', 'error'));
                             }
                         }}
@@ -348,9 +349,35 @@ const AdminOrCashierMenu = ({user}) => {
                     >
                         Администрирование
                     </Button>
-                    <Button component={Link} to={`/admin/journal`} sx={{marginRight: "5px", color: "#fff !important"}}>
+                    <Button
+                        id="basic-button"
+                        color="inherit"
+                        aria-controls={open2 ? "basic-menu" : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open2 ? "true" : undefined}
+                        onClick={handleClick2}
+                        sx={{marginRight: "5px"}}
+                    >
                         Журнал
                     </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl2}
+                        open={open2}
+                        onClose={handleClose2}
+                        MenuListProps={{
+                            "aria-labelledby": "basic-button",
+                        }}
+                    >
+                        <MenuItem onClick={handleClose} component={Link} to={`/admin/journal`}>Все записи</MenuItem>
+                        <MenuItem onClick={handleClose}>Продажи</MenuItem>
+                        <MenuItem onClick={handleClose}>
+                            Z-отчет
+                        </MenuItem>
+                        <MenuItem onClick={handleClose}>
+                            Отчет
+                        </MenuItem>
+                    </Menu>
                     <Button component={Link} to={`/admin/orders`} sx={{color: "#fff !important"}}>
                         Заказы
                     </Button>
@@ -490,8 +517,8 @@ const AdminOrCashierMenu = ({user}) => {
                             "aria-labelledby": "basic-button",
                         }}
                     >
-                        <MenuItem onClick={handleClose}>Все записи</MenuItem>
-                        <MenuItem onClick={handleClose}>Продажи</MenuItem>
+                        <MenuItem onClick={handleClose} component={Link} to={`/admin/journal`}>Все записи</MenuItem>
+                        <MenuItem onClick={handleClose}  component={Link} to={`/purchases`}>Продажи</MenuItem>
                         {!shift
                             ? [
                                 <MenuItem key={0} onClick={handleClose}>
@@ -504,7 +531,7 @@ const AdminOrCashierMenu = ({user}) => {
                             : null}
                     </Menu>
                 </Grid>
-                <Box sx={{display:'flex'}}>
+                <Box sx={{display: 'flex'}}>
                     <Grid item display="flex" flexDirection="column">
                         <Typography sx={{textTransform: "UpperCase", color: 'inherit'}}>
                             Кассир: {user.username}

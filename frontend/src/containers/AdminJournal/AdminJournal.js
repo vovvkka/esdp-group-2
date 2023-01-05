@@ -1,22 +1,16 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Redirect} from "react-router-dom";
 import {fetchOperations} from "../../store/actions/operationsActions";
 import {Box, Grid, Typography} from "@mui/material";
 import MUIDataTable from "mui-datatables";
 
 const AdminJournal = () => {
     const dispatch = useDispatch();
-    const user = useSelector(state => state.users.user);
     const operations = useSelector(state => state.operations.operations);
 
     useEffect(() => {
         dispatch(fetchOperations());
     }, [dispatch]);
-
-    if (user?.role !== 'admin') {
-        return <Redirect to="/"/>;
-    }
 
     const columns = [
         {

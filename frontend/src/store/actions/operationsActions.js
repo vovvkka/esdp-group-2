@@ -1,7 +1,7 @@
 import axiosApi from "../../axiosApi";
 import {fetchOperationsFailure, fetchOperationsRequest, fetchOperationsSuccess} from "../slices/operationsSlice";
 
-export const fetchOperations = (page) => {
+export const fetchOperations = (page,title) => {
     return async dispatch => {
         try {
             dispatch(fetchOperationsRequest());
@@ -9,9 +9,17 @@ export const fetchOperations = (page) => {
             let response;
 
             if (page) {
-                response = await axiosApi('/operations' + page);
+                if(title){
+                    response = await axiosApi('/operations' + page + '?title='+title);
+                }else {
+                    response = await axiosApi('/operations' + page);
+                }
             } else {
-                response = await axiosApi('/operations');
+                if(title){
+                    response = await axiosApi('/operations?title='+title);
+                }else {
+                    response = await axiosApi('/operations');
+                }
             }
 
             dispatch(fetchOperationsSuccess(response.data));

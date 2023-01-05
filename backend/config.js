@@ -8,7 +8,7 @@ const closeShift = 'Закрытие смены';
 const withdrawCash = 'Изъятие наличных';
 const insertCash = 'Внесение наличных';
 const purchase = 'Продажа';
-const returnPurchase = 'Возврат продажы';
+const returnPurchase = 'Возврат продажи';
 
 if(process.env.NODE_ENV === 'test') {
     dbUrl = 'mongodb://localhost/esdp-test';

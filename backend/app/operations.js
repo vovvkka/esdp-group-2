@@ -11,6 +11,9 @@ const router = express.Router();
 router.get("/", auth, async (req, res) => {
     const {page, perPage} = req.query;
     const query = {};
+    if(req.query.title){
+        query.title=req.query.title;
+    }
     const options = {
         populate: {path: 'shift', select: 'shiftNumber'},
         sort: {operationNumber: -1},
@@ -25,6 +28,7 @@ router.get("/", auth, async (req, res) => {
         res.status(400).send(e);
     }
 });
+
 router.post("/", auth, permit('cashier'), async (req, res) => {
     const title = req.body.title;
     const shiftId = req.body.shiftId;

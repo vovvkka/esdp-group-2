@@ -41,6 +41,7 @@ import ForgotPassword from "./containers/ForgotPassword/ForgotPassword";
 import ResetPassword from "./containers/ResetPassword/ResetPassword";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import ShopCatalog from "./containers/ShopCatalog/ShopCatalog";
+import Purchases from "./containers/Purchases/Purchases";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ? <Route {...props} /> : <Redirect to="/"/>;
@@ -147,6 +148,12 @@ const App = () => {
                     path="/admin/journal"
                     exact
                     component={AdminJournal}
+                />
+                <ProtectedRoute
+                    isAllowed={user}
+                    path="/purchases"
+                    exact
+                    component={Purchases}
                 />
 
                 <ProtectedRoute
