@@ -28,7 +28,7 @@ router.get("/", auth, async (req, res) => {
         res.status(400).send(e);
     }
 });
-router.get("/x/:id", auth, async (req, res) => {
+router.get("/report/:id", auth, async (req, res) => {
     const shiftId = req.params.id;
 
     try {
