@@ -43,7 +43,11 @@ export const createNews = newsData => {
             dispatch(createNewsSuccess());
             dispatch(historyPush('/admin/news'));
         } catch (e) {
-            dispatch(createNewsFailure(e));
+            if (e.response && e.response.data) {
+                dispatch(createNewsFailure(e.response.data));
+            } else {
+                dispatch(createNewsFailure({global: 'No internet'}));
+            }
         }
     };
 };
