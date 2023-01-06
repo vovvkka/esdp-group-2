@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {clearCart, deleteProduct, increaseProduct, reduceProduct} from "../../store/slices/cartSlice";
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 const CustomerCart = () => {
     const dispatch = useDispatch();
@@ -14,10 +14,9 @@ const CustomerCart = () => {
         <div className='customer-cart'>
             <h2 className="title">Корзина</h2>
             <div className="location">
-                Главная —{" "}
-                <span className="location-page">
-               Корзина
-            </span>
+                <Link to="/">Главная</Link>
+                <span>—</span>
+                <p className="location__page">Корзина</p>
             </div>
             <div className="location">
                 {products.length ? null : 'Корзина пуста'}

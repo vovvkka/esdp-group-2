@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { historyPush } from "../../store/actions/historyActions";
+import {Link} from "react-router-dom";
 
 const SuccessOrderPlace = () => {
     const dispatch = useDispatch();
@@ -10,13 +11,11 @@ const SuccessOrderPlace = () => {
             <div className="container">
                 <div className="success-order__block">
                     <div className="success-order__title-block">
-                        <h2 className="success-order__title">Заказ получен</h2>
-                        <div className="success-order__location">
-                            Главная — Оформление заказа —
-                            <span className="success-order__location-page">
-                                {" "}
-                                Заказ получен
-                            </span>
+                        <h2 className="title">Заказ получен</h2>
+                        <div className="location">
+                            <Link to="/">Главная</Link> <span>—</span> <p className="location__page">Оформление заказа</p>
+                            <span>—</span>
+                            <p className="location__page">Заказ получен</p>
                         </div>
                     </div>
 
