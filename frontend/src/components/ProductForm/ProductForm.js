@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Grid} from "@mui/material";
+import {Button, Grid, Paper} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
 import FileInput from "../UI/Form/FileInput/FileInput";
 import FormSelect from "../UI/Form/FormSelect/FormSelect";
@@ -39,11 +39,11 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
 
     const onSubmitHandler = e => {
         e.preventDefault();
-        if (product){
+        if (product) {
             console.log(0);
-            if(state.category===product.category.title){
-                const newData={...state};
-                newData.category=product.category._id;
+            if (state.category === product.category.title) {
+                const newData = {...state};
+                newData.category = product.category._id;
                 const formData = new FormData();
                 Object.keys(newData).forEach(key => {
                     if (key === 'image') {
@@ -55,7 +55,7 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                     }
                 });
                 onSubmit(formData);
-            }else {
+            } else {
                 console.log(1);
 
                 const formData = new FormData();
@@ -70,7 +70,7 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                 });
                 onSubmit(formData);
             }
-        }else {
+        } else {
             console.log(3);
 
             const formData = new FormData();
@@ -130,35 +130,34 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
             <Grid
                 container
                 maxWidth="md"
-                textAlign="center"
                 marginX="auto"
                 direction="column"
-                rowSpacing={2}
             >
-                <div style={{textAlign:'left'}}>
-                    <label>Категория</label>
-                    <div style={{color:'#dc4815'}}>{getFieldError('category')?'Заполните это поле':null}</div>
+                <Paper display="flex" sx={{padding: '30px 10px 0 10px'}}>
+                    <div style={{textAlign: 'left'}}>
+                        <label>Категория</label>
+                        <div style={{color: '#dc4815'}}>{getFieldError('category') ? 'Заполните это поле' : null}</div>
 
-                </div>
-                <TreeSelect
-                    treeDataSimpleMode
-                    style={{
-                        width: '100%',
-                        marginTop:'10px',
-                        marginBottom:'5px',
-                        textAlign:'left'
-                    }}
-                    value={state.category}
-                    dropdownStyle={{
-                        maxHeight: 400,
-                        overflow: 'auto',
-                    }}
-                    onChange={onChange}
-                    loadData={onLoadData}
-                    treeData={options}
-                />
+                    </div>
 
-                <Grid display='flex' justifyContent='space-between' alignItems='center'>
+                    <TreeSelect
+                        treeDataSimpleMode
+                        style={{
+                            width: '100%',
+                            marginTop: '10px',
+                            marginBottom: '5px',
+                            textAlign: 'left'
+                        }}
+                        value={state.category}
+                        dropdownStyle={{
+                            maxHeight: 400,
+                            overflow: 'auto',
+                        }}
+                        onChange={onChange}
+                        loadData={onLoadData}
+                        treeData={options}
+                    />
+
                     <FormElement
                         label="Наименование"
                         onChange={inputChangeHandler}
@@ -166,7 +165,6 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                         name="title"
                         required={true}
                         fullWidth={false}
-                        xs={6}
                     />
 
                     <FormElement
@@ -175,11 +173,8 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                         value={state.description}
                         name="description"
                         fullWidth={false}
-                        xs={6}
                     />
-                </Grid>
 
-                <Grid display='flex' justifyContent='space-between' alignItems='center'>
                     <FormElement
                         label="Barcode"
                         onChange={inputChangeHandler}
@@ -193,10 +188,10 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                         name="image"
                         multiple='multiple'
                         onChange={fileChangeHandler}
+                        xs={10.5}
                     />
-                </Grid>
 
-                <Grid display='flex' justifyContent='space-between' alignItems='center'>
+
                     <FormElement
                         label="Цена"
                         onChange={inputChangeHandler}
@@ -204,7 +199,6 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                         name="price"
                         required={true}
                         error={getFieldError('price')}
-                        xs={6}
                     />
 
                     <FormSelect
@@ -214,11 +208,9 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                         name="priceType"
                         options={['Фиксированная', 'Свободная']}
                         required={true}
-                        width='50%'
                     />
-                </Grid>
 
-                <Grid display='flex' justifyContent='space-between' alignItems='center'>
+
                     <FormElement
                         label="Количество"
                         onChange={inputChangeHandler}
@@ -226,7 +218,6 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                         name="amount"
                         required={true}
                         error={getFieldError('amount')}
-                        xs={6}
                     />
 
                     <FormSelect
@@ -237,11 +228,8 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                         options={['Активный', 'Неактивный']}
                         required={true}
                         error={getFieldError('status')}
-                        width='50%'
                     />
-                </Grid>
 
-                <Grid display='flex' justifyContent='space-between' alignItems='center'>
                     <FormSelect
                         label="Ед. измерения"
                         onChange={inputChangeHandler}
@@ -250,7 +238,6 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                         options={['шт.', 'уп.']}
                         required={true}
                         error={getFieldError('unit')}
-                        width='50%'
                     />
 
                     <FormElement
@@ -260,14 +247,13 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                         name="purchasePrice"
                         required={true}
                         error={getFieldError('purchasePrice')}
-                        xs={6}
                     />
-                </Grid>
 
-                <Grid item>
-                    {}
-                    <Button type="submit" color="primary" variant="contained">{product ? 'Редактировать' : 'Добавить'}</Button>
-                </Grid>
+                    <Grid item display="flex" alignItems="center" justifyContent="center">
+                        <Button type="submit" color="primary"
+                                variant="contained" sx={{marginTop: '10px'}}>{product ? 'Редактировать' : 'Добавить'}</Button>
+                    </Grid>
+                </Paper>
             </Grid>
         </form>
     );

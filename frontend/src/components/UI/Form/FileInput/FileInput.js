@@ -8,7 +8,7 @@ const useStyles = makeStyles()(() => ({
     }
 }));
 
-const FileInput = ({onChange, name, label,multiple}) => {
+const FileInput = ({onChange, name, label,multiple, xs}) => {
     const {classes} = useStyles();
     const inputRef = useRef();
 
@@ -39,7 +39,7 @@ const FileInput = ({onChange, name, label,multiple}) => {
                 ref={inputRef}
             />
             <Grid container direction="row" spacing={2} alignItems="center">
-                <Grid item xs>
+                <Grid item xs={xs || 12}>
                     <TextField
                         disabled
                         label={label}
