@@ -28,6 +28,39 @@ router.get("/", auth, async (req, res) => {
         res.status(400).send(e);
     }
 });
+router.get("/x/:id", auth, async (req, res) => {
+    const shiftId = req.params.id;
+
+    try {
+        const shift = await Shift.findById(shiftId).select('cashier shiftNumber createdAt isActive').populate('cashier','displayName');
+
+        if (shift) {
+            if (!shift.isActive) {
+                return res.status(403).send({message: 'Operation can not be done!'});
+            }
+        } else {
+            return res.status(404).send({message: 'Shift not found!'});
+        }
+        const operations = await Operation.find({shift:shiftId});
+        let salesNum = 0;
+        let returnsNum = 0;
+        let salesTotal = 0;
+        let returnsTotal = 0;
+        operations.forEach((value) => {
+            if(value.title===config.operations.purchase) {
+                salesNum++;
+                salesTotal+=value.additionalInfo.amountOfMoney;
+            }else if(value.title===config.operations.returnPurchase) {
+                returnsNum++;
+                returnsTotal+=value.additionalInfo.amountOfMoney;
+            }
+        });
+
+        res.send({shift,cash:operations[operations.length-1].additionalInfo.cash,salesNum,salesTotal,returnsNum,returnsTotal});
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
 
 router.post("/", auth, permit('cashier'), async (req, res) => {
     const title = req.body.title;
