@@ -3,6 +3,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchOperations} from "../../store/actions/operationsActions";
 import {Box, Grid, Typography} from "@mui/material";
 import MUIDataTable from "mui-datatables";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const Purchases = () => {
     const dispatch = useDispatch();
@@ -14,22 +21,25 @@ const Purchases = () => {
 
     const columns = [
         {
-            name: "shift",
-            label: "Смена",
+            name: "_id",
+            label: "ID",
+        },
+        {
+            name: "additionalInfo",
+            label: "Покупатель",
             options: {
                 customBodyRender: (value) => {
-                    return value.shiftNumber
+                    if (!value.customer) {
+                        return 'Покупатель'
+                    }
+                    return `${value.customer.name} ${value.customer.surname}`
                 }
             }
 
         },
         {
-            name: "title",
-            label: "Операция",
-        },
-        {
             name: "additionalInfo",
-            label: "Сумма",
+            label: "Получено",
             options: {
                 customBodyRender: (value) => {
                     return value.amountOfMoney
@@ -38,10 +48,10 @@ const Purchases = () => {
         },
         {
             name: "additionalInfo",
-            label: "Касса",
+            label: "Итого по чеку",
             options: {
                 customBodyRender: (value) => {
-                    return value.cash
+                    return value.amountOfMoney
                 }
             }
         },
@@ -75,6 +85,44 @@ const Purchases = () => {
         search: false,
         print: false,
         download: false,
+        expandableRows: true,
+
+        renderExpandableRow: (rowData) => {
+            const row = operations.docs.filter(operation => operation._id === rowData[0]);
+
+            return (
+                <React.Fragment>
+                    <tr>
+                        <td colSpan={6}>
+                            <TableContainer component={Paper}>
+                                <Table style={{ minWidth: "650" }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center">Наименование</TableCell>
+                                            <TableCell align="center">Количество</TableCell>
+                                            <TableCell align="center">Цена</TableCell>
+                                            <TableCell align="center">Сумма</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {row[0].additionalInfo.completePurchaseInfo.map(row => (
+                                            <TableRow key={row._id}>
+                                                <TableCell component="th" scope="row">
+                                                    {row.title}
+                                                </TableCell>
+                                                <TableCell align="center">{row.quantity}</TableCell>
+                                                <TableCell align="center">{row.price}</TableCell>
+                                                <TableCell align="center">{row.quantity * row.price}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </td>
+                    </tr>
+                </React.Fragment>
+            );
+        },
 
         rowsPerPage: operations && operations.limit,
         page: operations.page && operations.page - 1,
