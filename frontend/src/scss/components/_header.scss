@@ -96,6 +96,10 @@
     color: $blue;
   }
 
+  &__search {
+    position: absolute;
+  }
+
   @media (max-width: 800px) {
     &__toolbar {
       display: flex;
