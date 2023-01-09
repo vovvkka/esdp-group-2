@@ -88,6 +88,7 @@ const Header = () => {
                     {...params}
                     label="Поиск"
                     value={value}
+                    className="header__search"
                     inputProps={{
                         ...params.inputProps,
                         onKeyDown: (e) => {
@@ -145,11 +146,8 @@ const Header = () => {
                             <MenuItem onClick={handleClose} component={Link} to={"/catalog"}>Каталог</MenuItem>
                         </Menu>
                     </div>
-                    {search ?
-                        SearchBar
-                        : null}
                     <div className='header__info'>
-                        {!search ? <>
+                        {<>
                             <LocalPhoneIcon className='header__icon header__icon--phone'/>
                             <a href={'tel:' + contacts?.phone} className='number'>{contacts?.phone[0]}</a>
                             <Tooltip title="Корзина">
@@ -168,40 +166,37 @@ const Header = () => {
                                     </Link>
                                 </Tooltip>
                                 : null}
-                        </> : null}
+                        </>}
                     </div>
                 </div> : <div className='header__toolbar'>
                     <Link to="/">
                         <img className='header__logo' alt="Tay Tay logo" src={logo}/>
                     </Link>
-                    {search ?
-                        SearchBar
-                        :
-                        <ul className='header__list'>
+                    <ul className='header__list'>
+                        <li className='header__list-element'>
+                            <NavLink to='/' className='header__link' activeClassName='header__link-active'
+                                     exact>Главная</NavLink>
+                        </li>
+                        <li className='header__list-element'>
+                            <NavLink to='/news' className='header__link'
+                                     activeClassName='header__link-active'>Новости</NavLink>
+                        </li>
+                        <li className='header__list-element'>
+                            <NavLink to='/contacts' className='header__link'
+                                     activeClassName='header__link-active'>Контакты</NavLink>
+                        </li>
+                        <li className='header__list-element'>
+                            <NavLink to='/catalog' className='header__link'
+                                     activeClassName='header__link-active'>Каталог</NavLink>
+                        </li>
+                        <Tooltip title="Поиск">
                             <li className='header__list-element'>
-                                <NavLink to='/' className='header__link' activeClassName='header__link-active'
-                                         exact>Главная</NavLink>
+                                <SearchIcon onClick={() => setSearch(true)}/>
                             </li>
-                            <li className='header__list-element'>
-                                <NavLink to='/news' className='header__link'
-                                         activeClassName='header__link-active'>Новости</NavLink>
-                            </li>
-                            <li className='header__list-element'>
-                                <NavLink to='/contacts' className='header__link'
-                                         activeClassName='header__link-active'>Контакты</NavLink>
-                            </li>
-                            <li className='header__list-element'>
-                                <NavLink to='/catalog' className='header__link'
-                                         activeClassName='header__link-active'>Каталог</NavLink>
-                            </li>
-                            <Tooltip title="Поиск">
-                                <li className='header__list-element'>
-                                    <SearchIcon onClick={() => setSearch(true)}/>
-                                </li>
-                            </Tooltip>
-                        </ul>}
+                        </Tooltip>
+                    </ul>
                     <div className='header__info'>
-                        {!search ? <><LocalPhoneIcon className='header__icon header__icon--phone'/>
+                        {<><LocalPhoneIcon className='header__icon header__icon--phone'/>
                             <a href={'tel:' + contacts?.phone} className='number'>{contacts?.phone[0]}</a>
                             <Tooltip title="Корзина">
                                 <Link to='/cart' className='header__cart'>
@@ -216,9 +211,10 @@ const Header = () => {
                                     </Link>
                                 </Tooltip>
                                 : null}
-                        </> : null}
+                        </>}
                     </div>
                 </div>}
+                {search ? SearchBar : null}
                 {location.pathname === '/' ? <Carousel/> : null}
             </div>
         </div>
