@@ -5,11 +5,24 @@ const {nanoid} = require('nanoid');
 const Schema = mongoose.Schema;
 const SALT_WORK_FACTOR = 10;
 
-const validateUnique = async value => {
+const validateNameUnique = async value => {
     const user = await User.findOne({username: value});
 
     if (user) return false;
 };
+
+const validateMailUnique = async value => {
+    const user = await User.findOne({email: value});
+
+    if (user) return false;
+};
+
+const validateMaxLength = async value => {
+    const length = value.length > 4;
+
+    if (length) return false;
+};
+
 
 const validateEmail = (email) => {
     return /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(email);
@@ -21,7 +34,7 @@ const UserSchema = new Schema({
         required: true,
         unique: true,
         validate: {
-            validator: validateUnique,
+            validator: validateNameUnique,
             message: 'Этот пользователь уже зарегистрирован',
         }
     },
@@ -33,14 +46,20 @@ const UserSchema = new Schema({
     email: {
         type: String,
         required: true,
-        validate: {
+        validate: [{
             validator: validateEmail,
             message: 'Введите правильную почту'
-        },
+        }, {
+            validator: validateMailUnique,
+            message: 'Пользователь с такой почтой уже существует.'
+        }],
     },
     pin: {
       type: String,
-      max: 4,
+      validate: {
+          validator: validateMaxLength,
+          message: "Пин-код должен быть не больше 4 цифр"
+      }
     },
     token: {
         type: String,

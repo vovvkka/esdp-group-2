@@ -135,6 +135,7 @@ const CashierForm = ({onSubmit, cashier, isParams, error}) => {
                     <FormElement
                         required={true}
                         label="Пин-код"
+                        type="number"
                         name="pin"
                         inputProps={{maxLength: 4}}
                         value={cashierData.pin}

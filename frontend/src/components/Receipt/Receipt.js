@@ -72,16 +72,18 @@ const Receipt = ({displayName, shiftNumber, receipt, handleClose}) => {
                 </div>
 
                 <div className='receipt__total'>
-                    <div className='receipt__flex'>
-                        <p>итого:</p>
-                        <p>
-                            общая сумма: {receipt?.additionalInfo?.amountOfMoney + receipt?.additionalInfo?.discount}
-                            <br/>
-                            скидка: {receipt?.additionalInfo?.discount}
-                        </p>
+                    <div>
+                        <div className="receipt__flex">
+                            <p>общая сумма:</p>
+                            <p>{receipt?.additionalInfo?.amountOfMoney + receipt?.additionalInfo?.discount}</p>
+                        </div>
+                        <div className="receipt__flex">
+                            <p>скидка:</p>
+                            <p>{receipt?.additionalInfo?.discount}</p>
+                        </div>
                     </div>
                     <p className="receipt__center-text total">
-                        <b>Итого: {receipt?.additionalInfo?.amountOfMoney}</b>
+                        <b>Итого: {receipt?.additionalInfo?.amountOfMoney} сом</b>
                     </p>
                 </div>
 

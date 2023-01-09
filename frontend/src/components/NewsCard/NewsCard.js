@@ -2,18 +2,24 @@ import React from 'react';
 import {apiUrl} from "../../config";
 import {Link} from "react-router-dom";
 import {Delete, Visibility, VisibilityOff} from "@mui/icons-material";
+import noImage from "../../assets/no-image.jpg";
 
 const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
 
 
     const desc = n.description.length >= 20 ? n.description.split(' ').slice(0, 20).join(' ') : n.description;
 
+    let image = noImage;
+
+    if (n.image) {
+        image = apiUrl + '/' + n.image
+    }
 
     return (
         <>
             <div className='news__card'>
                 <div className='news__card-image-body'>
-                    <img className='news__card-image' src={apiUrl + '/' + n.image} alt={n.title}/>
+                    <img className='news__card-image' src={image} alt={n.title}/>
                 </div>
                 <div className='news__card-body'>
                     <div className="news__card-body-info">
@@ -46,8 +52,6 @@ const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
                     </div>
                 </div>
             </div>
-
-
         </>
 
     );

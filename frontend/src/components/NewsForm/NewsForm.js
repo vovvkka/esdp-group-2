@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Grid} from "@mui/material";
+import {Button, Grid, Paper} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
 import FileInput from "../UI/Form/FileInput/FileInput";
 
@@ -11,11 +11,11 @@ const NewsForm = ({news, error, onSubmit}) => {
         image: "",
     });
 
-    useEffect(()=>{
-        if(news){
+    useEffect(() => {
+        if (news) {
             setState(...news);
         }
-    },[news]);
+    }, [news]);
 
 
     const fileChangeHandler = e => {
@@ -56,51 +56,53 @@ const NewsForm = ({news, error, onSubmit}) => {
         <form
             autoComplete="off"
         >
-            <Grid
-                container
-                maxWidth="md"
-                textAlign="center"
-                marginX="auto"
-                direction="column"
-                rowSpacing={2}
-            >
+            <Paper display="flex" sx={{padding: '30px 0 10px 0'}}>
+                <Grid
+                    container
+                    maxWidth="md"
+                    textAlign="center"
+                    marginX="auto"
+                    direction="column"
+                    rowSpacing={2}
+                >
 
-                <FormElement
-                    label="Заголовок"
-                    onChange={inputChangeHandler}
-                    value={state.title}
-                    name="title"
-                    required={true}
-                    error={getFieldError('title')}
-                    xs={6}
-                />
-
-                <FormElement
-                    label="Описание"
-                    onChange={inputChangeHandler}
-                    value={state.description}
-                    name="description"
-                    required={true}
-                    error={getFieldError('description')}
-                    multiline={true}
-                    rows={6}
-                    xs={6}
-                />
-
-                <Grid item>
-                    <FileInput
-                        sx={{mt:'10px'}}
-                        label="Фото"
-                        name="image"
-                        onChange={fileChangeHandler}
+                    <FormElement
+                        label="Заголовок"
+                        onChange={inputChangeHandler}
+                        value={state.title}
+                        name="title"
+                        required={true}
+                        error={getFieldError('title')}
+                        xs={6}
                     />
-                </Grid>
 
-                <Grid item>
-                    <Button type="submit" color="primary" variant="contained"
-                            onClick={submitFormHandler}>{news? "Редактировать": "Добавить"}</Button>
+                    <FormElement
+                        label="Описание"
+                        onChange={inputChangeHandler}
+                        value={state.description}
+                        name="description"
+                        required={true}
+                        error={getFieldError('description')}
+                        multiline={true}
+                        rows={6}
+                        xs={6}
+                    />
+
+                    <Grid item>
+                        <FileInput
+                            sx={{mt: '10px'}}
+                            label="Фото"
+                            name="image"
+                            onChange={fileChangeHandler}
+                        />
+                    </Grid>
+
+                    <Grid item>
+                        <Button type="submit" color="primary" variant="contained"
+                                onClick={submitFormHandler}>{news ? "Редактировать" : "Добавить"}</Button>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Paper>
         </form>
     );
 };

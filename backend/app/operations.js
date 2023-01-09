@@ -78,7 +78,7 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
         }
 
         if (title === config.operations.purchase) {
-            const {customerInfo, purchaseInfo, total} = req.body;
+            const {customerInfo, purchaseInfo, total, discount} = req.body;
 
             const completePurchaseInfo = await Promise.all(
                 purchaseInfo.map(async i => {
@@ -98,7 +98,7 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
                 shift: shift._id,
                 title: config.operations.purchase,
                 dateTime: Date.now(),
-                additionalInfo: {customer: customerInfo, completePurchaseInfo, amountOfMoney: total, cash: cashBefore}
+                additionalInfo: {customer: customerInfo, completePurchaseInfo, discount, amountOfMoney: total, cash: cashBefore}
             });
             await operation.save();
 
