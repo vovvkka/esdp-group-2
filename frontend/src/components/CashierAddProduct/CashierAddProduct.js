@@ -35,7 +35,7 @@ const CashierAddProduct = () => {
     const dispatch = useDispatch();
 
 
-    const [state, setState] = useState({customer: '', barcode: ''});
+    const [state, setState] = useState({customer: 'Нету', barcode: ''});
     const [clientsOptions, setClientsOptions] = useState([]);
     const [wantToGetReceipt, setWantToGetReceipt] = useState(false);
 
@@ -112,6 +112,7 @@ const CashierAddProduct = () => {
         <Grid>
             <Grid container justifyContent='space-between' alignItems='center' sx={{padding: '10px 20px'}}>
                 <FormElement
+                    autoFocus={true}
                     name='barcode'
                     label='Штрихкод'
                     xs={3}
