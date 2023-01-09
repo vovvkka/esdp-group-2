@@ -1,6 +1,6 @@
 const path = require('path');
 const rootPath = __dirname;
-let dbUrl = 'mongodb://localhost/esdp';
+let dbUrl = 'mongodb://188.226.163.6/esdp';
 let port = 8000;
 
 const openShift = 'Открытие смены';
@@ -11,7 +11,7 @@ const purchase = 'Продажа';
 const returnPurchase = 'Возврат продажи';
 
 if(process.env.NODE_ENV === 'test') {
-    dbUrl = 'mongodb://localhost/esdp-test';
+    dbUrl = 'mongodb://188.226.163.6/esdp-test';
     port = 8010;
 }
 module.exports = {
