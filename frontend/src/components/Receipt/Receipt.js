@@ -3,14 +3,13 @@ import { useReactToPrint } from 'react-to-print';
 
 
 const Receipt = ({displayName, shiftNumber, receipt, handleClose}) => {
-    console.log(receipt);
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
 
     return (
-        <div className='receipt'>
+        <div className='receipt' ref={componentRef}>
             <div className="receipt__ticket">
                 <div className='receipt__header'>
                     <p className="receipt__center-text">

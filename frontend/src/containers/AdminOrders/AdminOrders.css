@@ -1,11 +1,17 @@
 @media print{
+    html,body{
+        height: auto;
+    }
+    body *{
+        font-size: 14px;
+    }
     .print{
         font-family: "Times New Roman", Times, serif;
-        padding: 35px;
-        height: auto;overflow: visible;
+        padding: 5mm;
+        height: auto;
+        overflow: visible!important;
     }
     .print *{
-        font-size: 14px;
         visibility: visible;
     }
 }

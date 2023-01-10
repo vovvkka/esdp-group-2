@@ -45,8 +45,9 @@ const CashierAddProduct = () => {
 
     useEffect(() => {
         if (customers) {
-            setClientsOptions(customers);
+            setClientsOptions([{_id:null,name:'Нет',surname:'скидки',discount:0},...customers]);
         }
+
     }, [customers]);
 
     useEffect(() => {
@@ -91,14 +92,25 @@ const CashierAddProduct = () => {
             quantity: product.quantity,
             discount: product.discount
         }));
+        let purchase;
 
-        const purchase = {
-            shiftId: shift._id,
-            customerInfo: state.customer,
-            purchaseInfo,
-            total: totalWithDiscount,
-            discount: total - totalWithDiscount,
-        };
+        if (state.customer._id === null) {
+            purchase = {
+                shiftId: shift._id,
+                customerInfo: '',
+                purchaseInfo,
+                total: totalWithDiscount,
+                discount: total - totalWithDiscount,
+            };
+        }else{
+            purchase = {
+                shiftId: shift._id,
+                customerInfo: state.customer,
+                purchaseInfo,
+                total: totalWithDiscount,
+                discount: total - totalWithDiscount,
+            };
+        }
 
         await dispatch(purchaseOperation(purchase));
         setWantToGetReceipt(true);
