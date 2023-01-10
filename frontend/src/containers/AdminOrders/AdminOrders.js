@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Box, Button, Container, Grid, Typography} from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import {changeStatus, getOrders} from "../../store/actions/ordersActions";
 import FormSelect from "../../components/UI/Form/FormSelect/FormSelect";
 import CustomModal from "../../components/UI/Modal/Modal";
-
+import { useReactToPrint } from 'react-to-print';
+import './AdminOrders.css';
 
 const AdminOrders = () => {
     const dispatch = useDispatch();
@@ -17,6 +18,11 @@ const AdminOrders = () => {
     useEffect(() => {
         dispatch(getOrders());
     }, [dispatch]);
+
+    const componentRef = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
 
     const openOrderModal = async (row) => {
         await setOrder(row);
@@ -144,7 +150,7 @@ const AdminOrders = () => {
                         }}
                     >
                         <Box width='550px'>
-                            <Grid sx={{maxHeight: 400, overflowY: 'scroll', marginBottom: '30px'}}>
+                            <Grid sx={{maxHeight: 400, overflowY: 'scroll', marginBottom: '30px'}} ref={componentRef} className='print'>
                                 <Typography textAlign="center" variant="h4" gutterBottom><b>Информация о
                                     заказе</b></Typography>
 
@@ -158,6 +164,9 @@ const AdminOrders = () => {
                                 {order && order.order.map(order => (
                                     <Typography key={order._id}>{order.product.title} <b>{order.quantity} x {order.price}c</b></Typography>
                                 ))}
+                                <Typography variant="h5" sx={{marginTop: '20px'}} gutterBottom><b>Итого : {order && order.order.reduce((acc, value) => {
+                                    return acc + value.price * value.quantity;
+                                }, 0)} c</b></Typography>
                             </Grid>
 
                             {order && order.status !== 'Закрыт' && (
@@ -169,7 +178,13 @@ const AdminOrders = () => {
                                         value={status ? status : order.status}
                                         name="status"
                                     />
-
+                                    <Button
+                                        variant="contained"
+                                        sx={{color: '#fff !important', marginTop: '10px', marginRight: '10px'}}
+                                        onClick={handlePrint}
+                                    >
+                                        Распечатать
+                                    </Button>
                                     <Button
                                         variant="contained"
                                         sx={{color: '#fff !important', marginTop: '10px'}}

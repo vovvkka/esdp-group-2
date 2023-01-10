@@ -35,7 +35,7 @@ const CashierAddProduct = () => {
     const dispatch = useDispatch();
 
 
-    const [state, setState] = useState({customer: 'Нету', barcode: ''});
+    const [state, setState] = useState({customer: '', barcode: ''});
     const [clientsOptions, setClientsOptions] = useState([]);
     const [wantToGetReceipt, setWantToGetReceipt] = useState(false);
 
@@ -45,8 +45,9 @@ const CashierAddProduct = () => {
 
     useEffect(() => {
         if (customers) {
-            setClientsOptions(customers);
+            setClientsOptions([{_id:null,name:'Нет',surname:'скидки',discount:0},...customers]);
         }
+
     }, [customers]);
 
     useEffect(() => {
@@ -91,14 +92,25 @@ const CashierAddProduct = () => {
             quantity: product.quantity,
             discount: product.discount
         }));
+        let purchase;
 
-        const purchase = {
-            shiftId: shift._id,
-            customerInfo: state.customer,
-            purchaseInfo,
-            total: totalWithDiscount,
-            discount: total - totalWithDiscount,
-        };
+        if (state.customer._id === null) {
+            purchase = {
+                shiftId: shift._id,
+                customerInfo: '',
+                purchaseInfo,
+                total: totalWithDiscount,
+                discount: total - totalWithDiscount,
+            };
+        }else{
+            purchase = {
+                shiftId: shift._id,
+                customerInfo: state.customer,
+                purchaseInfo,
+                total: totalWithDiscount,
+                discount: total - totalWithDiscount,
+            };
+        }
 
         await dispatch(purchaseOperation(purchase));
         setWantToGetReceipt(true);
@@ -112,7 +124,6 @@ const CashierAddProduct = () => {
         <Grid>
             <Grid container justifyContent='space-between' alignItems='center' sx={{padding: '10px 20px'}}>
                 <FormElement
-                    autoFocus={true}
                     name='barcode'
                     label='Штрихкод'
                     xs={3}

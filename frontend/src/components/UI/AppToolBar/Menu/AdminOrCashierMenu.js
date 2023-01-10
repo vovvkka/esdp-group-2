@@ -513,7 +513,9 @@ const AdminOrCashierMenu = ({user}) => {
                                 </MenuItem>
                             </Menu>,
                         ]
-                        : null}
+                        : <Button component={Link} to={`/cashier/open-shift`} sx={{color: "#fff !important"}}>
+                            Смена
+                        </Button>}
 
                     <Button
                         id="basic-button"
