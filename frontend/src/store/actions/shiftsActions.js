@@ -15,7 +15,7 @@ import {historyPush} from "./historyActions";
 import {getCash} from "./cashActions";
 import {clearCash} from "../slices/cashSlice";
 
-
+export const closeShiftTitle = 'Закрытие смены';
 export const fetchShifts = () => {
     return async dispatch => {
         try {

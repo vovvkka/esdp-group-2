@@ -62,6 +62,62 @@ router.get("/report/:id", auth, async (req, res) => {
     }
 });
 
+router.get("/report-z/:id", auth, async (req, res) => {
+    const shiftId = req.params.id;
+
+    try {
+        const shift = await Shift.findById(shiftId).select('cashier shiftNumber updatedAt isActive').populate('cashier','displayName');
+
+        if (shift) {
+            if (shift.isActive) {
+                return res.status(403).send({message: 'Operation can not be done!'});
+            }
+        } else {
+            return res.status(404).send({message: 'Shift not found!'});
+        }
+        const reportSales = await Operation.aggregate([
+            { $match: { title: config.operations.purchase}},
+            { $lookup: {from: 'shifts', localField: 'shift', foreignField: '_id', as: 'shiftInfo'} },
+            { $match: { 'shiftInfo.shiftNumber': {$lte: shift.shiftNumber}}},
+            { $group: { _id: null, total: { $sum: "$additionalInfo.amountOfMoney" },count: { $sum: 1 } } }
+        ]);
+        const reportReturns = await Operation.aggregate([
+            { $match: { title: config.operations.returnPurchase }},
+            { $group: { _id: null, total: { $sum: "$additionalInfo.amountOfMoney" },count: { $sum: 1 } } }
+        ]);
+
+        let salesNum = 0;
+        let returnsNum = 0;
+        let salesTotal = 0;
+        let returnsTotal = 0;
+
+        const operations = await Operation.find({shift:shiftId});
+        operations.forEach((value) => {
+            if(value.title===config.operations.purchase) {
+                salesNum++;
+                salesTotal+=value.additionalInfo.amountOfMoney;
+            }else if(value.title===config.operations.returnPurchase) {
+                returnsNum++;
+                returnsTotal+=value.additionalInfo.amountOfMoney;
+            }
+        });
+
+        const report = {};
+        if(reportReturns.length){
+            report.returnsCount = reportReturns[0].count;
+            report.returnsTotal = reportReturns[0].total;
+        }
+        if(reportSales.length){
+            report.salesCount = reportSales[0].count;
+            report.salesTotal = reportSales[0].total;
+        }
+
+        res.send({report,shift,cash:operations[operations.length-1].additionalInfo.cash,salesNum,salesTotal,returnsNum,returnsTotal});
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
+
 router.post("/", auth, permit('cashier'), async (req, res) => {
     const title = req.body.title;
     const shiftId = req.body.shiftId;

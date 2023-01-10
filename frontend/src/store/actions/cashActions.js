@@ -23,8 +23,8 @@ import {fetchReceipt} from "../slices/operationsSlice";
 
 const WithdrawCash = 'Изъятие наличных';
 const InsertCash = 'Внесение наличных';
-const purchase = 'Продажа';
-export const returnPurchase = 'Возврат продажы';
+export const purchase = 'Продажа';
+export const returnPurchase = 'Возврат продажи';
 
 export const getCash = () => {
     return async (dispatch) => {

@@ -3,13 +3,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchOperations} from "../../store/actions/operationsActions";
 import {Box, Grid, Typography} from "@mui/material";
 import MUIDataTable from "mui-datatables";
+import {purchase} from "../../store/actions/cashActions";
 
 const Purchases = () => {
     const dispatch = useDispatch();
     const operations = useSelector(state => state.operations.operations);
 
     useEffect(() => {
-        dispatch(fetchOperations(null,'Продажа'));
+        dispatch(fetchOperations(null,purchase));
     }, [dispatch]);
 
     const columns = [
