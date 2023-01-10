@@ -1,0 +1,11 @@
+@media print{
+    .print{
+        font-family: "Times New Roman", Times, serif;
+        padding: 35px;
+        height: auto;overflow: visible;
+    }
+    .print *{
+        font-size: 14px;
+        visibility: visible;
+    }
+}

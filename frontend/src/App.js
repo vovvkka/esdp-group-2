@@ -152,7 +152,7 @@ const App = () => {
                 />
                 <ProtectedRoute
                     isAllowed={user}
-                    path="/purchases"
+                    path="/admin/purchases"
                     exact
                     component={Purchases}
                 />

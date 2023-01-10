@@ -24,12 +24,14 @@ const AdminOrCashierMenu = ({user}) => {
     const [wantToInsertCash, setWantToInsertCash] = useState(false);
     const [wantToWithdrawCash, setWantToWithdrawCash] = useState(false);
     const [wantToCloseShift, setWantToCloseShift] = useState(false);
-
     const [wantToReturnAProduct, setWantToReturnAProduct] = useState(false);
+    const [wantXReport, setWantXReport] = useState(false);
+
     const [state, setState] = useState({
         amountOfMoney: "",
         comment: ''
     });
+
     const [productReturn, setProductReturn] = useState({
         checkNumber: "",
         barcode: "",
@@ -331,6 +333,22 @@ const AdminOrCashierMenu = ({user}) => {
                 </Box>
             </Box>
         );
+    } else if (wantXReport) {
+        modalChildren = (
+            <Box width="100%">
+                <Typography variant="body1">X-отчет</Typography>
+                <hr style={{margin: '10px 0'}}/>
+                <Typography variant="h6">
+                    Наличные в кассе: {cash && cash} сом
+                </Typography>
+                <hr style={{margin: '10px 0'}}/>
+                <Grid container justifyContent='space-between' style={{marginTop: '15px'}}>
+                    <Button>X-отчет</Button>
+                    <Button onClick={() => setWantXReport(false)}>Отмена</Button>
+                </Grid>
+
+            </Box>
+        );
     }
 
 
@@ -370,8 +388,8 @@ const AdminOrCashierMenu = ({user}) => {
                         }}
                     >
                         <MenuItem onClick={handleClose} component={Link} to={`/admin/journal`}>Все записи</MenuItem>
-                        <MenuItem onClick={handleClose}>Продажи</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={`/admin/report-z`}>
+                        <MenuItem onClick={handleClose} component={Link} to={'/admin/purchases'}>Продажи</MenuItem>
+                        <MenuItem onClick={handleClose}>
                             Z-отчет
                         </MenuItem>
                         <MenuItem onClick={handleClose}>
@@ -470,7 +488,6 @@ const AdminOrCashierMenu = ({user}) => {
                                     Изъятие наличных
                                 </MenuItem>
                                 <MenuItem
-
                                     onClick={() => {
                                         handleClose();
                                         setWantToReturnAProduct(true);
@@ -479,9 +496,10 @@ const AdminOrCashierMenu = ({user}) => {
                                     Возврат продажи
                                 </MenuItem>
                                 <MenuItem
-                                    onClick={handleClose}
-                                    component={Link}
-                                    to={"/cashier"}
+                                    onClick={() => {
+                                        handleClose();
+                                        setWantXReport(true);
+                                    }}
                                 >
                                     X-отчет
                                 </MenuItem>
@@ -495,7 +513,9 @@ const AdminOrCashierMenu = ({user}) => {
                                 </MenuItem>
                             </Menu>,
                         ]
-                        : null}
+                        : <Button component={Link} to={`/cashier/open-shift`} sx={{color: "#fff !important"}}>
+                            Смена
+                        </Button>}
 
                     <Button
                         id="basic-button"
@@ -518,19 +538,17 @@ const AdminOrCashierMenu = ({user}) => {
                         }}
                     >
                         <MenuItem onClick={handleClose} component={Link} to={`/admin/journal`}>Все записи</MenuItem>
-                        <MenuItem onClick={handleClose}  component={Link} to={`/purchases`}>Продажи</MenuItem>
+                        <MenuItem onClick={handleClose}  component={Link} to={`/admin/purchases`}>Продажи</MenuItem>
                         {!shift
                             ? [
-                                <MenuItem key={0} onClick={handleClose} component={Link} to={`/admin/report-z`}>
+                                <MenuItem key={0} onClick={handleClose}>
                                     Z-отчет
                                 </MenuItem>,
                                 <MenuItem key={1} onClick={handleClose}>
                                     Отчет
                                 </MenuItem>,
                             ]
-                            : <Button component={Link} to={`/cashier/open-shift`} sx={{color: "#fff !important"}}>
-                                Смена
-                            </Button>}
+                            : null}
                     </Menu>
                 </Grid>
                 <Box sx={{display: 'flex'}}>
@@ -574,15 +592,16 @@ const AdminOrCashierMenu = ({user}) => {
                     </Grid>
 
                     {
-                        (wantToInsertCash || wantToCloseShift || wantToWithdrawCash || wantToLogout || wantToReturnAProduct) && (
+                        (wantToInsertCash || wantToCloseShift || wantToWithdrawCash || wantToLogout || wantToReturnAProduct || wantXReport) && (
                             <CustomModal
-                                isOpen={wantToInsertCash || wantToCloseShift || wantToWithdrawCash || wantToLogout || wantToReturnAProduct}
+                                isOpen={wantToInsertCash || wantToCloseShift || wantToWithdrawCash || wantToLogout || wantToReturnAProduct || wantXReport}
                                 handleClose={() => {
                                     setWantToLogout(false);
                                     setWantToInsertCash(false);
                                     setWantToWithdrawCash(false);
                                     setWantToCloseShift(false);
                                     setWantToReturnAProduct(false);
+                                    setWantXReport(false);
                                     setProductReturn({
                                         checkNumber: "",
                                         barcode: "",

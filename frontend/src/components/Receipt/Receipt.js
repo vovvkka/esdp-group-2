@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {useRef} from 'react';
+import { useReactToPrint } from 'react-to-print';
+
 
 const Receipt = ({displayName, shiftNumber, receipt, handleClose}) => {
     console.log(receipt);
+    const componentRef = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
 
     return (
         <div className='receipt'>
@@ -95,7 +101,7 @@ const Receipt = ({displayName, shiftNumber, receipt, handleClose}) => {
                 </div>
             </div>
             <div className='receipt__flex'>
-                <button id="btnPrint" className="hidden-print button" onClick={() => window.print()}>Печать</button>
+                <button id="btnPrint" className="hidden-print button" onClick={handlePrint}>Печать</button>
                 <button id="btnPrint" className="hidden-print button" onClick={handleClose}>Закрыть</button>
             </div>
         </div>
