@@ -10,6 +10,7 @@ import FormElement from "../../Form/FormElement/FormElement";
 import {insertCash, returnOperation, withdrawCash,} from "../../../../store/actions/cashActions";
 import axiosApi from "../../../../axiosApi";
 import {addNotification} from "../../../../store/actions/notifierActions";
+import Receipt from "../../../Receipt/Receipt";
 
 const AdminOrCashierMenu = ({user}) => {
     const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const AdminOrCashierMenu = ({user}) => {
     const [wantToCloseShift, setWantToCloseShift] = useState(false);
     const [wantToReturnAProduct, setWantToReturnAProduct] = useState(false);
     const [wantXReport, setWantXReport] = useState(false);
+    const [showXReport, setShowXReport] = useState(false);
 
     const [state, setState] = useState({
         amountOfMoney: "",
@@ -343,10 +345,12 @@ const AdminOrCashierMenu = ({user}) => {
                 </Typography>
                 <hr style={{margin: '10px 0'}}/>
                 <Grid container justifyContent='space-between' style={{marginTop: '15px'}}>
-                    <Button>X-отчет</Button>
+                    <Button onClick={() => {
+                        setShowXReport(true);
+                        setWantXReport(false);
+                    }}>X-отчет</Button>
                     <Button onClick={() => setWantXReport(false)}>Отмена</Button>
                 </Grid>
-
             </Box>
         );
     }
@@ -612,6 +616,19 @@ const AdminOrCashierMenu = ({user}) => {
                                 }}
                             >
                                 {modalChildren}
+                            </CustomModal>
+                        )
+                    }
+                    {
+                        showXReport && (
+                            <CustomModal
+                                isOpen={showXReport}
+                                handleClose={() => setShowXReport(false)}
+                            >
+                                <Receipt
+                                    handleClose={() => setShowXReport(false)}
+                                    xReport
+                                />
                             </CustomModal>
                         )
                     }

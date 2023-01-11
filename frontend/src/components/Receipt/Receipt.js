@@ -1,107 +1,267 @@
-import React, {useRef} from 'react';
-import { useReactToPrint } from 'react-to-print';
+import React, { useEffect, useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchXReport } from "../../store/actions/operationsActions";
 
-
-const Receipt = ({displayName, shiftNumber, receipt, handleClose}) => {
+const Receipt = ({
+    xReport,
+    displayName,
+    shiftNumber,
+    receipt,
+    handleClose,
+}) => {
+    const dispatch = useDispatch();
     const componentRef = useRef();
+    const xReportInfo = useSelector((state) => state.operations.xReport);
+    const shift = useSelector((state) => state.shifts.shift);
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
 
-    return (
-        <div className='receipt' ref={componentRef}>
-            <div className="receipt__ticket">
-                <div className='receipt__header'>
-                    <p className="receipt__center-text">
-                        Магазин для новорожденных <br/> "ТАЙ-ТАЙ"
+    useEffect(() => {
+        dispatch(fetchXReport(shift._id));
+    }, [dispatch]);
+
+    let children;
+
+    if (xReport) {
+        children =
+            <div>
+                <div className="receipt__header">
+                    <p className='receipt__center-text receipt__center-text--upper'>
+                        X-отчет
                     </p>
                     <p className='receipt__center-text'>
-                        г.Каракол, ул.Карла Маркса б/н <br/>
+                        {new Date().toLocaleString()}
+                    </p>
+                    <hr className='receipt__line'/>
+                    <p className="receipt__center-text">
+                        Магазин для новорожденных <br /> "ТАЙ-ТАЙ"
+                    </p>
+                    <p className="receipt__center-text">
+                        г.Каракол, ул.Карла Маркса б/н <br />
                         ТЦ "Мега Молл", 2 этаж
                     </p>
+                    <hr className='receipt__line'/>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Кассир:</p>
+                        <p className="receipt__text">{xReportInfo.shift.cashier.displayName}</p>
+                    </div>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Смена:</p>
+                        <p className="receipt__text">{xReportInfo.shift.shiftNumber}</p>
+                    </div>
+                    <hr className='receipt__line'/>
+                    <p className='receipt__center-text receipt__center-text--upper'>
+                        Смена
+                    </p>
+                    <hr className='receipt__line receipt__line--dotted'/>
+                    <p className='receipt__center-text receipt__center-text--upper'>
+                        Продажа
+                    </p>
+                    <hr className='receipt__line receipt__line--dotted'/>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Чеки:</p>
+                        <p className="receipt__text">{xReportInfo.salesNum}</p>
+                    </div>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Сумма:</p>
+                        <p className="receipt__text">{xReportInfo.salesTotal.toFixed(2)}</p>
+                    </div>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">НДС:</p>
+                        <p className="receipt__text">0.00</p>
+                    </div>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">НоП:</p>
+                        <p className="receipt__text">0.00</p>
+                    </div>
+                    <hr className='receipt__line receipt__line--dotted'/>
+                    <p className='receipt__center-text receipt__center-text--upper'>
+                        Возврат продажи
+                    </p>
+                    <hr className='receipt__line receipt__line--dotted'/>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Чеки:</p>
+                        <p className="receipt__text">{xReportInfo.returnsNum}</p>
+                    </div>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Сумма:</p>
+                        <p className="receipt__text">{xReportInfo.returnsTotal.toFixed(2)}</p>
+                    </div>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">НДС:</p>
+                        <p className="receipt__text">0.00</p>
+                    </div>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">НоП:</p>
+                        <p className="receipt__text">0.00</p>
+                    </div>
+                    <hr className='receipt__line receipt__line--dotted'/>
+                    <p className='receipt__center-text receipt__center-text--upper'>
+                        Общая итоговая сумма
+                    </p>
+                    <hr className='receipt__line receipt__line--dotted'/>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Наличные:</p>
+                        <p className="receipt__text">{(xReportInfo.salesTotal - xReportInfo.returnsTotal).toFixed(2)}</p>
+                    </div>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Итого:</p>
+                        <p className="receipt__text">{(xReportInfo.salesTotal - xReportInfo.returnsTotal).toFixed(2)}</p>
+                    </div>
+                    <hr className='receipt__line receipt__line--dotted'/>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Наличные в кассе</p>
+                        <p className="receipt__text">{xReportInfo.cash.toFixed(2)}</p>
+                    </div>
+                    <hr className='receipt__line receipt__line--dotted'/>
                 </div>
-
-                <div className='receipt__main'>
-                    <div className='receipt__about-cashier'>
-                        <div className='receipt__flex'>
-                            <p className="receipt__text">Чек №{receipt.operationNumber}</p>
-                            <p className="receipt__text">{new Date(receipt.dateTime).toLocaleString()}</p>
-                        </div>
-                        <div className='receipt__flex'>
-                            <p className="receipt__text">Кассир:</p>
-                            <p className="receipt__text">{displayName}</p>
-                        </div>
-                        <div className='receipt__flex'>
-                            <p className="receipt__text">Смена:</p>
-                            <p className="receipt__text">{shiftNumber}</p>
-                        </div>
+            </div>;
+    } else {
+        children = (
+            <>
+                <div className="receipt__ticket">
+                    <div className="receipt__header">
+                        <p className="receipt__center-text">
+                            Магазин для новорожденных <br /> "ТАЙ-ТАЙ"
+                        </p>
+                        <p className="receipt__center-text">
+                            г.Каракол, ул.Карла Маркса б/н <br />
+                            ТЦ "Мега Молл", 2 этаж
+                        </p>
                     </div>
 
-                    <div className='receipt__products'>
-                        <div className='receipt__product-item '>
-                            <div className='receipt__flex'>
-                                <p className="receipt__text">[Штрих код]</p>
-                                <p className="receipt__text">Название товара</p>
-                            </div>
-
-                            <div className='receipt__flex'>
+                    <div className="receipt__main">
+                        <div className="receipt__about-cashier">
+                            <div className="receipt__flex">
                                 <p className="receipt__text">
-                                    Кол-во * цена
+                                    Чек №{receipt.operationNumber}
                                 </p>
                                 <p className="receipt__text">
-                                    сумма
+                                    {new Date(
+                                        receipt.dateTime
+                                    ).toLocaleString()}
                                 </p>
                             </div>
+                            <div className="receipt__flex">
+                                <p className="receipt__text">Кассир:</p>
+                                <p className="receipt__text">{displayName}</p>
+                            </div>
+                            <div className="receipt__flex">
+                                <p className="receipt__text">Смена:</p>
+                                <p className="receipt__text">{shiftNumber}</p>
+                            </div>
                         </div>
 
-                        {receipt?.additionalInfo?.completePurchaseInfo?.map(product => (
-                            <div className='receipt__product-item' key={product._id}>
-                                <div className='receipt__flex'>
-                                    <p className="receipt__text">{product.barcode}</p>
-                                    <p className="receipt__text">{product.title}</p>
+                        <div className="receipt__products">
+                            <div className="receipt__product-item ">
+                                <div className="receipt__flex">
+                                    <p className="receipt__text">[Штрих код]</p>
+                                    <p className="receipt__text">
+                                        Название товара
+                                    </p>
                                 </div>
 
-                                <div className='receipt__flex'>
+                                <div className="receipt__flex">
                                     <p className="receipt__text">
-                                        {product.quantity} * {product.price} {product.discount ? `- ${product.discount}%` : null}
+                                        Кол-во * цена
                                     </p>
-                                    <p className="receipt__text">
-                                        {product.discount ?
-                                            (product.quantity * product.price) - (product.quantity * product.price * product.discount / 100) :
-                                            product.quantity * product.price}
-                                    </p>
+                                    <p className="receipt__text">сумма</p>
                                 </div>
                             </div>
-                        ))}
+
+                            {receipt?.additionalInfo?.completePurchaseInfo?.map(
+                                (product) => (
+                                    <div
+                                        className="receipt__product-item"
+                                        key={product._id}
+                                    >
+                                        <div className="receipt__flex">
+                                            <p className="receipt__text">
+                                                {product.barcode}
+                                            </p>
+                                            <p className="receipt__text">
+                                                {product.title}
+                                            </p>
+                                        </div>
+
+                                        <div className="receipt__flex">
+                                            <p className="receipt__text">
+                                                {product.quantity} *{" "}
+                                                {product.price}{" "}
+                                                {product.discount
+                                                    ? `- ${product.discount}%`
+                                                    : null}
+                                            </p>
+                                            <p className="receipt__text">
+                                                {product.discount
+                                                    ? product.quantity *
+                                                          product.price -
+                                                      (product.quantity *
+                                                          product.price *
+                                                          product.discount) /
+                                                          100
+                                                    : product.quantity *
+                                                      product.price}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="receipt__total">
+                        <div>
+                            <div className="receipt__flex">
+                                <p>общая сумма:</p>
+                                <p>
+                                    {receipt?.additionalInfo?.amountOfMoney +
+                                        receipt?.additionalInfo?.discount}
+                                </p>
+                            </div>
+                            <div className="receipt__flex">
+                                <p>скидка:</p>
+                                <p>{receipt?.additionalInfo?.discount}</p>
+                            </div>
+                        </div>
+                        <p className="receipt__center-text total">
+                            <b>
+                                Итого: {receipt?.additionalInfo?.amountOfMoney}{" "}
+                                сом
+                            </b>
+                        </p>
+                    </div>
+
+                    <div className="receipt__footer">
+                        <p className="receipt__center-text">
+                            <b>Спасибо за покупку!</b>
+                        </p>
                     </div>
                 </div>
+            </>
+        );
+    }
 
-                <div className='receipt__total'>
-                    <div>
-                        <div className="receipt__flex">
-                            <p>общая сумма:</p>
-                            <p>{receipt?.additionalInfo?.amountOfMoney + receipt?.additionalInfo?.discount}</p>
-                        </div>
-                        <div className="receipt__flex">
-                            <p>скидка:</p>
-                            <p>{receipt?.additionalInfo?.discount}</p>
-                        </div>
-                    </div>
-                    <p className="receipt__center-text total">
-                        <b>Итого: {receipt?.additionalInfo?.amountOfMoney} сом</b>
-                    </p>
-                </div>
-
-
-                <div className='receipt__footer'>
-                    <p className="receipt__center-text">
-                        <b>Спасибо за покупку!</b>
-                    </p>
-                </div>
-            </div>
-            <div className='receipt__flex'>
-                <button id="btnPrint" className="hidden-print button" onClick={handlePrint}>Печать</button>
-                <button id="btnPrint" className="hidden-print button" onClick={handleClose}>Закрыть</button>
+    return (
+        <div className="receipt" ref={componentRef}>
+            {children}
+            <div className="receipt__flex">
+                <button
+                    id="btnPrint"
+                    className="hidden-print button"
+                    onClick={handlePrint}
+                >
+                    Печать
+                </button>
+                <button
+                    id="btnPrint"
+                    className="hidden-print button"
+                    onClick={handleClose}
+                >
+                    Закрыть
+                </button>
             </div>
         </div>
     );
