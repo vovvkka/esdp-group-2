@@ -2,7 +2,7 @@ exports.config = {
   output: './output',
   helpers: {
     Puppeteer: {
-      url: 'http://localhost:3000',
+      url: 'http://localhost:3010',
       show: !process.env.CI,
       headless: Boolean(process.env.CI),
       windowSize: '1200x900'
