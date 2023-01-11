@@ -19,8 +19,10 @@ const Receipt = ({
     });
 
     useEffect(() => {
-        dispatch(fetchXReport(shift._id));
-    }, [dispatch]);
+        if (shift) {
+            dispatch(fetchXReport(shift._id));
+        }
+    }, [dispatch, shift]);
 
     let children;
 
@@ -45,11 +47,11 @@ const Receipt = ({
                     <hr className='receipt__line'/>
                     <div className="receipt__flex">
                         <p className="receipt__text">Кассир:</p>
-                        <p className="receipt__text">{xReportInfo.shift.cashier.displayName}</p>
+                        <p className="receipt__text">{xReportInfo?.shift.cashier.displayName}</p>
                     </div>
                     <div className="receipt__flex">
                         <p className="receipt__text">Смена:</p>
-                        <p className="receipt__text">{xReportInfo.shift.shiftNumber}</p>
+                        <p className="receipt__text">{xReportInfo?.shift.shiftNumber}</p>
                     </div>
                     <hr className='receipt__line'/>
                     <p className='receipt__center-text receipt__center-text--upper'>
@@ -62,11 +64,11 @@ const Receipt = ({
                     <hr className='receipt__line receipt__line--dotted'/>
                     <div className="receipt__flex">
                         <p className="receipt__text">Чеки:</p>
-                        <p className="receipt__text">{xReportInfo.salesNum}</p>
+                        <p className="receipt__text">{xReportInfo?.salesNum}</p>
                     </div>
                     <div className="receipt__flex">
                         <p className="receipt__text">Сумма:</p>
-                        <p className="receipt__text">{xReportInfo.salesTotal.toFixed(2)}</p>
+                        <p className="receipt__text">{xReportInfo?.salesTotal.toFixed(2)}</p>
                     </div>
                     <div className="receipt__flex">
                         <p className="receipt__text">НДС:</p>
@@ -83,11 +85,11 @@ const Receipt = ({
                     <hr className='receipt__line receipt__line--dotted'/>
                     <div className="receipt__flex">
                         <p className="receipt__text">Чеки:</p>
-                        <p className="receipt__text">{xReportInfo.returnsNum}</p>
+                        <p className="receipt__text">{xReportInfo?.returnsNum}</p>
                     </div>
                     <div className="receipt__flex">
                         <p className="receipt__text">Сумма:</p>
-                        <p className="receipt__text">{xReportInfo.returnsTotal.toFixed(2)}</p>
+                        <p className="receipt__text">{xReportInfo?.returnsTotal.toFixed(2)}</p>
                     </div>
                     <div className="receipt__flex">
                         <p className="receipt__text">НДС:</p>
@@ -104,16 +106,16 @@ const Receipt = ({
                     <hr className='receipt__line receipt__line--dotted'/>
                     <div className="receipt__flex">
                         <p className="receipt__text">Наличные:</p>
-                        <p className="receipt__text">{(xReportInfo.salesTotal - xReportInfo.returnsTotal).toFixed(2)}</p>
+                        <p className="receipt__text">{(xReportInfo?.salesTotal - xReportInfo?.returnsTotal).toFixed(2)}</p>
                     </div>
                     <div className="receipt__flex">
                         <p className="receipt__text">Итого:</p>
-                        <p className="receipt__text">{(xReportInfo.salesTotal - xReportInfo.returnsTotal).toFixed(2)}</p>
+                        <p className="receipt__text">{(xReportInfo?.salesTotal - xReportInfo?.returnsTotal).toFixed(2)}</p>
                     </div>
                     <hr className='receipt__line receipt__line--dotted'/>
                     <div className="receipt__flex">
                         <p className="receipt__text">Наличные в кассе</p>
-                        <p className="receipt__text">{xReportInfo.cash.toFixed(2)}</p>
+                        <p className="receipt__text">{xReportInfo?.cash.toFixed(2)}</p>
                     </div>
                     <hr className='receipt__line receipt__line--dotted'/>
                 </div>
