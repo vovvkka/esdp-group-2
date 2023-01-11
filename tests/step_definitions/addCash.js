@@ -39,7 +39,7 @@ When('перехожу на страницу {string}', page => {
     I.wait(5);
 });
 
-Then('нажимаю на кнопку {string}', text => {
+Then('тыкаю на кнопку {string}', text => {
     I.click(`//button[contains(text(), "${text}")]`);
     I.wait(5);
 });

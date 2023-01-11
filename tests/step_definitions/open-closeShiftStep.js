@@ -27,11 +27,10 @@ When('я ввожу данные', table => {
         const value = row.cells[1].value;
         I.fillField(name, value);
     });
-    I.wait(5);
 });
 
 Then('нажмаю на кнопку {string}', buttonText => {
-    I.click(`//form//button[contains(text(), "${buttonText}")]`);
+    I.click(`//button[contains(text(), "${buttonText}")]`);
 });
 
 When('перехожу на страницу {string}', page => {
@@ -39,9 +38,9 @@ When('перехожу на страницу {string}', page => {
     I.wait(5);
 });
 
-Then('нажимаю на кнопку {string}', text => {
+Then('тыкаю на кнопку {string}', text => {
     I.click(`//button[contains(text(), "${text}")]`);
-    I.wait(5);
+    I.wait(2);
 });
 
 When('выбираю поле {string}', text => {
@@ -61,4 +60,3 @@ When('я перехожу на страницу {string}', page => {
 Then('вижу заголовок {string}', text => {
     I.see(text);
 });
-

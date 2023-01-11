@@ -42,6 +42,6 @@ When('нажимаю кнопку {string}', buttonText => {
     I.wait(2);
 });
 
-When('я перехожу на страницу и вижу таблицу {string}', (text) => {
+When('я перехожу на страницу и вижу заголовок {string}', (text) => {
     I.see(text);
 });
