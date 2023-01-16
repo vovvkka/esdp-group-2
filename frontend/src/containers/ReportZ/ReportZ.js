@@ -1,13 +1,17 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchOperations} from "../../store/actions/operationsActions";
 import {Box, Grid, Typography} from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import {closeShiftTitle} from "../../store/actions/shiftsActions";
+import CustomModal from "../../components/UI/Modal/Modal";
+import Receipt from "../../components/Receipt/Receipt";
 
 const ReportZ = () => {
     const dispatch = useDispatch();
     const operations = useSelector(state => state.operations.operations);
+    const [zReportActive, setZReportActive] = useState(false);
+    const [shift, setShift] = useState('');
 
     useEffect(() => {
         dispatch(fetchOperations(null,closeShiftTitle));
@@ -68,7 +72,6 @@ const ReportZ = () => {
     ];
 
     const options = {
-        selectableRows: "none",
         filter: false,
         responsive: 'standard',
         serverSide: true,
@@ -91,6 +94,11 @@ const ReportZ = () => {
                     break;
             }
         },
+        onRowClick: (rowData, rowMeta) => {
+            const row = operations.docs[rowMeta.dataIndex];
+            setZReportActive(true);
+            setShift(row.shift._id);
+        }
     };
 
     return (
@@ -98,7 +106,6 @@ const ReportZ = () => {
             <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
                 <Typography variant='h5'>Z - Отчет</Typography>
             </Grid>
-
             <Box>
                 <MUIDataTable
                     title={"Смены"}
@@ -107,7 +114,20 @@ const ReportZ = () => {
                     data={operations.docs}
                 />
             </Box>
-
+            {
+                zReportActive && (
+                    <CustomModal
+                        isOpen={zReportActive}
+                        handleClose={() => setZReportActive(false)}
+                    >
+                        <Receipt
+                            handleClose={() => setZReportActive(false)}
+                            zReport
+                            shiftId={shift}
+                        />
+                    </CustomModal>
+                )
+            }
         </Box>
     );
 };

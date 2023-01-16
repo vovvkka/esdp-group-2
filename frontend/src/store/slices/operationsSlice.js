@@ -6,6 +6,7 @@ export const initialState = {
     operations: {},
     receipt: {},
     xReport: null,
+    zReport: null,
     loading: false,
     error: null,
 };
@@ -39,6 +40,21 @@ const operationsSlice = createSlice({
         fetchXReportFailure(state, {payload}) {
             state.loading = false;
             state.error = payload;
+        },
+        fetchZReportRequest(state) {
+            state.loading = true;
+        },
+        fetchZReportSuccess(state, {payload: report}) {
+            state.loading = false;
+            state.zReport = report;
+        },
+        fetchZReportFailure(state, {payload}) {
+            state.loading = false;
+            state.error = payload;
+        },
+        clearReport(state) {
+            state.xReport = null;
+            state.zReport = null;
         }
     }
 });
@@ -50,7 +66,11 @@ export const {
     fetchReceipt,
     fetchXReportRequest,
     fetchXReportSuccess,
-    fetchXReportFailure
+    fetchXReportFailure,
+    fetchZReportRequest,
+    fetchZReportSuccess,
+    fetchZReportFailure,
+    clearReport
 } = operationsSlice.actions;
 
 export default operationsSlice;

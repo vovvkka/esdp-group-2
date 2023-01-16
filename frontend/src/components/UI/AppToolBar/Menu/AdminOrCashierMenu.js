@@ -393,7 +393,7 @@ const AdminOrCashierMenu = ({user}) => {
                     >
                         <MenuItem onClick={handleClose} component={Link} to={`/admin/journal`}>Все записи</MenuItem>
                         <MenuItem onClick={handleClose} component={Link} to={'/admin/purchases'}>Продажи</MenuItem>
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem onClick={handleClose} component={Link} to={"/admin/report-z"}>
                             Z-отчет
                         </MenuItem>
                         <MenuItem onClick={handleClose}>
@@ -545,7 +545,7 @@ const AdminOrCashierMenu = ({user}) => {
                         <MenuItem onClick={handleClose}  component={Link} to={`/admin/purchases`}>Продажи</MenuItem>
                         {!shift
                             ? [
-                                <MenuItem key={0} onClick={handleClose}>
+                                <MenuItem key={0} onClick={handleClose} component={Link} to={"/admin/report-z"}>
                                     Z-отчет
                                 </MenuItem>,
                                 <MenuItem key={1} onClick={handleClose}>
