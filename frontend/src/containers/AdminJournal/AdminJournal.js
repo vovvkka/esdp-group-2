@@ -46,6 +46,15 @@ const AdminJournal = () => {
             }
         },
         {
+            name: "additionalInfo",
+            label: "Комментарий",
+            options: {
+                customBodyRender: (value) => {
+                    return value.comment
+                }
+            }
+        },
+        {
             name: "status",
             label: "Статус",
             options: {
