@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const validateMinLength = async value => {
-    const length = value.length < 60;
+    const length = value.length < 10;
 
     if (length) return false;
 };
@@ -17,7 +17,7 @@ const NewsSchema = new Schema({
         required: true,
         validate: {
             validator: validateMinLength,
-            message: "Минимальное количество символов - 60"
+            message: "Минимальное количество символов - 10"
         }
     },
     image: String,

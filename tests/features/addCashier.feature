@@ -13,9 +13,9 @@
 
     Затем я перехожу на страницу "admin/cashiers/add-new-cashier"
     Если я введу данные
-      | username | cashier44 |
+      | username | cashier4454 |
       | displayName | Александр Атомико |
-      | email | cashier44@gmail.com |
+      | email | cashier444sadas@gmail.com |
       | password | 123456 |
       | pin | 4444 |
     И нажимаю кнопку "Создать"
