@@ -142,7 +142,7 @@ const Purchases = () => {
     return (
         <Box width='95%' margin='0 auto'>
             <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
-                <Typography variant='h5'>Журнал</Typography>
+                <Typography variant='h5'>Продажи</Typography>
             </Grid>
 
             <Box>

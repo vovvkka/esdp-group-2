@@ -4,7 +4,7 @@ REL_PATH=`dirname $0`
 
 echo $REL_PATH
 cd ${REL_PATH}
-CURRENT_DIR="pwd"
+CURRENT_DIR=`pwd`
 
 echo ${CURRENT_DIR}
 cd ${CURRENT_DIR}
