@@ -51,3 +51,4 @@ const run = async () => {
 };
 
 run().catch(e => console.log(e));
+module.exports = app;
