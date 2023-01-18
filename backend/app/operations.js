@@ -25,7 +25,12 @@ router.get("/", auth, async (req, res) => {
     }
 
     const options = {
-        populate: {path: 'shift', select: 'shiftNumber'},
+        populate: {
+           path: 'shift',
+           select: 'shiftNumber cashier',
+           populate : {
+                path : 'cashier', select: 'displayName'
+            }},
         sort: {operationNumber: -1},
         page: parseInt(page) || 1,
         limit: parseInt(perPage) || 30
