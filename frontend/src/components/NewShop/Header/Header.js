@@ -6,10 +6,9 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import {useDispatch, useSelector} from "react-redux";
 import Carousel from "../Carousel/NewsCarousel";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {Autocomplete, Box, Grow, IconButton, Menu, TextField, Tooltip, useMediaQuery} from "@mui/material";
+import {Autocomplete, Box, IconButton, Menu, TextField, Tooltip, useMediaQuery} from "@mui/material";
 import {apiUrl} from "../../../config";
 import {setKey} from "../../../store/slices/productsSlice";
-import {fetchProductsSearch} from "../../../store/actions/productsActions";
 import axiosApi from "../../../axiosApi";
 import SearchIcon from "@mui/icons-material/Search";
 import {historyPush} from "../../../store/actions/historyActions";
@@ -24,7 +23,7 @@ const Header = () => {
     const [value, setValue] = useState(null);
     const [productsList, setProductsList] = useState([]);
     const [search, setSearch] = useState(false);
-    const matches = useMediaQuery('(min-width:1100px)');
+    const matches = useMediaQuery('(min-width:1160px)');
     const dispatch = useDispatch();
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -34,16 +33,12 @@ const Header = () => {
     const handleClose = () => setAnchorEl(null);
 
     const onInputChange = async (e) => {
-        if (e.type === 'click') {
-            setValue(null);
-            setProductsList([]);
-            setSearch(false);
-        } else {
+        if (e) {
             setValue(e.target.value);
-            if (e.target.value.length <= 2) {
+            if (e.target.value?.length <= 2) {
                 return setProductsList([]);
             } else {
-                const response = await axiosApi(`/products/search?key=${e.target.value}`);
+                const response = await axiosApi(`/products/search?key=${e.target.value}&shop=true`);
                 const data = response.data.map(i => {
                         return {...i, label: i.title};
                     }
@@ -52,17 +47,56 @@ const Header = () => {
             }
         }
     };
-    const SearchBar = <Grow timeout={"auto"} in={search}>
-        <Autocomplete
-            sx={{width: '98%'}}
-            options={productsList}
-            freeSolo
-            isOptionEqualToValue={() => true}
-            selectOnFocus={true}
-            clearOnEscape={true}
-            onClose={() => {
+    const onSearchClick = () => {
+        if (!search && !value) {
+            setSearch(true)
+        } else if (search && value) {
+            if (value.replace(/\s/g, '')) {
+                dispatch(setKey(value));
+                setProductsList([]);
+                setValue(null);
+                dispatch(historyPush('/search'));
                 setValue(null);
                 setProductsList([]);
+                setSearch(false);
+            } else {
+                setValue(null);
+            }
+        } else if (!search && value) {
+            if (value.replace(/\s/g, '')) {
+                dispatch(setKey(value));
+                setValue(null);
+                setProductsList([]);
+                dispatch(historyPush('/search'));
+                setValue(null);
+                setProductsList([]);
+                setSearch(false);
+            } else {
+                setValue(null);
+            }
+        } else {
+            setSearch(false);
+        }
+    }
+    const SearchBar =
+        <Autocomplete
+            sx={!matches ? {width: '92%', marginBottom: '15px', backgroundColor: 'white',position: "absolute",zIndex:'10000'} : {
+                marginLeft: 'auto',
+                width: '38%',
+                marginBottom: '15px',
+                backgroundColor: 'white',
+                position: "absolute",
+                left:'60%',
+                top:'85px',
+                zIndex:'10000'
+            }}
+            options={productsList}
+            freeSolo
+            clearOnEscape={false}
+            value={{label: value ? value : ''}}
+            clearOnBlur={false}
+            isOptionEqualToValue={() => true}
+            onClose={() => {
                 setSearch(false);
             }}
             getOptionLabel={(option) => option.label}
@@ -88,6 +122,7 @@ const Header = () => {
                     {...params}
                     label="Поиск"
                     value={value}
+                    autoFocus={true}
                     className="header__search"
                     inputProps={{
                         ...params.inputProps,
@@ -96,7 +131,6 @@ const Header = () => {
                                 e.stopPropagation();
                                 if (value.replace(/\s/g, '')) {
                                     dispatch(setKey(value));
-                                    dispatch(fetchProductsSearch('?key=' + value));
                                     dispatch(historyPush('/search'));
                                     setSearch(false);
                                 }
@@ -105,8 +139,7 @@ const Header = () => {
                     }}
                 />
             )}
-        />
-    </Grow>;
+        />;
 
     const amount = cartProducts.reduce((acc, value) => {
         return acc + value.quantity;
@@ -114,7 +147,7 @@ const Header = () => {
 
     return (
         <div className='header'>
-            <div className='container'>
+            <div className='container' style={{position:'relative'}}>
                 {!matches ? <div className='header__toolbar'>
                     <div className='header__logo-wrapper'>
                         <Link to="/">
@@ -156,9 +189,16 @@ const Header = () => {
                                     <ShoppingCartOutlinedIcon className='header__icon header__icon--cart'/>
                                 </Link>
                             </Tooltip>
-                            <Tooltip title="Поиск">
-                                <SearchIcon sx={{marginLeft:'20px'}} onClick={() => setSearch(true)}/>
-                            </Tooltip>
+                            <SearchIcon sx={{marginLeft: '20px'}} onClick={onSearchClick}/>
+                            {search ? null : <span onClick={() => setSearch(true)} style={value ? {
+                                verticalAlign: 'top',
+                                marginLeft: '5px',
+                                border: '1px solid black',
+                                borderRadius: '5px',
+                                padding: '0 5px',
+                                minWidth: '55px'
+                            } : null}>{value?.length > 5 ? value.slice(0, 5) + '...' : value}</span>}
+
                             {user?.role === 'admin' || user?.role === 'cashier' ?
                                 <Tooltip title="Личный кабинет">
                                     <Link to={`/${user?.role}`} className='header__cabinet'>
@@ -189,11 +229,16 @@ const Header = () => {
                             <NavLink to='/catalog' className='header__link'
                                      activeClassName='header__link-active'>Каталог</NavLink>
                         </li>
-                        <Tooltip title="Поиск">
-                            <li className='header__list-element'>
-                                <SearchIcon onClick={() => setSearch(true)}/>
-                            </li>
-                        </Tooltip>
+                        <li className='header__list-element'>
+                            <SearchIcon onClick={onSearchClick}/>
+                        </li>
+                        <li>{search ? null : <span onClick={() => setSearch(true)} style={value ? {
+                            verticalAlign: 'top',
+                            marginLeft: '5px',
+                            border: '1px solid black',
+                            borderRadius: '5px',
+                            padding: '5px 10px'
+                        } : null}>{value?.length > 5 ? value.slice(0, 5) + '...' : value}</span>}</li>
                     </ul>
                     <div className='header__info'>
                         {<><LocalPhoneIcon className='header__icon header__icon--phone'/>

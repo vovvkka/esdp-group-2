@@ -120,10 +120,10 @@ router.get('/search', async (req, res) => {
     try {
         const query = {};
         if (req.query.key) {
-            isNaN(+req.query.key) ? query.title = {
+            query.title = {
                 $regex: req.query.key,
                 $options: 'i'
-            } : null
+            }
         }
         query.status = "Активный";
         query.amount = {$gte: 1};

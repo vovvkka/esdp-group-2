@@ -72,6 +72,7 @@ const ReportZ = () => {
     ];
 
     const options = {
+        selectableRows: "none",
         filter: false,
         responsive: 'standard',
         serverSide: true,
