@@ -18,7 +18,7 @@ router.get("/", auth, async (req, res) => {
         query.dateTime = {'$lte':new Date(req.query.end)};
     }
     if(req.query.to && req.query.from){
-        query.dateTime = {'$gte':new Date(req.query.start), '$lte':new Date(req.query.end)};
+        query.dateTime = {'$gte':new Date(req.query.from), '$lte':new Date(req.query.to)};
     }
     if(req.query.title){
         query.title=req.query.title;
@@ -53,42 +53,90 @@ router.get("/reports", auth, async (req, res) => {
         query.dateTime = {'$gte':new Date(req.query.start)};
     }
     if(req.query.to && req.query.from){
-        query.dateTime = {'$gte':new Date(req.query.start), '$lte':new Date(req.query.end)};
+        query.dateTime = {'$gte':new Date(req.query.from), '$lte':new Date(req.query.to)};
     }
     query.title = {'$in': [config.operations.purchase, config.operations.returnPurchase]};
     try {
-        const operations = await Operation.aggregate([
-            {   $match: query},
-            {
-                $group : {
-                    _id : { $dateToString: { format: "%Y-%m-%d", date: "$dateTime" } },
-                    sales: {$sum: { $cond: [{ $eq: ["$title", config.operations.purchase] }, "$additionalInfo.amountOfMoney", 0] }} ,
-                    returns:{$sum: { $cond: [{ $eq: ["$title", config.operations.returnPurchase] }, "$additionalInfo.amountOfMoney", 0] }},
-                    salesPurchasePriceTotal: {$sum: { $cond: [{ $eq: ["$title", config.operations.purchase] }, "$additionalInfo.purchasePriceTotal", 0] }},
-                    returnsPurchasePriceTotal: {$sum: { $cond: [{ $eq: ["$title", config.operations.returnPurchase] }, "$additionalInfo.purchasePriceTotal", 0] }}
+        if(req.query.day){
+            const start = "2023-01-17T00:00:00.000Z";
+            query.dateTime = {'$gte':new Date(start), '$lte':new Date(new Date(new Date(start).setDate(new Date(start).getDate() + 1)))};
+            const operations = await Operation.aggregate([
+                {$match: query},
+                {
+                    $group:
+                        {
+                            _id: {$dateToString: {format: "%Y-%m-%d", date: "$dateTime"}},
+                            itemsSold: { $addToSet:  {$cond: [{$eq: ["$title", config.operations.purchase]}, "$additionalInfo.completePurchaseInfo", '$$REMOVE']} },
+                            itemsReturned: { $addToSet:  {$cond: [{$eq: ["$title", config.operations.returnPurchase]}, "$additionalInfo", '$$REMOVE']} }
+
+                        },
+                },{
+                    $project: {
+                        _id: '$_id',
+                        itemsSold: {
+                            $reduce: {
+                                input: "$itemsSold",
+                                initialValue: [],
+                                in: { $concatArrays: [ "$$value", "$$this" ] }
+                            }
+                        },
+                        itemsReturned: '$itemsReturned'
+                    }
                 }
-            },
-            {
-                $addFields: {
-                    totalSales: {$subtract: ['$sales','$returns']},
-                    totalPurchasePriceTotal: {$subtract: ['$salesPurchasePriceTotal','$returnsPurchasePriceTotal']},
+            ]);
+            const sales = {};
+
+            operations[0].itemsSold.forEach(e => {
+                const o =  sales[e._id] = sales[e._id] || {...e,quantity:0, totalDiscount:0}
+                o.quantity += e.quantity;
+                o.totalDiscount += e.quantity*e.price*e.discount/100;
+                delete o.discount;
+                delete o.barcode;
+            });
+            operations[0].itemsReturned.forEach(e => {
+                if(sales[e._id]) {
+                    sales[e._id].quantity -= e.quantity;
+                    sales[e._id].totalDiscount -= e.price*e.quantity-e.amountOfMoney;
                 }
-            },
-            {
-                $addFields: {
-                    totalProfit: {$subtract: ['$totalSales','$totalPurchasePriceTotal']},
+            });
+            res.send({date:operations[0]._id,products:Object.values(sales)});
+        }else {
+            const operations = await Operation.aggregate([
+                {$match: query},
+                {
+                    $group: {
+                        _id: {$dateToString: {format: "%Y-%m-%d", date: "$dateTime"}},
+                        sales: {$sum: {$cond: [{$eq: ["$title", config.operations.purchase]}, "$additionalInfo.amountOfMoney", 0]}},
+                        returns: {$sum: {$cond: [{$eq: ["$title", config.operations.returnPurchase]}, "$additionalInfo.amountOfMoney", 0]}},
+                        salesPurchasePriceTotal: {$sum: {$cond: [{$eq: ["$title", config.operations.purchase]}, "$additionalInfo.purchasePriceTotal", 0]}},
+                        returnsPurchasePriceTotal: {$sum: {$cond: [{$eq: ["$title", config.operations.returnPurchase]}, "$additionalInfo.purchasePriceTotal", 0]}}
+                    }
+                },
+                {
+                    $addFields: {
+                        totalSales: {$subtract: ['$sales', '$returns']},
+                        totalPurchasePriceTotal: {$subtract: ['$salesPurchasePriceTotal', '$returnsPurchasePriceTotal']},
+                    }
+                },
+                {
+                    $addFields: {
+                        totalProfit: {$subtract: ['$totalSales', '$totalPurchasePriceTotal']},
+                    }
+                },
+                {
+                    $project: {
+                        returns: 0,
+                        sales: 0,
+                        returnsPurchasePriceTotal: 0,
+                        salesPurchasePriceTotal: 0,
+                        totalPurchasePriceTotal: 0
+                    }
                 }
-            },
-            { $project: {
-                    returns: 0,
-                    sales: 0,
-                    returnsPurchasePriceTotal: 0,
-                    salesPurchasePriceTotal: 0,
-                    totalPurchasePriceTotal: 0
-                }}
-        ]);
-        res.send(operations);
+            ]);
+            res.send(operations);
+        }
     } catch (e) {
+        console.log(e);
         res.status(400).send(e);
     }
 });
@@ -277,7 +325,7 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
                 shift: shift._id,
                 title: config.operations.returnPurchase,
                 dateTime: Date.now(),
-                additionalInfo: {item:{_id:item._id, barcode, purchasePrice:item.purchasePrice}, quantity, purchasePriceTotal: quantity*item.purchasePrice, checkNumber, amountOfMoney: total, cash: cashBefore}
+                additionalInfo: {_id:item._id, barcode, price: item.price, purchasePrice:item.purchasePrice, quantity, purchasePriceTotal: quantity*item.purchasePrice, checkNumber, amountOfMoney: total, cash: cashBefore}
             });
             await operation.save();
 
