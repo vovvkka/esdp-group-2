@@ -6,7 +6,8 @@ import {
     fetchXReportRequest, fetchXReportSuccess, fetchZReportFailure, fetchZReportRequest, fetchZReportSuccess
 } from "../slices/operationsSlice";
 
-export const fetchOperations = (page,title) => {
+export const fetchOperations = (page,title, period) => {
+    console.log(period);
     return async dispatch => {
         try {
             dispatch(fetchOperationsRequest());
@@ -21,7 +22,11 @@ export const fetchOperations = (page,title) => {
                 }
             } else {
                 if(title){
-                    response = await axiosApi('/operations?title='+title);
+                    if (period.from) {
+                         response = await axiosApi(`/operations?title=${title}&from=${period.from}&to=${period.to}`);
+                    } else if (!period.from) {
+                        response = await axiosApi('/operations?title='+title);
+                    }
                 }else {
                     response = await axiosApi('/operations');
                 }
