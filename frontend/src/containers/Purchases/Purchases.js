@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchOperations} from "../../store/actions/operationsActions";
-import {Box, Grid, Typography} from "@mui/material";
+import {Box, Button, Typography} from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,14 +10,27 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
+import TextField from '@mui/material/TextField';
+import SearchIcon from "@mui/icons-material/Search";
+import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
+import { ru } from "date-fns/locale";
+
 
 const Purchases = () => {
     const dispatch = useDispatch();
     const operations = useSelector(state => state.operations.operations);
+    const [periodDate, setPeriodDate] = useState({from: null, to: null,});
 
     useEffect(() => {
-        dispatch(fetchOperations(null,'Продажа'));
+        dispatch(fetchOperations(null,'Продажа', periodDate));
     }, [dispatch]);
+    const onChangePeriod = () => {
+        if (periodDate.from) {
+            dispatch(fetchOperations(null,'Продажа', periodDate));
+        }
+    };
 
     const columns = [
         {
@@ -141,9 +154,56 @@ const Purchases = () => {
 
     return (
         <Box width='95%' margin='0 auto'>
-            <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
+            <Box display='flex' justifyContent='space-between' marginY='20px'>
                 <Typography variant='h5'>Журнал</Typography>
-            </Grid>
+
+                <Box display='flex' alignItems='stretch'>
+                    <LocalizationProvider locale={ru} dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                            label="от"
+                            openTo="month"
+                            views={['year', 'month', 'day']}
+                            value={periodDate.from}
+                            onChange={(newValue) => {
+                                setPeriodDate(prevState => ({
+                                    ...prevState,
+                                    from: newValue,
+                                }));
+                            }}
+                            renderInput={(params) => <TextField {...params}/>}
+                        />
+                    </LocalizationProvider>
+
+                    <LocalizationProvider locale={ru}  dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                            label="До"
+                            openTo="month"
+                            views={['year', 'month', 'day']}
+                            value={periodDate.to}
+                            onChange={(newValue) => {
+                                setPeriodDate(prevState => ({
+                                    ...prevState,
+                                    to: newValue,
+                                }));
+                            }}
+                            disabled={Boolean(!periodDate.from)}
+                            renderInput={(params) => <TextField {...params}/>}
+                        />
+                    </LocalizationProvider>
+
+                    <Button
+                        startIcon={<SearchIcon/>}
+                        type='submit'
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        onClick={onChangePeriod}
+                    >
+                        Поиск
+                    </Button>
+
+                </Box>
+            </Box>
 
             <Box>
                 <MUIDataTable

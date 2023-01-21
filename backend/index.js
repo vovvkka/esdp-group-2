@@ -38,6 +38,7 @@ app.use('/contacts', contacts);
 app.use('/operations', operations);
 
 const run = async () => {
+    await mongoose.set('strictQuery', false);
     await mongoose.connect(config.mongo.db, config.mongo.options);
 
     app.listen(config.port, () => {
