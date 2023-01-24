@@ -21,6 +21,7 @@ import { ru } from "date-fns/locale";
 const Purchases = () => {
     const dispatch = useDispatch();
     const operations = useSelector(state => state.operations.operations);
+    const shift = useSelector(state => state.shifts.shift);
     const [periodDate, setPeriodDate] = useState({from: null, to: null,});
 
     useEffect(() => {
@@ -144,7 +145,7 @@ const Purchases = () => {
         onTableChange: (action, tableState) => {
             switch (action) {
                 case 'changePage':
-                    dispatch(fetchOperations(`?page=${tableState.page + 1}`));
+                    dispatch(fetchOperations(`?page=${tableState.page + 1}`,'Продажа',periodDate));
                     break;
                 default:
                     break;
@@ -153,9 +154,9 @@ const Purchases = () => {
     };
 
     return (
-        <Box width='95%' margin='0 auto'>
+        <Box width='95%' margin={shift?'50px auto 0':'0 auto'}>
             <Box display='flex' justifyContent='space-between' marginY='20px'>
-                <Typography variant='h5'>Журнал</Typography>
+                <Typography variant='h5'>Журнал продаж</Typography>
 
                 <Box display='flex' alignItems='stretch'>
                     <LocalizationProvider locale={ru} dateAdapter={AdapterDateFns}>

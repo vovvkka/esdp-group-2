@@ -11,29 +11,30 @@ const router = express.Router();
 router.get("/", auth, async (req, res) => {
     const {page, perPage} = req.query;
     const query = {};
-    if(req.query.to){
-        query.dateTime = {'$gte':new Date(req.query.start)};
+    if (req.query.to && req.query.to !== 'null') {
+        query.dateTime = {'$lte': new Date(req.query.to)};
     }
-    if(req.query.from){
-        query.dateTime = {'$lte':new Date(req.query.end)};
+    if (req.query.from) {
+        query.dateTime = {'$gte': new Date(req.query.from)};
     }
-    if(req.query.to && req.query.from){
-        query.dateTime = {'$gte':new Date(req.query.from), '$lte':new Date(req.query.to)};
+    if (req.query.to && req.query.from && req.query.to !== 'null') {
+        query.dateTime = {'$gte': new Date(req.query.from), '$lte': new Date(req.query.to)};
     }
-    if(req.query.title){
-        query.title=req.query.title;
+    if (req.query.title) {
+        query.title = req.query.title;
     }
 
     const options = {
         populate: {
-           path: 'shift',
-           select: 'shiftNumber cashier',
-           populate : {
-                path : 'cashier', select: 'displayName'
-            }},
+            path: 'shift',
+            select: 'shiftNumber cashier',
+            populate: {
+                path: 'cashier', select: 'displayName'
+            }
+        },
         sort: {operationNumber: -1},
         page: parseInt(page) || 1,
-        limit: parseInt(perPage) || 30
+        limit: parseInt(perPage) || 20
     };
 
     try {
@@ -46,38 +47,41 @@ router.get("/", auth, async (req, res) => {
 
 router.get("/reports", auth, async (req, res) => {
     const query = {};
-    if(req.query.from){
-        query.dateTime = {'$lte':new Date(req.query.end)};
+    if (req.query.from) {
+        query.dateTime = {'$gte': new Date(req.query.from)};
     }
-    if(req.query.to){
-        query.dateTime = {'$gte':new Date(req.query.start)};
+    if (req.query.to && req.query.to !== 'null') {
+        query.dateTime = {'$lte': new Date(req.query.to)};
     }
-    if(req.query.to && req.query.from){
-        query.dateTime = {'$gte':new Date(req.query.from), '$lte':new Date(req.query.to)};
+    if (req.query.to && req.query.from && req.query.to !== 'null') {
+        query.dateTime = {'$gte': new Date(req.query.from), '$lte': new Date(req.query.to)};
     }
     query.title = {'$in': [config.operations.purchase, config.operations.returnPurchase]};
     try {
-        if(req.query.day){
+        if (req.query.day) {
             const start = "2023-01-17T00:00:00.000Z";
-            query.dateTime = {'$gte':new Date(start), '$lte':new Date(new Date(new Date(start).setDate(new Date(start).getDate() + 1)))};
+            query.dateTime = {
+                '$gte': new Date(start),
+                '$lte': new Date(new Date(new Date(start).setDate(new Date(start).getDate() + 1)))
+            };
             const operations = await Operation.aggregate([
                 {$match: query},
                 {
                     $group:
                         {
                             _id: {$dateToString: {format: "%Y-%m-%d", date: "$dateTime"}},
-                            itemsSold: { $addToSet:  {$cond: [{$eq: ["$title", config.operations.purchase]}, "$additionalInfo.completePurchaseInfo", '$$REMOVE']} },
-                            itemsReturned: { $addToSet:  {$cond: [{$eq: ["$title", config.operations.returnPurchase]}, "$additionalInfo", '$$REMOVE']} }
+                            itemsSold: {$addToSet: {$cond: [{$eq: ["$title", config.operations.purchase]}, "$additionalInfo.completePurchaseInfo", '$$REMOVE']}},
+                            itemsReturned: {$addToSet: {$cond: [{$eq: ["$title", config.operations.returnPurchase]}, "$additionalInfo", '$$REMOVE']}}
 
                         },
-                },{
+                }, {
                     $project: {
                         _id: '$_id',
                         itemsSold: {
                             $reduce: {
                                 input: "$itemsSold",
                                 initialValue: [],
-                                in: { $concatArrays: [ "$$value", "$$this" ] }
+                                in: {$concatArrays: ["$$value", "$$this"]}
                             }
                         },
                         itemsReturned: '$itemsReturned'
@@ -87,20 +91,20 @@ router.get("/reports", auth, async (req, res) => {
             const sales = {};
 
             operations[0].itemsSold.forEach(e => {
-                const o =  sales[e._id] = sales[e._id] || {...e,quantity:0, totalDiscount:0}
+                const o = sales[e._id] = sales[e._id] || {...e, quantity: 0, totalDiscount: 0}
                 o.quantity += e.quantity;
-                o.totalDiscount += e.quantity*e.price*e.discount/100;
+                o.totalDiscount += e.quantity * e.price * e.discount / 100;
                 delete o.discount;
                 delete o.barcode;
             });
             operations[0].itemsReturned.forEach(e => {
-                if(sales[e._id]) {
+                if (sales[e._id]) {
                     sales[e._id].quantity -= e.quantity;
-                    sales[e._id].totalDiscount -= e.price*e.quantity-e.amountOfMoney;
+                    sales[e._id].totalDiscount -= e.price * e.quantity - e.amountOfMoney;
                 }
             });
-            res.send({date:operations[0]._id,products:Object.values(sales)});
-        }else {
+            res.send({date: operations[0]._id, products: Object.values(sales)});
+        } else {
             const operations = await Operation.aggregate([
                 {$match: query},
                 {
@@ -145,7 +149,7 @@ router.get("/report/:id", auth, async (req, res) => {
     const shiftId = req.params.id;
 
     try {
-        const shift = await Shift.findById(shiftId).select('cashier shiftNumber createdAt isActive').populate('cashier','displayName');
+        const shift = await Shift.findById(shiftId).select('cashier shiftNumber createdAt isActive').populate('cashier', 'displayName');
 
         if (shift) {
             if (!shift.isActive) {
@@ -154,22 +158,29 @@ router.get("/report/:id", auth, async (req, res) => {
         } else {
             return res.status(404).send({message: 'Shift not found!'});
         }
-        const operations = await Operation.find({shift:shiftId});
+        const operations = await Operation.find({shift: shiftId});
         let salesNum = 0;
         let returnsNum = 0;
         let salesTotal = 0;
         let returnsTotal = 0;
         operations.forEach((value) => {
-            if(value.title===config.operations.purchase) {
+            if (value.title === config.operations.purchase) {
                 salesNum++;
-                salesTotal+=value.additionalInfo.amountOfMoney;
-            }else if(value.title===config.operations.returnPurchase) {
+                salesTotal += value.additionalInfo.amountOfMoney;
+            } else if (value.title === config.operations.returnPurchase) {
                 returnsNum++;
-                returnsTotal+=value.additionalInfo.amountOfMoney;
+                returnsTotal += value.additionalInfo.amountOfMoney;
             }
         });
 
-        res.send({shift,cash:operations[operations.length-1].additionalInfo.cash,salesNum,salesTotal,returnsNum,returnsTotal});
+        res.send({
+            shift,
+            cash: operations[operations.length - 1].additionalInfo.cash,
+            salesNum,
+            salesTotal,
+            returnsNum,
+            returnsTotal
+        });
     } catch (e) {
         res.status(400).send(e);
     }
@@ -179,7 +190,7 @@ router.get("/report-z/:id", auth, async (req, res) => {
     const shiftId = req.params.id;
 
     try {
-        const shift = await Shift.findById(shiftId).select('cashier shiftNumber updatedAt isActive').populate('cashier','displayName');
+        const shift = await Shift.findById(shiftId).select('cashier shiftNumber updatedAt isActive').populate('cashier', 'displayName');
 
         if (shift) {
             if (shift.isActive) {
@@ -189,14 +200,14 @@ router.get("/report-z/:id", auth, async (req, res) => {
             return res.status(404).send({message: 'Shift not found!'});
         }
         const reportSales = await Operation.aggregate([
-            { $match: { title: config.operations.purchase}},
-            { $lookup: {from: 'shifts', localField: 'shift', foreignField: '_id', as: 'shiftInfo'} },
-            { $match: { 'shiftInfo.shiftNumber': {$lte: shift.shiftNumber}}},
-            { $group: { _id: null, total: { $sum: "$additionalInfo.amountOfMoney" },count: { $sum: 1 } } }
+            {$match: {title: config.operations.purchase}},
+            {$lookup: {from: 'shifts', localField: 'shift', foreignField: '_id', as: 'shiftInfo'}},
+            {$match: {'shiftInfo.shiftNumber': {$lte: shift.shiftNumber}}},
+            {$group: {_id: null, total: {$sum: "$additionalInfo.amountOfMoney"}, count: {$sum: 1}}}
         ]);
         const reportReturns = await Operation.aggregate([
-            { $match: { title: config.operations.returnPurchase }},
-            { $group: { _id: null, total: { $sum: "$additionalInfo.amountOfMoney" },count: { $sum: 1 } } }
+            {$match: {title: config.operations.returnPurchase}},
+            {$group: {_id: null, total: {$sum: "$additionalInfo.amountOfMoney"}, count: {$sum: 1}}}
         ]);
 
         let salesNum = 0;
@@ -204,28 +215,36 @@ router.get("/report-z/:id", auth, async (req, res) => {
         let salesTotal = 0;
         let returnsTotal = 0;
 
-        const operations = await Operation.find({shift:shiftId});
+        const operations = await Operation.find({shift: shiftId});
         operations.forEach((value) => {
-            if(value.title===config.operations.purchase) {
+            if (value.title === config.operations.purchase) {
                 salesNum++;
-                salesTotal+=value.additionalInfo.amountOfMoney;
-            }else if(value.title===config.operations.returnPurchase) {
+                salesTotal += value.additionalInfo.amountOfMoney;
+            } else if (value.title === config.operations.returnPurchase) {
                 returnsNum++;
-                returnsTotal+=value.additionalInfo.amountOfMoney;
+                returnsTotal += value.additionalInfo.amountOfMoney;
             }
         });
 
         const report = {};
-        if(reportReturns.length){
+        if (reportReturns.length) {
             report.returnsCount = reportReturns[0].count;
             report.returnsTotal = reportReturns[0].total;
         }
-        if(reportSales.length){
+        if (reportSales.length) {
             report.salesCount = reportSales[0].count;
             report.salesTotal = reportSales[0].total;
         }
 
-        res.send({report,shift,cash:operations[operations.length-1].additionalInfo.cash,salesNum,salesTotal,returnsNum,returnsTotal});
+        res.send({
+            report,
+            shift,
+            cash: operations[operations.length - 1].additionalInfo.cash,
+            salesNum,
+            salesTotal,
+            returnsNum,
+            returnsTotal
+        });
     } catch (e) {
         res.status(400).send(e);
     }
@@ -256,7 +275,13 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
                         throw({error: 'Data not valid'});
                     }
                     await Product.findByIdAndUpdate(i._id, {amount: item.amount - i.quantity});
-                    return {...i, price: i.price, purchasePrice:item.purchasePrice, title: item.title, barcode: item.barcode}
+                    return {
+                        ...i,
+                        price: i.price,
+                        purchasePrice: item.purchasePrice,
+                        title: item.title,
+                        barcode: item.barcode
+                    }
                 }));
 
             const cash = await Cash.findOne();
@@ -264,12 +289,19 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
             cash.cash = cashBefore + (+total);
             await cash.save();
             let profit = 0;
-            completePurchaseInfo.forEach(i=>profit+=i.quantity*i.purchasePrice);
+            completePurchaseInfo.forEach(i => profit += i.quantity * i.purchasePrice);
             const operation = new Operation({
                 shift: shift._id,
                 title: config.operations.purchase,
                 dateTime: Date.now(),
-                additionalInfo: {customer: customerInfo, completePurchaseInfo, discount, amountOfMoney: total, purchasePriceTotal:profit, cash: cashBefore}
+                additionalInfo: {
+                    customer: customerInfo,
+                    completePurchaseInfo,
+                    discount,
+                    amountOfMoney: total,
+                    purchasePriceTotal: profit,
+                    cash: cashBefore
+                }
             });
             await operation.save();
 
@@ -287,8 +319,8 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
                 return res.status(404).send({message: 'Wrong product'});
             }
 
-            if(item[0].returned){
-                if (quantity > item[0].quantity-item[0].returned) {
+            if (item[0].returned) {
+                if (quantity > item[0].quantity - item[0].returned) {
                     return res.status(400).send({message: 'Wrong amount'});
                 }
             }
@@ -300,18 +332,18 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
             const {checkNumber, barcode, quantity, total} = req.body;
             const purchase = await Operation.findOne({operationNumber: checkNumber});
             const purchaseInfo = purchase.additionalInfo.completePurchaseInfo.map(i => {
-                if(i.barcode === barcode){
-                    if(i.returned){
-                        i.returned=i.returned+quantity;
-                    }else {
+                if (i.barcode === barcode) {
+                    if (i.returned) {
+                        i.returned = i.returned + quantity;
+                    } else {
                         i.returned = quantity;
                     }
                     return i;
-                }else{
+                } else {
                     return i;
                 }
             });
-            await Operation.findByIdAndUpdate(purchase._id, {...purchase, completePurchaseInfo:purchaseInfo});
+            await Operation.findByIdAndUpdate(purchase._id, {...purchase, completePurchaseInfo: purchaseInfo});
 
 
             const item = await Product.findOne({barcode: barcode});
@@ -325,7 +357,17 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
                 shift: shift._id,
                 title: config.operations.returnPurchase,
                 dateTime: Date.now(),
-                additionalInfo: {_id:item._id, barcode, price: item.price, purchasePrice:item.purchasePrice, quantity, purchasePriceTotal: quantity*item.purchasePrice, checkNumber, amountOfMoney: total, cash: cashBefore}
+                additionalInfo: {
+                    _id: item._id,
+                    barcode,
+                    price: item.price,
+                    purchasePrice: item.purchasePrice,
+                    quantity,
+                    purchasePriceTotal: quantity * item.purchasePrice,
+                    checkNumber,
+                    amountOfMoney: total,
+                    cash: cashBefore
+                }
             });
             await operation.save();
 
