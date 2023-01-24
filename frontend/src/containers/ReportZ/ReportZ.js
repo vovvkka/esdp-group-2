@@ -10,6 +10,7 @@ import Receipt from "../../components/Receipt/Receipt";
 const ReportZ = () => {
     const dispatch = useDispatch();
     const operations = useSelector(state => state.operations.operations);
+    const shiftCurrent = useSelector(state => state.shifts.shift);
     const [zReportActive, setZReportActive] = useState(false);
     const [shift, setShift] = useState('');
 
@@ -102,7 +103,7 @@ const ReportZ = () => {
     };
 
     return (
-        <Box width='95%' margin='0 auto'>
+        <Box width='95%' margin={shiftCurrent?'50px auto 0':'0 auto'}>
             <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
                 <Typography variant='h5'>Z - Отчет</Typography>
             </Grid>
