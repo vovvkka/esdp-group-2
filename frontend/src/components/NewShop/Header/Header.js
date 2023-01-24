@@ -23,6 +23,7 @@ const Header = () => {
     const [productsList, setProductsList] = useState([]);
     const [search, setSearch] = useState(false);
     const matches = useMediaQuery('(min-width:1160px)');
+    const desktop = useMediaQuery('(min-width:1000px)');
     const dispatch = useDispatch();
 
     const onInputChange = async (e) => {
@@ -141,8 +142,8 @@ const Header = () => {
     return (
         <div className='header'>
             <div className='container' style={{position:'relative'}}>
-                {!matches ? <div className='header__toolbar'>
-                    <div className='header__logo-wrapper'>
+                {!desktop ? <div className='header__toolbar'>
+                    <div className={!desktop ? 'header__logo-wrapper' : ''}>
                         <div className="header__hidden"></div>
                         <Link to="/">
                             <img className='header__logo' alt="Tay Tay logo" src={logo}/>
