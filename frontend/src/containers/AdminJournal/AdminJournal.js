@@ -9,6 +9,7 @@ import Receipt from "../../components/Receipt/Receipt";
 const AdminJournal = () => {
     const dispatch = useDispatch();
     const operations = useSelector((state) => state.operations.operations);
+    const shiftCurrent = useSelector(state => state.shifts.shift);
     const [zReportActive, setZReportActive] = useState(false);
     const [openShiftActive, setOpenShiftActive] = useState(false);
     const [purchaseActive, setPurchaseActive] = useState(false);
@@ -120,7 +121,7 @@ const AdminJournal = () => {
     };
 
     return (
-        <Box width="95%" margin="0 auto">
+        <Box width="95%" margin={shiftCurrent?'50px auto 0':'0 auto'}>
             <Grid
                 display="flex"
                 justifyContent="space-between"

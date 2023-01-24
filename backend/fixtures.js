@@ -13,6 +13,7 @@ const Contacts = require("./models/Contacts");
 const Customer = require("./models/Customer");
 
 const run = async () => {
+    await mongoose.set('strictQuery', false);
     await mongoose.connect(config.mongo.db);
 
     const collections = await mongoose.connection.db.listCollections().toArray();

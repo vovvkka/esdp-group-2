@@ -73,6 +73,18 @@ const cashboxSlice = createSlice({
             state.total = state.products.reduce((acc, item) => acc + (item.price * item.quantity), 0);
             state.totalWithDiscount = Math.round(state.products.reduce((acc, item) => acc + (item.price * item.quantity - item.price * item.quantity * (item.discount / 100)), 0));
         },
+        changePrice(state, action) {
+            const {index, value} = action.payload;
+
+            if (value) {
+                state.products[index].price = Number(value);
+            } else {
+                state.products[index].price = '';
+            }
+
+            state.total = state.products.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            state.totalWithDiscount = Math.round(state.products.reduce((acc, item) => acc + (item.price * item.quantity - item.price * item.quantity * (item.discount / 100)), 0));
+        },
         decreaseProduct(state, action) {
             const product = state.products.find(item => item._id === action.payload);
             const index = state.products.findIndex(item => item._id === action.payload);
@@ -109,6 +121,7 @@ export const {
     deleteProductFromCashbox,
     cancelAllCashbox,
     changeDiscount,
+    changePrice,
     setCustomer,
     decreaseProduct,
     increaseProduct,

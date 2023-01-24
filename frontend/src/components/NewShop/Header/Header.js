@@ -12,8 +12,7 @@ import {setKey} from "../../../store/slices/productsSlice";
 import axiosApi from "../../../axiosApi";
 import SearchIcon from "@mui/icons-material/Search";
 import {historyPush} from "../../../store/actions/historyActions";
-import MenuItem from "@mui/material/MenuItem";
-import MenuIcon from '@mui/icons-material/Menu';
+import Sidebar from "../../UI/Sidebar/Sidebar";
 
 const Header = () => {
     const user = useSelector(state => state.users.user);
@@ -25,12 +24,6 @@ const Header = () => {
     const [search, setSearch] = useState(false);
     const matches = useMediaQuery('(min-width:1160px)');
     const dispatch = useDispatch();
-
-    const [anchorEl, setAnchorEl] = useState(null);
-
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => setAnchorEl(event.currentTarget);
-    const handleClose = () => setAnchorEl(null);
 
     const onInputChange = async (e) => {
         if (e) {
@@ -153,31 +146,7 @@ const Header = () => {
                         <Link to="/">
                             <img className='header__logo' alt="Tay Tay logo" src={logo}/>
                         </Link>
-                        <IconButton
-                            className='header__logo-wrapper__button'
-                            aria-label="more"
-                            id="long-button"
-                            aria-controls={open ? 'long-menu' : undefined}
-                            aria-expanded={open ? 'true' : undefined}
-                            aria-haspopup="true"
-                            onClick={handleClick}
-                        >
-                            <MenuIcon/>
-                        </IconButton>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            MenuListProps={{
-                                'aria-labelledby': 'basic-button',
-                            }}
-                        >
-                            <MenuItem onClick={handleClose} component={Link} to={"/"}>Главная</MenuItem>
-                            <MenuItem onClick={handleClose} component={Link} to={"/news"}>Новости</MenuItem>
-                            <MenuItem onClick={handleClose} component={Link} to={"/contacts"}>Контакты</MenuItem>
-                            <MenuItem onClick={handleClose} component={Link} to={"/catalog"}>Каталог</MenuItem>
-                        </Menu>
+                       <Sidebar/>
                     </div>
                     <div className='header__info'>
                         {<>

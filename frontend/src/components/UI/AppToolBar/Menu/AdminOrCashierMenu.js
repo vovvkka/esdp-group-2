@@ -549,7 +549,7 @@ const AdminOrCashierMenu = ({user}) => {
                                     Z-отчет
                                 </MenuItem>,
                                 <MenuItem key={1} onClick={async()=>{
-                                    const data = await axiosApi('/operations/reports')
+                                    const data = await axiosApi('/operations/reports?day=true')
                                     console.log(data.data);
                                     handleClose();}}>
                                     Отчет

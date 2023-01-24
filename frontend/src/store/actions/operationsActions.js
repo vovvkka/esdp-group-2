@@ -2,11 +2,16 @@ import axiosApi from "../../axiosApi";
 import {
     fetchOperationsFailure,
     fetchOperationsRequest,
-    fetchOperationsSuccess, fetchXReportFailure,
-    fetchXReportRequest, fetchXReportSuccess, fetchZReportFailure, fetchZReportRequest, fetchZReportSuccess
+    fetchOperationsSuccess,
+    fetchXReportFailure,
+    fetchXReportRequest,
+    fetchXReportSuccess,
+    fetchZReportFailure,
+    fetchZReportRequest,
+    fetchZReportSuccess
 } from "../slices/operationsSlice";
 
-export const fetchOperations = (page,title) => {
+export const fetchOperations = (page, title, period) => {
     return async dispatch => {
         try {
             dispatch(fetchOperationsRequest());
@@ -14,15 +19,25 @@ export const fetchOperations = (page,title) => {
             let response;
 
             if (page) {
-                if(title){
-                    response = await axiosApi('/operations' + page + '?title='+title);
-                }else {
+                if (title) {
+                    if (period.from) {
+                        response = await axiosApi(`/operations${page}&title=${title}&from=${period.from}&to=${period.to}`);
+                    } else if (!period.from) {
+                        response = await axiosApi('/operations' + page + '&title=' + title);
+                    }else {
+                        response = await axiosApi('/operations' + page + '&title=' + title);
+                    }
+                } else {
                     response = await axiosApi('/operations' + page);
                 }
             } else {
-                if(title){
-                    response = await axiosApi('/operations?title='+title);
-                }else {
+                if (title) {
+                    if (period.from) {
+                        response = await axiosApi(`/operations?&title=${title}&from=${period.from}&to=${period.to}`);
+                    } else if (!period.from) {
+                        response = await axiosApi('/operations?&title=' + title);
+                    }
+                } else {
                     response = await axiosApi('/operations');
                 }
             }

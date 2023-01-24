@@ -33,10 +33,6 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        validate: {
-            validator: validateNameUnique,
-            message: 'Этот пользователь уже зарегистрирован',
-        }
     },
     password: {
         type: String,
