@@ -45,6 +45,7 @@ const Receipt = ({
     let children;
 
     if (xReport) {
+        console.log(xReportInfo);
         children = (
             <div className="receipt__ticket">
                 <div className="receipt__header">

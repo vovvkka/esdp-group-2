@@ -172,15 +172,8 @@ router.get("/report/:id", auth, async (req, res) => {
                 returnsTotal += value.additionalInfo.amountOfMoney;
             }
         });
-
-        res.send({
-            shift,
-            cash: operations[operations.length - 1].additionalInfo.cash,
-            salesNum,
-            salesTotal,
-            returnsNum,
-            returnsTotal
-        });
+        const cash = await Cash.findOne();
+        res.send({shift,cash:cash.cash,salesNum,salesTotal,returnsNum,returnsTotal});
     } catch (e) {
         res.status(400).send(e);
     }
