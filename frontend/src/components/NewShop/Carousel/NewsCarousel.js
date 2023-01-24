@@ -13,7 +13,7 @@ const NewsCarousel = () => {
         dispatch(getNews('?shop=true&limit=5'))
     }, [dispatch]);
 
-    return (
+    return news.length ? (
         <div className='carousel'>
             <Carousel
                 navButtonsAlwaysVisible
@@ -54,7 +54,7 @@ const NewsCarousel = () => {
                     })}
             </Carousel>
         </div>
-    );
+    ) : null;
 };
 
 export default NewsCarousel;
