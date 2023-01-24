@@ -92,8 +92,8 @@ export const {
     deleteCashierFailure
 } = cashiersSlice.actions;
 
-export default cashiersSlice;
 
+export default cashiersSlice;
 
 
 

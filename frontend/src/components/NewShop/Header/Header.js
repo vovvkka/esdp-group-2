@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import logo from '../../../assets/logo.png';
 import {Link, NavLink, useLocation} from "react-router-dom";
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
@@ -18,6 +18,7 @@ const Header = () => {
     const user = useSelector(state => state.users.user);
     const cartProducts = useSelector(state => state.cart.products);
     const contacts = useSelector(state => state.contacts.contacts);
+    const sidebar = useSelector(state => state.app.sidebarOpen);
     const location = useLocation();
     const [value, setValue] = useState(null);
     const [productsList, setProductsList] = useState([]);
@@ -25,6 +26,12 @@ const Header = () => {
     const matches = useMediaQuery('(min-width:1160px)');
     const desktop = useMediaQuery('(min-width:1000px)');
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (sidebar) {
+            setSearch(false);
+        }
+    }, [sidebar]);
 
     const onInputChange = async (e) => {
         if (e) {
