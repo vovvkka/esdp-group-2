@@ -6,7 +6,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import {useDispatch, useSelector} from "react-redux";
 import Carousel from "../Carousel/NewsCarousel";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {Autocomplete, Box, IconButton, Menu, TextField, Tooltip, useMediaQuery} from "@mui/material";
+import {Autocomplete, Box, TextField, Tooltip, useMediaQuery} from "@mui/material";
 import {apiUrl} from "../../../config";
 import {setKey} from "../../../store/slices/productsSlice";
 import axiosApi from "../../../axiosApi";
@@ -143,6 +143,7 @@ const Header = () => {
             <div className='container' style={{position:'relative'}}>
                 {!matches ? <div className='header__toolbar'>
                     <div className='header__logo-wrapper'>
+                        <div className="header__hidden"></div>
                         <Link to="/">
                             <img className='header__logo' alt="Tay Tay logo" src={logo}/>
                         </Link>

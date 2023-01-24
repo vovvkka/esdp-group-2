@@ -17,6 +17,12 @@
         justify-content: space-between;
     }
 
+    &__logo-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
     &__list {
         list-style: none;
         display: flex;
