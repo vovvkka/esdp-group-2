@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {Typography} from "@mui/material";
 import NewsForm from "../../components/NewsForm/NewsForm";
 const AdminEditNews = ({match}) => {

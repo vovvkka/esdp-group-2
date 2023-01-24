@@ -25,7 +25,7 @@ const Purchases = () => {
 
     useEffect(() => {
         dispatch(fetchOperations(null,'Продажа', periodDate));
-    }, [dispatch]);
+    }, [dispatch, periodDate]);
     const onChangePeriod = () => {
         if (periodDate.from) {
             dispatch(fetchOperations(null,'Продажа', periodDate));

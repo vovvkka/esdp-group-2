@@ -38,7 +38,7 @@ const AdminEditContacts = () => {
 
     useEffect(() => {
         dispatch(getContacts());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         if (contacts) {

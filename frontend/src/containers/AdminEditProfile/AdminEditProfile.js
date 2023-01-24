@@ -32,7 +32,7 @@ const AdminEditProfile = () => {
 
     useEffect(() => {
         dispatch(getContacts());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         if (adminProfile) {
