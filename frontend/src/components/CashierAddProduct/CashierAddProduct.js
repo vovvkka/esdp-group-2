@@ -102,7 +102,8 @@ const CashierAddProduct = () => {
     };
 
     const purchaseHandler = async () => {
-        const purchaseInfo = addedProducts.map((product) => ({
+        const reverseProducts = [...addedProducts].reverse();
+        const purchaseInfo = reverseProducts.map((product) => ({
             _id: product._id,
             quantity: product.quantity,
             discount: product.discount,
@@ -187,136 +188,137 @@ const CashierAddProduct = () => {
                                 <TableCell align="right"></TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>
-                            {addedProducts.map((product, index) => {
-                                const itemInCashbox = cashbox.products.filter(
-                                    (i) => i._id === product._id
-                                );
-                                let disabled = false;
-                                if (
-                                    itemInCashbox[0].quantity >= product.amount
-                                ) {
-                                    disabled = true;
-                                }
-                                return (
-                                    <TableRow
-                                        key={index}
-                                        sx={{
-                                            "&:last-child td, &:last-child th":
-                                                { border: 0 },
-                                        }}
-                                    >
-                                        <TableCell align="center">
-                                            {index + 1}
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {product.title}
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <IconButton
-                                                color="secondary"
-                                                onClick={() =>
-                                                    dispatch(
-                                                        decreaseProduct(
-                                                            product._id
+                        <TableBody className=''>
+                                {addedProducts.map((product, index) => {
+                                    const itemInCashbox = cashbox.products.filter(
+                                        (i) => i._id === product._id
+                                    );
+                                    let disabled = false;
+                                    if (
+                                        itemInCashbox[0].quantity >= product.amount
+                                    ) {
+                                        disabled = true;
+                                    }
+                                    return (
+                                        <TableRow
+                                            key={index}
+                                            sx={{
+                                                "&:last-child td, &:last-child th":
+                                                    { border: 0 },
+                                            }}
+                                        >
+                                            <TableCell align="center">
+                                                {addedProducts.length - index}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {product.title}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <IconButton
+                                                    color="secondary"
+                                                    onClick={() =>
+                                                        dispatch(
+                                                            decreaseProduct(
+                                                                product._id
+                                                            )
                                                         )
-                                                    )
-                                                }
-                                            >
-                                                <RemoveCircleOutlineIcon />
-                                            </IconButton>
-                                            {product.quantity}
-                                            <IconButton
-                                                color="secondary"
-                                                disabled={disabled}
-                                                onClick={() =>
-                                                    dispatch(
-                                                        increaseProduct(
-                                                            product._id
+                                                    }
+                                                >
+                                                    <RemoveCircleOutlineIcon />
+                                                </IconButton>
+                                                {product.quantity}
+                                                <IconButton
+                                                    color="secondary"
+                                                    disabled={disabled}
+                                                    onClick={() =>
+                                                        dispatch(
+                                                            increaseProduct(
+                                                                product._id
+                                                            )
                                                         )
-                                                    )
-                                                }
-                                            >
-                                                <AddCircleOutlineIcon />
-                                            </IconButton>
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            {product.priceType ===
-                                            "Фиксированная" ? (
-                                                product.price
-                                            ) : (
+                                                    }
+                                                >
+                                                    <AddCircleOutlineIcon />
+                                                </IconButton>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {product.priceType ===
+                                                "Фиксированная" ? (
+                                                    product.price
+                                                ) : (
+                                                    <TextField
+                                                        type="number"
+                                                        size="small"
+                                                        sx={{
+                                                            width: "80px",
+                                                        }}
+                                                        onChange={(e) =>
+                                                            dispatch(
+                                                                changePrice({
+                                                                    value: e.target
+                                                                        .value,
+                                                                    index,
+                                                                })
+                                                            )
+                                                        }
+                                                        value={product.price}
+                                                    />
+                                                )}
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                {product.price * product.quantity}
+                                            </TableCell>
+                                            <TableCell align="right">
                                                 <TextField
                                                     type="number"
                                                     size="small"
                                                     sx={{
-                                                        width: "80px",
+                                                        width: "70px",
+                                                        padding: 0,
+                                                        border: "none !important",
                                                     }}
                                                     onChange={(e) =>
                                                         dispatch(
-                                                            changePrice({
+                                                            changeDiscount({
                                                                 value: e.target
                                                                     .value,
                                                                 index,
                                                             })
                                                         )
                                                     }
-                                                    value={product.price}
+                                                    value={product.discount}
+                                                    InputProps={{
+                                                        inputProps: {
+                                                            min: 0,
+                                                            max: 100,
+                                                        },
+                                                    }}
                                                 />
-                                            )}
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            {product.price * product.quantity}
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            <TextField
-                                                type="number"
-                                                size="small"
-                                                sx={{
-                                                    width: "70px",
-                                                    padding: 0,
-                                                    border: "none !important",
-                                                }}
-                                                onChange={(e) =>
-                                                    dispatch(
-                                                        changeDiscount({
-                                                            value: e.target
-                                                                .value,
-                                                            index,
-                                                        })
-                                                    )
-                                                }
-                                                value={product.discount}
-                                                InputProps={{
-                                                    inputProps: {
-                                                        min: 0,
-                                                        max: 100,
-                                                    },
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            {Math.round(
-                                                product.price *
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                {Math.round(
+                                                    product.price *
                                                     product.quantity -
                                                     product.price *
-                                                        product.quantity *
-                                                        (product.discount / 100)
-                                            )}
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            <Button
-                                                size="small"
-                                                variant="contained"
-                                                onClick={() =>
-                                                    deleteHandler(product._id)
-                                                }
-                                            >
-                                                Удалить
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
+                                                    product.quantity *
+                                                    (product.discount / 100)
+                                                )}
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                <Button
+                                                    size="small"
+                                                    variant="contained"
+                                                    onClick={() =>
+                                                        deleteHandler(product._id)
+                                                    }
+                                                >
+                                                    Удалить
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+
                         </TableBody>
                     </Table>
                 </TableContainer>

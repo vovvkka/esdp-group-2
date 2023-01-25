@@ -19,9 +19,9 @@ const cashboxSlice = createSlice({
 
             if (!product) {
                 if (state.customer) {
-                    state.products = [...state.products, {...action.payload, quantity: 1, discount: state.customer.discount}];
+                    state.products = [{...action.payload, quantity: 1, discount: state.customer.discount}, ...state.products];
                 } else {
-                    state.products = [...state.products, {...action.payload, quantity: 1, discount: 0}];
+                    state.products = [{...action.payload, quantity: 1, discount: 0}, ...state.products];
                 }
             } else {
                 if (state.customer) {
