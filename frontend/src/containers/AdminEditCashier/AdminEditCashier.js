@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Container} from "@mui/material";
+import {Container, Typography} from "@mui/material";
 import CashierForm from "../../components/CashierForm/CashierForm";
 import {useDispatch, useSelector} from "react-redux";
 import {editCashier, getCashier} from "../../store/actions/cashiersActions";
@@ -21,6 +21,13 @@ const AdminEditCashier = ({match}) => {
 
     return (
         <Container>
+            <Typography
+                textAlign="center"
+                marginBottom="30px"
+                variant="h4"
+            >
+                Редактировать кассира
+            </Typography>
             <CashierForm
                 onSubmit={onCashierSubmitForm}
                 isParams={!!match.params.id}

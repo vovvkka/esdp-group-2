@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Button, Container, Grid} from "@mui/material";
+import {Button, Container, Grid, Typography} from "@mui/material";
 import FormElement from "../../components/UI/Form/FormElement/FormElement";
 import {editContacts, getContacts} from "../../store/actions/contactsActions";
 import {makeStyles} from "tss-react/mui";
@@ -65,11 +65,11 @@ const AdminEditContacts = () => {
 
         setState(prev => {
             const newArr = prev[name].map((item, i) => {
-                    if (index === i) {
-                        return value;
-                    }
+                if (index === i) {
+                    return value;
+                }
 
-                    return item;
+                return item;
             });
 
             return {
@@ -114,7 +114,11 @@ const AdminEditContacts = () => {
                     spacing={2}
                     justifyContent='center'
                 >
-                    <h2>Редактировать контакты</h2>
+                    <Typography
+                        textAlign="center"
+                        marginBottom="30px"
+                        variant="h4"
+                    >Редактировать контакты</Typography>
 
                     {state.phone.map((tel, index) => (
                         <Grid container key={index}>
@@ -127,11 +131,13 @@ const AdminEditContacts = () => {
                                 onChange={(e) => multipleChangeHandler(e, index)}
                                 error={getFieldError('phone')}
                             />
-                            {index > 0 ? <Button type='button' color='error' name='phone' onClick={(e) => deleteInput(index, e.currentTarget.name)} ><DeleteIcon/></Button> : null}
+                            {index > 0 ? <Button type='button' color='error' name='phone'
+                                                 onClick={(e) => deleteInput(index, e.currentTarget.name)}><DeleteIcon/></Button> : null}
                         </Grid>
                     ))}
 
-                    <Button name='phone' onClick={(e) => addInputHandler(e.target.name)}>Добавить телефон</Button>
+                    <Button sx={{justifySelf: 'end'}} name='phone' onClick={(e) => addInputHandler(e.target.name)}>Добавить
+                        телефон</Button>
 
                     {state.email.map((email, index) => (
                         <Grid container key={index}>
@@ -144,7 +150,8 @@ const AdminEditContacts = () => {
                                 onChange={(e) => multipleChangeHandler(e, index)}
                                 error={getFieldError('email')}
                             />
-                            {index > 0 ? <Button type='button' color='error' name='email' onClick={(e) => deleteInput(index, e.currentTarget.name)} ><DeleteIcon/></Button> : null}
+                            {index > 0 ? <Button type='button' color='error' name='email'
+                                                 onClick={(e) => deleteInput(index, e.currentTarget.name)}><DeleteIcon/></Button> : null}
                         </Grid>
                     ))}
 
@@ -161,7 +168,8 @@ const AdminEditContacts = () => {
                                 onChange={(e) => multipleChangeHandler(e, index)}
                                 error={getFieldError('address')}
                             />
-                            {index > 0 ? <Button type='button' color='error' name='address' onClick={(e) => deleteInput(index, e.currentTarget.name)} ><DeleteIcon/></Button> : null}
+                            {index > 0 ? <Button type='button' color='error' name='address'
+                                                 onClick={(e) => deleteInput(index, e.currentTarget.name)}><DeleteIcon/></Button> : null}
                         </Grid>
                     ))}
 

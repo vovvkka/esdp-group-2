@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Grid, Paper, Typography} from "@mui/material";
+import {Button, Grid, Paper} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
 import {useSelector} from "react-redux";
 import FileInput from "../UI/Form/FileInput/FileInput";
@@ -60,12 +60,13 @@ const ClientForm = ({onSubmit, data}) => {
             autoComplete="off"
             onSubmit={submitFormHandler}
         >
-            <Paper display="flex" >
-                <Grid container textAlign="center" marginX="auto" paddingBottom='35px' spacing={3} justifyContent='center'
-                     flexWrap='wrap'>
+            <Paper display="flex">
+                <Grid container textAlign="center" marginX="auto" paddingBottom='35px' spacing={2}
+                      justifyContent='center'
+                      flexWrap='wrap'>
                     <Grid item xs={5}>
-                        <Typography textAlign="left">Имя</Typography>
                         <FormElement
+                            label='Имя'
                             onChange={inputChangeHandler}
                             value={state.name || ""}
                             name="name"
@@ -74,8 +75,8 @@ const ClientForm = ({onSubmit, data}) => {
                         />
                     </Grid>
                     <Grid item xs={5}>
-                        <Typography textAlign="left">Фамилия</Typography>
                         <FormElement
+                            label="Фамилия"
                             onChange={inputChangeHandler}
                             value={state.surname || ""}
                             name="surname"
@@ -84,8 +85,8 @@ const ClientForm = ({onSubmit, data}) => {
                         />
                     </Grid>
                     <Grid item xs={5}>
-                        <Typography textAlign="left">Email</Typography>
                         <FormElement
+                            label='Email'
                             onChange={inputChangeHandler}
                             value={state.email || ""}
                             name="email"
@@ -94,8 +95,8 @@ const ClientForm = ({onSubmit, data}) => {
                     </Grid>
 
                     <Grid item xs={5}>
-                        <Typography textAlign="left">Телефон</Typography>
                         <FormElement
+                            label='Телефон'
                             type="tel"
                             onChange={inputChangeHandler}
                             value={state.phone || ""}
@@ -105,8 +106,8 @@ const ClientForm = ({onSubmit, data}) => {
                         />
                     </Grid>
                     <Grid item xs={5}>
-                        <Typography textAlign="left">Адрес</Typography>
                         <FormElement
+                            label='Адрес'
                             onChange={inputChangeHandler}
                             value={state.address || ""}
                             name="address"
@@ -114,9 +115,9 @@ const ClientForm = ({onSubmit, data}) => {
                         />
                     </Grid>
                     <Grid item xs={5}>
-                        <Typography textAlign="left">Скидка в %</Typography>
                         <FormElement
                             type="number"
+                            label='Скидка в %'
                             onChange={inputChangeHandler}
                             value={state.discount || ""}
                             name="discount"
@@ -124,16 +125,16 @@ const ClientForm = ({onSubmit, data}) => {
                             required={true}
                         />
                     </Grid>
-                    <Grid item xs={5}>
-                        <Typography textAlign="left">Аватар</Typography>
-                    <FileInput
-                        label="Аватар"
-                        name="image"
-                        onChange={fileChangeHandler}
-                    />
+                    <Grid item xs={10}>
+                        <FileInput
+                            label="Аватар"
+                            name="image"
+                            onChange={fileChangeHandler}
+                            xs={10.5}
+                        />
                     </Grid>
-                    <Grid  item xs={5}  container flexDirection='column' justifyContent='flex-end' >
-                        <div style={{paddingBottom:'9px',display:'flex',justifyContent:'flex-end'}}>
+                    <Grid item xs={5} container flexDirection='column' justifyContent='flex-end'>
+                        <div style={{paddingBottom: '9px', display: 'flex', justifyContent: 'flex-end'}}>
                             <Button type="submit" color="primary" variant="contained">Записать</Button>
                         </div>
                     </Grid>

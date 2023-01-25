@@ -56,14 +56,14 @@ const NewsForm = ({news, error, onSubmit}) => {
         <form
             autoComplete="off"
         >
-            <Paper display="flex" sx={{padding: '30px 0 10px 0'}}>
+            <Paper display="flex" sx={{padding: '30px 0'}}>
                 <Grid
                     container
                     maxWidth="md"
                     textAlign="center"
                     marginX="auto"
                     direction="column"
-                    rowSpacing={2}
+                    spacing={2}
                 >
 
                     <FormElement
@@ -84,7 +84,7 @@ const NewsForm = ({news, error, onSubmit}) => {
                         required={true}
                         error={getFieldError('description')}
                         multiline={true}
-                        rows={6}
+                        rows={4}
                         xs={6}
                     />
 
@@ -94,6 +94,7 @@ const NewsForm = ({news, error, onSubmit}) => {
                             label="Фото"
                             name="image"
                             onChange={fileChangeHandler}
+                            xs={10.5}
                         />
                     </Grid>
 
