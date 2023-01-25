@@ -22,6 +22,10 @@
   background: #e0be71;
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
 .wrapper {
   min-height: 100vh;
   position: relative;

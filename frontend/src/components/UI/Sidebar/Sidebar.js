@@ -1,17 +1,23 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, {useEffect} from "react";
+import {Link} from "react-router-dom";
 import logo from "../../../assets/logo.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import Backdrop from "../Backdrop/Backdrop";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import {toggleSidebar} from "../../../store/slices/appSlice";
 
 const Sidebar = () => {
-    const [sidebar, setSidebar] = useState(false);
+    const dispatch = useDispatch();
+    const sidebar = useSelector(state => state.app.sidebarOpen);
     const contacts = useSelector((state) => state.contacts.contacts);
 
-    const showSidebar = () => setSidebar(!sidebar);
+    const showSidebar = () => dispatch(toggleSidebar());
+
+    useEffect(() => {
+        sidebar ? document.body.classList.add('no-scroll') : document.body.classList.remove('no-scroll')
+    }, [sidebar]);
 
     return (
         <>

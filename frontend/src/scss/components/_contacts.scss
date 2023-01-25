@@ -1,6 +1,12 @@
 @import "../variables";
 
 .contacts {
+   &__map-block {
+      background: url('https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif') no-repeat center;
+      background-size: 100px;
+      display: inline-block;
+   }
+
    &__info {
       margin-top: 100px;
       display: flex;
