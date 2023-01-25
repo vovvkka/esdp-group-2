@@ -1,11 +1,21 @@
 import axiosApi from "../../axiosApi";
 import {
     changeNewsStatusFailure,
-    changeNewsStatusRequest, changeNewsStatusSuccess,
-    createNewsFailure, createNewsRequest, createNewsSuccess, deleteNewsFailure, deleteNewsRequest, deleteNewsSuccess,
+    changeNewsStatusRequest,
+    changeNewsStatusSuccess,
+    createNewsFailure,
+    createNewsRequest,
+    createNewsSuccess,
+    deleteNewsFailure,
+    deleteNewsRequest,
+    deleteNewsSuccess,
+    editNewsFailure,
+    editNewsRequest,
+    editNewsSuccess,
     getNewsFailure,
     getNewsRequest,
-    getNewsSuccess, getOneNewsFailure,
+    getNewsSuccess,
+    getOneNewsFailure,
     getOneNewsRequest,
     getOneNewsSuccess
 } from "../slices/newsSlice";
@@ -26,7 +36,7 @@ export const getNews = (query) => {
 export const getOneNews = id => {
     return async dispatch => {
         try {
-            dispatch(getOneNewsRequest());
+            dispatch(getOneNewsRequest("?shop=true"));
             const response = await axiosApi('/news/' + id);
             dispatch(getOneNewsSuccess(response.data));
         } catch (e) {
@@ -60,6 +70,19 @@ export const changeNewsStatus = id => {
             dispatch(changeNewsStatusSuccess(id));
         } catch (e) {
             dispatch(changeNewsStatusFailure(e));
+        }
+    }
+}
+
+export const editNews = (id, data) => {
+    return async dispatch => {
+        try {
+            dispatch(editNewsRequest());
+            await axiosApi.put(`/news/${id}`, data);
+            dispatch(editNewsSuccess());
+            dispatch(historyPush('/admin/news'));
+        } catch (e) {
+            dispatch(editNewsFailure(e));
         }
     }
 }

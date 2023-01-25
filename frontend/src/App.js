@@ -198,12 +198,6 @@ const App = () => {
 
                 <ProtectedRoute
                     isAllowed={user?.role==='admin'}
-                    path="/admin/news/add-news"
-                    component={AdminAddNews}
-                />
-
-                <ProtectedRoute
-                    isAllowed={user?.role==='admin'}
                     path="/admin/news/edit-news/:id"
                     component={AdminEditNews}
                 />

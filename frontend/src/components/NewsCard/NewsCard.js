@@ -1,7 +1,7 @@
 import React from 'react';
 import {apiUrl} from "../../config";
 import {Link} from "react-router-dom";
-import {Delete, Visibility, VisibilityOff} from "@mui/icons-material";
+import {Delete, Visibility, VisibilityOff, Edit} from "@mui/icons-material";
 import noImage from "../../assets/no-image.jpg";
 
 const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
@@ -39,7 +39,12 @@ const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
                                     >
                                         {n.published ? <Visibility/> : <VisibilityOff/>}
                                     </button>
-
+                                    <Link
+                                        className="button button--info news__card-body-admin-delete"
+                                        to={"/admin/news/edit-news/" + n._id}
+                                    >
+                                        <Edit/>
+                                    </Link>
                                     <button
                                         className="button button--warning news__card-body-admin-delete"
                                         onClick={onDeleteNews}

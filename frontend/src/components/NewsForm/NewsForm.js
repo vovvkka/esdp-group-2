@@ -13,7 +13,7 @@ const NewsForm = ({news, error, onSubmit}) => {
 
     useEffect(() => {
         if (news) {
-            setState(...news);
+            setState(news);
         }
     }, [news]);
 

@@ -6,7 +6,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import {useDispatch, useSelector} from "react-redux";
 import Carousel from "../Carousel/NewsCarousel";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {Autocomplete, Box, TextField, Tooltip, useMediaQuery} from "@mui/material";
+import {Autocomplete, Box, ClickAwayListener, TextField, Tooltip, useMediaQuery} from "@mui/material";
 import {apiUrl} from "../../../config";
 import {setKey} from "../../../store/slices/productsSlice";
 import axiosApi from "../../../axiosApi";
@@ -72,67 +72,76 @@ const Header = () => {
         }
     }
     const SearchBar =
-        <Autocomplete
-            sx={!matches ? {width: '92%', marginBottom: '15px', backgroundColor: 'white',position: "absolute",zIndex:'10000'} : {
-                marginLeft: 'auto',
-                width: '38%',
-                marginBottom: '15px',
-                backgroundColor: 'white',
-                position: "absolute",
-                left:'60%',
-                top:'85px',
-                zIndex:'10000'
-            }}
-            options={productsList}
-            freeSolo
-            clearOnEscape={false}
-            value={{label: value ? value : ''}}
-            clearOnBlur={false}
-            isOptionEqualToValue={() => true}
-            onClose={() => {
-                setSearch(false);
-            }}
-            getOptionLabel={(option) => option.label}
-            onInputChange={e => (onInputChange(e))}
-            renderOption={(props, option) => (
-                <Link to={`/products/${option._id}`}
-                      className="product-card__overlay" {...props}>
-                    <Box component="li" sx={{'& > img': {mr: 2, flexShrink: 0}}}>
-                        <img
-                            loading="lazy"
-                            width="20"
-                            src={apiUrl + '/' + option.image[0]}
-                            srcSet={apiUrl + '/' + option.image[0]}
-                            alt=""
-                        />
-                        {option.title}
-                    </Box>
-                </Link>
+        <ClickAwayListener onClickAway={() => {
+            setSearch(false)
+        }}>
+            <Autocomplete
+                sx={!matches ? {
+                    width: '92%',
+                    marginBottom: '15px',
+                    backgroundColor: 'white',
+                    position: "absolute",
+                    zIndex: '10000'
+                } : {
+                    marginLeft: 'auto',
+                    width: '38%',
+                    marginBottom: '15px',
+                    backgroundColor: 'white',
+                    position: "absolute",
+                    left: '60%',
+                    top: '85px',
+                    zIndex: '10000'
+                }}
+                options={productsList}
+                freeSolo
+                value={{label: value ? value : ''}}
+                isOptionEqualToValue={() => true}
+                onClose={() => {
+                    setSearch(false);
+                }}
+                getOptionLabel={(option) => option.label}
+                onInputChange={e => (onInputChange(e))}
+                renderOption={(props, option) => (
+                    <Link to={`/products/${option._id}`}
+                          className="product-card__overlay" {...props}>
+                        <Box component="li" sx={{'& > img': {mr: 2, flexShrink: 0}}}>
+                            <img
+                                loading="lazy"
+                                width="20"
+                                src={apiUrl + '/' + option.image[0]}
+                                srcSet={apiUrl + '/' + option.image[0]}
+                                alt=""
+                            />
+                            {option.title}
+                        </Box>
+                    </Link>
 
-            )}
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    label="Поиск"
-                    value={value}
-                    autoFocus={true}
-                    className="header__search"
-                    inputProps={{
-                        ...params.inputProps,
-                        onKeyDown: (e) => {
-                            if (e.key === 'Enter') {
-                                e.stopPropagation();
-                                if (value.replace(/\s/g, '')) {
-                                    dispatch(setKey(value));
-                                    dispatch(historyPush('/search'));
-                                    setSearch(false);
+                )}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label="Поиск"
+                        value={value}
+                        autoFocus={true}
+                        className="header__search"
+                        inputProps={{
+                            ...params.inputProps,
+                            onKeyDown: (e) => {
+                                if (e.key === 'Enter') {
+                                    e.stopPropagation();
+                                    if (value.replace(/\s/g, '')) {
+                                        dispatch(setKey(value));
+                                        dispatch(historyPush('/search'));
+                                        setSearch(false);
+                                        setValue(false);
+                                    }
                                 }
-                            }
-                        },
-                    }}
-                />
-            )}
-        />;
+                            },
+                        }}
+                    />
+                )}
+            />
+        </ClickAwayListener>;
 
     const amount = cartProducts.reduce((acc, value) => {
         return acc + value.quantity;
@@ -140,14 +149,14 @@ const Header = () => {
 
     return (
         <div className='header'>
-            <div className='container' style={{position:'relative'}}>
+            <div className='container' style={{position: 'relative'}}>
                 {!matches ? <div className='header__toolbar'>
                     <div className='header__logo-wrapper'>
                         <div className="header__hidden"></div>
                         <Link to="/">
                             <img className='header__logo' alt="Tay Tay logo" src={logo}/>
                         </Link>
-                       <Sidebar/>
+                        <Sidebar/>
                     </div>
                     <div className='header__info'>
                         {<>

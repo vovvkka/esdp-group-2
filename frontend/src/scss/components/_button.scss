@@ -49,6 +49,17 @@
     }
   }
 
+  &--info {
+    background: $blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      background: $dark-blue;
+    }
+  }
+
   // Modifiers
 
   @media (max-width: 500px) {
