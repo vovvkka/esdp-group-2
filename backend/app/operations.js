@@ -58,54 +58,7 @@ router.get("/reports", auth, async (req, res) => {
     }
     query.title = {'$in': [config.operations.purchase, config.operations.returnPurchase]};
     try {
-        if (req.query.day) {
-            const start = "2023-01-17T00:00:00.000Z";
-            query.dateTime = {
-                '$gte': new Date(start),
-                '$lte': new Date(new Date(new Date(start).setDate(new Date(start).getDate() + 1)))
-            };
-            const operations = await Operation.aggregate([
-                {$match: query},
-                {
-                    $group:
-                        {
-                            _id: {$dateToString: {format: "%Y-%m-%d", date: "$dateTime"}},
-                            itemsSold: {$addToSet: {$cond: [{$eq: ["$title", config.operations.purchase]}, "$additionalInfo.completePurchaseInfo", '$$REMOVE']}},
-                            itemsReturned: {$addToSet: {$cond: [{$eq: ["$title", config.operations.returnPurchase]}, "$additionalInfo", '$$REMOVE']}}
-
-                        },
-                }, {
-                    $project: {
-                        _id: '$_id',
-                        itemsSold: {
-                            $reduce: {
-                                input: "$itemsSold",
-                                initialValue: [],
-                                in: {$concatArrays: ["$$value", "$$this"]}
-                            }
-                        },
-                        itemsReturned: '$itemsReturned'
-                    }
-                }
-            ]);
-            const sales = {};
-
-            operations[0].itemsSold.forEach(e => {
-                const o = sales[e._id] = sales[e._id] || {...e, quantity: 0, totalDiscount: 0}
-                o.quantity += e.quantity;
-                o.totalDiscount += e.quantity * e.price * e.discount / 100;
-                delete o.discount;
-                delete o.barcode;
-            });
-            operations[0].itemsReturned.forEach(e => {
-                if (sales[e._id]) {
-                    sales[e._id].quantity -= e.quantity;
-                    sales[e._id].totalDiscount -= e.price * e.quantity - e.amountOfMoney;
-                }
-            });
-            res.send({date: operations[0]._id, products: Object.values(sales)});
-        } else {
-            const operations = await Operation.aggregate([
+            const reports = await Operation.aggregate([
                 {$match: query},
                 {
                     $group: {
@@ -137,10 +90,57 @@ router.get("/reports", auth, async (req, res) => {
                     }
                 }
             ]);
-            res.send(operations);
-        }
+            await Promise.all(
+            reports.map(async i=>{
+                    const start = i._id;
+                    query.dateTime = {
+                        '$gte': new Date(start),
+                        '$lte': new Date(new Date(new Date(start).setDate(new Date(start).getDate() + 1)))
+                    };
+                    const operations = await Operation.aggregate([
+                        {$match: query},
+                        {
+                            $group:
+                                {
+                                    _id: {$dateToString: {format: "%Y-%m-%d", date: "$dateTime"}},
+                                    itemsSold: {$addToSet: {$cond: [{$eq: ["$title", config.operations.purchase]}, "$additionalInfo.completePurchaseInfo", '$$REMOVE']}},
+                                    itemsReturned: {$addToSet: {$cond: [{$eq: ["$title", config.operations.returnPurchase]}, "$additionalInfo", '$$REMOVE']}}
+
+                                },
+                        }, {
+                            $project: {
+                                _id: '$_id',
+                                itemsSold: {
+                                    $reduce: {
+                                        input: "$itemsSold",
+                                        initialValue: [],
+                                        in: {$concatArrays: ["$$value", "$$this"]}
+                                    }
+                                },
+                                itemsReturned: '$itemsReturned'
+                            }
+                        }
+                    ]);
+                    const sales = {};
+
+                    operations[0].itemsSold.forEach(e => {
+                        const o = sales[e._id] = sales[e._id] || {...e, quantity: 0, totalDiscount: 0}
+                        o.quantity += e.quantity;
+                        o.totalDiscount += e.quantity * e.price * e.discount / 100;
+                        delete o.discount;
+                        delete o.barcode;
+                    });
+                    operations[0].itemsReturned.forEach(e => {
+                        if (sales[e._id]) {
+                            sales[e._id].quantity -= e.quantity;
+                            sales[e._id].totalDiscount -= e.price * e.quantity - e.amountOfMoney;
+                        }
+                    });
+                    return i.additonalInfo=Object.values(sales);
+
+            }));
+            res.send(reports);
     } catch (e) {
-        console.log(e);
         res.status(400).send(e);
     }
 });
@@ -370,7 +370,6 @@ router.post("/", auth, permit('cashier'), async (req, res) => {
         }
 
     } catch (e) {
-        console.log(e);
         res.status(400).send(e);
     }
 });

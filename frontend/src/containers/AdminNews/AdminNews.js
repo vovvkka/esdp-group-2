@@ -10,7 +10,7 @@ const AdminNews = () => {
     const dispatch = useDispatch();
     const news = useSelector((state) => state.news.news);
     const [wantToDelete, setWantToDelete] = useState(false);
-    const [id,setId] = useState(null);
+    const [id, setId] = useState(null);
     let modalChildren;
 
     useEffect(() => {
@@ -20,6 +20,7 @@ const AdminNews = () => {
     const onChangeStatus = id => {
         dispatch(changeNewsStatus(id));
     };
+
 
     const onDeleteNews = async () => {
         await dispatch(deleteNews(id));

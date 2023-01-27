@@ -11,6 +11,8 @@ const AdminJournal = () => {
     const operations = useSelector((state) => state.operations.operations);
     const shiftCurrent = useSelector(state => state.shifts.shift);
     const [zReportActive, setZReportActive] = useState(false);
+    const [insertCashActive, setInsertCashActive] = useState(false);
+    const [withdrawActive, setWithdrawActive] = useState(false);
     const [openShiftActive, setOpenShiftActive] = useState(false);
     const [purchaseActive, setPurchaseActive] = useState(false);
     const [shift, setShift] = useState("");
@@ -116,6 +118,12 @@ const AdminJournal = () => {
             } else if (row.title === "Продажа") {
                 setReceiptInfo(row);
                 setPurchaseActive(true);
+            } else if (row.title === "Внесение наличных") {
+                setInsertCashActive(true);
+                setReceiptInfo(row)
+            } else if (row.title === "Изъятие наличных") {
+                setWithdrawActive(true);
+                setReceiptInfo(row)
             }
         },
     };
@@ -139,13 +147,15 @@ const AdminJournal = () => {
                     data={operations.docs}
                 />
             </Box>
-            {zReportActive || openShiftActive || purchaseActive ? (
+            {zReportActive || openShiftActive || purchaseActive || insertCashActive || withdrawActive ? (
                 <CustomModal
-                    isOpen={zReportActive || openShiftActive || purchaseActive}
+                    isOpen={zReportActive || openShiftActive || purchaseActive || insertCashActive || withdrawActive}
                     handleClose={() => {
                         setZReportActive(false);
                         setOpenShiftActive(false);
                         setPurchaseActive(false);
+                        setInsertCashActive(false);
+                        setWithdrawActive(false);
                     }}
                 >
                     <Receipt
@@ -153,12 +163,16 @@ const AdminJournal = () => {
                             setZReportActive(false);
                             setOpenShiftActive(false);
                             setPurchaseActive(false);
+                            setInsertCashActive(false)
+                            setWithdrawActive(false)
                         }}
                         zReport={zReportActive}
                         openShift={openShiftActive}
                         receipt={receiptInfo}
                         shiftId={shift}
                         purchaseActive={purchaseActive}
+                        insertActive={insertCashActive}
+                        withdrawActive={withdrawActive}
                     />
                 </CustomModal>
             ) : null}

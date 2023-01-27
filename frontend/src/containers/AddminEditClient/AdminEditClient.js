@@ -18,7 +18,7 @@ const AdminEditClient = ({match}) => {
     return (
         <Container>
             <Typography
-                textAlign="left"
+                textAlign="center"
                 marginBottom="30px"
                 variant="h4"
             >
