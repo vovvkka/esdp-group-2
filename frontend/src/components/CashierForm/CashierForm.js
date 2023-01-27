@@ -1,40 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
-import {makeStyles} from "tss-react/mui";
-import {Avatar, Container, Grid, Typography} from "@mui/material";
-import {LockOutlined} from "@mui/icons-material";
+import {Container, Grid} from "@mui/material";
 import FormElement from "../UI/Form/FormElement/FormElement";
 import ButtonWithProgress from "../UI/ButtonWithProgress/ButtonWithProgress";
-
-const useStyles = makeStyles()(theme => ({
-    paper: {
-        marginTop: '100px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-        margin: theme.spacing(2),
-        backgroundColor: `${theme.palette.grey["800"]} !important`,
-    },
-    form: {
-        marginTop: theme.spacing(1),
-    },
-    alert: {
-        margin: theme.spacing(3, 0),
-        width: '100%',
-    },
-    link: {
-        marginTop: '5px'
-    },
-    submit: {
-        margin: `${theme.spacing(1, 0)} !important`,
-        backgroundColor: `${theme.palette.grey["800"]} !important`,
-    }
-}));
+import Paper from "@mui/material/Paper";
 
 const CashierForm = ({onSubmit, cashier, isParams, error}) => {
-    const {classes} = useStyles();
     const loading = useSelector(state => state.cashiers.loading);
 
     const [cashierData, setCashierData] = useState({
@@ -48,7 +19,7 @@ const CashierForm = ({onSubmit, cashier, isParams, error}) => {
 
     useEffect(() => {
         if (cashier) {
-            setCashierData({...cashier,password: ''});
+            setCashierData({...cashier, password: ''});
         }
     }, [cashier]);
 
@@ -72,25 +43,12 @@ const CashierForm = ({onSubmit, cashier, isParams, error}) => {
 
     return (
         <Container maxWidth="xs">
-            <div className={classes.paper}>
-                <Grid item display="flex" alignItems="center">
-                    <Avatar className={classes.avatar} color="primary">
-                        <LockOutlined/>
-                    </Avatar>
-
-                    <Typography
-                        textAlign="center"
-                        variant="h6"
-                    >
-                        {isParams? 'Редактировать' : 'Добавить'} Кассира
-                    </Typography>
-                </Grid>
+            <Paper display="flex" sx={{padding: '30px'}}>
 
                 <Grid
                     component="form"
                     onSubmit={submitFormHandler}
                     container
-                    spacing={2}
                 >
 
                     <FormElement
@@ -143,7 +101,7 @@ const CashierForm = ({onSubmit, cashier, isParams, error}) => {
                         error={getFieldError('pin')}
                     />
 
-                    <Grid item xs={12}>
+                    <Grid item xs={4} sx={{margin: '10px auto 0'}}>
                         <ButtonWithProgress
                             loading={loading}
                             disabled={loading}
@@ -151,13 +109,12 @@ const CashierForm = ({onSubmit, cashier, isParams, error}) => {
                             fullWidth
                             variant="contained"
                             color="primary"
-                            className={classes.submit}
                         >
                             {isParams ? 'Сохранить' : 'Создать'}
                         </ButtonWithProgress>
                     </Grid>
                 </Grid>
-            </div>
+            </Paper>
         </Container>
     );
 };

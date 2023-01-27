@@ -75,6 +75,17 @@ const newsSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        editNewsRequest(state) {
+            state.loading = true;
+            state.error = null;
+        },
+        editNewsSuccess(state) {
+            state.loading = false;
+        },
+        editNewsFailure(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        },
     }
 });
 
@@ -93,7 +104,10 @@ export const {
     changeNewsStatusFailure,
     deleteNewsRequest,
     deleteNewsSuccess,
-    deleteNewsFailure
+    deleteNewsFailure,
+    editNewsRequest,
+    editNewsSuccess,
+    editNewsFailure
 } = newsSlice.actions;
 
 export default newsSlice;

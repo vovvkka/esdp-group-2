@@ -6,7 +6,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import {useDispatch, useSelector} from "react-redux";
 import Carousel from "../Carousel/NewsCarousel";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {Autocomplete, Box, TextField, Tooltip, useMediaQuery} from "@mui/material";
+import {Autocomplete, Box, ClickAwayListener, TextField, Tooltip, useMediaQuery} from "@mui/material";
 import {apiUrl} from "../../../config";
 import {setKey} from "../../../store/slices/productsSlice";
 import axiosApi from "../../../axiosApi";
@@ -80,6 +80,7 @@ const Header = () => {
         }
     }
     const SearchBar =
+        <ClickAwayListener onClickAway={()=>setSearch(false)}>
         <Autocomplete
             sx={!matches ? {width: '92%', marginBottom: '15px', backgroundColor: 'white',position: "absolute",zIndex:'10000'} : {
                 marginLeft: 'auto',
@@ -134,13 +135,15 @@ const Header = () => {
                                     dispatch(setKey(value));
                                     dispatch(historyPush('/search'));
                                     setSearch(false);
+                                    setValue(null);
                                 }
                             }
                         },
                     }}
                 />
             )}
-        />;
+        />
+        </ClickAwayListener>;
 
     const amount = cartProducts.reduce((acc, value) => {
         return acc + value.quantity;

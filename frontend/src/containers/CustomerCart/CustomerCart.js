@@ -2,6 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {clearCart, deleteProduct, increaseProduct, reduceProduct} from "../../store/slices/cartSlice";
 import {Link, NavLink} from "react-router-dom";
+import {apiUrl} from "../../config";
 
 const CustomerCart = () => {
     const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const CustomerCart = () => {
                         </button>
                         <div><img
                             alt={i.title}
-                            src={'http://localhost:8000/' + i.image[0]}/>
+                            src={apiUrl + i.image[0]}/>
                             <div>{i.title}</div>
                         </div>
                     </div>
