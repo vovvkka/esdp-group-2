@@ -20,22 +20,20 @@ export const fetchOperations = (page, title, period) => {
 
             if (page) {
                 if (title) {
-                    if (period.from) {
+                    if (!period) {
+                        response = await axiosApi('/operations' + page + '&title=' + title);
+                    }else if (period.from) {
                         response = await axiosApi(`/operations${page}&title=${title}&from=${period.from}&to=${period.to}`);
-                    } else if (!period.from) {
-                        response = await axiosApi('/operations' + page + '&title=' + title);
-                    }else {
-                        response = await axiosApi('/operations' + page + '&title=' + title);
                     }
                 } else {
                     response = await axiosApi('/operations' + page);
                 }
             } else {
                 if (title) {
-                    if (period.from) {
-                        response = await axiosApi(`/operations?&title=${title}&from=${period.from}&to=${period.to}`);
-                    } else if (!period.from) {
-                        response = await axiosApi('/operations?&title=' + title);
+                    if (!period) {
+                        response = await axiosApi('/operations?title=' + title);
+                    }else if (period.from) {
+                        response = await axiosApi(`/operations?title=${title}&from=${period.from}&to=${period.to}`);
                     }
                 } else {
                     response = await axiosApi('/operations');

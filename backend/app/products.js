@@ -208,7 +208,7 @@ router.put('/:id', auth, permit('admin'), upload.array('image', 5), async (req, 
         purchasePrice,
         description: description || null,
     };
-    if (req.files) {
+    if (req.files.length) {
         productData.image = req.files.map(i => 'uploads/' + i.filename);
     }
 
