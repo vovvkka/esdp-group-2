@@ -5,7 +5,5 @@ if (process.env.REACT_APP_ENV === 'test') {
 }
 
 if (process.env.NODE_ENV === 'production') {
-    apiUrl = 'https://taytay.hopto.org/api';
+    apiUrl = 'http://188.226.163.6:8000';
 }
-
-//asd
