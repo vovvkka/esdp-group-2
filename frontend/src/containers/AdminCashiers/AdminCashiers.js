@@ -8,7 +8,7 @@ import {getCashiers} from "../../store/actions/cashiersActions";
 
 const AdminCashiers = () => {
     const cashiers = useSelector(state => state.cashiers.cashiers);
-    const loading = useSelector(state => state.categories.loading);
+    const loading = useSelector(state => state.cashiers.loading);
     const user = useSelector(state => state.users.user);
     const dispatch = useDispatch();
 

@@ -8,10 +8,12 @@ import EditSharpIcon from "@mui/icons-material/EditSharp";
 import DeleteForeverSharpIcon from "@mui/icons-material/DeleteForeverSharp";
 import {fetchCategories} from "../../store/actions/categoriesActions";
 import './AdminProducts.css';
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 
 const AdminProducts = () => {
     const dispatch = useDispatch();
+    const loading = useSelector(state => state.products.fetchLoading);
     const products = useSelector(state => state.products.products);
     const categories = useSelector(state => state.categories.categories);
     const user = useSelector(state => state.users.user);
@@ -120,7 +122,8 @@ const AdminProducts = () => {
                 customBodyRender: (value) => {
                     return (
                         <Box display='flex' justifyContent='center'>
-                            <Button component={Link} to={"/admin/products/edit-product/" + value}><EditSharpIcon/></Button>
+                            <Button component={Link}
+                                    to={"/admin/products/edit-product/" + value}><EditSharpIcon/></Button>
                             <Button onClick={() => dispatch(deleteProduct(value))}><DeleteForeverSharpIcon/></Button>
                         </Box>
                     );
@@ -174,8 +177,9 @@ const AdminProducts = () => {
 
         customFilterDialogFooter: (currentFilterList, applyNewFilters) => {
             return (
-                <div style={{ marginTop: '40px' }}>
-                    <Button type='button' variant="contained" onClick={() => handleFilterSubmit(applyNewFilters)}>Применить фильтры</Button>
+                <div style={{marginTop: '40px'}}>
+                    <Button type='button' variant="contained" onClick={() => handleFilterSubmit(applyNewFilters)}>Применить
+                        фильтры</Button>
                 </div>
             );
         },
@@ -216,14 +220,17 @@ const AdminProducts = () => {
                 <Button variant='contained' component={Link} to='/admin/products/add-new-product'>Добавить</Button>
             </Grid>
 
-                <Box>
-                    <MUIDataTable
-                        title={"Список товаров"}
-                        columns={columns}
-                        options={options}
-                        data={products.docs}
-                    />
-                </Box>
+            <Box>
+                {
+                    loading ? <Spinner/> :
+                        <MUIDataTable
+                            title={"Список товаров"}
+                            columns={columns}
+                            options={options}
+                            data={products.docs}
+                        />
+                }
+            </Box>
 
         </Box>
     );

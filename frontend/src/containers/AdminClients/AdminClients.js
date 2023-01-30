@@ -6,11 +6,13 @@ import {Box, Button, Grid, Typography} from "@mui/material";
 import DeleteForeverSharpIcon from "@mui/icons-material/DeleteForeverSharp";
 import EditSharpIcon from "@mui/icons-material/EditSharp";
 import {deleteClient, fetchClients} from "../../store/actions/clientsActions";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 const AdminClients = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.users.user);
     const clients = useSelector(state => state.clients.clients);
+    const loading = useSelector(state => state.clients.loading);
 
     const columns = [
         {
@@ -126,12 +128,15 @@ const AdminClients = () => {
             </Grid>
 
             <Box>
-                <MUIDataTable
-                    title={"Список клиентов"}
-                    columns={columns}
-                    options={options}
-                    data={clients.docs}
-                />
+                {
+                    loading ? <Spinner/> :
+                        <MUIDataTable
+                            title={"Список клиентов"}
+                            columns={columns}
+                            options={options}
+                            data={clients.docs}
+                        />
+                }
             </Box>
 
         </Box>
