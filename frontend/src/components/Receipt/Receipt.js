@@ -1,20 +1,25 @@
-import React, {useEffect, useRef} from "react";
-import {useReactToPrint} from "react-to-print";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchXReport, fetchZReport,} from "../../store/actions/operationsActions";
-import {clearReport} from "../../store/slices/operationsSlice";
+import React, { useEffect, useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    fetchXReport,
+    fetchZReport,
+} from "../../store/actions/operationsActions";
+import { clearReport } from "../../store/slices/operationsSlice";
 
 const Receipt = ({
-                     xReport,
-                     zReport,
-                     displayName,
-                     shiftNumber,
-                     shiftId,
-                     receipt,
-                     handleClose,
-                     openShift,
-                     purchaseActive,
-                 }) => {
+    xReport,
+    zReport,
+    displayName,
+    shiftNumber,
+    shiftId,
+    receipt,
+    handleClose,
+    openShift,
+    purchaseActive,
+    insertActive,
+    withdrawActive,
+}) => {
     const dispatch = useDispatch();
     const componentRef = useRef();
     const xReportInfo = useSelector((state) => state.operations.xReport);
@@ -45,7 +50,6 @@ const Receipt = ({
     let children;
 
     if (xReport) {
-        console.log(xReportInfo);
         children = (
             <div className="receipt__ticket">
                 <div className="receipt__header">
@@ -55,15 +59,15 @@ const Receipt = ({
                     <p className="receipt__center-text">
                         {new Date().toLocaleString()}
                     </p>
-                    <hr className="receipt__line"/>
+                    <hr className="receipt__line" />
                     <p className="receipt__center-text">
-                        Магазин для новорожденных <br/> "ТАЙ-ТАЙ"
+                        Магазин для новорожденных <br /> "ТАЙ-ТАЙ"
                     </p>
                     <p className="receipt__center-text">
-                        г.Каракол, ул.Карла Маркса б/н <br/>
+                        г.Каракол, ул.Карла Маркса б/н <br />
                         ТЦ "Мега Молл", 2 этаж
                     </p>
-                    <hr className="receipt__line"/>
+                    <hr className="receipt__line" />
                     <div className="receipt__flex">
                         <p className="receipt__text">Кассир:</p>
                         <p className="receipt__text">
@@ -76,15 +80,15 @@ const Receipt = ({
                             {xReportInfo?.shift.shiftNumber}
                         </p>
                     </div>
-                    <hr className="receipt__line"/>
+                    <hr className="receipt__line" />
                     <p className="receipt__center-text receipt__center-text--upper">
                         Смена
                     </p>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <p className="receipt__center-text receipt__center-text--upper">
                         Продажа
                     </p>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <div className="receipt__flex">
                         <p className="receipt__text">Чеки:</p>
                         <p className="receipt__text">{xReportInfo?.salesNum}</p>
@@ -103,11 +107,11 @@ const Receipt = ({
                         <p className="receipt__text">НоП:</p>
                         <p className="receipt__text">0.00</p>
                     </div>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <p className="receipt__center-text receipt__center-text--upper">
                         Возврат продажи
                     </p>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <div className="receipt__flex">
                         <p className="receipt__text">Чеки:</p>
                         <p className="receipt__text">
@@ -128,11 +132,11 @@ const Receipt = ({
                         <p className="receipt__text">НоП:</p>
                         <p className="receipt__text">0.00</p>
                     </div>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <p className="receipt__center-text receipt__center-text--upper">
                         Общая итоговая сумма
                     </p>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <div className="receipt__flex">
                         <p className="receipt__text">Наличные:</p>
                         <p className="receipt__text">
@@ -151,14 +155,14 @@ const Receipt = ({
                             ).toFixed(2)}
                         </p>
                     </div>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <div className="receipt__flex">
                         <p className="receipt__text">Наличные в кассе</p>
                         <p className="receipt__text">
                             {xReportInfo?.cash.toFixed(2)}
                         </p>
                     </div>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                 </div>
             </div>
         );
@@ -177,15 +181,15 @@ const Receipt = ({
                             zReportInfo?.shift.updatedAt
                         ).toLocaleString()}
                     </p>
-                    <hr className="receipt__line"/>
+                    <hr className="receipt__line" />
                     <p className="receipt__center-text">
-                        Магазин для новорожденных <br/> "ТАЙ-ТАЙ"
+                        Магазин для новорожденных <br /> "ТАЙ-ТАЙ"
                     </p>
                     <p className="receipt__center-text">
-                        г.Каракол, ул.Карла Маркса б/н <br/>
+                        г.Каракол, ул.Карла Маркса б/н <br />
                         ТЦ "Мега Молл", 2 этаж
                     </p>
-                    <hr className="receipt__line"/>
+                    <hr className="receipt__line" />
                     <div className="receipt__flex">
                         <p className="receipt__text">Кассир:</p>
                         <p className="receipt__text">
@@ -198,15 +202,15 @@ const Receipt = ({
                             {zReportInfo?.shift.shiftNumber}
                         </p>
                     </div>
-                    <hr className="receipt__line"/>
+                    <hr className="receipt__line" />
                     <p className="receipt__center-text receipt__center-text--upper">
                         Смена
                     </p>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <p className="receipt__center-text receipt__center-text--upper">
                         Продажа
                     </p>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <div className="receipt__flex">
                         <p className="receipt__text">Чеки:</p>
                         <p className="receipt__text">{zReportInfo?.salesNum}</p>
@@ -225,11 +229,11 @@ const Receipt = ({
                         <p className="receipt__text">НоП:</p>
                         <p className="receipt__text">0.00</p>
                     </div>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <p className="receipt__center-text receipt__center-text--upper">
                         Возврат продажи
                     </p>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <div className="receipt__flex">
                         <p className="receipt__text">Чеки:</p>
                         <p className="receipt__text">
@@ -250,11 +254,11 @@ const Receipt = ({
                         <p className="receipt__text">НоП:</p>
                         <p className="receipt__text">0.00</p>
                     </div>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <p className="receipt__center-text receipt__center-text--upper">
                         Общая итоговая сумма
                     </p>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <div className="receipt__flex">
                         <p className="receipt__text">Наличные:</p>
                         <p className="receipt__text">
@@ -273,15 +277,15 @@ const Receipt = ({
                             ).toFixed(2)}
                         </p>
                     </div>
-                    <hr className="receipt__line"/>
+                    <hr className="receipt__line" />
                     <p className="receipt__center-text receipt__center-text--upper">
                         Необнуляемые суммы на конец смены
                     </p>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <p className="receipt__center-text receipt__center-text--upper">
                         Продажа
                     </p>
-                    <hr className="receipt__line receipt__line--dotted"/>
+                    <hr className="receipt__line receipt__line--dotted" />
                     <div className="receipt__flex">
                         <p className="receipt__text">Чеки</p>
                         <p className="receipt__text">
@@ -294,6 +298,61 @@ const Receipt = ({
                             {zReportInfo?.report.salesTotal.toFixed(2)}
                         </p>
                     </div>
+                </div>
+            </div>
+        );
+    } else if (insertActive || withdrawActive) {
+        children = (
+            <div className="receipt__ticket">
+                <div className="receipt__header">
+                    <p className="receipt__center-text receipt__center-text--upper">
+                        Дубликат
+                    </p>
+                    <p className="receipt__center-text receipt__center-text--upper">
+                        {insertActive ? 'Внесение наличных' : 'Изъятие наличных'}
+                    </p>
+                    <p className="receipt__center-text">
+                        {new Date(receipt?.dateTime).toLocaleString()}
+                    </p>
+                    <hr className="receipt__line" />
+                    <p className="receipt__center-text">
+                        Магазин для новорожденных <br /> "ТАЙ-ТАЙ"
+                    </p>
+                    <p className="receipt__center-text">
+                        г.Каракол, ул.Карла Маркса б/н <br />
+                        ТЦ "Мега Молл", 2 этаж
+                    </p>
+                    <hr className="receipt__line" />
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Кассир:</p>
+                        <p className="receipt__text">
+                            {receipt?.shift.cashier.displayName}
+                        </p>
+                    </div>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Смена:</p>
+                        <p className="receipt__text">
+                            {receipt?.shift.shiftNumber}
+                        </p>
+                    </div>
+                    <hr className="receipt__line receipt__line--dotted" />
+                    <p className="receipt__center-text receipt__center-text--upper">
+                        {insertActive ? 'Внесение наличных' : 'Изъятие наличных'}
+                    </p>
+                    <hr className="receipt__line receipt__line--dotted" />
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Сумма:</p>
+                        <p className="receipt__text">
+                            {receipt?.additionalInfo.amountOfMoney} сом
+                        </p>
+                    </div>
+                    <div className="receipt__flex">
+                        <p className="receipt__text">Касса:</p>
+                        <p className="receipt__text">
+                            {receipt?.additionalInfo.cash} сом
+                        </p>
+                    </div>
+                    <hr className="receipt__line receipt__line" />
                 </div>
             </div>
         );
@@ -310,15 +369,15 @@ const Receipt = ({
                     <p className="receipt__center-text">
                         {new Date(receipt?.dateTime).toLocaleString()}
                     </p>
-                    <hr className="receipt__line"/>
+                    <hr className="receipt__line" />
                     <p className="receipt__center-text">
-                        Магазин для новорожденных <br/> "ТАЙ-ТАЙ"
+                        Магазин для новорожденных <br /> "ТАЙ-ТАЙ"
                     </p>
                     <p className="receipt__center-text">
-                        г.Каракол, ул.Карла Маркса б/н <br/>
+                        г.Каракол, ул.Карла Маркса б/н <br />
                         ТЦ "Мега Молл", 2 этаж
                     </p>
-                    <hr className="receipt__line"/>
+                    <hr className="receipt__line" />
                     <div className="receipt__flex">
                         <p className="receipt__text">Кассир:</p>
                         <p className="receipt__text">
@@ -345,10 +404,10 @@ const Receipt = ({
                     )}
                     <div className="receipt__header">
                         <p className="receipt__center-text">
-                            Магазин для новорожденных <br/> "ТАЙ-ТАЙ"
+                            Магазин для новорожденных <br /> "ТАЙ-ТАЙ"
                         </p>
                         <p className="receipt__center-text">
-                            г.Каракол, ул.Карла Маркса б/н <br/>
+                            г.Каракол, ул.Карла Маркса б/н <br />
                             ТЦ "Мега Молл", 2 этаж
                         </p>
                     </div>
@@ -426,13 +485,13 @@ const Receipt = ({
                                             <p className="receipt__text">
                                                 {product.discount
                                                     ? product.quantity *
-                                                    product.price -
-                                                    (product.quantity *
-                                                        product.price *
-                                                        product.discount) /
-                                                    100
+                                                          product.price -
+                                                      (product.quantity *
+                                                          product.price *
+                                                          product.discount) /
+                                                          100
                                                     : product.quantity *
-                                                    product.price}
+                                                      product.price}
                                             </p>
                                         </div>
                                     </div>

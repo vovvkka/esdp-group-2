@@ -39,8 +39,8 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
 
     const onSubmitHandler = e => {
         e.preventDefault();
+        console.log(state);
         if (product) {
-            console.log(0);
             if (state.category === product.category.title) {
                 const newData = {...state};
                 newData.category = product.category._id;
@@ -48,7 +48,9 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                 Object.keys(newData).forEach(key => {
                     if (key === 'image') {
                         newData[key].forEach(item => {
-                            formData.append(`image`, item);
+                            if (typeof (item) !== 'string') {
+                                formData.append(`image`, item);
+                            }
                         });
                     } else {
                         formData.append(key, newData[key]);
@@ -56,8 +58,6 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                 });
                 onSubmit(formData);
             } else {
-                console.log(1);
-
                 const formData = new FormData();
                 Object.keys(state).forEach(key => {
                     if (key === 'image') {
@@ -71,8 +71,6 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                 onSubmit(formData);
             }
         } else {
-            console.log(3);
-
             const formData = new FormData();
             Object.keys(state).forEach(key => {
                 if (key === 'image') {
@@ -133,7 +131,7 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                 marginX="auto"
                 direction="column"
             >
-                <Paper display="flex" sx={{padding: '30px 10px 0 10px'}}>
+                <Paper display="flex" sx={{padding: '10px 60px'}}>
                     <div style={{textAlign: 'left'}}>
                         <label>Категория</label>
                         <div style={{color: '#dc4815'}}>{getFieldError('category') ? 'Заполните это поле' : null}</div>
@@ -144,7 +142,7 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                         treeDataSimpleMode
                         style={{
                             width: '100%',
-                            marginTop: '10px',
+                            marginTop: '5px',
                             marginBottom: '5px',
                             textAlign: 'left'
                         }}
@@ -182,76 +180,79 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
                         name="barcode"
                         required={true}
                     />
+                    <div style={{display: 'flex', marginBottom: '5px'}}>
+                        <FormElement
+                            label="Количество"
+                            onChange={inputChangeHandler}
+                            value={state.amount}
+                            name="amount"
+                            required={true}
+                            error={getFieldError('amount')}
+                        />
+                        <div style={{width: '10px'}}></div>
+                        <FormElement
+                            label="Цена"
+                            onChange={inputChangeHandler}
+                            value={state.price}
+                            name="price"
+                            required={true}
+                            error={getFieldError('price')}
+                        />
+                        <div style={{width: '10px'}}></div>
+                        <FormElement
+                            label="Цена закупки"
+                            onChange={inputChangeHandler}
+                            value={state.purchasePrice}
+                            name="purchasePrice"
+                            required={true}
+                            error={getFieldError('purchasePrice')}
+                        />
+                    </div>
+
+                    <div style={{display: 'flex', marginBottom: '5px'}}>
+                        <FormSelect
+                            label="Тип цены"
+                            onChange={inputChangeHandler}
+                            value={state.priceType}
+                            name="priceType"
+                            options={['Фиксированная', 'Свободная']}
+                            required={true}
+                        />
+                        <div style={{width: '10px'}}></div>
+                        <FormSelect
+                            label="Статус"
+                            onChange={inputChangeHandler}
+                            value={state.status}
+                            name="status"
+                            options={['Активный', 'Неактивный']}
+                            required={true}
+                            error={getFieldError('status')}
+                        />
+                        <div style={{width: '10px'}}></div>
+                        <FormSelect
+                            label="Ед. измерения"
+                            onChange={inputChangeHandler}
+                            value={state.unit}
+                            name="unit"
+                            options={['шт.', 'уп.']}
+                            required={true}
+                            error={getFieldError('unit')}
+                        />
+                    </div>
 
                     <FileInput
                         label="Фото"
                         name="image"
                         multiple='multiple'
                         onChange={fileChangeHandler}
-                        xs={10.5}
+                        xs={10}
                     />
 
-
-                    <FormElement
-                        label="Цена"
-                        onChange={inputChangeHandler}
-                        value={state.price}
-                        name="price"
-                        required={true}
-                        error={getFieldError('price')}
-                    />
-
-                    <FormSelect
-                        label="Тип цены"
-                        onChange={inputChangeHandler}
-                        value={state.priceType}
-                        name="priceType"
-                        options={['Фиксированная', 'Свободная']}
-                        required={true}
-                    />
-
-
-                    <FormElement
-                        label="Количество"
-                        onChange={inputChangeHandler}
-                        value={state.amount}
-                        name="amount"
-                        required={true}
-                        error={getFieldError('amount')}
-                    />
-
-                    <FormSelect
-                        label="Статус"
-                        onChange={inputChangeHandler}
-                        value={state.status}
-                        name="status"
-                        options={['Активный', 'Неактивный']}
-                        required={true}
-                        error={getFieldError('status')}
-                    />
-
-                    <FormSelect
-                        label="Ед. измерения"
-                        onChange={inputChangeHandler}
-                        value={state.unit}
-                        name="unit"
-                        options={['шт.', 'уп.']}
-                        required={true}
-                        error={getFieldError('unit')}
-                    />
-
-                    <FormElement
-                        label="Цена закупки"
-                        onChange={inputChangeHandler}
-                        value={state.purchasePrice}
-                        name="purchasePrice"
-                        required={true}
-                        error={getFieldError('purchasePrice')}
-                    />
 
                     <Grid item display="flex" alignItems="center" justifyContent="center">
                         <Button type="submit" color="primary"
-                                variant="contained" sx={{marginTop: '10px'}}>{product ? 'Редактировать' : 'Добавить'}</Button>
+                                variant="contained"
+                                sx={{marginTop: '10px'}}>{product ? 'Редактировать' : 'Добавить'}</Button>
                     </Grid>
                 </Paper>
             </Grid>

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {getContacts} from "../../store/actions/contactsActions";
-import {Button, Container, Grid} from "@mui/material";
+import {Button, Container, Grid, Typography} from "@mui/material";
 import FormElement from "../../components/UI/Form/FormElement/FormElement";
 import {makeStyles} from "tss-react/mui";
 import {editAdminProfile} from "../../store/actions/adminActions";
@@ -76,7 +76,11 @@ const AdminEditProfile = () => {
                     spacing={2}
                     justifyContent='center'
                 >
-                    <h2>Редактировать профиль</h2>
+                    <Typography
+                        textAlign="center"
+                        marginBottom="30px"
+                        variant="h4"
+                    >Редактировать профиль</Typography>
 
                     <FormElement
                         required={true}

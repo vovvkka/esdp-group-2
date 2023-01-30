@@ -14,7 +14,7 @@ const AdminAddClient = () => {
             <Container>
                 <Typography
                     mt={8}
-                    textAlign="left"
+                    textAlign="center"
                     marginBottom="50px"
                     variant="h4"
                 >
