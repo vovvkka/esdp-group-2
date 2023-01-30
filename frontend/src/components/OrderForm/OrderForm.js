@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import InputMask from 'react-input-mask';
 import {clearOrderError} from "../../store/slices/ordersSlice";
 
 const OrderForm = ({onSubmit, error}) => {
@@ -62,14 +63,16 @@ const OrderForm = ({onSubmit, error}) => {
                     </div>
                     <div className='customer-order__input-wrapper'>
                         {getFieldError('phone')?<div className='customer-order__form-error'>{getFieldError('phone')}</div>:null}
-                        <input
-                            type="tel"
-                            className='customer-order__form-input'
-                            onChange={inputChangeHandler}
-                            value={state.phone}
-                            name="phone"
-                            required
-                        />
+                        <InputMask mask="+\9\96(999)99-99-99" value={state?.phone} onChange={inputChangeHandler}>
+                            {
+                                inputProps => <input {...inputProps}
+                                    type="tel"
+                                    className="customer-order__form-input"
+                                    name="phone"
+                                    required
+                                />
+                            }
+                        </InputMask>
                         <label className='customer-order__input-label'>Телефон</label>
                     </div>
                     <div className='customer-order__input-wrapper'>

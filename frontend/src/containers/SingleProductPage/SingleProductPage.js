@@ -9,6 +9,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import { clearProduct } from "../../store/slices/productsSlice";
 import Share from "../../components/Share/Share";
 import "@splidejs/react-splide/css";
+import {addNotification} from "../../store/actions/notifierActions";
 
 const SingleProductPage = () => {
     const match = useRouteMatch();
@@ -38,6 +39,7 @@ const SingleProductPage = () => {
 
     const addToCart = () => {
         cartProduct.quantity = amount;
+        dispatch(addNotification("Товар успешно добавлен в корзину", "success"));
         dispatch(addProduct(cartProduct));
     };
 

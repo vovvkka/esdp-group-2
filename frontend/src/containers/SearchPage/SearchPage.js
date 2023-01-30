@@ -18,7 +18,7 @@ const SearchPage = () => {
     useEffect(() => {
         if (key) {
             dispatch(
-                fetchProductsSearch("?page=" + currentPage + "&key=" + key)
+                fetchProductsSearch("?page=" + currentPage + "&key=" + key + "&store=true")
             );
         }
     }, [currentPage, dispatch, key]);

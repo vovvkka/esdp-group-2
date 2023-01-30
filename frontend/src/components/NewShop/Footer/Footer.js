@@ -46,11 +46,11 @@ const Footer = () => {
 
                         <div className="footer__social">
                             <a href="https://instagram.com/tay_tay_karakol?igshid=YmMyMTA2M2Y="
-                               className="footer__icon">
+                               className="footer__icon" target="_blank">
                                 <InstagramIcon fontSize="large"/>
                             </a>
 
-                            <a href="https://wa.me/996555911343" className="footer__icon">
+                            <a href="https://wa.me/996555911343" className="footer__icon" target="_blank">
                                 <WhatsAppIcon fontSize="large"/>
                             </a>
                         </div>

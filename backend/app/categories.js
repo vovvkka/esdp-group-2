@@ -15,16 +15,18 @@ router.get("/", async (req, res) => {
                 category = await Category.find({category: {$eq: req.query.node}}).lean();
             }
             let withChildren = await Promise.all(category.map(async i => {
-                const child = await Category.find({category: {$eq: i._id}});
+                let child;
+                if(req.query.user){
+                    child= await Category.find({category: {$eq: i._id},status:'Активный'});
+                }else{
+                    child= await Category.find({category: {$eq: i._id}});
+                }
                 if (!child.length) {
                     return {...i, isLeaf: true, value: i._id, id: i._id, pId: i.category};
                 } else {
                     return {...i, value: i._id, id: i._id, pId: i.category};
                 }
             }));
-            if (req.query.user) {
-                withChildren = withChildren.filter(i => i.status === 'Активный');
-            }
 
             await res.send(withChildren);
         } else {
@@ -91,6 +93,13 @@ router.put("/:id", auth, permit("admin"), async (req, res) => {
     try {
         if (category === null) {
             categoryData.ancestors = [];
+            const descendants = await Category.find({ancestors: {$in: [req.params.id]}});
+            await Promise.all(
+                descendants.map(async i => {
+                    i.ancestors.shift();
+                    console.log(i.ancestors);
+                    await Category.findByIdAndUpdate(i._id, {ancestors: i.ancestors});
+                }));
         } else {
             const currentCategory = await Category.findById(category);
 
