@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getOneNews } from "../../store/actions/newsActions";
 import { apiUrl } from "../../config";
+import Share from "../../components/Share/Share";
 
 const NewsInfo = ({ match }) => {
     const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const NewsInfo = ({ match }) => {
                         {oneNews.description}
                     </p>
                 </div>
+                <Share url={window.location.href}/>
             </div>
         )
     );

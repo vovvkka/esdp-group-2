@@ -36,6 +36,11 @@
     font-size: 40px;
     color: $grey;
     margin-top: 57px;
+    font-family: Arial, sans-serif;
+
+    span {
+      font-weight: bold;
+    }
   }
 
   &__image {
@@ -85,6 +90,10 @@
     &__price {
       font-size: 32px;
       margin-top: 40px;
+    }
+
+    &__info {
+      margin: 0;
     }
   }
 

@@ -3,10 +3,11 @@ import { Link, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { fetchOneProduct } from "../../store/actions/productsActions";
-import { apiUrl } from "../../config";
+import {apiUrl} from "../../config";
 import { addProduct } from "../../store/slices/cartSlice";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { clearProduct } from "../../store/slices/productsSlice";
+import Share from "../../components/Share/Share";
 import "@splidejs/react-splide/css";
 
 const SingleProductPage = () => {
@@ -184,6 +185,7 @@ const SingleProductPage = () => {
                             >
                                 Добавить в корзину
                             </button>
+                            <Share url={window.location.href}/>
                         </div>
                     </div>
                 </div>

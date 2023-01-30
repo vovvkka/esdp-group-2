@@ -24,7 +24,7 @@ const NewsCard = ({n, isAdmin, onChangeStatus, onDeleteNews}) => {
                 <div className='news__card-body'>
                     <div className="news__card-body-info">
                         <h3 className='news__card-title'>{n.title}</h3>
-                        <p className='news__card-date'>{new Date(n.updatedAt).toLocaleString()}</p>
+                        <p className='news__card-date'>{new Date(n.updatedAt).toLocaleDateString("default", {year: 'numeric', month: '2-digit', day: '2-digit'})}</p>
                         <p className='news__card-description'>{desc}...</p>
                     </div>
 
