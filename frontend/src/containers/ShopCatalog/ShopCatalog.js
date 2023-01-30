@@ -44,12 +44,12 @@ const ShopCatalog = () => {
     useEffect(() => {
         if (state === "123") {
             dispatch(
-                fetchProductsSearch("?page=" + currentPage + "&user=true")
+                fetchProductsSearch("?page=" + currentPage + "&user=true" + "&store=true")
             );
         } else {
             dispatch(
                 fetchProductsSearch(
-                    "?page=" + currentPage + "&user=true&category=" + state
+                    "?page=" + currentPage + "&user=true&category=" + state + "&store=true"
                 )
             );
         }
