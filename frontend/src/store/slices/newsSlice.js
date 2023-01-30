@@ -32,7 +32,7 @@ const newsSlice = createSlice({
             state.singleError = null;
         },
         getOneNewsSuccess(state, action) {
-            state.sinleLoading = false;
+            state.singleLoading = false;
             state.oneNews = action.payload;
         },
         getOneNewsFailure(state, action) {
