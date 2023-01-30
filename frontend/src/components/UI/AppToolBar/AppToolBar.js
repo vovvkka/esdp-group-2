@@ -5,7 +5,7 @@ import {AppBar, Box, Container, Grid, Toolbar, Typography} from "@mui/material";
 import {useSelector} from "react-redux";
 import AdminOrCashierMenu from "./Menu/AdminOrCashierMenu";
 import logo from '../../../assets/logo.png';
-import Header from "../../NewShop/Header/Header";
+import Header from "../../Header/Header";
 
 const useStyles = makeStyles()(theme => ({
     mainLink: {

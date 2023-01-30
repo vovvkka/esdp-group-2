@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, NavLink, useLocation} from "react-router-dom";
-import logo from "../../../assets/logo.png";
+import logo from "../../assets/logo.png";
 import InstagramIcon from '@mui/icons-material/Instagram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import {useSelector} from "react-redux";

@@ -116,7 +116,7 @@ const AdminMainPage = () => {
     };
 
     if (loading) {
-        return <Spinner/>;
+        return <Spinner admin/>;
     }
 
     return (

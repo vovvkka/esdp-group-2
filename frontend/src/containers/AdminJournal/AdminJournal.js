@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOperations } from "../../store/actions/operationsActions";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import CustomModal from "../../components/UI/Modal/Modal";
 import Receipt from "../../components/Receipt/Receipt";
+import { clearOperations } from "../../store/slices/operationsSlice";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 const AdminJournal = () => {
     const dispatch = useDispatch();
     const operations = useSelector((state) => state.operations.operations);
-    const shiftCurrent = useSelector(state => state.shifts.shift);
+    const loading = useSelector((state) => state.operations.loading);
+    const shiftCurrent = useSelector((state) => state.shifts.shift);
     const [zReportActive, setZReportActive] = useState(false);
     const [insertCashActive, setInsertCashActive] = useState(false);
     const [withdrawActive, setWithdrawActive] = useState(false);
@@ -20,6 +23,10 @@ const AdminJournal = () => {
 
     useEffect(() => {
         dispatch(fetchOperations());
+
+        return () => {
+            dispatch(clearOperations());
+        };
     }, [dispatch]);
 
     const columns = [
@@ -107,7 +114,8 @@ const AdminJournal = () => {
                     break;
             }
         },
-        onRowClick: (rowData, rowMeta) => {
+        onRowClick: (rowData, rowMeta, e) => {
+            e.preventDefault();
             const row = operations.docs[rowMeta.dataIndex];
             if (row.title === "Закрытие смены") {
                 setZReportActive(true);
@@ -120,63 +128,79 @@ const AdminJournal = () => {
                 setPurchaseActive(true);
             } else if (row.title === "Внесение наличных") {
                 setInsertCashActive(true);
-                setReceiptInfo(row)
+                setReceiptInfo(row);
             } else if (row.title === "Изъятие наличных") {
                 setWithdrawActive(true);
-                setReceiptInfo(row)
+                setReceiptInfo(row);
             }
         },
     };
 
     return (
-        <Box width="95%" margin={shiftCurrent?'50px auto 0':'0 auto'}>
-            <Grid
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                marginY="30px"
-            >
-                <Typography variant="h5">Журнал</Typography>
-            </Grid>
-
-            <Box>
-                <MUIDataTable
-                    title={"Журнал"}
-                    columns={columns}
-                    options={options}
-                    data={operations.docs}
-                />
-            </Box>
-            {zReportActive || openShiftActive || purchaseActive || insertCashActive || withdrawActive ? (
-                <CustomModal
-                    isOpen={zReportActive || openShiftActive || purchaseActive || insertCashActive || withdrawActive}
-                    handleClose={() => {
-                        setZReportActive(false);
-                        setOpenShiftActive(false);
-                        setPurchaseActive(false);
-                        setInsertCashActive(false);
-                        setWithdrawActive(false);
-                    }}
+        <Container maxWidth="xl">
+            <Box width="95%" margin={shiftCurrent ? "50px auto 0" : "0 auto"}>
+                <Grid
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    marginY="30px"
                 >
-                    <Receipt
+                    <Typography variant="h5">Журнал</Typography>
+                </Grid>
+
+                <Box>
+                    {loading ? (
+                        <Spinner admin/>
+                    ) : (
+                        <MUIDataTable
+                            title={"Журнал"}
+                            columns={columns}
+                            options={options}
+                            data={operations.docs}
+                        />
+                    )}
+                </Box>
+                {zReportActive ||
+                openShiftActive ||
+                purchaseActive ||
+                insertCashActive ||
+                withdrawActive ? (
+                    <CustomModal
+                        isOpen={
+                            zReportActive ||
+                            openShiftActive ||
+                            purchaseActive ||
+                            insertCashActive ||
+                            withdrawActive
+                        }
                         handleClose={() => {
                             setZReportActive(false);
                             setOpenShiftActive(false);
                             setPurchaseActive(false);
-                            setInsertCashActive(false)
-                            setWithdrawActive(false)
+                            setInsertCashActive(false);
+                            setWithdrawActive(false);
                         }}
-                        zReport={zReportActive}
-                        openShift={openShiftActive}
-                        receipt={receiptInfo}
-                        shiftId={shift}
-                        purchaseActive={purchaseActive}
-                        insertActive={insertCashActive}
-                        withdrawActive={withdrawActive}
-                    />
-                </CustomModal>
-            ) : null}
-        </Box>
+                    >
+                        <Receipt
+                            handleClose={() => {
+                                setZReportActive(false);
+                                setOpenShiftActive(false);
+                                setPurchaseActive(false);
+                                setInsertCashActive(false);
+                                setWithdrawActive(false);
+                            }}
+                            zReport={zReportActive}
+                            openShift={openShiftActive}
+                            receipt={receiptInfo}
+                            shiftId={shift}
+                            purchaseActive={purchaseActive}
+                            insertActive={insertCashActive}
+                            withdrawActive={withdrawActive}
+                        />
+                    </CustomModal>
+                ) : null}
+            </Box>
+        </Container>
     );
 };
 
