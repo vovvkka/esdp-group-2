@@ -2,14 +2,20 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getOneNews } from "../../store/actions/newsActions";
 import { apiUrl } from "../../config";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 const NewsInfo = ({ match }) => {
     const dispatch = useDispatch();
+    const loading = useSelector(state => state.news.singleLoading);
     const oneNews = useSelector((state) => state.news.oneNews);
 
     useEffect(() => {
         dispatch(getOneNews(match.params.id));
     }, [dispatch, match.params.id]);
+
+    if (loading) {
+        return <Spinner/>;
+    }
 
     return (
         oneNews && (

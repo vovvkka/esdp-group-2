@@ -28,7 +28,7 @@ const newsSlice = createSlice({
             state.error = action.payload;
         },
         getOneNewsRequest(state) {
-            state.loading = true;
+            state.singleLoading = true;
             state.singleError = null;
         },
         getOneNewsSuccess(state, action) {
