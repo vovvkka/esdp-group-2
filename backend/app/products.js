@@ -41,10 +41,10 @@ router.get('/', async (req, res) => {
         }
         const options = {
             populate: {
-                path: 'category', select: 'title ancestors',
+                path: 'category', select: 'title ancestors status',
                 populate: {
                     path: 'ancestors',
-                    select: 'title',
+                    select: 'title status',
                 }
             },
             page: parseInt(page) || 1,
@@ -52,7 +52,7 @@ router.get('/', async (req, res) => {
             sort:sort
         };
 
-        if (!user || user.role === 'cashier') {
+        if (!user || user.role === 'cashier' || req.query.store) {
             query.status = "Активный";
             query.amount = {$gte: 1};
             if (!user) {
@@ -87,6 +87,27 @@ router.get('/', async (req, res) => {
             } : query.barcode = {$regex: +req.query.key, $options: 'i'};
         }
         const products = await Product.paginate(query, options);
+        if(req.query.store){
+            const arr = products.docs.filter(i=> {
+                if(i.category.status === 'Активный'){
+                    if(i.category.ancestors.length){
+                        const status = i.category.ancestors.reduce((acc, value) => {
+                            if(value.status === 'Неактивный'){
+                                return acc+1;
+                            }else{
+                                return acc;
+                            }
+                        }, 0);
+                        if(status===0){
+                            return i;
+                        }
+                    }else {
+                        return i;
+                    }
+                }
+            });
+            return res.send({...products,docs:arr});
+        }
         res.send(products);
     } catch (e) {
         res.status(400).send(e);
@@ -102,16 +123,54 @@ router.get('/main', async (req, res) => {
         }
         if (req.query.category) {
             if (descendants.length) {
-                query.category = {$in: descendants};
+                const index = descendants.map(function(e) { return e.status; }).indexOf('Неактивный');
+                if(index>=0) {
+                    query.category = {$in: descendants.slice(0, index)};
+                }else{
+                    query.category = {$in: descendants};
+                }
             } else {
-                query.category = req.query.category;
+                const category = await Category.findById(req.query.category);
+                if(category.status === "Активный") {
+                    query.category = req.query.category;
+                }
             }
         }
         query.status = "Активный";
         query.amount = {$gte: 1};
         const products = await Product.find(query).sort({updatedAt:'asc'})
-            .select("category title description price amount unit image").limit(12);
-        res.send(products);
+            .select("category title description price amount unit image").populate({
+                path: 'category',
+                select: 'status ancestors',
+                populate : {
+                    path : 'ancestors',
+                    select: 'status'
+                }}).limit(20);
+        let arr;
+        if(!req.query.category){
+            arr = products.filter(i=> {
+                if(i.category.status === 'Активный'){
+                    if(i.category.ancestors.length){
+                        const status = i.category.ancestors.reduce((acc, value) => {
+                            if(value.status === 'Неактивный'){
+                                return acc+1;
+
+                            }else{
+                                return acc;
+                            }
+                        }, 0);
+                        if(status===0){
+                            return i;
+                        }
+                    }else {
+                        return i;
+                    }
+                }
+            });
+            return res.send(arr);
+        }else{
+            return res.send(products);
+        }
     } catch (e) {
         res.status(400).send(e);
     }
@@ -127,8 +186,39 @@ router.get('/search', async (req, res) => {
         }
         query.status = "Активный";
         query.amount = {$gte: 1};
-        const products = await Product.find(query).select("category title description price amount unit image").limit(5);
-        res.send(products);
+        const products = await Product.find(query).select("category title description image").populate({
+            path: 'category',
+            select: 'status ancestors',
+            populate : {
+                path : 'ancestors',
+                select: 'status'
+            }
+        }).limit(5);
+        let arr;
+        if(products.length) {
+            arr = products.filter(i=> {
+                if(i.category.status === 'Активный'){
+                    if(i.category.ancestors.length){
+                        const status = i.category.ancestors.reduce((acc, value) => {
+                            if(value.status === 'Неактивный'){
+                                return acc+1;
+
+                            }else{
+                                return acc;
+                            }
+                        }, 0);
+                        if(status===0){
+                            return i;
+                        }
+                    }else {
+                        return i;
+                    }
+                }
+            });
+            return res.send(arr);
+        }else {
+            return res.send(products);
+        }
     } catch (e) {
         res.status(400).send(e);
     }
@@ -208,7 +298,7 @@ router.put('/:id', auth, permit('admin'), upload.array('image', 5), async (req, 
         purchasePrice,
         description: description || null,
     };
-    if (req.files) {
+    if (req.files.length) {
         productData.image = req.files.map(i => 'uploads/' + i.filename);
     }
 
