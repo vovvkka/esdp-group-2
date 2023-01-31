@@ -7,6 +7,7 @@ export const initialState = {
     receipt: {},
     xReport: null,
     zReport: null,
+    reports: null,
     loading: false,
     error: null,
 };
@@ -52,6 +53,17 @@ const operationsSlice = createSlice({
             state.loading = false;
             state.error = payload;
         },
+        fetchReportsRequest(state) {
+            state.loading = true;
+        },
+        fetchReportsSuccess(state, action) {
+            state.loading = false;
+            state.reports = action.payload;
+        },
+        fetchReportsFailure(state, {payload}) {
+            state.loading = false;
+            state.error = payload;
+        },
         clearReport(state) {
             state.xReport = null;
             state.zReport = null;
@@ -73,6 +85,10 @@ export const {
     fetchZReportRequest,
     fetchZReportSuccess,
     fetchZReportFailure,
+    fetchReportsRequest,
+    fetchReportsSuccess,
+    fetchReportsFailure,
+
     clearReport,
     clearOperations
 } = operationsSlice.actions;

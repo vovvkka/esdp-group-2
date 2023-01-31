@@ -396,7 +396,8 @@ const AdminOrCashierMenu = ({user}) => {
                         <MenuItem onClick={handleClose2} component={Link} to={'/admin/report-z'}>
                             Z-отчет
                         </MenuItem>
-                        <MenuItem onClick={handleClose2}>
+                        <MenuItem onClick={handleClose2} component={Link} to={'/admin/reports'}>
+     
                             Отчет
                         </MenuItem>
                     </Menu>

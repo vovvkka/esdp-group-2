@@ -2,7 +2,7 @@ import axiosApi from "../../axiosApi";
 import {
     fetchOperationsFailure,
     fetchOperationsRequest,
-    fetchOperationsSuccess,
+    fetchOperationsSuccess, fetchReportsFailure, fetchReportsRequest, fetchReportsSuccess,
     fetchXReportFailure,
     fetchXReportRequest,
     fetchXReportSuccess,
@@ -71,6 +71,26 @@ export const fetchZReport = (shiftId) => {
             dispatch(fetchZReportSuccess(response.data));
         } catch (e) {
             dispatch(fetchZReportFailure(e));
+        }
+    };
+};
+
+export const fetchReports = (periodDate) => {
+    return async dispatch => {
+        try {
+            dispatch(fetchReportsRequest());
+            let response;
+
+
+            if (!periodDate) {
+                response = await axiosApi('/operations/reports');
+            } else if (periodDate) {
+                response = await axiosApi(`/operations/reports?from=${periodDate.from}&to=${periodDate.to}`);
+            }
+
+            dispatch(fetchReportsSuccess(response.data));
+        } catch (e) {
+            dispatch(fetchReportsFailure(e));
         }
     };
 };
