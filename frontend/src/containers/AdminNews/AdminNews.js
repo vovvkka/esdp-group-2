@@ -61,7 +61,7 @@ const AdminNews = () => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                sx={{marginTop: "60px"}}
+                sx={{marginTop: "30px"}}
             >
                 <Typography variant="h5">Новости</Typography>
                 <Button

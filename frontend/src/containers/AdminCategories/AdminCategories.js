@@ -29,7 +29,7 @@ const AdminCategories = () => {
                 <Button variant='contained' component={Link} to='/admin/categories/add-new-category' sx={{margin: '0 10px'}}>Добавить категорию</Button>
 
             </Grid>
-            {loading ? <Spinner/>:
+            {loading ? <Spinner admin/>:
                 <Box>
                     {categories?.length > 0 ? <TableAdmin rowsHead={rowsHead} rows={categories} categories='Категории товаров' />: <Typography variant='h6'>Categories not found</Typography>}
                 </Box>
