@@ -7,10 +7,12 @@ import FormSelect from "../../components/UI/Form/FormSelect/FormSelect";
 import CustomModal from "../../components/UI/Modal/Modal";
 import { useReactToPrint } from 'react-to-print';
 import './AdminOrders.css';
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 const AdminOrders = () => {
     const dispatch = useDispatch();
     const orders = useSelector(state => state.orders.orders);
+    const loading = useSelector(state => state.orders.loading);
     const [status, setStatus] = useState(null);
     const [order, setOrder] = useState(null);
     const [openDetailInfo, setOpenDetailInfo] = useState(false);
@@ -138,6 +140,10 @@ const AdminOrders = () => {
             }
         },
     };
+
+    if (loading) {
+        return <Spinner admin/>;
+    }
 
     return (
         <>

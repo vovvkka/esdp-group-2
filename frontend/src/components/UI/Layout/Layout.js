@@ -3,7 +3,7 @@ import {CssBaseline} from "@mui/material";
 import AppToolbar from "../AppToolBar/AppToolBar";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import Footer from "../../NewShop/Footer/Footer";
+import Footer from "../../Footer/Footer";
 import {useLocation} from "react-router-dom";
 
 const Layout = ({children}) => {

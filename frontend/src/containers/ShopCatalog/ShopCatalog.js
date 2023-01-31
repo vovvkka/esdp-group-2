@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axiosApi from "../../axiosApi";
-import ProductCard from "../../components/NewShop/ProductCard/ProductCard";
+import ProductCard from "../../components/ProductCard/ProductCard";
 import { ThemeProvider } from "@mui/system";
 import theme from "../../theme";
 import { Stack, Typography } from "@mui/material";

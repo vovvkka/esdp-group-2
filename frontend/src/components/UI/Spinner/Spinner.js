@@ -1,10 +1,9 @@
-import React from 'react';
-import './Spiner.css';
+import React from "react";
 
-const Spinner = () => {
+const Spinner = ({ admin }) => {
     return (
         <div id="preloader">
-            <span className="loader"></span>
+            <span className={`loader ${admin ? "loader--admin" : ""}`}></span>
         </div>
     );
 };

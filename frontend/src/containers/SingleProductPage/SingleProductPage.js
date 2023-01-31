@@ -187,7 +187,9 @@ const SingleProductPage = () => {
                             >
                                 Добавить в корзину
                             </button>
-                            <Share url={window.location.href}/>
+                            <div className='single-product__share'>
+                                <Share url={window.location.href}/>
+                            </div>
                         </div>
                     </div>
                 </div>

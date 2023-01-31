@@ -16,7 +16,10 @@
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
 
-
+    &--admin {
+        border: 5px solid #1b2a86;
+        border-bottom-color: transparent;
+    }
 }
 
 @keyframes rotation {
