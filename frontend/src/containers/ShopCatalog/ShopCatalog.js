@@ -44,7 +44,7 @@ const ShopCatalog = () => {
     useEffect(() => {
         if (state === "123") {
             dispatch(
-                fetchProductsSearch("?page=" + currentPage + "&user=true" + "&store=true")
+                fetchProductsSearch("?page=" + currentPage + "&user=true&store=true")
             );
         } else {
             dispatch(
