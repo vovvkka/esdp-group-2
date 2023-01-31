@@ -343,9 +343,6 @@ const CashierAddProduct = () => {
                         </Grid>
                         <Grid container spacing={2} justifyContent="center">
                             <Grid item>
-                                <Button variant="contained">Дублировать</Button>
-                            </Grid>
-                            <Grid item>
                                 <Button
                                     variant="contained"
                                     onClick={cancelHandler}
