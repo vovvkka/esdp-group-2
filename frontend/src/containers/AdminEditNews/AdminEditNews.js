@@ -23,7 +23,7 @@ const AdminEditNews = ({match}) => {
                 marginBottom="30px"
                 variant="h4"
             >
-                Редактировать продукт
+                Редактировать новость
             </Typography>
             <NewsForm
                 news={news}
