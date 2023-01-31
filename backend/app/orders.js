@@ -70,6 +70,7 @@ router.post("/", async (req, res) => {
       await orderNew.save();
       await  res.send(orderNew);
    } catch (e) {
+      console.log(e);
       res.status(400).send(e);
    }
 });

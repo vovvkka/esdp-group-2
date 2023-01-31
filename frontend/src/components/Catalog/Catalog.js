@@ -152,7 +152,7 @@ const Catalog = () => {
 
                                 <div style={{marginLeft: '15px'}}>
                                     <b>{item.title}</b>
-                                    <div>{item.barcode}</div>
+                                    <div style={{fontFamily: 'Arial, sans-serif', fontSize: '15px'}}>{item.barcode}</div>
                                 </div>
                             </div>
                     }

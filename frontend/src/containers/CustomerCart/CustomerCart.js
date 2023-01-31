@@ -36,7 +36,7 @@ const CustomerCart = () => {
                         </button>
                         <div><img
                             alt={i.title}
-                            src={apiUrl + i.image[0]}/>
+                            src={apiUrl +'/'+ i.image[0]}/>
                             <div>{i.title}</div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@ const CustomerCart = () => {
             </div>
 
             {products.length?<div className='customer-cart__button-wrapper'>
-                <button className='button button--light' onClick={() => dispatch(clearCart())}>Обновить корзину</button>
+                <button className='button button--light' onClick={() => dispatch(clearCart())}>Очистить корзину</button>
             </div>:null}
 
             {products.length ? <div className='customer-cart__total-wrapper'>

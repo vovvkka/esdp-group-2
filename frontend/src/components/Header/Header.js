@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import logo from '../../../assets/logo.png';
+import logo from '../../assets/logo.png';
 import {Link, NavLink, useLocation} from "react-router-dom";
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -7,12 +7,12 @@ import {useDispatch, useSelector} from "react-redux";
 import Carousel from "../Carousel/NewsCarousel";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {Autocomplete, Box, ClickAwayListener, TextField, Tooltip, useMediaQuery} from "@mui/material";
-import {apiUrl} from "../../../config";
-import {setKey} from "../../../store/slices/productsSlice";
-import axiosApi from "../../../axiosApi";
+import {apiUrl} from "../../config";
+import {setKey} from "../../store/slices/productsSlice";
+import axiosApi from "../../axiosApi";
 import SearchIcon from "@mui/icons-material/Search";
-import {historyPush} from "../../../store/actions/historyActions";
-import Sidebar from "../../UI/Sidebar/Sidebar";
+import {historyPush} from "../../store/actions/historyActions";
+import Sidebar from "../UI/Sidebar/Sidebar";
 
 const Header = () => {
     const user = useSelector(state => state.users.user);
@@ -35,16 +35,21 @@ const Header = () => {
 
     const onInputChange = async (e) => {
         if (e) {
-            setValue(e.target.value);
-            if (e.target.value?.length <= 2) {
-                return setProductsList([]);
-            } else {
-                const response = await axiosApi(`/products/search?key=${e.target.value}&shop=true`);
-                const data = response.data.map(i => {
-                        return {...i, label: i.title};
-                    }
-                );
-                setProductsList(data);
+            if(e.type === 'click'){
+                setSearch(false);
+                setValue(null);
+            }else {
+                setValue(e.target.value);
+                if (e.target.value?.length <= 2) {
+                    return setProductsList([]);
+                } else {
+                    const response = await axiosApi(`/products/search?key=${e.target.value}&shop=true`);
+                    const data = response.data.map(i => {
+                            return {...i, label: i.title};
+                        }
+                    );
+                    setProductsList(data);
+                }
             }
         }
     };
@@ -94,13 +99,8 @@ const Header = () => {
             }}
             options={productsList}
             freeSolo
-            clearOnEscape={false}
             value={{label: value ? value : ''}}
-            clearOnBlur={false}
             isOptionEqualToValue={() => true}
-            onClose={() => {
-                setSearch(false);
-            }}
             getOptionLabel={(option) => option.label}
             onInputChange={e => (onInputChange(e))}
             renderOption={(props, option) => (
@@ -170,7 +170,7 @@ const Header = () => {
                                     <ShoppingCartOutlinedIcon className='header__icon header__icon--cart'/>
                                 </Link>
                             </Tooltip>
-                            <SearchIcon sx={{marginLeft: '20px'}} onClick={onSearchClick}/>
+                            <SearchIcon sx={{marginLeft: '20px', cursor: "pointer"}} onClick={onSearchClick}/>
                             {search ? null : <span onClick={() => setSearch(true)} style={value ? {
                                 verticalAlign: 'top',
                                 marginLeft: '5px',
@@ -230,13 +230,6 @@ const Header = () => {
                                     <ShoppingCartOutlinedIcon className='header__icon header__icon--cart'/>
                                 </Link>
                             </Tooltip>
-                            {user?.role === 'admin' || user?.role === 'cashier' ?
-                                <Tooltip title="Личный кабинет">
-                                    <Link to={`/${user?.role}`} className='header__cabinet'>
-                                        <LockOutlinedIcon className='header__icon header__icon--lock' fontSize='large'/>
-                                    </Link>
-                                </Tooltip>
-                                : null}
                         </>}
                     </div>
                 </div>}

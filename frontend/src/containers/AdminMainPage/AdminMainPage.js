@@ -7,6 +7,7 @@ import Catalog from "../../components/Catalog/Catalog";
 import {fetchShifts} from "../../store/actions/shiftsActions";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 const useStyles = makeStyles()(() => ({
     boxScrolling: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles()(() => ({
 const AdminMainPage = () => {
     const {classes} = useStyles();
     const dispatch = useDispatch();
+    const loading = useSelector(state => state.shifts.fetchLoading);
     const shifts = useSelector(state => state.shifts.shifts);
 
     useEffect(() => {
@@ -112,6 +114,10 @@ const AdminMainPage = () => {
             }
         },
     };
+
+    if (loading) {
+        return <Spinner admin/>;
+    }
 
     return (
         <Grid container>

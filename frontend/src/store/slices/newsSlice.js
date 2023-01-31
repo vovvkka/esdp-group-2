@@ -28,11 +28,11 @@ const newsSlice = createSlice({
             state.error = action.payload;
         },
         getOneNewsRequest(state) {
-            state.loading = true;
+            state.singleLoading = true;
             state.singleError = null;
         },
         getOneNewsSuccess(state, action) {
-            state.sinleLoading = false;
+            state.singleLoading = false;
             state.oneNews = action.payload;
         },
         getOneNewsFailure(state, action) {

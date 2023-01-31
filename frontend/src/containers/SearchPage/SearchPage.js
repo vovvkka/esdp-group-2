@@ -5,7 +5,7 @@ import { Stack, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Pagination from "@mui/material/Pagination";
-import ProductCard from "../../components/NewShop/ProductCard/ProductCard";
+import ProductCard from "../../components/ProductCard/ProductCard";
 import { fetchProductsSearch } from "../../store/actions/productsActions";
 import { Link } from "react-router-dom";
 
@@ -18,7 +18,7 @@ const SearchPage = () => {
     useEffect(() => {
         if (key) {
             dispatch(
-                fetchProductsSearch("?page=" + currentPage + "&key=" + key)
+                fetchProductsSearch("?page=" + currentPage + "&key=" + key + "&store=true")
             );
         }
     }, [currentPage, dispatch, key]);

@@ -3,11 +3,13 @@ import { Link, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { fetchOneProduct } from "../../store/actions/productsActions";
-import { apiUrl } from "../../config";
+import {apiUrl} from "../../config";
 import { addProduct } from "../../store/slices/cartSlice";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { clearProduct } from "../../store/slices/productsSlice";
+import Share from "../../components/Share/Share";
 import "@splidejs/react-splide/css";
+import {addNotification} from "../../store/actions/notifierActions";
 
 const SingleProductPage = () => {
     const match = useRouteMatch();
@@ -37,6 +39,7 @@ const SingleProductPage = () => {
 
     const addToCart = () => {
         cartProduct.quantity = amount;
+        dispatch(addNotification("Товар успешно добавлен в корзину", "success"));
         dispatch(addProduct(cartProduct));
     };
 
@@ -184,6 +187,9 @@ const SingleProductPage = () => {
                             >
                                 Добавить в корзину
                             </button>
+                            <div className='single-product__share'>
+                                <Share url={window.location.href}/>
+                            </div>
                         </div>
                     </div>
                 </div>

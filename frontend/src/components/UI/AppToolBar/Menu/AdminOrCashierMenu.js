@@ -397,6 +397,7 @@ const AdminOrCashierMenu = ({user}) => {
                             Z-отчет
                         </MenuItem>
                         <MenuItem onClick={handleClose2} component={Link} to={'/admin/reports'}>
+     
                             Отчет
                         </MenuItem>
                     </Menu>
@@ -541,17 +542,14 @@ const AdminOrCashierMenu = ({user}) => {
                             "aria-labelledby": "basic-button",
                         }}
                     >
-                        <MenuItem onClick={handleClose} component={Link} to={`/admin/journal`}>Все записи</MenuItem>
-                        <MenuItem onClick={handleClose}  component={Link} to={`/admin/purchases`}>Продажи</MenuItem>
+                        <MenuItem onClick={handleClose2} component={Link} to={`/admin/journal`}>Все записи</MenuItem>
+                        <MenuItem onClick={handleClose2}  component={Link} to={`/admin/purchases`}>Продажи</MenuItem>
                         {!shift
                             ? [
-                                <MenuItem key={0} onClick={handleClose} component={Link} to={'/admin/report-z'}>
+                                <MenuItem key={0} onClick={handleClose2} component={Link} to={'/admin/report-z'}>
                                     Z-отчет
                                 </MenuItem>,
-                                <MenuItem key={1} onClick={async()=>{
-                                    const data = await axiosApi('/operations/reports?day=true')
-                                    console.log(data.data);
-                                    handleClose();}}>
+                                <MenuItem key={1} onClick={handleClose2}>
                                     Отчет
                                 </MenuItem>,
                             ]

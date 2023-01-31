@@ -44,6 +44,7 @@ import ShopCatalog from "./containers/ShopCatalog/ShopCatalog";
 import Purchases from "./containers/Purchases/Purchases";
 import ReportZ from "./containers/ReportZ/ReportZ";
 import Reports from "./containers/Reports/Reports";
+import ScrollToTop from "./utils/ScrollToTop";
 
 const ProtectedRoute = ({isAllowed, redirectTo, ...props}) => {
     return isAllowed ? <Route {...props} /> : <Redirect to={redirectTo?redirectTo:'/'}/>;
@@ -95,6 +96,7 @@ const App = () => {
 
     return (
         <Layout>
+            <ScrollToTop/>
             <Switch>
                 <Route path="/" exact component={MainPage}/>
                 <Route path="/news" exact component={NewsPage}/>

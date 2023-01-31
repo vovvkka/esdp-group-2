@@ -1,5 +1,5 @@
 import React from 'react';
-import {apiUrl} from "../../../config";
+import {apiUrl} from "../../config";
 import {Link} from "react-router-dom"
 
 const ProductCard = ({product}) => {

@@ -67,6 +67,9 @@ const operationsSlice = createSlice({
         clearReport(state) {
             state.xReport = null;
             state.zReport = null;
+        },
+        clearOperations(state) {
+            state.operations = {};
         }
     }
 });
@@ -85,7 +88,9 @@ export const {
     fetchReportsRequest,
     fetchReportsSuccess,
     fetchReportsFailure,
-    clearReport
+
+    clearReport,
+    clearOperations
 } = operationsSlice.actions;
 
 export default operationsSlice;

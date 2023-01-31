@@ -8,7 +8,7 @@ import {getCashiers} from "../../store/actions/cashiersActions";
 
 const AdminCashiers = () => {
     const cashiers = useSelector(state => state.cashiers.cashiers);
-    const loading = useSelector(state => state.categories.loading);
+    const loading = useSelector(state => state.cashiers.loading);
     const user = useSelector(state => state.users.user);
     const dispatch = useDispatch();
 
@@ -24,11 +24,11 @@ const AdminCashiers = () => {
 
     return (
         <Container>
-            <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
+            <Grid display='flex' justifyContent='space-between' alignItems='center'>
                 <Typography variant='h5'>Кассиры</Typography>
                 <Button variant='contained' component={Link} to='/admin/cashiers/add-new-cashier'>Добавить</Button>
             </Grid>
-            {loading ? <Spinner/>:
+            {loading ? <Spinner admin/>:
                 <Box>
                     {cashiers?.length > 0 ? <TableAdmin rowsHead={rowsHead} rows={cashiers} cashiers='Кассиры' />: <Typography variant='h6'>Cashiers not found</Typography>}
                 </Box>

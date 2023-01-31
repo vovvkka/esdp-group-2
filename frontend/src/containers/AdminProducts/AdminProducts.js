@@ -9,7 +9,6 @@ import DeleteForeverSharpIcon from "@mui/icons-material/DeleteForeverSharp";
 import {fetchCategories} from "../../store/actions/categoriesActions";
 import './AdminProducts.css';
 
-
 const AdminProducts = () => {
     const dispatch = useDispatch();
     const products = useSelector(state => state.products.products);
@@ -200,7 +199,6 @@ const AdminProducts = () => {
                     dispatch(fetchProducts(`?page=${tableState.page + 1}`));
                     break;
                 case 'search':
-                    console.log(tableState.searchText);
                     onSearch(tableState.searchText);
                     break;
                 default:
