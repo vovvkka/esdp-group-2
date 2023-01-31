@@ -12,11 +12,13 @@ const Products = () => {
         <ProductCard key={product._id} product={product}/>
     )) : <Typography>Нет в наличии</Typography>;
 
-    return loading ? <Spinner/> : (
-        <div>
-            <div className='products'>
-                {renderProducts}
-            </div>
+   return (
+        <div className='products-wrapper'>
+            {loading ? <Spinner/> :   <div>
+                <div className='products'>
+                    {renderProducts}
+                </div>
+            </div>}
         </div>
     );
 }
