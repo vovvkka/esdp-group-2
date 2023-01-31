@@ -6,7 +6,7 @@ import CashierAddProduct from "../../components/CashierAddProduct/CashierAddProd
 const CashierPanel = () => {
     return (
         <Grid container spacing={2}>
-            <Grid item sx={{width: '50%'}}>
+            <Grid item sx={{width: '60%'}}>
                 <CashierAddProduct/>
             </Grid>
             <Catalog/>

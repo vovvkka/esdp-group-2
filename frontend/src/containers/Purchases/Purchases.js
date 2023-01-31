@@ -201,51 +201,55 @@ const Purchases = () => {
                     <Typography variant="h5">Журнал продаж</Typography>
 
                     <Box display="flex" alignItems="stretch">
-                        <LocalizationProvider
-                            locale={ru}
-                            dateAdapter={AdapterDateFns}
-                        >
-                            <DatePicker
-                                label="от"
-                                openTo="month"
-                                views={["year", "month", "day"]}
-                                value={periodDate.from}
-                                onChange={(newValue) => {
-                                    setPeriodDate((prevState) => ({
-                                        ...prevState,
-                                        from: newValue,
-                                    }));
-                                }}
-                                renderInput={(params) => (
-                                    <TextField {...params} />
-                                )}
-                            />
-                        </LocalizationProvider>
+                        <Box sx={{marginRight: '10px', width: '100%'}}>
+                            <LocalizationProvider
+                                locale={ru}
+                                dateAdapter={AdapterDateFns}
+                            >
+                                <DatePicker
+                                    label="от"
+                                    openTo="month"
+                                    views={["year", "month", "day"]}
+                                    value={periodDate.from}
+                                    onChange={(newValue) => {
+                                        setPeriodDate((prevState) => ({
+                                            ...prevState,
+                                            from: newValue,
+                                        }));
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField {...params} />
+                                    )}
+                                />
+                            </LocalizationProvider>
+                        </Box>
 
-                        <LocalizationProvider
-                            locale={ru}
-                            dateAdapter={AdapterDateFns}
-                        >
-                            <DatePicker
-                                label="До"
-                                openTo="month"
-                                views={["year", "month", "day"]}
-                                value={periodDate.to}
-                                onChange={(newValue) => {
-                                    setPeriodDate((prevState) => ({
-                                        ...prevState,
-                                        to: newValue,
-                                    }));
-                                }}
-                                disabled={Boolean(!periodDate.from)}
-                                renderInput={(params) => (
-                                    <TextField {...params} />
-                                )}
-                            />
-                        </LocalizationProvider>
+                        <Box sx={{marginRight: '10px', width: '100%'}}>
+                            <LocalizationProvider
+                                locale={ru}
+                                dateAdapter={AdapterDateFns}
+                            >
+                                <DatePicker
+                                    label="До"
+                                    openTo="month"
+                                    views={["year", "month", "day"]}
+                                    value={periodDate.to}
+                                    onChange={(newValue) => {
+                                        setPeriodDate((prevState) => ({
+                                            ...prevState,
+                                            to: newValue,
+                                        }));
+                                    }}
+                                    disabled={Boolean(!periodDate.from)}
+                                    renderInput={(params) => (
+                                        <TextField {...params} />
+                                    )}
+                                />
+                            </LocalizationProvider>
+                        </Box>
 
                         <Button
-                            startIcon={<SearchIcon />}
+                            startIcon={<SearchIcon sx={{ color: '#ffffff' }} />}
                             type="submit"
                             fullWidth
                             variant="contained"
