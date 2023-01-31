@@ -70,7 +70,7 @@ When('нажимаю на кнопку {string}', text => {
     I.click(`//button[contains(text(), "${text}")]`);
 });
 
-When('перехожу на страницу с товарами и вижу свой товар {string}', (text) => {
+When('перехожу на страницу с товарами и вижу заголовок {string}', (text) => {
     I.wait(5);
     I.see(text);
 });
