@@ -24,7 +24,7 @@ const NewsPage = () => {
             </div>
 
             <div className="news__main">
-                {news?.length ? <p>Новостей пока нет, возвращайтесь позже!</p> :  news?.map((n) => (
+                {!news?.length ? <p>Новостей пока нет, возвращайтесь позже!</p> :  news?.map((n) => (
                     <NewsCard n={n} key={n._id} />
                 ))}
 

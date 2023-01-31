@@ -18,7 +18,7 @@ const AdminOrders = () => {
     const [openDetailInfo, setOpenDetailInfo] = useState(false);
 
     useEffect(() => {
-        dispatch(getOrders());
+        dispatch(getOrders('?status=active'));
     }, [dispatch]);
 
     const componentRef = useRef();

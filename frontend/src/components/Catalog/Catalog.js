@@ -58,7 +58,7 @@ const Catalog = () => {
     }
 
     return (
-        <Grid item xs={6} sx={{padding: '15px'}}>
+        <Grid item sx={{width: '40%', padding: '15px'}}>
             <Tabs
                 value={value}
                 onChange={handleChange}

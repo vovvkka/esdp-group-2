@@ -14,8 +14,8 @@ import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import TextField from '@mui/material/TextField';
 import SearchIcon from "@mui/icons-material/Search";
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
-import { ru } from "date-fns/locale";
-import {fetchOperations, fetchReports} from "../../store/actions/operationsActions";
+import {ru} from "date-fns/locale";
+import {fetchReports} from "../../store/actions/operationsActions";
 
 const Reports = () => {
     const dispatch = useDispatch();
@@ -59,8 +59,8 @@ const Reports = () => {
         pagination: true,
         sort: true,
         confirmFilters: false,
-        search: true,
-        print: true,
+        search: false,
+        print: false,
         download: true,
         expandableRows: true,
 
@@ -116,7 +116,7 @@ const Reports = () => {
     return (
         <Box width='95%' margin={shift?'50px auto 0':'0 auto'}>
             <Box display='flex' justifyContent='space-between' marginY='20px'>
-                <Typography variant='h5'>Отчёт</Typography>
+                <Typography variant='h5'></Typography>
 
                 <Box display='flex' alignItems='stretch'>
                     <LocalizationProvider locale={ru} dateAdapter={AdapterDateFns}>
