@@ -44,6 +44,23 @@ const Purchases = () => {
         {
             name: "_id",
             label: "ID",
+        },{
+            name: "shift",
+            label: "Смена",
+            options: {
+                customBodyRender: (value) => {
+                    return value.shiftNumber;
+                },
+            },
+        },
+        {
+            name: "shift",
+            label: "Кассир",
+            options: {
+                customBodyRender: (value) => {
+                    return value.cashier.displayName;
+                },
+            },
         },
         {
             name: "additionalInfo",

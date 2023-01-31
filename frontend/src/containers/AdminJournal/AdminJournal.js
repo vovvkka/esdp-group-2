@@ -40,6 +40,15 @@ const AdminJournal = () => {
             },
         },
         {
+            name: "shift",
+            label: "Кассир",
+            options: {
+                customBodyRender: (value) => {
+                    return value.cashier.displayName;
+                },
+            },
+        },
+        {
             name: "title",
             label: "Операция",
         },

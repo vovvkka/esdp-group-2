@@ -39,7 +39,6 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
 
     const onSubmitHandler = e => {
         e.preventDefault();
-        console.log(state);
         if (product) {
             if (state.category === product.category.title) {
                 const newData = {...state};
@@ -106,10 +105,12 @@ const ProductForm = ({product, categories, error, onSubmit}) => {
 
     const fileChangeHandler = e => {
         const name = e.target.name;
-        const file = Object.values(e.target.files);
+        const file = e.target.files[0];
+        const files = state.image;
 
 
-        setState(prevState => ({...prevState, [name]: file}));
+
+        setState(prevState => ({...prevState, [name]: [file,...files]}));
     };
 
     const getFieldError = fieldName => {

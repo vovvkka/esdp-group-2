@@ -40,6 +40,10 @@ const Footer = () => {
                             <NavLink to='/contacts' className='footer__link'
                                      activeClassName='footer__link-active'>Контакты</NavLink>
                         </li>
+                        <li className='footer__list-element'>
+                            <NavLink to='/catalog' className='footer__link'
+                                     activeClassName='footer__link-active'>Каталог</NavLink>
+                        </li>
                     </ul>
 
                     <div className="footer__contacts">
