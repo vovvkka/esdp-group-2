@@ -230,13 +230,6 @@ const Header = () => {
                                     <ShoppingCartOutlinedIcon className='header__icon header__icon--cart'/>
                                 </Link>
                             </Tooltip>
-                            {user?.role === 'admin' || user?.role === 'cashier' ?
-                                <Tooltip title="Личный кабинет">
-                                    <Link to={`/${user?.role}`} className='header__cabinet'>
-                                        <LockOutlinedIcon className='header__icon header__icon--lock' fontSize='large'/>
-                                    </Link>
-                                </Tooltip>
-                                : null}
                         </>}
                     </div>
                 </div>}
