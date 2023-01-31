@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import logo from '../../../assets/logo.png';
+import logo from '../../assets/logo.png';
 import {Link, NavLink, useLocation} from "react-router-dom";
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -7,12 +7,12 @@ import {useDispatch, useSelector} from "react-redux";
 import Carousel from "../Carousel/NewsCarousel";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {Autocomplete, Box, ClickAwayListener, TextField, Tooltip, useMediaQuery} from "@mui/material";
-import {apiUrl} from "../../../config";
-import {setKey} from "../../../store/slices/productsSlice";
-import axiosApi from "../../../axiosApi";
+import {apiUrl} from "../../config";
+import {setKey} from "../../store/slices/productsSlice";
+import axiosApi from "../../axiosApi";
 import SearchIcon from "@mui/icons-material/Search";
-import {historyPush} from "../../../store/actions/historyActions";
-import Sidebar from "../../UI/Sidebar/Sidebar";
+import {historyPush} from "../../store/actions/historyActions";
+import Sidebar from "../UI/Sidebar/Sidebar";
 
 const Header = () => {
     const user = useSelector(state => state.users.user);
