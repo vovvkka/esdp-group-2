@@ -1,0 +1,10 @@
+div.ant-select-selector{
+    height: 59px!important;
+}
+
+.ant-select-selector .ant-select-selection-item{
+    top: 14px;
+    font-weight:500;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 16px;
+}

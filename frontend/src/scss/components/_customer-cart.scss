@@ -1,0 +1,111 @@
+@import '../variables';
+
+.customer-cart {
+
+  &__total-wrapper{
+    display: flex;
+    justify-content: flex-end;
+  }
+  &__total-wrapper *{
+    margin: 0;
+  }
+
+  &__total{
+    margin: 10px 10px;
+    flex-basis: 20%;
+  }
+  &__order{
+    margin-bottom: 10px;
+  }
+  &__order-total{
+    display: none;
+    font-weight: bold;
+    text-align: right;
+  }
+  &__order:first-child{
+    border-bottom: 1px solid $grey;
+  }
+
+  &__order div {
+    flex-basis: 15%;
+    display: flex;
+    align-items: center;
+  }
+  &__order div img{
+    width: 150px;
+    height: auto;
+  }
+  &__order div button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 0 10px;
+  }
+
+  &__order div:first-child {
+    flex-basis: 45%;
+    display: flex;
+    align-items: center;
+  }
+  &__order div:first-child div {
+    flex-grow: 1;
+  }
+  &__order div:first-child div div{
+    justify-content: center;
+  }
+  &__order div:nth-child(3) {
+    text-align: center;
+    justify-content: center;
+
+  }
+
+  &__button-wrapper{
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 850px) {
+    &__total{
+      flex-basis: auto;
+    }
+    &__total span{
+      margin-left: 25px;
+    }
+  }
+  @media (max-width: 550px) {
+    &__order div:last-child {
+      display: none;
+    }
+    &__order-total{
+      display: block;
+    }
+    &__order div:nth-child(3) {
+      flex-grow: 1;
+    }&__order div:first-child {
+       flex-grow: 1;
+       margin-right: 10px;
+     }
+    &__order div:first-child div {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  @media (max-width: 450px) {
+    &__total-wrapper{
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    &__total{
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+    &__order div:first-child div div{
+      margin-top: 10px;
+    }
+    &__order div img{
+      width: 70px;
+      height: auto;
+    }
+  }
+}

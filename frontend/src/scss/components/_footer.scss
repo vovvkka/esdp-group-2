@@ -1,0 +1,92 @@
+@import "../variables";
+
+.footer {
+   background: #f1eadc;
+   padding: 15px 0;
+   width: 100%;
+   position: absolute;
+   bottom: 0;
+   right: 0;
+
+
+   &__toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+   }
+
+   &__logo {
+      width: 150px;
+      height: auto;
+   }
+
+   &__list {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      &-element {
+         padding-right: 25px;
+
+         &:last-child {
+            padding-right: 0;
+         }
+      }
+   }
+
+   &__link {
+      text-decoration: none;
+      color: black;
+      font-weight: 600;
+
+      &-active {
+         color: $blue;
+      }
+   }
+
+   &__contacts {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      p {
+         padding: 0;
+         margin: 0;
+      }
+   }
+
+   &__social {
+      margin-top: 30px;
+   }
+
+   &__icon {
+      color: #000;
+      padding-right: 15px;
+
+      &:last-child {
+         padding-right: 0;
+      }
+   }
+
+   &__cabinet {
+      color: #509498;
+      text-decoration: underline;
+   }
+
+   @media (max-width: 767px) {
+      &__toolbar {
+         display: flex;
+         flex-direction: column;
+      }
+
+      &__list {
+         margin: 20px;
+      }
+
+      &__contacts {
+         align-items: center;
+      }
+   }
+}

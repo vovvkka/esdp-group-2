@@ -1,0 +1,29 @@
+@import '../variables';
+
+.location {
+  margin-top: 20px;
+  font-weight: 500;
+  font-size: 17px;
+  cursor: pointer;
+
+  span {
+    margin: 0 10px;
+  }
+
+  &__page {
+    color: $gray;
+    margin: 0;
+    display: inline-block;
+  }
+
+
+  @media (max-width: 780px) {
+    margin-top: 10px;
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+  }
+}

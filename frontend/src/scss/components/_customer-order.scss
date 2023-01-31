@@ -1,0 +1,221 @@
+@import '../variables';
+
+.customer-order {
+  &__title {
+    margin: 0 0 20px 35px;
+    font-weight: 500;
+    font-size: 55px;
+  }
+
+  &__form {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__form-block {
+    flex-basis: 45%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+  }
+
+  &__form-block-title {
+    font-size: 25px;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+
+  &__input-wrapper {
+    position: relative;
+  }
+
+  &__form-error {
+    font-size: 12px;
+    color: $red;
+  }
+
+  &__form-input {
+    margin-bottom: 30px;
+    padding: 10px 0;
+  }
+
+  &__form-textarea {
+    height: 80px;
+    padding: 10px 0;
+    margin-top: 8px;
+    margin-bottom: 40px;
+    resize: none;
+  }
+
+  &__input-label, &__textarea-label {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    color: $gray;
+    transition: .5s;
+    pointer-events: none;
+  }
+
+  &__textarea-label {
+    top: -8px;
+  }
+
+  &__form-input, &__form-textarea {
+    min-width: 350px;
+    border: none;
+    border-bottom: 2px solid black;
+    box-sizing: border-box;
+    box-shadow: none;
+    outline: none;
+  }
+
+  &__form-input:focus ~ &__input-label,
+  &__form-input:valid ~ &__input-label, {
+    top: -12px;
+    left: 0;
+    color: $blue;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  &__form-input:focus,
+  &__form-input:valid, {
+    border-bottom: 2px solid $blue;
+  }
+
+  &__check-wrapper {
+    display: flex;
+  }
+
+  &__check-label {
+    margin-left: 10px;
+    margin-top: -4px;
+  }
+
+  &__form-check {
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    font: inherit;
+    color: black;
+    width: 1.15em;
+    height: 1.2em;
+    border: 0.15em solid black;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+  }
+
+  &__form-check::before {
+    content: "";
+    width: 0.65em;
+    height: 0.6em;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em $blue;
+  }
+
+  &__form-check:checked::before {
+    transform: scale(1);
+  }
+
+  &__orders {
+    margin-bottom: 40px;
+  }
+  &__order-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    text-align: right;
+    border-top: 2px solid $light;
+  }
+  &__order-total span{
+    text-align: right!important;
+  }
+
+  &__orders-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 19px;
+    font-weight: bold;
+    background: $light;
+    padding: 10px;
+    margin-top: 20px;
+    text-align: right;
+  }
+
+  &__orders span {
+    flex-basis: 25%;
+    text-align: left;
+  }
+
+  &__order:first-child {
+    font-size: 19px;
+    font-weight: bold;
+  }
+
+  &__order {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  &__order div {
+    flex-basis: 25%;
+  }
+
+  &__order div:first-child {
+    flex-basis: 50%;
+  }
+
+  &__order div:nth-child(2) {
+    text-align: center;
+  }
+  &__order div:nth-child(3), &__orders-total span{
+    text-align: right;
+  }
+
+  &__button-wrapper {
+    margin-top: 40px;
+  }
+
+  @media (max-width: 800px) {
+    margin-top: 50px;
+    &__form {
+      flex-direction: column;
+    }
+    &__form-block {
+      flex-basis: 100%;
+    }
+    &__button-wrapper {
+      display: flex;
+      justify-content: flex-end;
+    }
+    &__title {
+      font-size: 35px;
+      margin: 0;
+    }
+    &__location {
+      margin: 0;
+    }
+    &__order div span {
+      display: none;
+    }
+  }
+  @media (max-width: 400px) {
+    &__title {
+      font-size: 25px;
+    }
+    &__form-block-title {
+      font-size: 20px;
+    }
+    &__order:first-child {
+      font-size: 17px;
+      font-weight: bold;
+    }
+    &__form-input, &__form-textarea {
+      min-width: 100%;
+    }
+  }
+}

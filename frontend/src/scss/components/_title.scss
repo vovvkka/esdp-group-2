@@ -1,0 +1,24 @@
+.title {
+  color: #000000;
+  font-size: 40px;
+  line-height: 40px;
+
+  @media (max-width: 780px) {
+    font-size: 32px;
+    line-height: 32px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 24px;
+    line-height: 24px;
+  }
+}
+
+.title-main{
+  margin-bottom: 30px;
+  margin-top: 30px;
+  text-align: center;
+  @media (max-width: 460px) {
+    margin-top: 0;
+  }
+}

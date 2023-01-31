@@ -1,0 +1,66 @@
+@import '../variables';
+
+.carousel {
+  padding: 20px 0;
+  height: 350px;
+
+  &__content {
+    padding: 0 60px;
+    display: flex;
+    justify-content: space-around;
+    height: 300px;
+    align-items: center;
+  }
+
+  &__info {
+    width: 50%;
+  }
+
+  &__image {
+    width: 40%;
+    height: auto;
+  }
+
+  &__description {
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    font-size: 35px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  @media (max-width: 800px) {
+    height: 500px;
+    padding: 0;
+    margin-top: 20px;
+
+    &__content {
+      padding: 0 40px;
+      display: flex;
+      flex-direction: column-reverse;
+      height: 410px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    &__info {
+      width: 100%;
+      font-size: 15px;
+    }
+
+    &__title {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 10px 0;
+    }
+
+    &__image {
+      width: 70%;
+      height: auto;
+    }
+
+  }
+}

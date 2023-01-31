@@ -1,0 +1,69 @@
+@import './components/all.scss';
+@import './libs/normalize.scss';
+@import "./variables";
+
+* {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e5cf8f;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e0be71;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.wrapper {
+  min-height: 100vh;
+  position: relative;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+  max-width: 1200px;
+}
+
+.background-wrapper {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 57%, rgb(241, 234, 220) 57%, rgb(241, 234, 220) 100%);
+  @media (max-width: 800px) {
+    background: white;
+  }
+}
+
+.main {
+  padding-bottom: 250px;
+
+  @media (max-width: 767px) {
+    padding-bottom: 500px;
+  }
+}
+
+.active {
+  color: $admin-blue;
+}
+
+
+.backdrop {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
