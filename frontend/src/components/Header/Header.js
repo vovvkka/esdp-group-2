@@ -35,16 +35,21 @@ const Header = () => {
 
     const onInputChange = async (e) => {
         if (e) {
-            setValue(e.target.value);
-            if (e.target.value?.length <= 2) {
-                return setProductsList([]);
-            } else {
-                const response = await axiosApi(`/products/search?key=${e.target.value}&shop=true`);
-                const data = response.data.map(i => {
-                        return {...i, label: i.title};
-                    }
-                );
-                setProductsList(data);
+            if(e.type === 'click'){
+                setSearch(false);
+                setValue(null);
+            }else {
+                setValue(e.target.value);
+                if (e.target.value?.length <= 2) {
+                    return setProductsList([]);
+                } else {
+                    const response = await axiosApi(`/products/search?key=${e.target.value}&shop=true`);
+                    const data = response.data.map(i => {
+                            return {...i, label: i.title};
+                        }
+                    );
+                    setProductsList(data);
+                }
             }
         }
     };
@@ -94,13 +99,8 @@ const Header = () => {
             }}
             options={productsList}
             freeSolo
-            clearOnEscape={false}
             value={{label: value ? value : ''}}
-            clearOnBlur={false}
             isOptionEqualToValue={() => true}
-            onClose={() => {
-                setSearch(false);
-            }}
             getOptionLabel={(option) => option.label}
             onInputChange={e => (onInputChange(e))}
             renderOption={(props, option) => (

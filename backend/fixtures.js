@@ -21,7 +21,7 @@ const run = async () => {
     for (const coll of collections) {
         await mongoose.connection.db.dropCollection(coll.name);
     }
-    const [cosmetics, toys, clothes, formula] = await Category.create({
+    const [cosmetics, toys, clothes, nursing, mother] = await Category.create({
         title: 'Косметика',
         status: 'Активный',
     }, {
@@ -31,35 +31,38 @@ const run = async () => {
         title: 'Одежда',
         status: 'Активный',
     }, {
-        title: 'Детское питание',
+        title: 'Для кормления',
+        status: 'Активный',
+    }, {
+        title: 'Для матери',
         status: 'Активный',
     });
 
-    const [child, mother] = await Category.create({
+    const [child, formula] = await Category.create({
         title: 'Для ребенка',
         category: cosmetics._id,
         ancestors: [cosmetics._id],
         status: 'Активный',
     }, {
-        title: 'Для матери',
-        category: cosmetics._id,
-        ancestors: [cosmetics._id],
-        status: 'Неактивный',
-    },);
+        title: 'Детское питание',
+        category: nursing._id,
+        ancestors: [nursing._id],
+        status: 'Активный',
+    });
     const [crya, nyan] = await Category.create({
         title: 'Фирма Кря-Кря',
         category: child._id,
-        ancestors: [cosmetics._id,child._id],
+        ancestors: [cosmetics._id, child._id],
         status: 'Активный',
     }, {
         title: 'Фирма Ушастый нянь',
         category: child._id,
-        ancestors: [cosmetics._id,child._id],
+        ancestors: [cosmetics._id, child._id],
         status: 'Активный',
     }, {
         title: 'Уходовая',
         category: mother._id,
-        ancestors: [cosmetics._id,mother._id],
+        ancestors: [mother._id],
         status: 'Неактивный',
     },);
 
@@ -171,7 +174,174 @@ const run = async () => {
         unit: 'шт.',
         status: 'Активный',
         purchasePrice: 430
-    });
+    }, {
+        title: "BIBS Соска-пустышка",
+        price: 700,
+        category: nursing._id,
+        image: ['fixtures/bibs.webp'],
+        description: 'Детям от 0 до 6 месяцев. Подходит ослабленным и недоношенным детям.' +
+            'Легендарная соска-пустышка BIBS создана для стильных малышей и мам!Сделана из 100% натурального (природного) каучука, изготавливаемого из сока дерева гевеи, и безопасного полипропилена.\n' +
+            '•        Круглая естественная форма («вишенка») идеально подходит практически всем детям.Благодаря своей форме насадка (шилдик) практически не соприкасается с нежным ротиком малыша и совершенно не раздражает кожу.\n' +
+            '•        Все соски разработаны и сделаны в Дании и продаются уже более 40 лет по всему миру!',
+        barcode: 10101019,
+        priceType: 'Фиксированная',
+        amount: 20,
+        unit: 'шт.',
+        status: 'Активный',
+        purchasePrice: 430
+    }, {
+        title: "Соска-пустышка",
+        price: 300,
+        category: nursing._id,
+        image: ['fixtures/pacifier.jpg'],
+        description: 'Детям от 0 до 6 месяцев. Ортодонтическая форма',
+        barcode: 10101020,
+        priceType: 'Фиксированная',
+        amount: 50,
+        unit: 'шт.',
+        status: 'Активный',
+        purchasePrice: 230
+    }, {
+        title: "Бутылочка Chicco",
+        price: 350,
+        category: nursing._id,
+        image: ['fixtures/bottle.jpg'],
+        description: 'Бутылочка для кормления 150 мл',
+        barcode: 10101021,
+        priceType: 'Фиксированная',
+        amount: 10,
+        unit: 'шт.',
+        status: 'Активный',
+        purchasePrice: 330
+    }, {
+        title: "Бутылочка для кормления",
+        price: 250,
+        category: nursing._id,
+        image: ['fixtures/bottles.webp'],
+        description: 'Бутылочка для кормления 200 мл. Материал - стекло. Рисунок - жираф, носорог, тигр',
+        barcode: 10101022,
+        priceType: 'Фиксированная',
+        amount: 20,
+        unit: 'шт.',
+        status: 'Активный',
+        purchasePrice: 230
+    }, {
+        title: "Конструктор",
+        price: 1050,
+        category: toys._id,
+        image: ['fixtures/lego.webp'],
+        description: 'Конструктор-лего. Для детей от 1,5 до 6 лет. Крупные блоки, в количестве 60шт.',
+        barcode: 10101023,
+        priceType: 'Фиксированная',
+        amount: 25,
+        unit: 'шт.',
+        status: 'Активный',
+        purchasePrice: 830
+    }, {
+        title: "Развивающая игрушка Монтессори",
+        price: 950,
+        category: toys._id,
+        image: ['fixtures/razv.webp'],
+        description: 'Игрушка Монтессори для раннего развития с лабиринтом из бусин. Материал - дерево.',
+        barcode: 10101024,
+        priceType: 'Фиксированная',
+        amount: 5,
+        unit: 'шт.',
+        status: 'Активный',
+        purchasePrice: 800
+    }, {
+        title: "Сумка-рюкзак Leokid",
+        price: 3500,
+        category: mother._id,
+        image: ['fixtures/bag.jpg'],
+        description: 'Сумка-рюкзак Leokid — функциональный аксессуар, который оценят родители.С ней самое важное всегда будет под рукой.' +
+            'Сумка-рюкзак Leokid оснащена регулируемыми плечевыми лямками. Наличие удобных лямок позволяет носить аксессуар на плечах.Сумка-рюкзак Leokid изготовлена из износостойкого материала с водоотталкивающим покрытием, благодаря этому аксессуар будет служить долго.' +
+            'Термокарманы универсального размера позволяют не только сохранять комфортную температуру содержимого бутылочек, но и фиксировать их в устойчивом положении во избежание протекания.' + +
+                'Съемный регулируемый ремешок позволяет быстро и легко закрепить сумку-рюкзак Leokid на коляске, а также носить аксессуар в руках или на плече.' +
+            'Вместительное отделение и наличие удобных карманов дает возможность брать с собой на прогулку все необходимые вещи. Наличие непромокаемого кармана позволяет сложить мокрые вещи.',
+        barcode: 10101025,
+        priceType: 'Фиксированная',
+        amount: 5,
+        unit: 'шт.',
+        status: 'Активный',
+        purchasePrice: 3000
+    }, {
+        title: "Двойной электронный молокоотсос SWING MAXI",
+        price: 4500,
+        category: mother._id,
+        image: ['fixtures/milk.jpg'],
+        description: 'Особенности: Компактный, переносной; Работает от сети или от батареек; ' +
+            'Двойное или одинарное сцеживание для регулирования лактации; Легкая сборка;' +
+            ' Тихий; * Фаза стимуляции; * 9 уровней вакуума; * Клипса для крепления на поясе; ' +
+            'Система соединительных трубочек для двойного или одинарного сцеживания по потребностям;' +
+            ' Смартсоска Calma (Кальма) для кормления грудным молоком в комплекте.',
+        barcode: 10101026,
+        priceType: 'Фиксированная',
+        amount: 5,
+        unit: 'шт.',
+        status: 'Активный',
+        purchasePrice: 3500
+    }, {
+        title: "Набор Johnson's baby Cotton touch",
+        price: 750,
+        category: child._id,
+        image: ['fixtures/nabor.jpeg'],
+        description: 'Набор Johnson\'s baby Cotton touch. В наборе 2 предмета: средство для купания 500мл, крем 50г.',
+        barcode: 10101027,
+        priceType: 'Фиксированная',
+        amount: 12,
+        unit: 'уп.',
+        status: 'Активный',
+        purchasePrice: 600
+    }, {
+        title: "Шампунь Johnson's baby",
+        price: 280,
+        category: child._id,
+        image: ['fixtures/shampoo.jpg'],
+        description: 'Детский шампунь Johnson\'s baby без слез 200 мл ',
+        barcode: 10101028,
+        priceType: 'Фиксированная',
+        amount: 10,
+        unit: 'шт.',
+        status: 'Активный',
+        purchasePrice: 200
+    }, {
+        title: "Овечка",
+        price: 700,
+        category: toys._id,
+        image: ['fixtures/sheep.webp', 'fixtures/sheep_black.jpg'],
+        description: 'Овечка плюшевая со съемной шубкой на молнии. Расцветки шубы: бежевая, черная',
+        barcode: 10101029,
+        priceType: 'Фиксированная',
+        amount: 11,
+        unit: 'шт.',
+        status: 'Активный',
+        purchasePrice: 600
+    }, {
+        title: "Машинка булбдозер",
+        price: 500,
+        category: toys._id,
+        image: ['fixtures/truck.webp'],
+        description: 'Оранжевая пластмассовая машинка бульдозер со съемным водителем',
+        barcode: 10101030,
+        priceType: 'Фиксированная',
+        amount: 15,
+        unit: 'шт.',
+        status: 'Активный',
+        purchasePrice: 450
+    }, {
+        title: "Деревянная машинка",
+        price: 400,
+        category: toys._id,
+        image: ['fixtures/wood.webp'],
+        description: 'Деревянная машинка в виде бревна на колесах с пассажирами. Cъемные пассажиры: бобер, олень, грибочек',
+        barcode: 10101031,
+        priceType: 'Фиксированная',
+        amount: 8,
+        unit: 'шт.',
+        status: 'Активный',
+        purchasePrice: 300
+    },);
     const [cashier1, cashier2] = await User.create({
         username: 'cashier 1',
         displayName: 'Жувагин Павел',
@@ -200,14 +370,21 @@ const run = async () => {
 
     await Shift.create({
         cashier: cashier1._id,
+        createdAt: new Date("2023-01-29T09:40:49.499Z"),
         isActive: false,
+        updatedAt: new Date("2023-01-29T12:46:49.499Z"),
     }, {
         cashier: cashier2._id,
+        createdAt: new Date("2023-01-30T09:46:49.499Z"),
         isActive: false,
+        updatedAt: new Date("2023-01-30T18:46:49.499Z"),
     }, {
         cashier: cashier1._id,
-        isActive: true,
-    });
+        createdAt: new Date("2023-01-31T08:46:49.499Z"),
+        isActive: false,
+        updatedAt: new Date("2023-01-31T15:46:49.499Z"),
+    },)
+    ;
 
     await Order.create({
         customer: 'Лера',
@@ -218,7 +395,11 @@ const run = async () => {
     }, {
         customer: 'Вова',
         phone: '+(996) 555 555 551',
-        order: [{product: product2._id, quantity: 1, price: product2.price}, {product: product4._id, quantity: 2, price: product4.price}],
+        order: [{product: product2._id, quantity: 1, price: product2.price}, {
+            product: product4._id,
+            quantity: 2,
+            price: product4.price
+        }],
         status: 'Новый',
         address: 'г.Бишкек, микрорайон-12 16/30'
     }, {
@@ -230,13 +411,21 @@ const run = async () => {
     }, {
         customer: 'Даниил',
         phone: '+(996) 555 155 555',
-        order: [{product: product3._id, quantity: 1, price: product3.price}, {product: product2._id, quantity: 1, price: product2.price}],
+        order: [{product: product3._id, quantity: 1, price: product3.price}, {
+            product: product2._id,
+            quantity: 1,
+            price: product2.price
+        }],
         status: 'Собран',
         address: 'г.Бишкек, микрорайон-9 12/40'
     }, {
         customer: 'Жалын',
         phone: '+(996) 551 555 555',
-        order: [{product: product4._id, quantity: 2, price: product4.price}, {product: product3._id, quantity: 1, price: product3.price}],
+        order: [{product: product4._id, quantity: 2, price: product4.price}, {
+            product: product3._id,
+            quantity: 1,
+            price: product3.price
+        }],
         status: 'Закрыт',
         address: 'г.Бишкек, микрорайон-5 2/50'
     });

@@ -1,25 +1,20 @@
-import React, { useEffect } from "react";
-import {Box, Button, Container, Grid, Typography} from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import React, {useEffect} from 'react';
+import {Box, Button, Grid, Typography} from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import {Link, Redirect} from "react-router-dom";
 import MUIDataTable from "mui-datatables";
-import {
-    deleteProduct,
-    fetchProducts,
-} from "../../store/actions/productsActions";
+import {deleteProduct, fetchProducts} from "../../store/actions/productsActions";
 import EditSharpIcon from "@mui/icons-material/EditSharp";
 import DeleteForeverSharpIcon from "@mui/icons-material/DeleteForeverSharp";
-import { fetchCategories } from "../../store/actions/categoriesActions";
-import "./AdminProducts.css";
-import Spinner from "../../components/UI/Spinner/Spinner";
+import {fetchCategories} from "../../store/actions/categoriesActions";
+import './AdminProducts.css';
 
 const AdminProducts = () => {
     const dispatch = useDispatch();
-    const loading = useSelector((state) => state.products.fetchLoading);
-    const products = useSelector((state) => state.products.products);
-    const categories = useSelector((state) => state.categories.categories);
-    const user = useSelector((state) => state.users.user);
-    const asd = categories.map((category) => category.title);
+    const products = useSelector(state => state.products.products);
+    const categories = useSelector(state => state.categories.categories);
+    const user = useSelector(state => state.users.user);
+    const asd = categories.map(category => category.title);
 
     const columns = [
         {
@@ -34,65 +29,66 @@ const AdminProducts = () => {
                 filterOptions: {
                     names: asd,
                 },
-            },
+
+            }
         },
         {
             name: "title",
             label: "Наименование",
             options: {
                 filter: false,
-            },
+            }
         },
         {
             label: "Штрихкод",
             name: "barcode",
             options: {
                 filter: false,
-            },
+            }
         },
         {
             name: "amount",
             label: "Кол-во",
             options: {
-                filter: false,
-            },
+                filter: false
+            }
         },
         {
             name: "unit",
             label: "Ед. изм.",
             options: {
                 filter: false,
-                sort: false,
-            },
+                sort: false
+            }
         },
         {
             name: "purchasePrice",
             label: "Цена закупа",
             options: {
                 filter: false,
-            },
+            }
         },
         {
             name: "price",
             label: "Цена",
             options: {
                 filter: false,
-            },
+            }
         },
         {
             name: "status",
             label: "Статус",
             options: {
                 filter: true,
-                filterList: [],
-            },
+                filterList: []
+            }
         },
         {
             name: "priceType",
             label: "Тип",
             options: {
                 filter: false,
-            },
+            }
         },
         {
             name: "createdAt",
@@ -101,8 +97,8 @@ const AdminProducts = () => {
                 filter: false,
                 customBodyRender: (value) => {
                     return new Date(value).toLocaleString();
-                },
-            },
+                }
+            }
         },
         {
             name: "updatedAt",
@@ -111,43 +107,36 @@ const AdminProducts = () => {
                 filter: false,
                 customBodyRender: (value) => {
                     return new Date(value).toLocaleString();
-                },
-            },
+                }
+            }
         },
         {
             name: "_id",
-            label: "Действие",
+            label: 'Действие',
             options: {
                 filter: false,
                 empty: true,
                 customBodyRender: (value) => {
                     return (
-                        <Box display="flex" justifyContent="center">
-                            <Button
-                                component={Link}
-                                to={"/admin/products/edit-product/" + value}
-                            >
-                                <EditSharpIcon />
-                            </Button>
-                            <Button
-                                onClick={() => dispatch(deleteProduct(value))}
-                            >
-                                <DeleteForeverSharpIcon />
-                            </Button>
+                        <Box display='flex' justifyContent='center'>
+                            <Button component={Link} to={"/admin/products/edit-product/" + value}><EditSharpIcon/></Button>
+                            <Button onClick={() => dispatch(deleteProduct(value))}><DeleteForeverSharpIcon/></Button>
                         </Box>
                     );
-                },
-            },
-        },
+                }
+            }
+        }
     ];
+
 
     useEffect(() => {
         dispatch(fetchProducts());
         dispatch(fetchCategories());
     }, [dispatch]);
 
-    if (user?.role !== "admin") {
-        return <Redirect to="/" />;
+
+    if (user?.role !== 'admin') {
+        return <Redirect to="/"/>;
     }
 
     const handleFilterSubmit = async (applyFilters) => {
@@ -155,7 +144,7 @@ const AdminProducts = () => {
 
         const categoryName = filterList[0][0];
 
-        const category = categories.find((el) => el.title === categoryName);
+        const category = categories.find(el => el.title === categoryName);
 
         if (filterList[0][0]) {
             await dispatch(fetchProducts(`?category=${category._id}`));
@@ -164,44 +153,41 @@ const AdminProducts = () => {
         }
     };
 
-    const onSearch = (value) => {
+    const onSearch = value => {
         if (value) {
-            dispatch(fetchProducts("?key=" + value));
+            dispatch(fetchProducts('?key=' + value));
         } else {
             dispatch(fetchProducts());
         }
     };
 
+
     const options = {
         selectableRows: "none",
         filter: true,
-        filterType: "dropdown",
-        responsive: "standard",
+        filterType: 'dropdown',
+        responsive: 'standard',
         serverSide: true,
         sort: false,
         confirmFilters: true,
 
         customFilterDialogFooter: (currentFilterList, applyNewFilters) => {
             return (
-                <div style={{ marginTop: "40px" }}>
-                    <Button
-                        type="button"
-                        variant="contained"
-                        onClick={() => handleFilterSubmit(applyNewFilters)}
-                    >
-                        Применить фильтры
-                    </Button>
+                <div style={{ marginTop: '40px' }}>
+                    <Button type='button' variant="contained" onClick={() => handleFilterSubmit(applyNewFilters)}>Применить фильтры</Button>
                 </div>
             );
         },
 
+
         onFilterConfirm: (changedColumn, filterList) => {
-            changedColumn.filterList = filterList;
+            changedColumn.filterList = filterList
         },
 
         onFilterChange: (changedColumn, filterList) => {
-            changedColumn.filterList = filterList;
+            changedColumn.filterList = filterList
         },
+
 
         rowsPerPage: products && products.limit,
         page: products.page && products.page - 1,
@@ -209,11 +195,10 @@ const AdminProducts = () => {
         count: products && products.total,
         onTableChange: (action, tableState) => {
             switch (action) {
-                case "changePage":
+                case 'changePage':
                     dispatch(fetchProducts(`?page=${tableState.page + 1}`));
                     break;
-                case "search":
-                    console.log(tableState.searchText);
+                case 'search':
                     onSearch(tableState.searchText);
                     break;
                 default:
@@ -223,38 +208,22 @@ const AdminProducts = () => {
     };
 
     return (
-        <Container maxWidth='xl'>
-            <Box className="AdminProducts" width="95%" margin="0 auto">
-                <Grid
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    marginY="30px"
-                >
-                    <Typography variant="h5">Товары</Typography>
-                    <Button
-                        variant="contained"
-                        component={Link}
-                        to="/admin/products/add-new-product"
-                    >
-                        Добавить
-                    </Button>
-                </Grid>
+        <Box className='AdminProducts' width='95%' margin='0 auto'>
+            <Grid display='flex' justifyContent='space-between' alignItems='center' marginY='30px'>
+                <Typography variant='h5'>Товары</Typography>
+                <Button variant='contained' component={Link} to='/admin/products/add-new-product'>Добавить</Button>
+            </Grid>
 
                 <Box>
-                    {loading ? (
-                        <Spinner admin/>
-                    ) : (
-                        <MUIDataTable
-                            title={"Список товаров"}
-                            columns={columns}
-                            options={options}
-                            data={products.docs}
-                        />
-                    )}
+                    <MUIDataTable
+                        title={"Список товаров"}
+                        columns={columns}
+                        options={options}
+                        data={products.docs}
+                    />
                 </Box>
-            </Box>
-        </Container>
+
+        </Box>
     );
 };
 

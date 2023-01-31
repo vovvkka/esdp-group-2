@@ -48,7 +48,7 @@ router.get('/', async (req, res) => {
                 }
             },
             page: parseInt(page) || 1,
-            limit: parseInt(perPage) || 30,
+            limit: parseInt(perPage) || 15,
             sort:sort
         };
 
@@ -66,7 +66,7 @@ router.get('/', async (req, res) => {
                 $options: 'i'
             } : query.barcode = {$regex: +req.query.key, $options: 'i'};
             if (descendants.length) {
-                query.category = {$in: descendants};
+                query.category = {$in:[req.query.category,...descendants]};
             } else {
                 query.category = req.query.category;
             }
@@ -74,7 +74,7 @@ router.get('/', async (req, res) => {
 
         if (req.query.category) {
             if (descendants.length) {
-                query.category = {$in: descendants};
+                query.category = {$in:[req.query.category,...descendants]};
             } else {
                 query.category = req.query.category;
             }
@@ -124,10 +124,10 @@ router.get('/main', async (req, res) => {
         if (req.query.category) {
             if (descendants.length) {
                 const index = descendants.map(function(e) { return e.status; }).indexOf('Неактивный');
-                if(index>=0) {
-                    query.category = {$in: descendants.slice(0, index)};
+                if(index>0) {
+                    query.category = {$in: [req.query.category,...descendants.slice(0, index)]};
                 }else{
-                    query.category = {$in: descendants};
+                    query.category = {$in: [req.query.category,...descendants]};
                 }
             } else {
                 const category = await Category.findById(req.query.category);
@@ -145,7 +145,8 @@ router.get('/main', async (req, res) => {
                 populate : {
                     path : 'ancestors',
                     select: 'status'
-                }}).limit(20);
+                }}).limit(15);
+
         let arr;
         if(!req.query.category){
             arr = products.filter(i=> {
