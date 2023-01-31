@@ -8,6 +8,7 @@ import {useSelector} from "react-redux";
 const Footer = () => {
     const location = useLocation();
     const contacts = useSelector(state => state.contacts.contacts);
+    const user = useSelector(state => state.users.user);
 
     if (location.pathname.includes('admin') || location.pathname.includes('cashier')) {
         return <></>;
@@ -23,6 +24,7 @@ const Footer = () => {
                         </Link>
 
                         <p className="footer__rights">© Все права защищены</p>
+                        <Link to={`${user?.role === 'admin' || user?.role === 'cashier' ? `/${user.role}` : '/login'}`} className='footer__cabinet'>Для сотрудников</Link>
                     </div>
 
                     <ul className="footer__list">
@@ -43,7 +45,6 @@ const Footer = () => {
                     <div className="footer__contacts">
                         <a href={'tel:' + contacts?.phone} className='number'>{contacts?.phone[0]}</a>
                         <p className="email">hello@womazing.com</p>
-
                         <div className="footer__social">
                             <a href="https://instagram.com/tay_tay_karakol?igshid=YmMyMTA2M2Y="
                                className="footer__icon" target="_blank" rel="noreferrer">
