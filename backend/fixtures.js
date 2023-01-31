@@ -11,6 +11,7 @@ const News = require("./models/News");
 const Cash = require('./models/Cash');
 const Contacts = require("./models/Contacts");
 const Customer = require("./models/Customer");
+const Operation = require("./models/Operation");
 
 const run = async () => {
     await mongoose.set('strictQuery', false);
@@ -368,7 +369,7 @@ const run = async () => {
         role: 'admin',
     });
 
-    await Shift.create({
+    const [shift1] = await Shift.create({
         cashier: cashier1._id,
         createdAt: new Date("2023-01-29T09:40:49.499Z"),
         isActive: false,
@@ -478,6 +479,39 @@ const run = async () => {
 
     await Cash.create({
         cash: 3000,
+    });
+    await Operation.create({
+        shift :shift1._id,
+        title :config.operations.openShift,
+        dateTime :new Date("2023-01-29T09:40:49.499Z"),
+        additionalInfo: {
+            cash: 2700
+        }
+    },{
+        shift :shift1._id,
+        title :config.operations.purchase,
+        dateTime :new Date("2023-01-29T09:40:49.499Z"),
+        additionalInfo: {
+            customer:"",
+            discount:0,
+            amountOfMoney:300,
+            purchasePriceTotal:230,
+            cash:2700,
+            completePurchaseInfo:[{
+                _id: product1._id,
+                quantity:1,
+                discount:0,
+                price:product1.price,
+                purchasePrice:product1.purchasePrice,
+                title:product1.title,
+                barcode:product1.barcode,
+            }]
+        },
+    },{
+        shift :shift1._id,
+        title :config.operations.closeShift,
+        dateTime :new Date("2023-01-29T09:40:49.499Z"),
+        additionalInfo: {cash: 3000},
     });
 
     await mongoose.connection.close();
