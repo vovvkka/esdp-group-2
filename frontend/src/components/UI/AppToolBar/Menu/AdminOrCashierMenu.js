@@ -391,12 +391,12 @@ const AdminOrCashierMenu = ({user}) => {
                             "aria-labelledby": "basic-button",
                         }}
                     >
-                        <MenuItem onClick={handleClose} component={Link} to={`/admin/journal`}>Все записи</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={'/admin/purchases'}>Продажи</MenuItem>
-                        <MenuItem onClick={handleClose} component={Link} to={'/admin/report-z'}>
+                        <MenuItem onClick={handleClose2} component={Link} to={`/admin/journal`}>Все записи</MenuItem>
+                        <MenuItem onClick={handleClose2} component={Link} to={'/admin/purchases'}>Продажи</MenuItem>
+                        <MenuItem onClick={handleClose2} component={Link} to={'/admin/report-z'}>
                             Z-отчет
                         </MenuItem>
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem onClick={handleClose2} component={Link} to={'/admin/reports'}>
                             Отчет
                         </MenuItem>
                     </Menu>
