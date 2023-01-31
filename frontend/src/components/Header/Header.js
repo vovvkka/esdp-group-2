@@ -170,7 +170,7 @@ const Header = () => {
                                     <ShoppingCartOutlinedIcon className='header__icon header__icon--cart'/>
                                 </Link>
                             </Tooltip>
-                            <SearchIcon sx={{marginLeft: '20px'}} onClick={onSearchClick}/>
+                            <SearchIcon sx={{marginLeft: '20px', cursor: "pointer"}} onClick={onSearchClick}/>
                             {search ? null : <span onClick={() => setSearch(true)} style={value ? {
                                 verticalAlign: 'top',
                                 marginLeft: '5px',
