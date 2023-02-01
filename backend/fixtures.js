@@ -345,17 +345,17 @@ const run = async () => {
     },);
     const [cashier1, cashier2] = await User.create({
         username: 'cashier 1',
-        displayName: 'Жувагин Павел',
+        displayName: 'Гарри Поттер',
         password: 'cashier1',
-        email: 'pavel@gmail.com',
+        email: 'harry@gmail.com',
         pin: 1111,
         token: nanoid(),
         role: 'cashier',
     }, {
         username: 'cashier 2',
-        displayName: 'Сычев Виталий',
+        displayName: 'Хаякава Аки',
         password: 'cashier2',
-        email: 'vitalya@gmail.com',
+        email: 'aki@gmail.com',
         pin: 2222,
         token: nanoid(),
         role: 'cashier',
