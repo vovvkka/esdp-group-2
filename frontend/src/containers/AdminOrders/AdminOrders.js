@@ -35,6 +35,7 @@ const AdminOrders = () => {
 
     const onSubmitStatus = () => {
         dispatch(changeStatus(order._id, status));
+        setOpenDetailInfo(false);
         setStatus(null);
     };
 

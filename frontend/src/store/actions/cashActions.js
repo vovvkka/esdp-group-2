@@ -87,7 +87,7 @@ export const purchaseOperation = (operationData) => {
             dispatch(purchaseSuccess(operationData.total));
             dispatch(purchased());
             dispatch(purchaseReceipt());
-            dispatch(fetchProducts());
+            dispatch(fetchProducts('?perPage=8'));
             dispatch(fetchReceipt(response.data));
         } catch (e) {
             dispatch(purchaseFailure(e));
