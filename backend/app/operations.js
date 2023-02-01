@@ -93,6 +93,8 @@ router.get("/reports", auth, async (req, res) => {
             await Promise.all(
             reports.map(async i=>{
                     const start = i._id;
+                    const query={};
+                query.title = {'$in': [config.operations.purchase, config.operations.returnPurchase]};
                     query.dateTime = {
                         '$gte': new Date(start),
                         '$lte': new Date(new Date(new Date(start).setDate(new Date(start).getDate() + 1)))

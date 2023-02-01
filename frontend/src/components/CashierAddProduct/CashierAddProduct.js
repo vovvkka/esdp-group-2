@@ -213,7 +213,7 @@ const CashierAddProduct = () => {
                                             <TableCell component="th" scope="row">
                                                 {product.title}
                                             </TableCell>
-                                            <TableCell align="center">
+                                            <TableCell align="center" sx={{padding: '0px !important'}}>
                                                 <IconButton
                                                     color="secondary"
                                                     onClick={() =>

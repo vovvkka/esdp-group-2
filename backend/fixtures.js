@@ -11,6 +11,7 @@ const News = require("./models/News");
 const Cash = require('./models/Cash');
 const Contacts = require("./models/Contacts");
 const Customer = require("./models/Customer");
+const Operation = require("./models/Operation");
 
 const run = async () => {
     await mongoose.set('strictQuery', false);
@@ -241,7 +242,7 @@ const run = async () => {
         title: "Развивающая игрушка Монтессори",
         price: 950,
         category: toys._id,
-        image: ['fixtures/razv.webp'],
+        image: ['fixtures/lab.jpg'],
         description: 'Игрушка Монтессори для раннего развития с лабиринтом из бусин. Материал - дерево.',
         barcode: 10101024,
         priceType: 'Фиксированная',
@@ -250,14 +251,14 @@ const run = async () => {
         status: 'Активный',
         purchasePrice: 800
     }, {
-        title: "Сумка-рюкзак Leokid",
+        title: "Сумка-рюкзак",
         price: 3500,
         category: mother._id,
-        image: ['fixtures/bag.jpg'],
-        description: 'Сумка-рюкзак Leokid — функциональный аксессуар, который оценят родители.С ней самое важное всегда будет под рукой.' +
-            'Сумка-рюкзак Leokid оснащена регулируемыми плечевыми лямками. Наличие удобных лямок позволяет носить аксессуар на плечах.Сумка-рюкзак Leokid изготовлена из износостойкого материала с водоотталкивающим покрытием, благодаря этому аксессуар будет служить долго.' +
+        image: ['fixtures/dbag.jpg'],
+        description: 'Сумка-рюкзак — функциональный аксессуар, который оценят родители.С ней самое важное всегда будет под рукой.' +
+            'Сумка-рюкзак оснащена регулируемыми плечевыми лямками. Наличие удобных лямок позволяет носить аксессуар на плечах.Сумка-рюкзак Leokid изготовлена из износостойкого материала с водоотталкивающим покрытием, благодаря этому аксессуар будет служить долго.' +
             'Термокарманы универсального размера позволяют не только сохранять комфортную температуру содержимого бутылочек, но и фиксировать их в устойчивом положении во избежание протекания.' + +
-                'Съемный регулируемый ремешок позволяет быстро и легко закрепить сумку-рюкзак Leokid на коляске, а также носить аксессуар в руках или на плече.' +
+                'Съемный регулируемый ремешок позволяет быстро и легко закрепить сумку-рюкзак на коляске, а также носить аксессуар в руках или на плече.' +
             'Вместительное отделение и наличие удобных карманов дает возможность брать с собой на прогулку все необходимые вещи. Наличие непромокаемого кармана позволяет сложить мокрые вещи.',
         barcode: 10101025,
         priceType: 'Фиксированная',
@@ -318,7 +319,7 @@ const run = async () => {
         status: 'Активный',
         purchasePrice: 600
     }, {
-        title: "Машинка булбдозер",
+        title: "Машинка бульдозер",
         price: 500,
         category: toys._id,
         image: ['fixtures/truck.webp'],
@@ -368,7 +369,7 @@ const run = async () => {
         role: 'admin',
     });
 
-    await Shift.create({
+    const [shift1] = await Shift.create({
         cashier: cashier1._id,
         createdAt: new Date("2023-01-29T09:40:49.499Z"),
         isActive: false,
@@ -478,6 +479,39 @@ const run = async () => {
 
     await Cash.create({
         cash: 3000,
+    });
+    await Operation.create({
+        shift :shift1._id,
+        title :config.operations.openShift,
+        dateTime :new Date("2023-01-29T09:40:49.499Z"),
+        additionalInfo: {
+            cash: 2700
+        }
+    },{
+        shift :shift1._id,
+        title :config.operations.purchase,
+        dateTime :new Date("2023-01-29T09:40:49.499Z"),
+        additionalInfo: {
+            customer:"",
+            discount:0,
+            amountOfMoney:300,
+            purchasePriceTotal:230,
+            cash:2700,
+            completePurchaseInfo:[{
+                _id: product1._id,
+                quantity:1,
+                discount:0,
+                price:product1.price,
+                purchasePrice:product1.purchasePrice,
+                title:product1.title,
+                barcode:product1.barcode,
+            }]
+        },
+    },{
+        shift :shift1._id,
+        title :config.operations.closeShift,
+        dateTime :new Date("2023-01-29T09:40:49.499Z"),
+        additionalInfo: {cash: 3000},
     });
 
     await mongoose.connection.close();

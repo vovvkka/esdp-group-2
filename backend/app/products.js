@@ -138,7 +138,7 @@ router.get('/main', async (req, res) => {
         }
         query.status = "Активный";
         query.amount = {$gte: 1};
-        const products = await Product.find(query).sort({updatedAt:'asc'})
+        const products = await Product.find(query).sort({updatedAt:'desc'})
             .select("category title description price amount unit image").populate({
                 path: 'category',
                 select: 'status ancestors',
@@ -276,6 +276,7 @@ router.post('/', auth, permit('admin'), upload.array('image', 5), async (req, re
     try {
         const products = new Product(productData);
         await products.save();
+        console.log(products);
         res.send(products);
     } catch (e) {
 

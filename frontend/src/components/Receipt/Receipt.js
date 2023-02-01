@@ -289,13 +289,13 @@ const Receipt = ({
                     <div className="receipt__flex">
                         <p className="receipt__text">Чеки</p>
                         <p className="receipt__text">
-                            {zReportInfo?.report.salesCount}
+                            {zReportInfo?.report.salesCount ? zReportInfo?.report.salesCount : '0.00'}
                         </p>
                     </div>
                     <div className="receipt__flex">
                         <p className="receipt__text">Сумма</p>
                         <p className="receipt__text">
-                            {zReportInfo?.report.salesTotal.toFixed(2)}
+                            {zReportInfo?.report.salesTotal ? zReportInfo?.report.salesTotal.toFixed(2): '0.00'}
                         </p>
                     </div>
                 </div>

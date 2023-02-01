@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchOperations } from "../../store/actions/operationsActions";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchOperations} from "../../store/actions/operationsActions";
+import {Box, Container} from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import CustomModal from "../../components/UI/Modal/Modal";
 import Receipt from "../../components/Receipt/Receipt";
-import { clearOperations } from "../../store/slices/operationsSlice";
+import {clearOperations} from "../../store/slices/operationsSlice";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
 const AdminJournal = () => {
@@ -36,6 +36,15 @@ const AdminJournal = () => {
             options: {
                 customBodyRender: (value) => {
                     return value.shiftNumber;
+                },
+            },
+        },
+        {
+            name: "shift",
+            label: "Кассир",
+            options: {
+                customBodyRender: (value) => {
+                    return value.cashier.displayName;
                 },
             },
         },
@@ -139,15 +148,6 @@ const AdminJournal = () => {
     return (
         <Container maxWidth="xl">
             <Box width="95%" margin={shiftCurrent ? "50px auto 0" : "0 auto"}>
-                <Grid
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    marginY="30px"
-                >
-                    <Typography variant="h5">Журнал</Typography>
-                </Grid>
-
                 <Box>
                     {loading ? (
                         <Spinner admin/>

@@ -165,6 +165,7 @@ const AdminProducts = () => {
     const options = {
         selectableRows: "none",
         filter: true,
+        print: false,
         filterType: 'dropdown',
         responsive: 'standard',
         serverSide: true,
