@@ -99,7 +99,7 @@ const Reports = () => {
                                                     <TableCell align="center">{row.price * row.quantity - row.totalDiscount}</TableCell>
                                                     <TableCell align="center">{row.purchasePrice}</TableCell>
                                                     <TableCell align="center">{row.purchasePrice * row.quantity}</TableCell>
-                                                    <TableCell align="center">{(row.price * row.quantity - row.totalDiscount) - (row.purchasePrice * row.quantity - row.totalDiscount)}</TableCell>
+                                                    <TableCell align="center">{(row.price * row.quantity - row.totalDiscount) - (row.purchasePrice * row.quantity)}</TableCell>
                                                 </TableRow>
                                             );
                                         })}
